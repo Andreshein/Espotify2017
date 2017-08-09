@@ -5,6 +5,9 @@
  */
 package Logica;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author ninoh
@@ -12,12 +15,14 @@ package Logica;
 public class Album {
     private int id;
     private String nombre;
-    private String año;
+    private int anio;
+    private Map<String, Tema> temas;
 
-    public Album(int id, String nombre, String año) {
+    public Album(int id, String nombre, int anio) {
         this.id = id;
         this.nombre = nombre;
-        this.año = año;
+        this.anio = anio;
+        this.temas = new HashMap<>();
     }
 
     public int getId() {
@@ -28,8 +33,12 @@ public class Album {
         return nombre;
     }
 
-    public String getAño() {
-        return año;
+    public int getAño() {
+        return anio;
+    }
+    
+    public Tema getTema(String nombre){
+        return this.temas.get(nombre);
     }
 
     public void setId(int id) {
@@ -40,8 +49,12 @@ public class Album {
         this.nombre = nombre;
     }
 
-    public void setAño(String año) {
-        this.año = año;
+    public void setAño(int anio) {
+        this.anio = anio;
+    }
+    
+    public void setTema(Tema tema){
+        this.temas.put(tema.getNombre(), tema);
     }
    
 
