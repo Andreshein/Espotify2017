@@ -20,3 +20,4 @@ public interface IcontCliente{
     abstract public ArrayList<String> MostrarUsuariosSeguidos( String Nickname);
     abstract public void DejarSeguir( String NickCli, String NickUsu);
 }
+//hellou papaguena
