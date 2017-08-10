@@ -11,15 +11,15 @@ package Logica;
  */
 public interface IcontArtista {
     
-    abstract public boolean SelectArtista(String nick);
-    abstract public void CrearAlbum(String nombre,int anio);
-    abstract public void ElegirGenero(String nombre);
-    abstract public void AgregarTema(String nombre,String duracion,int ubicacion,String url_mp3);
-    abstract public void ConfirmarAlbum();
-    abstract public void ElegirArtista(String nomArtista); //:DtArtista
-    abstract public void ListarArtistas(); //Set(DtArtista);
-    abstract public void obtenerGenero(); //set(DtGenero);
-    abstract public void obtenerArtista(); //set(DtArtista);
-    abstract public void seleccionarAlbum(String nick,String nombre);
-    abstract public void mostrarAlbum(); //DtAlbum
+    public abstract boolean SelectArtista(String nick);
+    public abstract void CrearAlbum(String nombre,int anio);
+    public abstract void ElegirGenero(String nombre);
+    public abstract void AgregarTema(String nombre,String duracion,int ubicacion,String url_mp3);
+    public abstract void ConfirmarAlbum();
+    public abstract void ElegirArtista(String nomArtista); //:DtArtista
+    public abstract void ListarArtistas(); //Set(DtArtista);
+    public abstract void obtenerGenero(); //set(DtGenero);
+    public abstract void obtenerArtista(); //set(DtArtista);
+    public abstract void seleccionarAlbum(String nick,String nombre);
+    public abstract void mostrarAlbum(); //DtAlbum
 }
