@@ -13,13 +13,7 @@ import javax.swing.ImageIcon;
  *
  * @author stephiRM
  */
-public class DtArtista {
-    private final String nickname;
-    private final String nombre;
-    private final String apellido;
-    private final String correo;
-    private final Date fechaNac;
-    private final ImageIcon imagen;
+public class DtArtista extends DtUsuario{
     private final String biografia;
     private final String pagWeb;
     private final int cantSeguidores;
@@ -40,30 +34,7 @@ public class DtArtista {
         this.albumes = albumes;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public Date getFechaNac() {
-        return fechaNac;
-    }
-
-    public ImageIcon getImagen() {
-        return imagen;
-    }
-
+    
     public String getBiografia() {
         return biografia;
     }

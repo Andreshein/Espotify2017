@@ -5,26 +5,33 @@
  */
 package Logica;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author stephiRM
  */
 public class DtGenero {
     private final String nombre;
-    private final DtAlbum albumes;
+    private final ArrayList<DtAlbum> albumes;
+    private final ArrayList<DtListaPD> listaspordefecto;
 
-    public DtGenero(String nombre, DtAlbum albumes) {
+    public DtGenero(String nombre, ArrayList<DtAlbum> albumes, ArrayList<DtListaPD> listas) {
         this.nombre = nombre;
         this.albumes = albumes;
+        this.listaspordefecto = listas;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public DtAlbum getAlbumes() {
+    public ArrayList<DtAlbum> getAlbumes() {
         return albumes;
     }
-    
+
+    public ArrayList<DtListaPD> getListaspordefecto() {
+        return listaspordefecto;
+    }   
     
 }

@@ -13,74 +13,40 @@ import javax.swing.ImageIcon;
  *
  * @author stephiRM
  */
-public class DtCliente {
-    private final String nickname;
-    private final String nombre;
-    private final String apellido;
-    private final Date fechaNac;
-    private final String email;
-    private final ImageIcon imagen;
+public class DtCliente extends DtUsuario{
     private final ArrayList<String> seguidores;
-    private final ArrayList<String> clientesSeguidos; 
-    private final ArrayList<String> aristasSeguidos; 
-    private final ArrayList<DtLista> listas;
-    private final ArrayList<String> preferencias;
-
-    public DtCliente(String nickname, String nombre, String apellido, Date fechaNac, String email, ImageIcon imagen, ArrayList<String> seguidores, ArrayList<String> clientesSeguidos, ArrayList<String> aristasSeguidos, ArrayList<DtLista> listas, ArrayList<String> preferencias) {
+    private final ArrayList<String> usuariosSeguidos;
+    private final ArrayList<DtListaP> listas;
+    private final ArrayList<DtLista> favListas;
+    private final ArrayList<DtTema> favTemas;
+    private final ArrayList<DtAlbum> favAlbumes;
+    
+    public DtCliente(String nickname, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<String> seguidores, ArrayList<String> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNac = fechaNac;
-        this.email = email;
+        this.correo = correo;
         this.imagen = imagen;
         this.seguidores = seguidores;
-        this.clientesSeguidos = clientesSeguidos;
-        this.aristasSeguidos = aristasSeguidos;
+        this.usuariosSeguidos = usuariosSeguidos;
         this.listas = listas;
-        this.preferencias = preferencias;
+        this.favListas = favListas;
+        this.favTemas = favTemas;
+        this.favAlbumes = favAlbumes;
     }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public Date getFechaNac() {
-        return fechaNac;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public ImageIcon getImagen() {
-        return imagen;
-    }
-
+    
     public ArrayList<String> getSeguidores() {
         return seguidores;
     }
 
-    public ArrayList<String> getClientesSeguidos() {
-        return clientesSeguidos;
+    public ArrayList<String> getUsuariosSeguidos() {
+        return this.usuariosSeguidos;
     }
 
-    public ArrayList<String> getAristasSeguidos() {
-        return aristasSeguidos;
-    }
-
-    public ArrayList<DtLista> getListas() {
+    public ArrayList<DtListaP> getListas() {
         return listas;
     }
 
-    public ArrayList<String> getPreferencias() {
-        return preferencias;
-    }
+    
 }

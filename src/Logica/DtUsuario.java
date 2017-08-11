@@ -12,22 +12,13 @@ import javax.swing.ImageIcon;
  *
  * @author stephiRM
  */
-public class DtUsuario {
-    private final String nickname;
-    private final String nombre;
-    private final String apellido;
-    private final String correo;
-    private final Date fechaNac;
-    private final ImageIcon imagen;
-
-    public DtUsuario(String nickname, String nombre, String apellido, String correo, Date fechaNac, ImageIcon imagen) {
-        this.nickname = nickname;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.correo = correo;
-        this.fechaNac = fechaNac;
-        this.imagen = imagen;
-    }
+public abstract class DtUsuario {
+    protected String nickname;
+    protected String nombre;
+    protected String apellido;
+    protected String correo;
+    protected Date fechaNac;
+    protected ImageIcon imagen;
 
     public String getNickname() {
         return nickname;
