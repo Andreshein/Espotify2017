@@ -6,7 +6,6 @@
 package Logica;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -16,7 +15,7 @@ public class Album {
     private int id;
     private String nombre;
     private int anio;
-    private Map<String, Tema> temas;
+    private HashMap<String, Tema> temas;
 
     public Album(int id, String nombre, int anio) {
         this.id = id;

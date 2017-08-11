@@ -6,6 +6,7 @@
 package Logica;
 
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  *
@@ -14,6 +15,7 @@ import java.util.Date;
 public class Artista extends Usuario {
     private String biografia;
     private String paginaWeb;
+    private HashMap<String, Album> albumes;
 
     public Artista(String nickname, String nombre, String apellido, Date fechaNac, String biografia, String paginaWeb) {
         this.nickname = nickname;
@@ -22,6 +24,7 @@ public class Artista extends Usuario {
         this.fechaNac = fechaNac;
         this.biografia = biografia;
         this.paginaWeb = paginaWeb;
+        this.albumes= new HashMap<>();
     }
     
 
@@ -80,7 +83,17 @@ public class Artista extends Usuario {
     public String getPaginaWeb() {
         return paginaWeb;
     }
+
+    public HashMap<String, Album> getAlbumes() {
+        return albumes;
+    }
+
+    public void setAlbumes(HashMap<String, Album> albumes) {
+        this.albumes = albumes;
+    }
     
-    
+    public void setAlbum(Album a ){
+        this.albumes.put(a.getNombre(),a);
+    }
     
 }

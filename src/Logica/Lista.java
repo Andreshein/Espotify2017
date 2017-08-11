@@ -5,12 +5,15 @@
  */
 package Logica;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author ninoh
  */
 abstract class Lista {
     protected String nombre;
+    protected ArrayList<Tema> temas;
 
     abstract String getNombre();
 

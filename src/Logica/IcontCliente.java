@@ -10,14 +10,14 @@ import java.util.Date;
 
 
 public interface IcontCliente{
-    abstract public boolean AltaDePerfil( String nick, String nombre, String apellido, String correo, String fecha);
-    abstract public void AgregarArtista( String biografia, String link);
-    abstract public void Corregir( String nick, String nombre, String apellido, String correo,Date fecha);
-    abstract public void CorregirArt( String biografia, String link);
-    abstract public void Cancelar();
-    abstract public ArrayList<String> listarNickClientes();
-    abstract public void verPerfilCliente( String nickname); //Dtcliente
-    abstract public ArrayList<String> MostrarUsuariosSeguidos( String Nickname);
-    abstract public void DejarSeguir( String NickCli, String NickUsu);
+    public abstract boolean AltaDePerfil( String nick, String nombre, String apellido, String correo, String fecha);
+    public abstract void AgregarArtista( String biografia, String link);
+    public abstract void Corregir( String nick, String nombre, String apellido, String correo,Date fecha);
+    public abstract void CorregirArt( String biografia, String link);
+    public abstract void Cancelar();
+    public abstract ArrayList<String> listarNickClientes();
+    public abstract void verPerfilCliente( String nickname); //Dtcliente
+    public abstract ArrayList<String> MostrarUsuariosSeguidos( String Nickname);
+    public abstract void DejarSeguir( String NickCli, String NickUsu);
 }
 //hellou papaguena

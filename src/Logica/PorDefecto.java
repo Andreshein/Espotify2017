@@ -5,6 +5,8 @@
  */
 package Logica;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author ninoh
@@ -22,5 +24,18 @@ public class PorDefecto extends Lista{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public ArrayList<Tema> getTemas() {
+        return temas;
+    }
+
+    public void setTemas(ArrayList<Tema> temas) {
+        this.temas = temas;
+    }
+    
+    public void setTema(Tema t) {
+        this.temas.add(t);
+    }
+    
     
 }
