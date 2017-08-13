@@ -30,7 +30,7 @@ public class DBUsuario {
     public boolean agregarArtista(Artista a){
         try {
            
-            PreparedStatement statement = conexion.prepareStatement("INSERT INTO artistas "
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
                     + "(nickname, nombre, apellido, fechaNac,correo, biografia, paginaWeb) values(?,?,?,?,?,?,?)");
             statement.setString(1, a.getNickname());
             statement.setString(2, a.getNombre());
@@ -50,7 +50,7 @@ public class DBUsuario {
         
         public boolean agregarCliente(Cliente c){
         try {
-            PreparedStatement statement = conexion.prepareStatement("INSERT INTO clientes "
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                     + "(nickname, nombre, apellido, fechaNac, correo) values(?,?,?,?,?)");
             statement.setString(1, c.getNickname());
             statement.setString(2, c.getNombre());

@@ -21,13 +21,16 @@ import static javax.xml.bind.DatatypeConverter.parseInteger;
 
 public class AltaPerfil extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form AltaPerfil
-     */
+   private ContArtista Art;
+   private ContCliente Cli; 
     public AltaPerfil() {
         initComponents();
+        this.Art=Fabrica.getArtista();
+        this.Cli=Fabrica.getCliente();
     }
-
+ 
+    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -230,7 +233,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         if(cmb_Tipo.getSelectedItem().equals("Artista"))
         {
             ContArtista a = Fabrica.getArtista();
-            a.IngresarArtista(txt_Nick.getText(),txt_Nombre.getText(),txt_Apellido.getText(),new DtDate(Integer.parseInt(Dia.getText()),Integer.parseInt(Mes.getText()),Integer.parseInt(Anio.getText())),txt_Correo.getText(),"","")/*txt_Biografia.getText(),txt_PaginaWeb.getText()*/;
+            a.IngresarArtista(txt_Nick.getText(),txt_Nombre.getText(),txt_Apellido.getText(),new DtDate(Integer.parseInt(Dia.getText()),Integer.parseInt(Mes.getText()),Integer.parseInt(Anio.getText())),txt_Correo.getText(),"prueva","prueva");/*txt_Biografia.getText(),txt_PaginaWeb.getText()*/
         }
         else
         {
@@ -263,7 +266,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         String2 = txt_Nombre.getText();
         String3 = txt_Apellido.getText();
         String4 = txt_Correo.getText();
-        fecha = new DtDate(Integer.parseInt(Dia.getText()),Integer.parseInt(Mes.getText()),Integer.parseInt(Anio.getText()));
+        
         String6 = cmb_Tipo.getSelectedItem().toString();
 
         if ((txt_Nick.getText().equals("")) || (txt_Nombre.getText().equals("")) || (txt_Apellido.getText().equals("")) || (txt_Correo.getText().equals("")) || (Dia.getText().equals(""))
@@ -272,12 +275,31 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
             javax.swing.JOptionPane.showMessageDialog(this,"Debe llenar todos los campos \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
             txt_Nick.requestFocus();
         }
+        
+        fecha = new DtDate(Integer.parseInt(Dia.getText()),Integer.parseInt(Mes.getText()),Integer.parseInt(Anio.getText()));
+      
+        if(String6=="Artista"){
+            boolean Ok = Art.IngresarArtista(String1, String2, String3, fecha, String4,"","");
+            if(Ok){
+            javax.swing.JOptionPane.showMessageDialog(this,"Artista Ingresado \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        }
+            else{   javax.swing.JOptionPane.showMessageDialog(this,"El artista no ah podido ingresarse correctamente \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);}
+        }
+        
+        if(String6=="Cliente"){
+            boolean ok = Cli.IngresarCliente(String1,String2,String3,fecha,String4);
+            if(ok){
+                    javax.swing.JOptionPane.showMessageDialog(this,"Cliente Ingresado \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        }
+            else{   javax.swing.JOptionPane.showMessageDialog(this,"El cliente no ah podido ingresarse correctamente \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);}
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    }     
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
-
+        
     }//GEN-LAST:event_jButton1KeyPressed
-
+    /*private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {                                    
+        
+    }  */      
     private void AnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_AnioActionPerformed

@@ -84,6 +84,7 @@ private ContArtista(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public boolean IngresarArtista(String nickname, String nombre, String apellido, DtDate fechaNac,String correo, String biografia, String paginaWeb){
         if (this.artistas.get(nickname)!=null){
             return false;
@@ -91,8 +92,7 @@ private ContArtista(){
             Artista a=new Artista(nickname, nombre, apellido, fechaNac, correo, biografia, paginaWeb);
             boolean tru =this.dbUsuario.agregarArtista(a);
             if (tru){
-                //Colección genérica común
-                //this.personas.add(p);
+            
                 this.artistas.put(nickname, a);
             }
             return tru;

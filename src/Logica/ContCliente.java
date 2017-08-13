@@ -75,9 +75,21 @@ private ContCliente(){
     public void DejarSeguir(String NickCli, String NickUsu) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    public void IngresarCliente(String text, String text0, String text1, DtDate dtDate, String text2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    @Override
+    public boolean IngresarCliente(String nickname, String nombre, String apellido, DtDate fechaNac,String correo) {
+        if (this.clientes.get(nickname)!=null){
+            return false;
+        }
+        else{
+            Cliente c =new Cliente(nickname, nombre, apellido, fechaNac, correo);
+            boolean tru =this.dbUsuario.agregarCliente(c);
+            if (tru){
+                
+                this.clientes.put(nickname, c);
+            }
+            return tru;
+    }
     }
 
     
