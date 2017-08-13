@@ -16,7 +16,7 @@ public abstract class Usuario {
     protected String nombre;
     protected String apellido;
     protected String correo;
-    protected Date fechaNac;
+    protected DtDate fechaNac;
     //Falta implementar imagen
 
     abstract void setNickname(String nickname);
@@ -27,7 +27,7 @@ public abstract class Usuario {
 
     abstract void setCorreo(String correo);
 
-    abstract void setFechaNac(Date fechaNac);
+    abstract void setFechaNac(DtDate fechaNac);
 
     abstract String getNickname();
 
@@ -37,7 +37,7 @@ public abstract class Usuario {
 
     abstract String getCorreo();
 
-    abstract Date getFechaNac(); 
+    abstract DtDate getFechaNac(); 
     
     
 }

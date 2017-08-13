@@ -4,10 +4,13 @@
  * and open the template in the editor.
  */
 package Persistencia;
+import Logica.Artista;
+import Logica.Cliente;
 import Logica.Usuario;
 import Persistencia.ConexionDB;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,4 +25,45 @@ import java.util.logging.Logger;
 
 public class DBUsuario {
     private Connection conexion = new ConexionDB().getConexion();
+    
+    
+    public boolean agregarArtista(Artista a){
+        try {
+           
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO artistas "
+                    + "(nickname, nombre, apellido, fechaNac,correo, biografia, paginaWeb) values(?,?,?,?,?,?,?)");
+            statement.setString(1, a.getNickname());
+            statement.setString(2, a.getNombre());
+            statement.setString(3, a.getApellido());
+            statement.setString(4, a.getFechaNac().toString());
+            statement.setString(5, a.getCorreo());
+            statement.setString(6, a.getBiografia());
+            statement.setString(7, a.getPaginaWeb());
+            statement.executeUpdate();
+            statement.close();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }  
+    }
+        
+        public boolean agregarCliente(Cliente c){
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO clientes "
+                    + "(nickname, nombre, apellido, fechaNac, correo) values(?,?,?,?,?)");
+            statement.setString(1, c.getNickname());
+            statement.setString(2, c.getNombre());
+            statement.setString(3, c.getApellido());
+            statement.setString(4, c.getFechaNac().toString());
+            statement.setString(5, c.getCorreo());
+            statement.executeUpdate();
+            statement.close();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }     
+    }
+    
 }

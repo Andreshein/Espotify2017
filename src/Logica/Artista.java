@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import Logica.DtDate;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -17,15 +18,18 @@ public class Artista extends Usuario {
     private String paginaWeb;
     private HashMap<String, Album> albumes;
 
-    public Artista(String nickname, String nombre, String apellido, Date fechaNac, String biografia, String paginaWeb) {
+    public Artista(String nickname, String nombre, String apellido, DtDate fechaNac,String correo, String biografia, String paginaWeb) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNac = fechaNac;
+        this.correo = correo;
         this.biografia = biografia;
         this.paginaWeb = paginaWeb;
         this.albumes= new HashMap<>();
     }
+
+    
     
 
     public void setNickname(String nickname) {
@@ -44,7 +48,7 @@ public class Artista extends Usuario {
         this.correo = correo;
     }
 
-    public void setFechaNac(Date fechaNac) {
+    public void setFechaNac(DtDate fechaNac) {
         this.fechaNac = fechaNac;
     }
 
@@ -72,7 +76,7 @@ public class Artista extends Usuario {
         return correo;
     }
 
-    public Date getFechaNac() {
+    public DtDate getFechaNac() {
         return fechaNac;
     }
 

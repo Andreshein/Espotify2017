@@ -10,7 +10,7 @@ import java.util.Date;
 
 
 public interface IcontCliente{
-    public abstract boolean AltaDePerfil( String nick, String nombre, String apellido, String correo, String fecha);
+    public abstract boolean AltaDePerfil( String nick, String nombre, String apellido,DtDate fechaNac ,String correo);
     public abstract void AgregarArtista( String biografia, String link);
     public abstract void Corregir( String nick, String nombre, String apellido, String correo,Date fecha);
     public abstract void CorregirArt( String biografia, String link);

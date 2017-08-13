@@ -32,7 +32,7 @@ private ContCliente(){
     }
 
     @Override
-    public boolean AltaDePerfil(String nick, String nombre, String apellido, String correo, String fecha) {
+    public boolean AltaDePerfil(String nick, String nombre, String apellido, DtDate fechaNac, String correo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -75,6 +75,12 @@ private ContCliente(){
     public void DejarSeguir(String NickCli, String NickUsu) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public void IngresarCliente(String text, String text0, String text1, DtDate dtDate, String text2) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
 
     
 }

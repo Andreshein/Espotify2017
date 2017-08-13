@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-/**
- *
- * @author ninoh
- */
+
 public class Cliente extends Usuario{
     private HashMap<String, Particular> Listas;
     private ArrayList<Lista> favListas;
@@ -20,11 +17,12 @@ public class Cliente extends Usuario{
     private ArrayList<Tema> favTemas;
     private HashMap<String, Usuario> Siguiendo;
     
-    public Cliente(String nickname, String nombre, String apellido, Date fechaNac) {
+    public Cliente(String nickname, String nombre, String apellido, DtDate fechaNac, String correo) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNac = fechaNac;
+        this.correo = correo;
     }
 
     public void setNickname(String nickname) {
@@ -43,7 +41,7 @@ public class Cliente extends Usuario{
         this.correo = correo;
     }
 
-    public void setFechaNac(Date fechaNac) {
+    public void setFechaNac(DtDate fechaNac) {
         this.fechaNac = fechaNac;
     }
 
@@ -63,7 +61,7 @@ public class Cliente extends Usuario{
         return correo;
     }
 
-    public Date getFechaNac() {
+    public DtDate getFechaNac() {
         return fechaNac;
     }
 

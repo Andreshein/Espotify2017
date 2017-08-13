@@ -13,12 +13,22 @@ public class Fabrica {
     
     //SINGLETON
     private static Fabrica instancia;
-
+    private static ContArtista Artista;
+    private static ContCliente Cliente;
     public static Fabrica getInstance(){
         if (instancia == null){
             instancia = new Fabrica();
         }
         return instancia;
+        
+    }
+
+    public static ContArtista getArtista() {
+        return Artista;
+    }
+
+    public static ContCliente getCliente() {
+        return Cliente;
     }
     
      private Fabrica(){
