@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @author ninoh
  */
 public class ConexionDB {
-        private final String host="localhost";
+    private final String host="localhost";
     private final String port="3306";
     private final String db="test";
     private final String user="root";
