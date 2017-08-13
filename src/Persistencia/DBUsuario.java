@@ -49,13 +49,13 @@ public class DBUsuario {
     }
         
         public boolean agregarCliente(Cliente c){
-        try {
+        try {  Date dt = new Date(1998,1,17);
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                     + "(nickname, nombre, apellido, fechaNac, correo) values(?,?,?,?,?)");
             statement.setString(1, c.getNickname());
             statement.setString(2, c.getNombre());
             statement.setString(3, c.getApellido());
-            statement.setString(4, c.getFechaNac().toString());
+            statement.setDate(4, dt/*c.getFechaNac().toString()*/);
             statement.setString(5, c.getCorreo());
             statement.executeUpdate();
             statement.close();

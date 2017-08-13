@@ -5,7 +5,7 @@
  */
 package Logica;
 
-import java.util.Date;
+import Logica.DtDate;
 
 /**
  *

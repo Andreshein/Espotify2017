@@ -5,10 +5,10 @@
  */
 package Presentacion;
 
-import Logica.ContArtista;
-import Logica.ContCliente;
 import Logica.DtDate;
 import Logica.Fabrica;
+import Logica.IcontArtista;
+import Logica.IcontCliente;
 import java.awt.*;
 import java.sql.*;
 import java.util.*;
@@ -21,16 +21,16 @@ import static javax.xml.bind.DatatypeConverter.parseInteger;
 
 public class AltaPerfil extends javax.swing.JInternalFrame {
 
-   private ContArtista Art;
-   private ContCliente Cli; 
+    private IcontArtista Art;
+    private IcontCliente Cli; 
+
     public AltaPerfil() {
         initComponents();
         this.Art=Fabrica.getArtista();
         this.Cli=Fabrica.getCliente();
+
     }
- 
-    
-   
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,87 +40,41 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        Nickname = new javax.swing.JLabel();
-        Nombre = new javax.swing.JLabel();
-        Apellido = new javax.swing.JLabel();
-        Correo = new javax.swing.JLabel();
-        FechaNac = new javax.swing.JLabel();
-        Tipo = new javax.swing.JLabel();
-        cmb_Tipo = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txt_Nick = new javax.swing.JTextField();
+        txt_Nombre = new javax.swing.JTextField();
+        txt_Apellido = new javax.swing.JTextField();
         Dia = new javax.swing.JTextField();
         txt_Correo = new javax.swing.JTextField();
-        txt_Apellido = new javax.swing.JTextField();
-        txt_Nombre = new javax.swing.JTextField();
-        txt_Nick = new javax.swing.JTextField();
+        cmb_Tipo = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         Mes = new javax.swing.JTextField();
         Anio = new javax.swing.JTextField();
 
-        setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
-        setTitle("AltaPerfil");
+        jLabel1.setText("Nickname: ");
 
-        Nickname.setText("Nickname: ");
+        jLabel2.setText("Nombre: ");
 
-        Nombre.setText("Nombre:");
+        jLabel3.setText("Apellido: ");
 
-        Apellido.setText("Apellido:");
+        jLabel4.setText("Fecha de Nacimiento: ");
 
-        Correo.setText("Correo:");
-
-        FechaNac.setText("Fecha de Nacimiento:");
-
-        Tipo.setText("Tipo de Usuario:");
+        jLabel5.setText("Correo: ");
 
         cmb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Artista" }));
-        cmb_Tipo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cmb_TipoMouseClicked(evt);
-            }
-        });
-        cmb_Tipo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmb_TipoActionPerformed(evt);
-            }
-        });
 
-        Dia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DiaActionPerformed(evt);
-            }
-        });
-
-        txt_Apellido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_ApellidoActionPerformed(evt);
-            }
-        });
-
-        txt_Nombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_NombreActionPerformed(evt);
-            }
-        });
-
-        txt_Nick.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_NickActionPerformed(evt);
-            }
-        });
+        jLabel6.setText("Tipo de Usuario: ");
 
         jButton1.setText("Aceptar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
-            }
-        });
-        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jButton1KeyPressed(evt);
             }
         });
 
@@ -131,143 +85,92 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
             }
         });
 
-        Anio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AnioActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Tipo)
-                            .addComponent(FechaNac)
-                            .addComponent(Correo)
-                            .addComponent(Apellido)
-                            .addComponent(Nombre)
-                            .addComponent(Nickname))
-                        .addGap(65, 65, 65)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_Nick)
-                            .addComponent(txt_Nombre)
-                            .addComponent(txt_Apellido)
-                            .addComponent(txt_Correo)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cmb_Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(Dia, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(Mes, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(Anio, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 10, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1)
-                        .addGap(95, 95, 95)
-                        .addComponent(jButton2)))
-                .addContainerGap(104, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Nickname)
-                    .addComponent(txt_Nick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Nombre)
-                    .addComponent(txt_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Apellido)
-                    .addComponent(txt_Apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Correo)
-                    .addComponent(txt_Correo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FechaNac)
-                    .addComponent(Dia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Mes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Anio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Tipo)
-                    .addComponent(cmb_Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel5)
+                        .addComponent(jLabel6)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(64, 64, 64)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_Nick)
+                            .addComponent(txt_Correo)
+                            .addComponent(txt_Apellido)
+                            .addComponent(txt_Nombre)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmb_Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(Dia, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(Mes, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(Anio, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
+                .addGap(94, 94, 94))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txt_Nick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txt_Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txt_Apellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(Dia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Mes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Anio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txt_Correo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmb_Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cmb_TipoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmb_TipoMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmb_TipoMouseClicked
-
-    private void cmb_TipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_TipoActionPerformed
-        if(cmb_Tipo.getSelectedItem().equals("Artista"))
-        {
-            ContArtista a = Fabrica.getArtista();
-            a.IngresarArtista(txt_Nick.getText(),txt_Nombre.getText(),txt_Apellido.getText(),new DtDate(Integer.parseInt(Dia.getText()),Integer.parseInt(Mes.getText()),Integer.parseInt(Anio.getText())),txt_Correo.getText(),"prueva","prueva");/*txt_Biografia.getText(),txt_PaginaWeb.getText()*/
-        }
-        else
-        {
-            ContCliente c = Fabrica.getCliente();
-            c.IngresarCliente(txt_Nick.getText(),txt_Nombre.getText(),txt_Apellido.getText(),new DtDate(Integer.parseInt(Dia.getText()),Integer.parseInt(Mes.getText()),Integer.parseInt(Anio.getText())),txt_Correo.getText());
-        }
-    }//GEN-LAST:event_cmb_TipoActionPerformed
-
-    private void DiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiaActionPerformed
-
-    }//GEN-LAST:event_DiaActionPerformed
-
-    private void txt_ApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_ApellidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_ApellidoActionPerformed
-
-    private void txt_NombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_NombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_NombreActionPerformed
-
-    private void txt_NickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_NickActionPerformed
-
-    }//GEN-LAST:event_txt_NickActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String String1,String2,String3,String4,String6;
+       String cadena1,cadena2,cadena3,cadena4,cadena6;
         DtDate fecha;
 
-        String1 = txt_Nick.getText();
-        String2 = txt_Nombre.getText();
-        String3 = txt_Apellido.getText();
-        String4 = txt_Correo.getText();
-        
-        String6 = cmb_Tipo.getSelectedItem().toString();
+        cadena1 = txt_Nick.getText();
+        cadena2 = txt_Nombre.getText();
+        cadena3 = txt_Apellido.getText();
+        cadena4 = txt_Correo.getText();
+
+        cadena6 = cmb_Tipo.getSelectedItem().toString();
 
         if ((txt_Nick.getText().equals("")) || (txt_Nombre.getText().equals("")) || (txt_Apellido.getText().equals("")) || (txt_Correo.getText().equals("")) || (Dia.getText().equals(""))
             || (Mes.getText().equals("")) || (Anio.getText().equals("")) || ((cmb_Tipo.getSelectedItem() == null))) {
@@ -275,55 +178,46 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
             javax.swing.JOptionPane.showMessageDialog(this,"Debe llenar todos los campos \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
             txt_Nick.requestFocus();
         }
-        
+
         fecha = new DtDate(Integer.parseInt(Dia.getText()),Integer.parseInt(Mes.getText()),Integer.parseInt(Anio.getText()));
-      
-        if(String6=="Artista"){
-            boolean Ok = Art.IngresarArtista(String1, String2, String3, fecha, String4,"","");
+        boolean Ok;
+        if(cadena6.equals("Artista")){
+            
+            Ok = Art.IngresarArtista(cadena1,cadena2,cadena3,fecha,cadena4,"","");
             if(Ok){
-            javax.swing.JOptionPane.showMessageDialog(this,"Artista Ingresado \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null,"El artista ah sido dado de alta");}
+            else{javax.swing.JOptionPane.showMessageDialog(null,"El artista no a podido ser dado de alta");}
         }
-            else{   javax.swing.JOptionPane.showMessageDialog(this,"El artista no ah podido ingresarse correctamente \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);}
-        }
-        
-        if(String6=="Cliente"){
-            boolean ok = Cli.IngresarCliente(String1,String2,String3,fecha,String4);
-            if(ok){
-                    javax.swing.JOptionPane.showMessageDialog(this,"Cliente Ingresado \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        }
-            else{   javax.swing.JOptionPane.showMessageDialog(this,"El cliente no ah podido ingresarse correctamente \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);}
+
+        if(cadena6.equals("Cliente")){
+            
+            Ok = Cli.IngresarCliente(cadena1,cadena2,cadena3,fecha,cadena4);
+            if(Ok){
+                javax.swing.JOptionPane.showMessageDialog(null,"El cliente ah sido dado de alta");}
+            else{javax.swing.JOptionPane.showMessageDialog(null,"El cliente no a podido ser dado de alta");}
+    }                                        
+    
+
     }//GEN-LAST:event_jButton1ActionPerformed
-    }     
-    private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
-        
-    }//GEN-LAST:event_jButton1KeyPressed
-    /*private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {                                    
-        
-    }  */      
-    private void AnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AnioActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Anio;
-    private javax.swing.JLabel Apellido;
-    private javax.swing.JLabel Correo;
     private javax.swing.JTextField Dia;
-    private javax.swing.JLabel FechaNac;
     private javax.swing.JTextField Mes;
-    private javax.swing.JLabel Nickname;
-    private javax.swing.JLabel Nombre;
-    private javax.swing.JLabel Tipo;
     private javax.swing.JComboBox<String> cmb_Tipo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField txt_Apellido;
     private javax.swing.JTextField txt_Correo;
     private javax.swing.JTextField txt_Nick;

@@ -13,6 +13,7 @@ public class DtDate {
     private int dia;
     private int mes;
     private int anio;
+    
     public DtDate (int d, int m, int a){
     this.dia = d;
     this.mes = m;

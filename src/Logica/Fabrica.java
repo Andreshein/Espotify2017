@@ -13,8 +13,8 @@ public class Fabrica {
     
     //SINGLETON
     private static Fabrica instancia;
-    private static ContArtista Artista;
-    private static ContCliente Cliente;
+    private static IcontArtista Artista;
+    private static IcontCliente Cliente;
     public static Fabrica getInstance(){
         if (instancia == null){
             instancia = new Fabrica();
@@ -23,12 +23,14 @@ public class Fabrica {
         
     }
 
-    public static ContArtista getArtista() {
-        return Artista;
+    public static IcontArtista getArtista() {
+         IcontArtista ica = ContArtista.getInstance();
+         return ica;
     }
 
-    public static ContCliente getCliente() {
-        return Cliente;
+     public static IcontCliente getCliente() {
+         IcontCliente icc = ContCliente.getInstance();
+         return icc;
     }
     
      private Fabrica(){

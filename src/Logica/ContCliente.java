@@ -80,15 +80,16 @@ private ContCliente(){
     public boolean IngresarCliente(String nickname, String nombre, String apellido, DtDate fechaNac,String correo) {
         if (this.clientes.get(nickname)!=null){
             return false;
-        }
-        else{
-            Cliente c =new Cliente(nickname, nombre, apellido, fechaNac, correo);
+        }else{
+            Cliente c = new Cliente(nickname, nombre, apellido, fechaNac, correo);
+           
             boolean tru =this.dbUsuario.agregarCliente(c);
             if (tru){
                 
                 this.clientes.put(nickname, c);
             }
             return tru;
+          
     }
     }
 
