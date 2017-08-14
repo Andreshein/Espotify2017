@@ -77,7 +77,7 @@ private ContCliente(){
     }
     
     @Override
-    public boolean IngresarCliente(String nickname, String nombre, String apellido, DtDate fechaNac,String correo) {
+    public boolean IngresarCliente(String nickname, String nombre, String apellido, Date fechaNac,String correo) {
         if (this.clientes.get(nickname)!=null){
             return false;
         }else{

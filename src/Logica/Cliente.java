@@ -17,7 +17,7 @@ public class Cliente extends Usuario{
     private ArrayList<Tema> favTemas;
     private HashMap<String, Usuario> Siguiendo;
     
-    public Cliente(String nickname, String nombre, String apellido, DtDate fechaNac, String correo) {
+    public Cliente(String nickname, String nombre, String apellido, Date fechaNac, String correo) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -41,7 +41,7 @@ public class Cliente extends Usuario{
         this.correo = correo;
     }
 
-    public void setFechaNac(DtDate fechaNac) {
+    public void setFechaNac(Date fechaNac) {
         this.fechaNac = fechaNac;
     }
 
@@ -61,7 +61,7 @@ public class Cliente extends Usuario{
         return correo;
     }
 
-    public DtDate getFechaNac() {
+    public Date getFechaNac() {
         return fechaNac;
     }
 

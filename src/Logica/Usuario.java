@@ -5,18 +5,15 @@
  */
 package Logica;
 
-import Logica.DtDate;
 
-/**
- *
- * @author ninoh
- */
+import java.util.Date;
+
 public abstract class Usuario {
     protected String nickname;
     protected String nombre;
     protected String apellido;
     protected String correo;
-    protected DtDate fechaNac;
+    protected Date fechaNac;
     //Falta implementar imagen
 
     abstract void setNickname(String nickname);
@@ -27,7 +24,7 @@ public abstract class Usuario {
 
     abstract void setCorreo(String correo);
 
-    abstract void setFechaNac(DtDate fechaNac);
+    abstract void setFechaNac(Date fechaNac);
 
     abstract String getNickname();
 
@@ -37,7 +34,7 @@ public abstract class Usuario {
 
     abstract String getCorreo();
 
-    abstract DtDate getFechaNac(); 
+    abstract Date getFechaNac(); 
     
     
 }

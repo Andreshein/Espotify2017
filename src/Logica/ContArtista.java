@@ -85,7 +85,7 @@ private ContArtista(){
     }
 
     @Override
-    public boolean IngresarArtista(String nickname, String nombre, String apellido, DtDate fechaNac,String correo, String biografia, String paginaWeb){
+    public boolean IngresarArtista(String nickname, String nombre, String apellido, Date fechaNac,String correo, String biografia, String paginaWeb){
         if (this.artistas.get(nickname)!=null){
             return false;
         }else{

@@ -10,10 +10,11 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 public class DBUsuario {
     private final Connection conexion = new ConexionDB().getConexion();
-    
+    SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
     
     public boolean agregarArtista(Artista a){
         try {
@@ -23,7 +24,7 @@ public class DBUsuario {
             statement.setString(1, a.getNickname());
             statement.setString(2, a.getNombre());
             statement.setString(3, a.getApellido());
-            statement.setString(4, a.getFechaNac().toString());
+            statement.setString(4, formato.format(a.getFechaNac()));
             statement.setString(5, a.getCorreo());
             statement.setString(6, a.getBiografia());
             statement.setString(7, a.getPaginaWeb());
@@ -45,7 +46,7 @@ public class DBUsuario {
             statement.setString(1, c.getNickname());
             statement.setString(2, c.getNombre());
             statement.setString(3, c.getApellido());
-            statement.setDate(4, dt/*c.getFechaNac().toString()*/); //cambiar por setString para guardar la fecha como String
+            statement.setString(4, formato.format(c.getFechaNac()));
             statement.setString(5, c.getCorreo());
             statement.executeUpdate();
             statement.close();

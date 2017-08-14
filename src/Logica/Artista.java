@@ -18,7 +18,7 @@ public class Artista extends Usuario {
     private String paginaWeb;
     private HashMap<String, Album> albumes;
 
-    public Artista(String nickname, String nombre, String apellido, DtDate fechaNac,String correo, String biografia, String paginaWeb) {
+    public Artista(String nickname, String nombre, String apellido, Date fechaNac,String correo, String biografia, String paginaWeb) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -48,7 +48,7 @@ public class Artista extends Usuario {
         this.correo = correo;
     }
 
-    public void setFechaNac(DtDate fechaNac) {
+    public void setFechaNac(Date fechaNac) {
         this.fechaNac = fechaNac;
     }
 
@@ -76,7 +76,7 @@ public class Artista extends Usuario {
         return correo;
     }
 
-    public DtDate getFechaNac() {
+    public Date getFechaNac() {
         return fechaNac;
     }
 
