@@ -19,7 +19,7 @@ public class DBUsuario {
         try {
            
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
-                    + "(nickname, nombre, apellido, fechaNac,correo, biografia, paginaWeb) values(?,?,?,?,?,?,?)");
+                    + "(nickname, nombre, apellido, fechaNac,correo, biografia, pagweb) values(?,?,?,?,?,?,?)");
             statement.setString(1, a.getNickname());
             statement.setString(2, a.getNombre());
             statement.setString(3, a.getApellido());
@@ -39,7 +39,7 @@ public class DBUsuario {
         
         public boolean agregarCliente(Cliente c){
         try {  
-            Date dt = new Date(1998,1,17);
+            Date dt = new Date(1,1,1);
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                     + "(nickname, nombre, apellido, fechaNac, correo) values(?,?,?,?,?)");
             statement.setString(1, c.getNickname());
