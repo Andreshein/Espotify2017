@@ -6,25 +6,13 @@
 package Persistencia;
 import Logica.Artista;
 import Logica.Cliente;
-import Logica.Usuario;
-import Persistencia.ConexionDB;
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DBUsuario {
-    private Connection conexion = new ConexionDB().getConexion();
+    private final Connection conexion = new ConexionDB().getConexion();
     
     
     public boolean agregarArtista(Artista a){
@@ -41,6 +29,7 @@ public class DBUsuario {
             statement.setString(7, a.getPaginaWeb());
             statement.executeUpdate();
             statement.close();
+            
             return true;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -49,16 +38,18 @@ public class DBUsuario {
     }
         
         public boolean agregarCliente(Cliente c){
-        try {  Date dt = new Date(1998,1,17);
+        try {  
+            Date dt = new Date(1998,1,17);
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                     + "(nickname, nombre, apellido, fechaNac, correo) values(?,?,?,?,?)");
             statement.setString(1, c.getNickname());
             statement.setString(2, c.getNombre());
             statement.setString(3, c.getApellido());
-            statement.setDate(4, dt/*c.getFechaNac().toString()*/);
+            statement.setDate(4, dt/*c.getFechaNac().toString()*/); //cambiar por setString para guardar la fecha como String
             statement.setString(5, c.getCorreo());
             statement.executeUpdate();
             statement.close();
+            
             return true;
         } catch (SQLException ex) {
             ex.printStackTrace();
