@@ -58,12 +58,18 @@ private ContCliente(){
 
     @Override
     public ArrayList<String> listarNickClientes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<String> listaNicknames = new ArrayList<>();
+        
+        for (Cliente cliente : this.clientes.values()) {
+            listaNicknames.add(cliente.getNickname());
+        }
+        
+        return listaNicknames;
     }
 
     @Override
-    public void verPerfilCliente(String nickname) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DtCliente verPerfilCliente(String nickname) {
+        return this.clientes.get(nickname).getDatos();
     }
 
     @Override

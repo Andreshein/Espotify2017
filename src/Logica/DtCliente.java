@@ -14,14 +14,14 @@ import javax.swing.ImageIcon;
  * @author stephiRM
  */
 public class DtCliente extends DtUsuario{
-    private final ArrayList<String> seguidores;
-    private final ArrayList<String> usuariosSeguidos;
+    private final ArrayList<DtCliente> seguidores;
+    private final ArrayList<DtUsuario> usuariosSeguidos;
     private final ArrayList<DtListaP> listas;
     private final ArrayList<DtLista> favListas;
     private final ArrayList<DtTema> favTemas;
     private final ArrayList<DtAlbum> favAlbumes;
     
-    public DtCliente(String nickname, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<String> seguidores, ArrayList<String> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes) {
+    public DtCliente(String nickname, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtCliente> seguidores, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -36,17 +36,31 @@ public class DtCliente extends DtUsuario{
         this.favAlbumes = favAlbumes;
     }
     
-    public ArrayList<String> getSeguidores() {
+    public ArrayList<DtCliente> getSeguidores() {
         return seguidores;
     }
 
-    public ArrayList<String> getUsuariosSeguidos() {
+    public ArrayList<DtUsuario> getUsuariosSeguidos() {
         return this.usuariosSeguidos;
     }
 
     public ArrayList<DtListaP> getListas() {
         return listas;
     }
+
+    public ArrayList<DtLista> getFavListas() {
+        return favListas;
+    }
+
+    public ArrayList<DtTema> getFavTemas() {
+        return favTemas;
+    }
+
+    public ArrayList<DtAlbum> getFavAlbumes() {
+        return favAlbumes;
+    }
+    
+    
 
     
 }

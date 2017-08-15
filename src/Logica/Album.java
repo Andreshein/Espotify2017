@@ -55,6 +55,11 @@ public class Album {
     public void setTema(Tema tema){
         this.temas.put(tema.getNombre(), tema);
     }
+    
+    public DtAlbum getDatos(){
+        // Falta artista y temas(para CU ver Perfil Cliente no se necesitan)
+        return new DtAlbum(nombre, "nomArtista", String.valueOf(anio), null); 
+    }
    
 
 }
