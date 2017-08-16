@@ -23,6 +23,10 @@ public class Cliente extends Usuario{
         this.apellido = apellido;
         this.fechaNac = fechaNac;
         this.correo = correo;
+        this.Listas = new HashMap<>();
+        this.favListas = new ArrayList<>();
+        this.favAlbumes = new ArrayList<>();
+        this.favTemas = new ArrayList<>();
     }
 
     public void setNickname(String nickname) {
@@ -123,6 +127,36 @@ public class Cliente extends Usuario{
 
     public void setSiguiendo(Usuario u) {
         this.Siguiendo.put(u.getNickname(), u);
+    }
+    
+    public DtCliente getDatos(){
+        ArrayList<DtUsuario> siguiendo = new ArrayList<>();
+        ArrayList<DtAlbum> albumes = new ArrayList<>();
+        ArrayList<DtTema> temas = new ArrayList<>();
+        ArrayList<DtLista> listas = new ArrayList<>();
+        
+        for (Album album : this.favAlbumes) {
+            albumes.add(album.getDatos());
+        }
+        
+        for (Tema tema : this.favTemas) {
+            temas.add(tema.getDatos());
+        }
+        
+//        for (Lista lista : this.favListas) {
+//            listas.add(lista.getDatos());
+//        }
+        
+        for (Usuario usuario : this.Siguiendo.values()) {
+            if(usuario instanceof Cliente){
+               siguiendo.add(((Cliente) usuario).getDatos()); 
+            }else{
+                //siguiendo.add(((Artista) usuario).getDatos());
+            }
+            
+        }
+        
+        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, null, siguiendo, null, null, temas, albumes);
     }
     
 }

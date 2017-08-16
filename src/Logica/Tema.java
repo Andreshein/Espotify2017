@@ -74,5 +74,9 @@ public class Tema {
         this.direccion = direccion;
     }
     
+    public DtTema getDatos(){
+        return new DtTema(id, nombre, duracion, orden, direccion);
+    }
+    
     
 }

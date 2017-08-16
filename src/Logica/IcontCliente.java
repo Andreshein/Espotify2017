@@ -18,7 +18,7 @@ public interface IcontCliente{
     public abstract void CorregirArt( String biografia, String link);
     public abstract void Cancelar();
     public abstract ArrayList<String> listarNickClientes();
-    public abstract void verPerfilCliente( String nickname); //Dtcliente
+    public abstract DtCliente verPerfilCliente( String nickname); //Dtcliente
     public abstract ArrayList<String> MostrarUsuariosSeguidos( String Nickname);
     public abstract void DejarSeguir( String NickCli, String NickUsu);
 }
