@@ -44,10 +44,6 @@ private ContArtista(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void AgregarTema(String nombre, String duracion, int ubicacion, String url_mp3) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public void ConfirmarAlbum() {
@@ -99,4 +95,23 @@ private ContArtista(){
     }
     
 }
+
+    @Override
+    public void AgregarTema(String nombre, String duracion, int ubicacion, String url_mp3) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+   // @Override
+    public void SelecionarTema(String nombre) {
+        
+            
+        
+    }
+
+    @Override
+    public void SelecionarTema(String nickname, String nombre) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+  
 }

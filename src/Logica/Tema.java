@@ -11,16 +11,16 @@ package Logica;
  */
 public class Tema {
     private int id;
-    private String nombre;
     private String duracion;
+    private String nombre;
     private String orden;
     private String archivo;
     private String direccion;
 
-    public Tema(int id, String nombre, String duracion, String orden, String archivo, String direccion) {
+    public Tema(int id, String duracion, String nombre, String orden, String archivo, String direccion) {
         this.id = id;
-        this.nombre = nombre;
         this.duracion = duracion;
+        this.nombre = nombre;
         this.orden = orden;
         this.archivo = archivo;
         this.direccion = direccion;

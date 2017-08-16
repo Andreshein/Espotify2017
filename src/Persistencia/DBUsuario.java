@@ -6,6 +6,7 @@
 package Persistencia;
 import Logica.Artista;
 import Logica.Cliente;
+import Logica.DtListaP;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -40,7 +41,6 @@ public class DBUsuario {
         
         public boolean agregarCliente(Cliente c){
         try {  
-            Date dt = new Date(1,1,1);
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                     + "(nickname, nombre, apellido, fechaNac, correo) values(?,?,?,?,?)");
             statement.setString(1, c.getNickname());
@@ -58,4 +58,21 @@ public class DBUsuario {
         }     
     }
     
+        public boolean agregarTema(DtListaP l){
+        try {  
+            PreparedStatement statement = conexion.prepareStatement("SELECT usuario, nombre FROM  listaparticular ");
+            statement.setString(1, l.getUsuario());
+            statement.setString(1, l.getNombre());
+            statement.executeUpdate();
+            statement.close();
+            
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        
+        
+        }
+        
 }

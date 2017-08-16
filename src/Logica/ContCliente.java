@@ -14,7 +14,7 @@ import Persistencia.*;
 
 public class ContCliente implements IcontCliente{
     private static ContCliente instancia;
-
+    
     private Map<String, Cliente> clientes;
     private DBUsuario dbUsuario=null;
 
@@ -29,11 +29,6 @@ private ContCliente(){
       
         this.clientes=new HashMap<>();
         this.dbUsuario=new DBUsuario();
-    }
-
-    @Override
-    public boolean AltaDePerfil(String nick, String nombre, String apellido, DtDate fechaNac, String correo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -93,7 +88,29 @@ private ContCliente(){
     }
     }
 
-    
+  /*  @Override
+    public boolean AgregarTemaLista(String nickname, String nombre){
+        Cliente c = this.clientes.get(nickname);
+        if (c!=null){
+            Particular l = c.getListas().get(nombre);
+            if(l!=null){
+                
+            }
+        }
+        
+}
+    */
+    @Override
+    public boolean AgregarTemaaLista(String nombre){
+        return false;
+        
+        
+}   
+
+    @Override
+    public boolean AgregarTemaLista(String nickname, String nombre) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     
 }
