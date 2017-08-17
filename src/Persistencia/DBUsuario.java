@@ -6,12 +6,15 @@
 package Persistencia;
 import Logica.Artista;
 import Logica.Cliente;
+import Logica.DtArtista;
 import Logica.DtListaP;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class DBUsuario {
     private final Connection conexion = new ConexionDB().getConexion();
@@ -39,7 +42,7 @@ public class DBUsuario {
         }  
     }
         
-        public boolean agregarCliente(Cliente c){
+    public boolean agregarCliente(Cliente c){
         try {  
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                     + "(nickname, nombre, apellido, fechaNac, correo) values(?,?,?,?,?)");
@@ -58,7 +61,7 @@ public class DBUsuario {
         }     
     }
     
-        public boolean agregarTema(DtListaP l){
+    public boolean agregarTema(DtListaP l){
         try {  
             PreparedStatement statement = conexion.prepareStatement("SELECT usuario, nombre FROM  listaparticular ");
             statement.setString(1, l.getUsuario());
@@ -71,8 +74,58 @@ public class DBUsuario {
             ex.printStackTrace();
             return false;
         }
+    }
+    
+    public ArrayList<Artista> listarArtistas(){
+	try{
+            ArrayList<Artista> listaArtista = new ArrayList<Artista>();
+            Artista art;
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                art=new Artista();
+                art.setNickname(rs.getString("Nickname"));
+                art.setNombre(rs.getString("Nombre"));
+                art.setApellido(rs.getString("Apellido"));
+                art.setCorreo(rs.getString("Correo"));
+                art.setFechaNac(rs.getDate("FechaNac"));
+                art.setBiografia(rs.getString("Biografia"));
+                art.setPaginaWeb(rs.getString("PagWeb"));                
+                listaArtista.add(art);
+            }
+
+            return listaArtista; // Devolver Lista Artista
+
+	}catch(SQLException ex){
+            ex.printStackTrace();
+            return null;
+	}
+    }
+
+    public Artista obtenerInfoArtista(String clave){
+	try{
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista "+ "WHERE Nickname = '"+clave+"'");
+            ResultSet rs = st.executeQuery();
+                 
+            Artista art = new Artista();
+            String nickname = rs.getString("Nickname");
+
+            if(nickname.equals(clave)){
+                art.setNickname(rs.getString("Nickname"));
+                art.setNombre(rs.getString("Nombre"));
+                art.setApellido(rs.getString("Apellido"));
+                art.setCorreo(rs.getString("Correo"));
+                art.setFechaNac(rs.getDate("FechaNac"));
+                art.setBiografia(rs.getString("Biografia"));
+                art.setPaginaWeb(rs.getString("PagWeb"));
+                return art;
+            }  
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            return null;	
+        }   
         
-        
-        }
-        
+        return null;
+    }    
 }

@@ -31,6 +31,10 @@ public class Artista extends Usuario {
         this.albumes= new HashMap<>();
     }
 
+    public Artista() {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
     
 
