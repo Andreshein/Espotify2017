@@ -14,11 +14,11 @@ import java.util.ArrayList;
 public class DtAlbum {
     private final String nombre;
     private final String nombreArtista;
-    private final String anio;
+    private final int anio;
     private final ArrayList<DtTema> temas;
     //falta implementar Imagen
 
-    public DtAlbum(String nombre, String nombreArtista, String anio, ArrayList<DtTema> temas) {
+    public DtAlbum(String nombre, String nombreArtista, int anio, ArrayList<DtTema> temas) {
         this.nombre = nombre;
         this.nombreArtista = nombreArtista;
         this.anio = anio;
@@ -35,7 +35,7 @@ public class DtAlbum {
         return nombreArtista;
     }
 
-    public String getAnio() {
+    public int getAnio() {
         return anio;
     }
 

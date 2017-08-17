@@ -8,7 +8,9 @@ package Logica;
 import java.util.HashMap;
 import java.util.Map;
 import Persistencia.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 public class ContArtista implements IcontArtista{
     private static ContArtista instancia;
@@ -99,6 +101,18 @@ private ContArtista(){
     @Override
     public void AgregarTema(String nombre, String duracion, int ubicacion, String url_mp3) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
+        ArrayList<DtUsuario> retornar = new ArrayList<>();
+        Iterator iterador = this.artistas.values().iterator();
+        while(iterador.hasNext()){
+            Artista aux = (Artista)iterador.next();
+            if(aux.getNickname().contains(palabra)==true || aux.getNombre().contains(palabra)==true || aux.getApellido().contains(palabra)==true){
+            retornar.add(aux.getDatos());
+            }
+        }
+        return retornar;
     }
 
 

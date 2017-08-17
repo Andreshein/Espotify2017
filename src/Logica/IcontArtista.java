@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -26,4 +27,5 @@ public interface IcontArtista {
     public abstract void obtenerArtista(); //set(DtArtista);
     public abstract void seleccionarAlbum(String nick,String nombre);
     public abstract void mostrarAlbum(); //DtAlbum
+    public ArrayList<DtUsuario> BuscarUsuarios(String palabra);
 }

@@ -509,7 +509,7 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
         while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla
         if(albumesFavCli != null){
             for (DtAlbum album : albumesFavCli) {
-                String[] datos ={album.getNombreArtista(), album.getNombre(), album.getAnio()};
+                String[] datos ={album.getNombreArtista(), album.getNombre(), String.valueOf(album.getAnio())};
                 modelo.addRow(datos);
             }
         }

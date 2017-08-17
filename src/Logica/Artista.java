@@ -6,8 +6,10 @@
 package Logica;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  *
@@ -98,6 +100,21 @@ public class Artista extends Usuario {
     
     public void setAlbum(Album a ){
         this.albumes.put(a.getNombre(),a);
+    }
+    
+    public DtArtista getDatos(){
+        ArrayList<DtAlbum> alb = this.getDtAlbumes();
+        return new DtArtista(nickname, nombre, apellido, correo, this.fechaNac, null, biografia, paginaWeb, 0, null, this.getDtAlbumes());
+    }
+    
+    public ArrayList<DtAlbum> getDtAlbumes(){
+        ArrayList<DtAlbum> retorno = new ArrayList<>();
+        Iterator iterador = this.albumes.values().iterator();
+        while(iterador.hasNext()){
+            Album aux = (Album)iterador.next();
+            retorno.add(aux.getDatos(this.nickname));
+        }
+        return retorno;
     }
     
 }

@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import Persistencia.*;
+import java.util.Iterator;
 
 
 public class ContCliente implements IcontCliente{
@@ -17,6 +18,7 @@ public class ContCliente implements IcontCliente{
     
     private Map<String, Cliente> clientes;
     private DBUsuario dbUsuario=null;
+    private IcontArtista art;
 
     public static ContCliente getInstance(){
         if (instancia == null){
@@ -29,6 +31,7 @@ private ContCliente(){
       
         this.clientes=new HashMap<>();
         this.dbUsuario=new DBUsuario();
+        this.art = Fabrica.getArtista();
     }
 
     @Override
@@ -92,6 +95,30 @@ private ContCliente(){
             return tru;
           
     }
+    }
+
+    public ArrayList<DtCliente> BuscarClientes(String palabra) {
+        ArrayList<DtCliente> retornar = new ArrayList<>();
+        Iterator iterador = this.clientes.values().iterator();
+        while(iterador.hasNext()){
+            Cliente aux = (Cliente)iterador.next();
+            if(aux.getNickname().contains(palabra)==true || aux.getNombre().contains(palabra)==true || aux.getApellido().contains(palabra)==true){
+            retornar.add(aux.getDatos());
+            }
+        }
+        return retornar;
+    }
+
+    public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
+       ArrayList<DtUsuario> retornar = this.art.BuscarUsuarios(palabra);
+       Iterator iterador = this.clientes.values().iterator();
+        while(iterador.hasNext()){
+            Cliente aux = (Cliente)iterador.next();
+            if(aux.getNickname().contains(palabra)==true || aux.getNombre().contains(palabra)==true || aux.getApellido().contains(palabra)==true){
+            retornar.add(aux.getDatos());
+            }
+        }
+        return retornar;
     }
 
 

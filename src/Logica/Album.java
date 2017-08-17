@@ -5,7 +5,9 @@
  */
 package Logica;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  *
@@ -56,9 +58,22 @@ public class Album {
         this.temas.put(tema.getNombre(), tema);
     }
     
+    public DtAlbum getDatos(String Artista){
+        return new DtAlbum(nombre, Artista, anio, this.getDtTemas()); 
+    }
+    
     public DtAlbum getDatos(){
-        // Falta artista y temas(para CU ver Perfil Cliente no se necesitan)
-        return new DtAlbum(nombre, "nomArtista", String.valueOf(anio), null); 
+        return new DtAlbum(nombre, "nomArtista", anio, this.getDtTemas()); 
+    }
+    
+    public ArrayList<DtTema> getDtTemas(){
+        ArrayList<DtTema> retorno = new ArrayList<>();
+        Iterator iterador = this.temas.values().iterator();
+        while(iterador.hasNext()){
+            Tema aux = (Tema)iterador.next();
+            retorno.add(aux.getDatos());
+        }
+        return retorno;
     }
    
 

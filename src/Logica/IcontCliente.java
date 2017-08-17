@@ -20,5 +20,7 @@ public interface IcontCliente{
     public abstract DtCliente verPerfilCliente( String nickname); //Dtcliente
     public abstract ArrayList<String> MostrarUsuariosSeguidos( String Nickname);
     public abstract void DejarSeguir( String NickCli, String NickUsu);
+    public abstract ArrayList<DtCliente> BuscarClientes(String palabra);
+    public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
 }
 //hellou papaguena
