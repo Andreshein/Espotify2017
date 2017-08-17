@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class ConexionDB {
     private final String host="localhost";
     private final String port="3306";
-    private final String db="espotifyBD";
+    private final String db="espotify";
     private final String user="root";
     private final String pass="root";
     

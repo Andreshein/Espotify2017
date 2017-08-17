@@ -27,7 +27,8 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
 
     private IcontArtista Art;
     private IcontCliente Cli; 
-
+    boolean formatOk=true;
+    
     public AltaPerfil() {
         initComponents();
         this.Art=Fabrica.getArtista(); 
@@ -58,8 +59,6 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         txt_Correo = new javax.swing.JTextField();
         cmb_Tipo = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         Img = new javax.swing.JLabel();
         CargarImg = new javax.swing.JButton();
         Nomb = new javax.swing.JLabel();
@@ -71,12 +70,14 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         txt_PaginaWeb = new javax.swing.JTextField();
         Dia = new javax.swing.JComboBox<>();
         Mes = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setPreferredSize(new java.awt.Dimension(645, 417));
+        setPreferredSize(new java.awt.Dimension(645, 421));
 
         jLabel1.setText("Nickname: ");
 
@@ -88,6 +89,12 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Correo: ");
 
+        txt_Correo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_CorreoActionPerformed(evt);
+            }
+        });
+
         cmb_Tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Artista" }));
         cmb_Tipo.setToolTipText("");
         cmb_Tipo.addActionListener(new java.awt.event.ActionListener() {
@@ -97,20 +104,6 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         });
 
         jLabel6.setText("Tipo de Usuario: ");
-
-        jButton1.setText("Aceptar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         Img.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -134,9 +127,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
             }
         });
 
-        txt_Biografia.setEditable(false);
         txt_Biografia.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        txt_Biografia.setEnabled(false);
         txt_Biografia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_BiografiaActionPerformed(evt);
@@ -147,8 +138,11 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Pagina Web: ");
 
-        txt_PaginaWeb.setEditable(false);
-        txt_PaginaWeb.setEnabled(false);
+        txt_PaginaWeb.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_PaginaWebFocusLost(evt);
+            }
+        });
         txt_PaginaWeb.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_PaginaWebActionPerformed(evt);
@@ -181,7 +175,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(txt_PaginaWeb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         txt_Biografia.getAccessibleContext().setAccessibleName("");
@@ -198,6 +192,20 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         Mes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MesActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Aceptar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -228,10 +236,6 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
                                         .addComponent(Mes, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(Anio))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(144, 144, 144)
-                                .addComponent(jButton1)
-                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap(211, Short.MAX_VALUE)
                                 .addComponent(cmb_Tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,11 +263,13 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(348, 348, 348)
-                        .addComponent(jButton2))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(jButton1)
+                        .addGap(118, 118, 118)
+                        .addComponent(jButton2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -309,11 +315,11 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
                     .addComponent(CargarImg))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap())
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
@@ -337,14 +343,16 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
 
             javax.swing.JOptionPane.showMessageDialog(this,"Debe llenar todos los campos \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
             txt_Nick.requestFocus();
+            formatOk=false;
         }   
         
         if (!cadena4.matches(".+@.+\\..+")) {
             javax.swing.JOptionPane.showMessageDialog(null,"El formato de mail es incorrecto");
             txt_Correo.setText(null);
+            formatOk=false;
         }
         
-        else{
+        if(formatOk){
        
         
             boolean Ok;
@@ -415,17 +423,15 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         String texto=cmb_Tipo.getSelectedItem().toString();
         if("Cliente".equals(texto))
         {            
-            txt_Biografia.setEnabled(false);
-            txt_Biografia.setEditable(false);
-            txt_PaginaWeb.setEnabled(false);
-            txt_PaginaWeb.setEditable(false);
+            jPanel1.setVisible(false);
+            txt_Biografia.setText(null);
+            txt_PaginaWeb.setText(null);
         }
         else if("Artista".equals(texto))
         {
-            txt_Biografia.setEnabled(true);
-            txt_Biografia.setEditable(true);
-            txt_PaginaWeb.setEnabled(true);
-            txt_PaginaWeb.setEditable(true);
+            jPanel1.setVisible(true);
+            txt_Biografia.setText(null);
+            txt_PaginaWeb.setText(null);
         }        
     }//GEN-LAST:event_cmb_TipoActionPerformed
     
@@ -480,15 +486,32 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_AnioActionPerformed
 
     private void AnioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_AnioFocusLost
-         
-         int anio= Integer.valueOf(Anio.getText());
-         
-         if(anio>2016 || anio<1900){
-            javax.swing.JOptionPane.showMessageDialog(this,"El formato de la fecha es incorrecto \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            Anio.setText(null);
-         }
-             
+        
+        try{
+            int anio= Integer.parseInt(Anio.getText());
+            if((anio>2016 || anio<1900) ){
+                javax.swing.JOptionPane.showMessageDialog(this,"El formato de la fecha es incorrecto \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                Anio.setText("");
+            }
+        }catch(NumberFormatException ex ) {
+            javax.swing.JOptionPane.showMessageDialog(null,"Debe ingresar solo numeros");
+            Anio.setText("");
+        }
+        
     }//GEN-LAST:event_AnioFocusLost
+
+    private void txt_CorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CorreoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_CorreoActionPerformed
+
+    private void txt_PaginaWebFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_PaginaWebFocusLost
+            if(txt_PaginaWeb.getText().endsWith(".com")==false){
+            javax.swing.JOptionPane.showMessageDialog(null,"El formato de la paginaWeb es incorrecto");
+            txt_PaginaWeb.setText(null);
+            formatOk=false;
+        }
+    
+    }//GEN-LAST:event_txt_PaginaWebFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

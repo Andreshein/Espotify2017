@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public interface IcontArtista {
    
-    public abstract void SelecionarTema(String nickname, String nombre);
+    
     public abstract boolean IngresarArtista(String nickname, String nombre, String apellido, Date fechaNac,String correo, String biografia, String paginaWeb);
     public abstract boolean SelectArtista(String nick);
     public abstract void CrearAlbum(String nombre,int anio);

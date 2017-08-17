@@ -94,30 +94,6 @@ private ContCliente(){
     }
     }
 
-  /*  @Override
-    public boolean AgregarTemaLista(String nickname, String nombre){
-        Cliente c = this.clientes.get(nickname);
-        if (c!=null){
-            Particular l = c.getListas().get(nombre);
-            if(l!=null){
-                
-            }
-        }
-        
-}
-    */
-    @Override
-    public boolean AgregarTemaaLista(String nombre){
-        return false;
-        
-        
-}   
 
-    @Override
-    public boolean AgregarTemaLista(String nickname, String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
 }
 

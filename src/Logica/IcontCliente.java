@@ -10,8 +10,7 @@ import java.util.Date;
 
 
 public interface IcontCliente{
-    public abstract boolean AgregarTemaaLista(String nombre);
-    public abstract boolean AgregarTemaLista(String nickname, String nombre);
+
     public abstract boolean IngresarCliente(String nickname, String nombre, String apellido, Date fechaNac,String correo);
     public abstract void AgregarArtista( String biografia, String link);
     public abstract void Corregir( String nick, String nombre, String apellido, String correo,Date fecha);
