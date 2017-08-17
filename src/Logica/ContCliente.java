@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import Persistencia.*;
 import java.util.Iterator;
+import javax.swing.ImageIcon;
 
 
 public class ContCliente implements IcontCliente{
@@ -34,6 +35,10 @@ private ContCliente(){
         this.art = Fabrica.getArtista();
     }
 
+    @Override
+    public boolean AltaDePerfil(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     @Override
     public void AgregarArtista(String biografia, String link) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -81,6 +86,35 @@ private ContCliente(){
     }
     
     @Override
+    public void SeleccionarCliente(String nickname){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public ArrayList<DtUsuario> listarUsuarios(){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public void seguir(String nickname){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public void crearListaRP(String nickname,String nombre,ImageIcon imagen){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public void crearListaRD(String genero,String nombre,ImageIcon imagen){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public void confirmar(){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    @Override
     public boolean IngresarCliente(String nickname, String nombre, String apellido, Date fechaNac,String correo) {
         if (this.clientes.get(nickname)!=null){
             return false;
@@ -120,7 +154,5 @@ private ContCliente(){
         }
         return retornar;
     }
-
-
 }
 
