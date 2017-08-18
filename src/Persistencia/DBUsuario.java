@@ -80,24 +80,18 @@ public class DBUsuario {
         }
     }
     
-    public ArrayList<Artista> listarArtistas(){
+    public ArrayList<DtArtista> listarArtistas() {
 	try{
-            ArrayList<Artista> listaArtista = new ArrayList<Artista>();
-            Artista art;
+            ArrayList<DtArtista> listaArtista = new ArrayList<DtArtista>();
+            DtArtista dtart;
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");
             ResultSet rs = st.executeQuery();
             while(rs.next()){
-                art=new Artista();
-                art.setNickname(rs.getString("Nickname"));
-                art.setNombre(rs.getString("Nombre"));
-                art.setApellido(rs.getString("Apellido"));
-                art.setCorreo(rs.getString("Correo"));
-                art.setFechaNac(rs.getDate("FechaNac"));
-                art.setBiografia(rs.getString("Biografia"));
-                art.setPaginaWeb(rs.getString("PagWeb"));                
-                listaArtista.add(art);
+                dtart=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);               
+                listaArtista.add(dtart);
             }
 
+            
             return listaArtista; // Devolver Lista Artista
 
 	}catch(SQLException ex){
@@ -106,30 +100,23 @@ public class DBUsuario {
 	}
     }
 
-    public Artista obtenerInfoArtista(String clave){
+    public DtArtista obtenerInfoArtista(String clave){
 	try{
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista "+ "WHERE Nickname = '"+clave+"'");
-            ResultSet rs = st.executeQuery();
-                 
-            Artista art = new Artista();
-            String nickname = rs.getString("Nickname");
-
-            if(nickname.equals(clave)){
-                art.setNickname(rs.getString("Nickname"));
-                art.setNombre(rs.getString("Nombre"));
-                art.setApellido(rs.getString("Apellido"));
-                art.setCorreo(rs.getString("Correo"));
-                art.setFechaNac(rs.getDate("FechaNac"));
-                art.setBiografia(rs.getString("Biografia"));
-                art.setPaginaWeb(rs.getString("PagWeb"));
-                return art;
-            }  
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE Nickname = '"+clave+"'");
+	    ResultSet rs = st.executeQuery();
+	    DtArtista art;
+            while(rs.next()){
+            art=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);
+            return art;
+            }
+        return null;    
+            
+                
             
         }catch(SQLException ex){
             ex.printStackTrace();
             return null;	
         }   
         
-        return null;
-    }    
+   }
 }
