@@ -134,4 +134,8 @@ private ContArtista(){
         }
         return retornar;
     }
+    
+    public Usuario seleccionarUsuario(String Nickname){
+        return (Usuario)this.artistas.get(Nickname);
+    }
 }

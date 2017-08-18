@@ -31,5 +31,6 @@ public interface IcontArtista {
     public abstract void LiberarMemoria();
     public abstract Genero buscar(Genero nombre);
     public abstract void corregir(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen);
-    public ArrayList<DtUsuario> BuscarUsuarios(String palabra);
+    public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
+    public abstract Usuario seleccionarUsuario(String Nickname);
 }
