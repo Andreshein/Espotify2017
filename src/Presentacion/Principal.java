@@ -44,6 +44,8 @@ public class Principal extends javax.swing.JFrame {
         ConsultarPerfilCliMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        agregarTemaListaMenuItem = new javax.swing.JMenuItem();
 
         jInternalFrame1.setVisible(true);
 
@@ -94,7 +96,7 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
-        jMenu1.setText("Cliente");
+        jMenu1.setText("Clientes");
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu1ActionPerformed(evt);
@@ -111,7 +113,7 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Artista");
+        jMenu2.setText("Artistas");
 
         jMenuItem2.setText("Consultar perfil del artista");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -122,6 +124,18 @@ public class Principal extends javax.swing.JFrame {
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
+
+        jMenu4.setText("Listas");
+
+        agregarTemaListaMenuItem.setText("Agregar Tema");
+        agregarTemaListaMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarTemaListaMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu4.add(agregarTemaListaMenuItem);
+
+        jMenuBar1.add(jMenu4);
 
         setJMenuBar(jMenuBar1);
 
@@ -166,6 +180,12 @@ public class Principal extends javax.swing.JFrame {
         perfArt.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void agregarTemaListaMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarTemaListaMenuItemActionPerformed
+        AgregarTemaaLista agregarTL = new AgregarTemaaLista();
+        escritorio.add(agregarTL);
+        agregarTL.show();
+    }//GEN-LAST:event_agregarTemaListaMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -200,11 +220,13 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem ConsultarPerfilCliMenuItem;
+    private javax.swing.JMenuItem agregarTemaListaMenuItem;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
