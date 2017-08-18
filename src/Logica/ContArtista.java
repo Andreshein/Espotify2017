@@ -11,6 +11,7 @@ import Persistencia.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import javax.swing.ImageIcon;
 
 public class ContArtista implements IcontArtista{
     private static ContArtista instancia;
@@ -53,22 +54,22 @@ private ContArtista(){
     }
 
     @Override
-    public void ElegirArtista(String nomArtista) {
+    public Artista ElegirArtista(String nomArtista) {
+        return dbUsuario.obtenerInfoArtista(nomArtista);
+    }
+
+    @Override
+    public ArrayList<Artista> ListarArtistas() {  
+        return dbUsuario.listarArtistas();
+    }
+
+    @Override
+    public ArrayList<DtGenero> obtenerGenero() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void ListarArtistas() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void obtenerGenero() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void obtenerArtista() {
+    public ArrayList<DtArtista> obtenerArtista() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -78,11 +79,25 @@ private ContArtista(){
     }
 
     @Override
-    public void mostrarAlbum() {
+    public DtAlbum mostrarAlbum() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+     @Override
+     public void LiberarMemoria(){
+         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     }
+
+     @Override
+     public Genero buscar(Genero nombre){
+         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     }
+
+     @Override
+     public void corregir(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen){
+         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     }
+     @Override
     public boolean IngresarArtista(String nickname, String nombre, String apellido, Date fechaNac,String correo, String biografia, String paginaWeb){
         if (this.artistas.get(nickname)!=null){
             return false;
@@ -103,6 +118,11 @@ private ContArtista(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public  Artista buscarArtista(String nickname){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.    
+    }
+    
     public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
         ArrayList<DtUsuario> retornar = new ArrayList<>();
         Iterator iterador = this.artistas.values().iterator();
@@ -114,7 +134,4 @@ private ContArtista(){
         }
         return retornar;
     }
-
-
-  
 }

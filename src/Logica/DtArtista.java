@@ -32,7 +32,8 @@ public class DtArtista extends DtUsuario{
         this.cantSeguidores = cantSeguidores;
         this.nickSeguidores = nickSeguidores;
         this.albumes = albumes;
-    }
+    }    
+    
 
     
     public String getBiografia() {
