@@ -37,5 +37,7 @@ public class PorDefecto extends Lista{
         this.temas.add(t);
     }
     
-    
+    public DtListaPD getDatosResumidos(){
+        return new DtListaPD(nombre, null, null, "Genero"); // falta implementar puntero a genero
+    }
 }

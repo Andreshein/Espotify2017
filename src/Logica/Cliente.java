@@ -130,10 +130,16 @@ public class Cliente extends Usuario{
     }
     
     public DtCliente getDatos(){
+        ArrayList<String> listasCreadas = new ArrayList<>();
         ArrayList<DtUsuario> siguiendo = new ArrayList<>();
         ArrayList<DtAlbum> albumes = new ArrayList<>();
         ArrayList<DtTema> temas = new ArrayList<>();
         ArrayList<DtLista> listas = new ArrayList<>();
+        
+        for (Particular lista : this.Listas.values()) {
+            listasCreadas.add(lista.getNombre());
+        }
+        
         
         for (Album album : this.favAlbumes) {
             albumes.add(album.getDatos());
@@ -143,20 +149,27 @@ public class Cliente extends Usuario{
             temas.add(tema.getDatos());
         }
         
-//        for (Lista lista : this.favListas) {
-//            listas.add(lista.getDatos());
-//        }
+        for (Lista lista : this.favListas) {
+            if(lista instanceof Particular){
+                listas.add(( (Particular)lista).getDatosResumidos());
+            }else{
+                listas.add(( (PorDefecto)lista).getDatosResumidos());
+            }
+        }
         
         for (Usuario usuario : this.Siguiendo.values()) {
             if(usuario instanceof Cliente){
-               siguiendo.add(((Cliente) usuario).getDatos()); 
+               siguiendo.add(((Cliente) usuario).getDatosResumidos()); 
             }else{
-                //siguiendo.add(((Artista) usuario).getDatos());
+                siguiendo.add(((Artista) usuario).getDatosResumidos());
             }
-            
         }
         
-        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, null, siguiendo, null, null, temas, albumes);
+        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, null, siguiendo, listasCreadas, listas, temas, albumes);
+    }
+    
+    public DtCliente getDatosResumidos(){
+        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, null, null, null, null, null, null);
     }
     
 }

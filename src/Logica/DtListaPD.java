@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 public class DtListaPD extends DtLista {
     private String Genero;
 
-    public DtListaPD(String Nombre, ImageIcon imagen, ArrayList<DtTema> temas,String Genero) {
+    public DtListaPD(String Nombre, ImageIcon imagen, ArrayList<DtTema> temas, String Genero) {
         this.Genero = Genero;
         this.nombre = Nombre;
         this.imagen= imagen;

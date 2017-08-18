@@ -447,8 +447,20 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
         String nickname = (String) clientesTable.getValueAt(clientesTable.getSelectedRow(), 0);
         DtCliente cliente = contClientes.verPerfilCliente(nickname);
         
+        // limpiar variables
         temasFavCli.clear();
+        albumesFavCli.clear();
+        listasFavCli.clear();
+        seguidores.clear();
+        usuariosSeguidos.clear();
+        
+        //guardar los datos el cliente para poder mostrarlos o ocultarlos en la interfaz
         temasFavCli = cliente.getFavTemas();
+        albumesFavCli = cliente.getFavAlbumes();
+        listasFavCli = cliente.getFavListas();
+        seguidores = cliente.getSeguidores();
+        usuariosSeguidos = cliente.getUsuariosSeguidos();
+        
         
         listarTemas();
     }//GEN-LAST:event_clientesTableMouseClicked

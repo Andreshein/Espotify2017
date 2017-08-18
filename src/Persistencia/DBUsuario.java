@@ -19,13 +19,14 @@ public class DBUsuario {
     
     public boolean agregarArtista(Artista a){
         try {
-           
+            java.sql.Date fechaN = new java.sql.Date(a.getFechaNac().getTime());
+            
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
                     + "(nickname, nombre, apellido, fechaNac,correo, biografia, pagweb) values(?,?,?,?,?,?,?)");
             statement.setString(1, a.getNickname());
             statement.setString(2, a.getNombre());
             statement.setString(3, a.getApellido());
-            statement.setString(4, formato.format(a.getFechaNac()));
+            statement.setDate(4, fechaN);
             statement.setString(5, a.getCorreo());
             statement.setString(6, a.getBiografia());
             statement.setString(7, a.getPaginaWeb());
@@ -40,13 +41,14 @@ public class DBUsuario {
     }
         
         public boolean agregarCliente(Cliente c){
-        try {  
+        try {
+            java.sql.Date fechaN = new java.sql.Date(c.getFechaNac().getTime());
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                     + "(nickname, nombre, apellido, fechaNac, correo) values(?,?,?,?,?)");
             statement.setString(1, c.getNickname());
             statement.setString(2, c.getNombre());
             statement.setString(3, c.getApellido());
-            statement.setString(4, formato.format(c.getFechaNac()));
+            statement.setDate(4, fechaN);
             statement.setString(5, c.getCorreo());
             statement.executeUpdate();
             statement.close();

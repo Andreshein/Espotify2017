@@ -117,4 +117,8 @@ public class Artista extends Usuario {
         return retorno;
     }
     
+    public DtArtista getDatosResumidos(){
+        return new DtArtista(nickname, nombre, apellido, correo, this.fechaNac, null, null, null, 0, null, null);
+    }
+    
 }

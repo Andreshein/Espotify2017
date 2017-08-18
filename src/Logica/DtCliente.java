@@ -16,12 +16,12 @@ import javax.swing.ImageIcon;
 public class DtCliente extends DtUsuario{
     private final ArrayList<DtCliente> seguidores;
     private final ArrayList<DtUsuario> usuariosSeguidos;
-    private final ArrayList<DtListaP> listas;
+    private final ArrayList<String> listas;
     private final ArrayList<DtLista> favListas;
     private final ArrayList<DtTema> favTemas;
     private final ArrayList<DtAlbum> favAlbumes;
     
-    public DtCliente(String nickname, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtCliente> seguidores, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes) {
+    public DtCliente(String nickname, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtCliente> seguidores, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<String> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -44,7 +44,7 @@ public class DtCliente extends DtUsuario{
         return this.usuariosSeguidos;
     }
 
-    public ArrayList<DtListaP> getListas() {
+    public ArrayList<String> getListas() {
         return listas;
     }
 

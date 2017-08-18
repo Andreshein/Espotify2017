@@ -33,4 +33,7 @@ public class Particular extends Lista{
         this.nombre = nombre;
     }
     
+    public DtListaP getDatosResumidos(){
+        return new DtListaP(nombre, null, null, "Creador", esPrivado); //Creador = Usuario, falta implementar
+    }    
 }
