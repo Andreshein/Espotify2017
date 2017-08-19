@@ -86,7 +86,8 @@ public class DBUsuario {
             return false;
         }
     }
-    
+    /**¡¡¡¡¡¡¡ no va !!!!!!!!**/
+    /**
     public ArrayList<DtArtista> listarArtistas() {
 	try{
             ArrayList<DtArtista> listaArtista = new ArrayList<DtArtista>();
@@ -106,7 +107,6 @@ public class DBUsuario {
             return null;
 	}
     }
-
     public DtArtista obtenerInfoArtista(String clave){
 	try{
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE Nickname = '"+clave+"'");
@@ -144,7 +144,7 @@ public class DBUsuario {
             return null;
 	}
     }
-    
+    **/
     public Map<String, Artista> cargarArtistas(){
         try {
             Map<String, Artista> lista=new HashMap<String, Artista>();

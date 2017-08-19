@@ -21,7 +21,7 @@ public interface IcontArtista {
     public abstract void ElegirGenero(String nombre);
     public abstract void AgregarTema(String nombre,String duracion,int ubicacion,String url_mp3);
     public abstract void ConfirmarAlbum();
-    public abstract DtArtista ElegirArtista(String nomArtista); //:DtArtista
+    public abstract DtArtista ElegirArtista(String nomArtista);
     public abstract ArrayList<DtArtista> ListarArtistas(); 
     public abstract ArrayList<DtGenero> obtenerGenero(); //set(DtGenero);
     public abstract ArrayList<DtArtista> obtenerArtista(); //set(DtArtista);
