@@ -8,6 +8,7 @@ package Persistencia;
 import Logica.Album;
 import Logica.Artista;
 import Logica.Cliente;
+import Logica.DtAlbum;
 import Logica.DtArtista;
 import Logica.DtListaP;
 import Logica.Genero;
@@ -98,7 +99,7 @@ public class DBUsuario {
             }
 
             
-            return listaArtista; // Devolver Lista Artista
+            return listaArtista; 
 
 	}catch(SQLException ex){
             ex.printStackTrace();
@@ -115,17 +116,34 @@ public class DBUsuario {
             art=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);
             return art;
             }
-        return null;    
-            
-                
-            
+        
+            return null;    
+       
         }catch(SQLException ex){
             ex.printStackTrace();
             return null;	
         }   
-        
-     //   return null;
     }    
+    
+    public ArrayList<DtAlbum> listarAlbumes() {
+	try{
+            ArrayList<DtAlbum> listaAlbum = new ArrayList<DtAlbum>();
+            DtAlbum dtalb;
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM album,artista WHERE album.Artista=artista.Nickname");
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                dtalb=new DtAlbum(rs.getString("Nombre"),rs.getString("Artista"),rs.getInt("Anio"),null);               
+                listaAlbum.add(dtalb);
+            }
+
+            
+            return listaAlbum; 
+
+	}catch(SQLException ex){
+            ex.printStackTrace();
+            return null;
+	}
+    }
     
     public Map<String, Artista> cargarArtistas(){
         try {

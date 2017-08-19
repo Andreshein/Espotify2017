@@ -138,4 +138,10 @@ private ContArtista(){
     public Usuario seleccionarUsuario(String Nickname){
         return (Usuario)this.artistas.get(Nickname);
     }
+    
+    @Override
+    
+    public ArrayList<DtAlbum> ListarAlbumes(){
+        return dbUsuario.listarAlbumes();
+    }
 }
