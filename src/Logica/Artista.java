@@ -20,12 +20,12 @@ public class Artista extends Usuario {
     private String paginaWeb;
     private HashMap<String, Album> albumes;
 
-    public Artista(String nickname, String nombre, String apellido, Date fechaNac,String correo, String biografia, String paginaWeb) {
+    public Artista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.fechaNac = fechaNac;
         this.correo = correo;
+        this.fechaNac = fechaNac;
         this.biografia = biografia;
         this.paginaWeb = paginaWeb;
         this.albumes= new HashMap<>();

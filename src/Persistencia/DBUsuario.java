@@ -5,17 +5,22 @@
  * and open the template in the editor.
  */
 package Persistencia;
+import Logica.Album;
 import Logica.Artista;
 import Logica.Cliente;
-import Logica.DtArtista;
 import Logica.DtListaP;
+import Logica.Genero;
+import Logica.Particular;
+import Logica.PorDefecto;
+import Logica.Tema;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DBUsuario {
     private final Connection conexion = new ConexionDB().getConexion();
@@ -132,4 +137,144 @@ public class DBUsuario {
         
         return null;
     }    
+    
+    public Map<String, Artista> cargarArtistas(){
+        try {
+            Map<String, Artista> lista=new HashMap<String, Artista>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                String nickname=rs.getString("nickname");
+                Artista a=new Artista(nickname,rs.getString("nombre"),rs.getString("apellido"),rs.getString("correo"),rs.getDate("fechanac"),rs.getString("biografia"),rs.getString("paginaweb"));
+                lista.put(nickname, a);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }        
+    }
+    
+    public Map<String, Cliente> cargarClientes(){
+        try {
+            Map<String, Cliente> lista=new HashMap<String, Cliente>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM cliente");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                String nickname=rs.getString("nickname");
+                Cliente c=new Cliente(nickname,rs.getString("nombre"),rs.getString("apellido"),rs.getString("correo"),rs.getDate("fechanac"));
+                lista.put(nickname,c);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }        
+    }
+    
+     public Map<Integer, Album> cargarAlbumes(){
+        try {
+            Map<Integer, Album> lista=new HashMap<Integer, Album>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM album");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                int id=rs.getInt("id");
+                Album a=new Album(id,rs.getString("artista"),rs.getString("nombre"),rs.getInt("anio"));
+                lista.put(id,a);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }        
+        
+        public Map<Integer, Genero> cargarGenero(){
+        try {
+            Map<Integer, Genero> lista=new HashMap<Integer, Genero>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM genero");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                int id=rs.getInt("id");
+                Genero g=new Genero(id,rs.getString("nombre"),rs.getInt("idpadre"));
+                lista.put(id,g);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        } 
+    }
+        
+         public Map<Integer, PorDefecto> cargarListaPD(){
+        try {
+            Map<Integer, PorDefecto> lista=new HashMap<Integer, PorDefecto>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM listapordefecto");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                int id=rs.getInt("id");
+                PorDefecto pd=new PorDefecto(id,rs.getInt("idpadre"),rs.getString("nombre"));
+                lista.put(id,pd);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+        
+        public Map<Integer, Particular> cargarListaP(){
+        try {
+            Map<Integer, Particular> lista=new HashMap<Integer, Particular>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM listaparticular");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                int id=rs.getInt("id");
+                Particular pd=new Particular(id,rs.getString("usuario"),rs.getString("nombre"),rs.getBoolean("privada"));
+                lista.put(id,pd);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }  
+                
+    }
+        
+        public Map<Integer, Tema> cargarTema(){
+        try {
+            Map<Integer, Tema> lista=new HashMap<Integer, Tema>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM tema");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                int id=rs.getInt("id");
+                Tema pd=new Tema(id,rs.getString("duracion"),rs.getString("nombre"),rs.getInt("orden"),rs.getString("archivo"),rs.getString("direccion"));
+                lista.put(id,pd);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }  
+                
+    }
+        
+       
+        
+        
+    
 }

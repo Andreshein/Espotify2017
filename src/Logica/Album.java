@@ -15,15 +15,25 @@ import java.util.Iterator;
  */
 public class Album {
     private int id;
+    private String artista;
     private String nombre;
     private int anio;
     private HashMap<String, Tema> temas;
 
-    public Album(int id, String nombre, int anio) {
+    public Album(int id, String artista,String nombre, int anio) {
         this.id = id;
+        this.artista = artista;
         this.nombre = nombre;
         this.anio = anio;
         this.temas = new HashMap<>();
+    }
+
+    public void setArtista(String artista) {
+        this.artista = artista;
+    }
+
+    public String getArtista() {
+        return artista;
     }
 
     public int getId() {

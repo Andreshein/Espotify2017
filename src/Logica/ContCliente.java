@@ -115,11 +115,11 @@ private ContCliente(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     @Override
-    public boolean IngresarCliente(String nickname, String nombre, String apellido, Date fechaNac,String correo) {
+    public boolean IngresarCliente(String nickname, String nombre, String apellido, String correo,Date fechaNac) {
         if (this.clientes.get(nickname)!=null){
             return false;
         }else{
-            Cliente c = new Cliente(nickname, nombre, apellido, fechaNac, correo);
+            Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac);
            
             boolean tru =this.dbUsuario.agregarCliente(c);
             if (tru){

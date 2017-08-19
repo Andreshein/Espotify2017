@@ -344,7 +344,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
                 if(cadena6.equals("Artista")){
 
                    try {
-                       Ok = Art.IngresarArtista(cadena1,cadena2,cadena3,formato.parse(fecha),cadena4,cadena7,cadena8);
+                       Ok = Art.IngresarArtista(cadena1,cadena2,cadena3,cadena4,formato.parse(fecha),cadena7,cadena8);
                        if(Ok){
                            javax.swing.JOptionPane.showMessageDialog(null,"El artista ha sido dado de alta");}
                        else{javax.swing.JOptionPane.showMessageDialog(null,"El artista no ha podido ser dado de alta");}
@@ -357,7 +357,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
                 if(cadena6.equals("Cliente")){
 
                    try {
-                       Ok = Cli.IngresarCliente(cadena1,cadena2,cadena3,formato.parse(fecha),cadena4);
+                       Ok = Cli.IngresarCliente(cadena1,cadena2,cadena3,cadena4,formato.parse(fecha));
                        if(Ok){
                            javax.swing.JOptionPane.showMessageDialog(null,"El cliente ha sido dado de alta");}
                        else{

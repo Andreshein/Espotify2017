@@ -13,13 +13,18 @@ import java.util.HashMap;
  * @author ninoh
  */
 public class Genero {
+    private int id;
     private String nombre;
+    private int Papa;
     private Genero Padre;
     private ArrayList<Album> Albumes;
     private HashMap<String, PorDefecto> Listas;
 
-    public Genero(String nombre) {
+
+    public Genero(int id, String nombre,int Papa) {
+        this.id = id;
         this.nombre = nombre;
+        this.Papa = Papa;
     }
 
     public Genero getPadre() {

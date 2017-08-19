@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 
 public interface IcontCliente{
 
-    public abstract boolean IngresarCliente(String nickname, String nombre, String apellido, Date fechaNac,String correo);
+    public abstract boolean IngresarCliente(String nickname, String nombre, String apellido,String correo, Date fechaNac);
     public abstract boolean AltaDePerfil(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen);
     public abstract void AgregarArtista( String biografia, String link);
     public abstract void Corregir( String nick, String nombre, String apellido, String correo,Date fecha);

@@ -17,7 +17,7 @@ public class Cliente extends Usuario{
     private ArrayList<Tema> favTemas;
     private HashMap<String, Usuario> Siguiendo;
     
-    public Cliente(String nickname, String nombre, String apellido, Date fechaNac, String correo) {
+    public Cliente(String nickname, String nombre, String apellido, String correo, Date fechaNac) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;

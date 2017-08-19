@@ -12,7 +12,17 @@ import java.util.ArrayList;
  * @author ninoh
  */
 public class PorDefecto extends Lista{
+    private int id;
+    private int genero;
+    private String nombre;
 
+    public PorDefecto(int id, int genero, String nombre) {
+        this.id = id;
+        this.genero = genero;
+        this.nombre = nombre;
+    }
+            
+            
     public PorDefecto(String nombre) {
         this.nombre=nombre;
     }

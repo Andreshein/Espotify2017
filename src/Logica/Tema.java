@@ -13,11 +13,11 @@ public class Tema {
     private int id;
     private String duracion;
     private String nombre;
-    private String orden;
+    private int orden;
     private String archivo;
     private String direccion;
 
-    public Tema(int id, String duracion, String nombre, String orden, String archivo, String direccion) {
+    public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion) {
         this.id = id;
         this.duracion = duracion;
         this.nombre = nombre;
@@ -38,7 +38,7 @@ public class Tema {
         return duracion;
     }
 
-    public String getOrden() {
+    public int getOrden() {
         return orden;
     }
 
@@ -62,7 +62,7 @@ public class Tema {
         this.duracion = duracion;
     }
 
-    public void setOrden(String orden) {
+    public void setOrden(int orden) {
         this.orden = orden;
     }
 
