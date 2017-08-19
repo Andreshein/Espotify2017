@@ -34,7 +34,9 @@ public abstract class Usuario {
 
     abstract String getCorreo();
 
-    abstract Date getFechaNac(); 
+    abstract Date getFechaNac();
+    
+    abstract DtUsuario getDatos();
     
     
 }

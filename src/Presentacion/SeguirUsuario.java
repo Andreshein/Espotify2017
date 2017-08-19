@@ -26,6 +26,7 @@ public class SeguirUsuario extends javax.swing.JFrame {
     public SeguirUsuario() {
         initComponents();
         this.icc = Fabrica.getCliente();
+        this.limpiar();
     }
     
     public void limpiar(){
@@ -75,6 +76,8 @@ public class SeguirUsuario extends javax.swing.JFrame {
         lblcampo6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lbl_tipo = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,19 +97,12 @@ public class SeguirUsuario extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(lista2);
 
-        txtbuscar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtbuscar1ActionPerformed(evt);
-            }
-        });
-
-        txtbuscar2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtbuscar2ActionPerformed(evt);
-            }
-        });
-
         btnconfirmar.setText("Confirmar");
+        btnconfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnconfirmarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Nickname:");
 
@@ -117,8 +113,18 @@ public class SeguirUsuario extends javax.swing.JFrame {
         lblcampo1.setText("jLabel1");
 
         btnbuscar2.setText("Buscar");
+        btnbuscar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbuscar2ActionPerformed(evt);
+            }
+        });
 
         btnbuscar1.setText("Buscar");
+        btnbuscar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnbuscar1ActionPerformed(evt);
+            }
+        });
 
         jLabel13.setText("Apellido:");
 
@@ -139,6 +145,12 @@ public class SeguirUsuario extends javax.swing.JFrame {
         jLabel4.setText("Tipo:");
 
         lbl_tipo.setText("jLabel5");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel5.setText("Seleccionar cliente seguidor");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setText("Seleccionar usuario a seguir");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -170,7 +182,7 @@ public class SeguirUsuario extends javax.swing.JFrame {
                             .addComponent(btnbuscar1)
                             .addComponent(btnbuscar2)
                             .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,11 +198,19 @@ public class SeguirUsuario extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnconfirmar)
                         .addGap(103, 103, 103))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(177, 177, 177)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtbuscar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnbuscar1))
@@ -209,7 +229,9 @@ public class SeguirUsuario extends javax.swing.JFrame {
                         .addComponent(lblcampo2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblcampo3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtbuscar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnbuscar2))
@@ -234,44 +256,13 @@ public class SeguirUsuario extends javax.swing.JFrame {
                                 .addComponent(lblcampo6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lbl_tipo)))
-                        .addGap(40, 40, 40))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnconfirmar)
-                        .addGap(19, 19, 19))))
+                        .addGap(21, 21, 21))
+                    .addComponent(btnconfirmar, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtbuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscar1ActionPerformed
-        if(this.txtbuscar1.getText().equals("")){
-            this.clientes=this.icc.BuscarClientes(this.txtbuscar1.getText());
-            DefaultListModel modelo = new DefaultListModel();
-            if (!this.clientes.isEmpty()) {
-                        Iterator iterador = this.clientes.iterator();
-                        while (iterador.hasNext()) {
-                            DtCliente auxiliar = (DtCliente) iterador.next();
-                            modelo.addElement(auxiliar.getNickname());
-                        }
-                    }
-            this.lista1.setModel(modelo);
-        }
-    }//GEN-LAST:event_txtbuscar1ActionPerformed
-
-    private void txtbuscar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscar2ActionPerformed
-        if(this.txtbuscar2.getText().equals("")){
-            this.usuarios=this.icc.BuscarUsuarios(this.txtbuscar2.getText());
-            DefaultListModel modelo = new DefaultListModel();
-            if (!this.usuarios.isEmpty()) {
-                        Iterator iterador = this.usuarios.iterator();
-                        while (iterador.hasNext()) {
-                            DtUsuario auxiliar = (DtUsuario) iterador.next();
-                            modelo.addElement(auxiliar.getNickname());
-                        }
-                    }
-            this.lista2.setModel(modelo);
-        }
-    }//GEN-LAST:event_txtbuscar2ActionPerformed
 
     private void lista1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lista1ValueChanged
         int index = this.lista1.getSelectedIndex();
@@ -297,6 +288,44 @@ public class SeguirUsuario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lista2ValueChanged
 
+    private void btnconfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconfirmarActionPerformed
+        if(!this.lblcampo1.getText().equals("") && !this.lblcampo4.getText().equals("")){
+            this.icc.seguir((String)this.lblcampo1.getText(), (String)this.lblcampo4.getText());
+        }else{
+            javax.swing.JOptionPane.showMessageDialog(null,"Debe seleccionar el cliente y el usuario");
+        }
+    }//GEN-LAST:event_btnconfirmarActionPerformed
+
+    private void btnbuscar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscar2ActionPerformed
+        if(this.txtbuscar2.getText().equals("")){
+            this.usuarios=this.icc.BuscarUsuarios(this.txtbuscar2.getText());
+            DefaultListModel modelo = new DefaultListModel();
+            if (!this.usuarios.isEmpty()) {
+                        Iterator iterador = this.usuarios.iterator();
+                        while (iterador.hasNext()) {
+                            DtUsuario auxiliar = (DtUsuario) iterador.next();
+                            modelo.addElement(auxiliar.getNickname());
+                        }
+                    }
+            this.lista2.setModel(modelo);
+        }
+    }//GEN-LAST:event_btnbuscar2ActionPerformed
+
+    private void btnbuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscar1ActionPerformed
+        if(this.txtbuscar1.getText().equals("")){
+            this.clientes=this.icc.BuscarClientes(this.txtbuscar1.getText());
+            DefaultListModel modelo = new DefaultListModel();
+            if (!this.clientes.isEmpty()) {
+                        Iterator iterador = this.clientes.iterator();
+                        while (iterador.hasNext()) {
+                            DtCliente auxiliar = (DtCliente) iterador.next();
+                            modelo.addElement(auxiliar.getNickname());
+                        }
+                    }
+            this.lista1.setModel(modelo);
+        }
+    }//GEN-LAST:event_btnbuscar1ActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -310,6 +339,8 @@ public class SeguirUsuario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_tipo;

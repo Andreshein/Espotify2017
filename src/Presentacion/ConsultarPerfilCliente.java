@@ -510,8 +510,8 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
         while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla
         if(temasFavCli != null){
             for (DtTema tema : temasFavCli) {
-                String[] datos ={"No implementado", "No implementado", tema.getNombre(), tema.getOrden(), tema.getDuracion()};
-                modelo.addRow(datos);
+                //String[] datos ={"No implementado", "No implementado", tema.getNombre(), tema.getOrden(), tema.getDuracion()};
+                //modelo.addRow(datos);
             }
         }
     }

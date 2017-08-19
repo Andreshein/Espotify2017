@@ -21,8 +21,8 @@ public interface IcontArtista {
     public abstract void ElegirGenero(String nombre);
     public abstract void AgregarTema(String nombre,String duracion,int ubicacion,String url_mp3);
     public abstract void ConfirmarAlbum();
-    public abstract Artista ElegirArtista(String nomArtista); //:DtArtista
-    public abstract ArrayList<Artista> ListarArtistas(); 
+    public abstract DtArtista ElegirArtista(String nomArtista); //:DtArtista
+    public abstract ArrayList<DtArtista> ListarArtistas(); 
     public abstract ArrayList<DtGenero> obtenerGenero(); //set(DtGenero);
     public abstract ArrayList<DtArtista> obtenerArtista(); //set(DtArtista);
     public abstract void seleccionarAlbum(String nick,String nombre);
@@ -31,5 +31,6 @@ public interface IcontArtista {
     public abstract void LiberarMemoria();
     public abstract Genero buscar(Genero nombre);
     public abstract void corregir(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen);
-    public ArrayList<DtUsuario> BuscarUsuarios(String palabra);
+    public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
+    public abstract Usuario seleccionarUsuario(String Nickname);
 }

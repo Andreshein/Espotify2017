@@ -54,12 +54,12 @@ private ContArtista(){
     }
 
     @Override
-    public Artista ElegirArtista(String nomArtista) {
+    public DtArtista ElegirArtista(String nomArtista) {
         return dbUsuario.obtenerInfoArtista(nomArtista);
     }
 
     @Override
-    public ArrayList<Artista> ListarArtistas() {  
+    public ArrayList<DtArtista> ListarArtistas() {  
         return dbUsuario.listarArtistas();
     }
 
@@ -133,5 +133,9 @@ private ContArtista(){
             }
         }
         return retornar;
+    }
+    
+    public Usuario seleccionarUsuario(String Nickname){
+        return (Usuario)this.artistas.get(Nickname);
     }
 }

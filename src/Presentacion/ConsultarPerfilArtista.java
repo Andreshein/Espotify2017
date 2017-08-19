@@ -11,6 +11,7 @@ import Logica.DtCliente;
 import Logica.Fabrica;
 import Logica.IcontArtista;
 import Logica.Artista;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,8 +30,8 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
         this.artista=Fabrica.getArtista(); 
         this.setLocationRelativeTo(null);
         this.listarNickArtistas();
-        this.listarAlbumes();
-        this.listarSeguidores();
+        //this.listarAlbumes();
+        //this.listarSeguidores();
     }
 
     /**
@@ -77,6 +78,11 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblArtistas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblArtistasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblArtistas);
 
         jLabel3.setText("Información del artista seleccionado:");
@@ -95,11 +101,6 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
-            }
-        });
-        tblInfoArt.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblInfoArtMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblInfoArt);
@@ -168,31 +169,45 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblInfoArtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInfoArtMouseClicked
-        String nomArt = (String) tblArtistas.getValueAt(tblArtistas.getSelectedRow(), 0);
-        //DtArtista art = artista.ElegirArtista(nomArt);
-        
-        albumes.clear();
-        //albumes = art.getAlbumes();
-        
-        listarAlbumes();
-    }//GEN-LAST:event_tblInfoArtMouseClicked
-
-    public void listarNickArtistas(){
-        DefaultTableModel modelo = (DefaultTableModel) tblArtistas.getModel();
+    private void tblArtistasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblArtistasMouseClicked
+      String nickname = (String) tblArtistas.getValueAt(tblArtistas.getSelectedRow(), 0);
+        DefaultTableModel modelo = (DefaultTableModel) tblInfoArt.getModel();
+        SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
+        System.out.println(nickname);
+        DtArtista art = artista.ElegirArtista(nickname);
         
         while(modelo.getRowCount()>0){
             modelo.removeRow(0);
         }
         
-        for(Artista art: artista.ListarArtistas()){
+        System.out.println(art.getNombre());
+ 	System.out.println(art.getApellido()); 
+	System.out.println(art.getCorreo()); 
+	System.out.println(art.getFechaNac()); 
+	System.out.println(art.getBiografia()); 
+	System.out.println(art.getPagWeb());
+        System.out.println("entro1");
+        String[] datos={art.getNombre(),art.getApellido(),art.getCorreo(),formato.format(art.getFechaNac()),art.getBiografia(),art.getPagWeb()};
+        System.out.println("entro2");
+        modelo.addRow(datos);  // TODO add your handling code here:
+    }//GEN-LAST:event_tblArtistasMouseClicked
+
+    public void listarNickArtistas(){
+        DefaultTableModel modelo = (DefaultTableModel) tblArtistas.getModel();
+        
+        
+        while(modelo.getRowCount()>0){
+            modelo.removeRow(0);
+        }
+        
+        for(DtArtista art: artista.ListarArtistas()){
             System.out.println(art.getNickname());
             String[] datos={art.getNickname()};
             modelo.addRow(datos);
         }
      }
     
-    public void listarAlbumes(){
+    /*public void listarAlbumes(){
 	DefaultTableModel modelo = (DefaultTableModel) tblSeguidores.getModel();
         
         while(modelo.getRowCount()>0){
@@ -219,7 +234,7 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
                 //modelo.addRow(datos);
             }
         }
-    }
+    }*/
     
     /**
      * @param args the command line arguments

@@ -82,7 +82,8 @@ private ContCliente(){
 
     @Override
     public void DejarSeguir(String NickCli, String NickUsu) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Cliente cli = (Cliente)this.clientes.get(NickCli);
+        cli.dejarSeguir(NickUsu);
     }
     
     @Override
@@ -90,16 +91,11 @@ private ContCliente(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    @Override
+    
     public ArrayList<DtUsuario> listarUsuarios(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    @Override
-    public void seguir(String nickname){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+      
     @Override
     public void crearListaRP(String nickname,String nombre,ImageIcon imagen){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -153,6 +149,24 @@ private ContCliente(){
             }
         }
         return retornar;
+    }
+    
+    public void seguir(String nickCli, String nickUsu){
+        Cliente cli = (Cliente)this.clientes.get(nickCli);
+        cli.setSiguiendo(this.seleccionarUsuario(nickUsu));
+    }
+    
+    public Usuario seleccionarUsuario(String Nickname){
+        Usuario u = this.art.seleccionarUsuario(Nickname);
+        if(u==null){
+            u = this.clientes.get(Nickname);
+        }
+        return u;
+    }
+    
+    public ArrayList<DtUsuario> BuscarUsuariosSeg(String Nickname, String palabra){
+        Cliente cli = (Cliente)this.clientes.get(Nickname);
+        return cli.buscarEnUsuarios(palabra);
     }
 }
 

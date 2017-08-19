@@ -8,6 +8,7 @@ package Logica;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class Cliente extends Usuario{
@@ -172,4 +173,19 @@ public class Cliente extends Usuario{
         return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, null, null, null, null, null, null);
     }
     
+    public ArrayList<DtUsuario> buscarEnUsuarios(String palabra){
+       ArrayList<DtUsuario> retornar = new ArrayList<>();
+       Iterator iterador = this.Siguiendo.values().iterator();
+        while(iterador.hasNext()){
+            Usuario aux = (Usuario)iterador.next();
+            if(aux.getNickname().contains(palabra)==true || aux.getNombre().contains(palabra)==true || aux.getApellido().contains(palabra)==true){
+            retornar.add(aux.getDatos());
+            }
+        }
+        return retornar;
+    }
+    
+    public void dejarSeguir(String Nickname){
+        this.Siguiendo.remove(Nickname);
+    }
 }
