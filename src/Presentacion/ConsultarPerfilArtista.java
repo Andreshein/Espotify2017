@@ -30,7 +30,6 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
         this.artista=Fabrica.getArtista(); 
         this.setLocationRelativeTo(null);
         this.listarNickArtistas();
-        //this.listarSeguidores();
     }
 
     /**
@@ -245,26 +244,11 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
             modelo.removeRow(0);
         }
         for(DtAlbum alb: artista.ListarAlbumes()){
-            System.out.println("Albunes:"+ alb.getNombre());
             String[] datos={alb.getNombre()};
             modelo.addRow(datos);
         }
      }
-
-    /*public void listarSeguidores(){
-        DefaultTableModel modelo = (DefaultTableModel) tblSeguidores.getModel();
-        while(modelo.getRowCount()>0){
-		modelo.removeRow(0);
-	}
-
-        if(nickSeguidores != null){
-            for (DtArtista seguidor : nickSeguidores) {
-                //String[] datos ={seguidor.getNickname(), seguidor.getCantSeguidores(), seguidor.getAlbumes()};
-                //modelo.addRow(datos);
-            }
-        }
-    }*/
-    
+     
     /**
      * @param args the command line arguments
      */

@@ -86,65 +86,7 @@ public class DBUsuario {
             return false;
         }
     }
-    /**¡¡¡¡¡¡¡ no va !!!!!!!!**/
-    /**
-    public ArrayList<DtArtista> listarArtistas() {
-	try{
-            ArrayList<DtArtista> listaArtista = new ArrayList<DtArtista>();
-            DtArtista dtart;
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");
-            ResultSet rs = st.executeQuery();
-            while(rs.next()){
-                dtart=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);               
-                listaArtista.add(dtart);
-            }
-
-            
-            return listaArtista; 
-
-	}catch(SQLException ex){
-            ex.printStackTrace();
-            return null;
-	}
-    }
-    public DtArtista obtenerInfoArtista(String clave){
-	try{
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE Nickname = '"+clave+"'");
-	    ResultSet rs = st.executeQuery();
-	    DtArtista art;
-            while(rs.next()){
-            art=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);
-            return art;
-            }
-        
-            return null;    
-       
-        }catch(SQLException ex){
-            ex.printStackTrace();
-            return null;	
-        }   
-    }    
     
-    public ArrayList<DtAlbum> listarAlbumes() {
-	try{
-            ArrayList<DtAlbum> listaAlbum = new ArrayList<DtAlbum>();
-            DtAlbum dtalb;
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM album,artista WHERE album.Artista=artista.Nickname");
-            ResultSet rs = st.executeQuery();
-            while(rs.next()){
-                dtalb=new DtAlbum(rs.getString("Nombre"),rs.getString("Artista"),rs.getInt("Anio"),null);               
-                listaAlbum.add(dtalb);
-            }
-
-            
-            return listaAlbum; 
-
-	}catch(SQLException ex){
-            ex.printStackTrace();
-            return null;
-	}
-    }
-    **/
     public Map<String, Artista> cargarArtistas(){
         try {
             Map<String, Artista> lista=new HashMap<String, Artista>();
