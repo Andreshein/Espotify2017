@@ -28,6 +28,7 @@ public class Cliente extends Usuario{
         this.favListas = new ArrayList<>();
         this.favAlbumes = new ArrayList<>();
         this.favTemas = new ArrayList<>();
+        this.Siguiendo = new HashMap<>();
     }
 
     public void setNickname(String nickname) {
@@ -131,14 +132,14 @@ public class Cliente extends Usuario{
     }
     
     public DtCliente getDatos(){
-        ArrayList<String> listasCreadas = new ArrayList<>();
+        ArrayList<DtListaP> listasCreadas = new ArrayList<>();
         ArrayList<DtUsuario> siguiendo = new ArrayList<>();
         ArrayList<DtAlbum> albumes = new ArrayList<>();
         ArrayList<DtTema> temas = new ArrayList<>();
         ArrayList<DtLista> listas = new ArrayList<>();
         
         for (Particular lista : this.Listas.values()) {
-            listasCreadas.add(lista.getNombre());
+            listasCreadas.add(lista.getDatosResumidos());
         }
         
         

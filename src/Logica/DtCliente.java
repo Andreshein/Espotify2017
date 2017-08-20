@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.ImageIcon;
@@ -15,16 +16,18 @@ import javax.swing.ImageIcon;
  */
 public class DtCliente extends DtUsuario{
     private final ArrayList<DtUsuario> usuariosSeguidos;
-    private final ArrayList<String> listas;
+    private final ArrayList<DtListaP> listas;
     private final ArrayList<DtLista> favListas;
     private final ArrayList<DtTema> favTemas;
     private final ArrayList<DtAlbum> favAlbumes;
     
-    public DtCliente(String nickname, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<String> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes) {
+    SimpleDateFormat formato = new SimpleDateFormat("dd/mm/yyyy");
+    
+    public DtCliente(String nickname, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.fechaNac = fechaNac;
+        this.fechaNac = formato.format(fechaNac);
         this.correo = correo;
         this.imagen = imagen;
         this.usuariosSeguidos = usuariosSeguidos;
@@ -38,7 +41,7 @@ public class DtCliente extends DtUsuario{
         return this.usuariosSeguidos;
     }
 
-    public ArrayList<String> getListas() {
+    public ArrayList<DtListaP> getListas() {
         return listas;
     }
 

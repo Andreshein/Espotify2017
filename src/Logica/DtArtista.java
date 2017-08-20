@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.ImageIcon;
@@ -20,12 +21,14 @@ public class DtArtista extends DtUsuario{
     private final ArrayList<String> nickSeguidores;
     private final ArrayList<DtAlbum> albumes;
 
+    SimpleDateFormat formato = new SimpleDateFormat("dd/mm/yyyy");
+    
     public DtArtista(String nickname, String nombre, String apellido, String correo, Date fechaNac, ImageIcon imagen, String biografia, String pagWeb, int cantSeguidores, ArrayList<String> nickSeguidores, ArrayList<DtAlbum> albumes) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
-        this.fechaNac = fechaNac;
+        this.fechaNac = formato.format(fechaNac);
         this.imagen = imagen;
         this.biografia = biografia;
         this.pagWeb = pagWeb;
