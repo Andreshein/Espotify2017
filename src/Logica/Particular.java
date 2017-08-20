@@ -1,43 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Logica;
 
-/**
- *
- * @author ninoh
- */
+import java.util.ArrayList;
+import java.util.Iterator;
+
+
 public class Particular extends Lista{
-    private int id;
-    private String usuario;
     private String nombre;
     boolean esPrivado;
     
 
-    public Particular(int id, String usuario, String nombre, boolean esPrivado) {
-        this.id = id;
-        this.usuario = usuario;
+    public Particular(String nombre) {
         this.nombre= nombre;
-        this.esPrivado = esPrivado;
+        this.esPrivado = true;
       
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getUsuario() {
-        return usuario;
     }
 
     public boolean isEsPrivado() {
@@ -58,5 +34,35 @@ public class Particular extends Lista{
     
     public DtListaP getDatosResumidos(){
         return new DtListaP(nombre, null, null, "Creador", esPrivado); //Creador = Usuario, falta implementar
-    }    
+    }
+
+    public DtListaP getDatos(String Pertenece){
+        return new DtListaP(nombre, null, this.getDtTemas(), Pertenece, this.esPrivado);
+    }
+    
+    public ArrayList<DtTema> getDtTemas(){
+        ArrayList<DtTema> retorno = new ArrayList<>();
+        Iterator iterador = this.getTemas().iterator();
+        while(iterador.hasNext()){
+            Tema aux = (Tema)iterador.next();
+            retorno.add(aux.getDatos());
+        }
+        return retorno;
+    }
+
+    void setTema(Tema t) {
+        this.temas.add(t);
+    }
+
+    void setTemas(ArrayList<Tema> temas) {
+        this.temas = temas;
+    }
+
+    String getNombtre() {
+        return this.nombre;
+    }
+
+    ArrayList<Tema> getTemas() {
+        return this.temas;
+    }
 }

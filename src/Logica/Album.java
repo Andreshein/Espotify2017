@@ -14,14 +14,12 @@ import java.util.Iterator;
  * @author ninoh
  */
 public class Album {
-    private int id;
     private String artista;
     private String nombre;
     private int anio;
     private HashMap<String, Tema> temas;
 
-    public Album(int id, String artista,String nombre, int anio) {
-        this.id = id;
+    public Album(String artista,String nombre, int anio) {
         this.artista = artista;
         this.nombre = nombre;
         this.anio = anio;
@@ -36,10 +34,6 @@ public class Album {
         return artista;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -51,11 +45,7 @@ public class Album {
     public Tema getTema(String nombre){
         return this.temas.get(nombre);
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -73,7 +63,7 @@ public class Album {
     }
     
     public DtAlbum getDatos(){
-        return new DtAlbum(nombre, "nomArtista", anio, this.getDtTemas()); 
+        return new DtAlbum(nombre, artista, anio, this.getDtTemas()); 
     }
     
     public ArrayList<DtTema> getDtTemas(){

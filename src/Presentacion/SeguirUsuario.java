@@ -25,7 +25,8 @@ public class SeguirUsuario extends javax.swing.JFrame {
     
     public SeguirUsuario() {
         initComponents();
-        this.icc = Fabrica.getCliente();
+        Fabrica f = Fabrica.getInstance();
+        this.icc=f.getCliente();
         this.limpiar();
     }
     

@@ -37,7 +37,8 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
     public ConsultarPerfilCliente() {
         initComponents();
         
-        contClientes = Fabrica.getCliente();
+        Fabrica f = Fabrica.getInstance();
+        this.contClientes=f.getCliente();
         listarClientes();
         
         // Es para que la ventana se centre

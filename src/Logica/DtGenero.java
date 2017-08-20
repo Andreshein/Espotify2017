@@ -15,11 +15,13 @@ public class DtGenero {
     private final String nombre;
     private final ArrayList<DtAlbum> albumes;
     private final ArrayList<DtListaPD> listaspordefecto;
+    private final ArrayList<DtGenero> hijos;
 
-    public DtGenero(String nombre, ArrayList<DtAlbum> albumes, ArrayList<DtListaPD> listas) {
+    public DtGenero(String nombre, ArrayList<DtAlbum> albumes, ArrayList<DtListaPD> listas, ArrayList<DtGenero> hijos) {
         this.nombre = nombre;
         this.albumes = albumes;
         this.listaspordefecto = listas;
+        this.hijos = hijos;
     }
 
     public String getNombre() {
@@ -33,5 +35,9 @@ public class DtGenero {
     public ArrayList<DtListaPD> getListaspordefecto() {
         return listaspordefecto;
     }   
+
+    public ArrayList<DtGenero> getHijos() {
+        return hijos;
+    }
     
 }

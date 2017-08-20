@@ -25,10 +25,12 @@ public class ConexionDB {
     
     //Para hacer ConexionDB singleton descomentar
     //private static Connection conexion=null;
-    private Connection conexion=null;
+    private Connection conexion;
     //Para hacer ConexionDB singleton descomentar
     //private ConexionDB(){};
-    public ConexionDB(){};
+    public ConexionDB(){
+        this.conexion = null;
+    };
     //Para hacer ConexionDB singleton descomentar
     //public static Connection getConexion() {
     public Connection getConexion() {

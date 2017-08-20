@@ -10,24 +10,18 @@ package Logica;
  * @author ninoh
  */
 public class Tema {
-    private int id;
     private String duracion;
     private String nombre;
     private int orden;
     private String archivo;
     private String direccion;
 
-    public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion) {
-        this.id = id;
+    public Tema(String duracion, String nombre, int orden, String archivo, String direccion) {
         this.duracion = duracion;
         this.nombre = nombre;
         this.orden = orden;
         this.archivo = archivo;
         this.direccion = direccion;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getNombre() {
@@ -48,10 +42,6 @@ public class Tema {
 
     public String getDireccion() {
         return direccion;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setNombre(String nombre) {
@@ -75,7 +65,7 @@ public class Tema {
     }
     
     public DtTema getDatos(){
-        return new DtTema(id, nombre, duracion, orden, direccion);
+        return new DtTema(nombre, duracion, orden, direccion);
     }
     
     

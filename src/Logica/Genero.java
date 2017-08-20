@@ -7,27 +7,24 @@ package Logica;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  *
  * @author ninoh
  */
 public class Genero {
-    private int id;
     private String nombre;
-    private int Papa;
     private Genero Padre;
     private ArrayList<Album> Albumes;
     private HashMap<String, PorDefecto> Listas;
 
 
-    public Genero(int id, String nombre,int Papa) {
-        this.id = id;
+    public Genero(String nombre) {
         this.nombre = nombre;
-        this.Papa = Papa;
     }
 
-    public Genero getPadre() {
+    public Genero getPadre(){
         return Padre;
     }
 
@@ -65,6 +62,30 @@ public class Genero {
     
     public void setLista(PorDefecto pd){
         this.Listas.put(pd.getNombre(), pd);
+    }
+    
+    public DtGenero getDatos(ArrayList<DtGenero> hijos){
+        return new DtGenero(this.nombre,this.getDtAlbumes(), this.getDtListas(), hijos);
+    }
+    
+    public ArrayList<DtAlbum> getDtAlbumes(){
+        ArrayList<DtAlbum> a = new ArrayList<>();
+        Iterator it = this.getAlbumes().iterator();
+        while(it.hasNext()){
+            Album al = (Album)it.next();
+            a.add(al.getDatos());
+        }
+        return a;
+    }
+    
+    public ArrayList<DtListaPD> getDtListas(){
+        ArrayList<DtListaPD> a = new ArrayList<>();
+        Iterator it = this.getListas().values().iterator();
+        while(it.hasNext()){
+            PorDefecto lpd = (PorDefecto)it.next();
+            a.add(lpd.getDatos(this.nombre));
+        }
+        return a;
     }
     
 }

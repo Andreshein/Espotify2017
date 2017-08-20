@@ -27,7 +27,8 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
     
     public ConsultarPerfilArtista() {
         initComponents();
-        this.artista=Fabrica.getArtista(); 
+        Fabrica f = Fabrica.getInstance();
+        this.artista=f.getArtista();
         this.setLocationRelativeTo(null);
         this.listarNickArtistas();
         //this.listarSeguidores();

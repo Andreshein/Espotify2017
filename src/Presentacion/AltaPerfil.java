@@ -31,8 +31,9 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     
     public AltaPerfil() {
         initComponents();
-        this.Art=Fabrica.getArtista(); 
-        this.Cli=Fabrica.getCliente();
+        Fabrica f = Fabrica.getInstance();
+        this.Art=f.getArtista();
+        this.Cli=f.getCliente();
         setTitle("Alta Perfil"); // nombre de la ventana
         setResizable(false); // no se puede modificar el tamaño de la ventana      
         jPanel1.setVisible(false);

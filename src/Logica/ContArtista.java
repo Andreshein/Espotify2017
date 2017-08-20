@@ -17,7 +17,8 @@ public class ContArtista implements IcontArtista {
 
     private static ContArtista instancia;
 
-    private Map<String, Artista> artistas;
+    private HashMap<String, Artista> artistas;
+    private HashMap<String, Genero> generos;
     private DBUsuario dbUsuario = null;
 
     public static ContArtista getInstance() {
@@ -161,4 +162,27 @@ public class ContArtista implements IcontArtista {
         }
         return a;
     }
+    
+    private ArrayList<DtGenero> buscaHijos(String nombre){
+        ArrayList<DtGenero> a = new ArrayList<>();
+        Iterator it = this.generos.values().iterator();
+        while(it.hasNext()){
+            Genero g = (Genero)it.next();
+            if(g.getPadre().getNombre().equals(nombre)){
+                DtGenero dtg = g.getDatos(this.buscaHijos(g.getNombre()));
+                a.add(dtg);
+            }
+        }
+        return a;
+    }
+
+    public void setArtistas(HashMap<String, Artista> artistas) {
+        this.artistas = artistas;
+    }
+
+    public void setGeneros(HashMap<String, Genero> generos) {
+        this.generos = generos;
+    }
+    
+    
 }
