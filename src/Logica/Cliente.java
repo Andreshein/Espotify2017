@@ -166,11 +166,11 @@ public class Cliente extends Usuario{
             }
         }
         
-        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, null, siguiendo, listasCreadas, listas, temas, albumes);
+        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, siguiendo, listasCreadas, listas, temas, albumes);
     }
     
     public DtCliente getDatosResumidos(){
-        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, null, null, null, null, null, null);
+        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, null, null, null, null, null);
     }
     
     public ArrayList<DtUsuario> buscarEnUsuarios(String palabra){

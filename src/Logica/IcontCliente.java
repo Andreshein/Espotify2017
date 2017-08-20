@@ -31,5 +31,6 @@ public interface IcontCliente{
     public abstract ArrayList<DtCliente> BuscarClientes(String palabra);
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract ArrayList<DtUsuario> BuscarUsuariosSeg(String Nickname, String palabra);
+    public abstract ArrayList<DtCliente> getSeguidores(String nickname);
 }
 //hellou papaguena

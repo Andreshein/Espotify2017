@@ -19,7 +19,7 @@ public class ContCliente implements IcontCliente{
     
     private Map<String, Cliente> clientes;
     private DBUsuario dbUsuario=null;
-    private IcontArtista art;
+    private IcontArtista contArt;
 
     public static ContCliente getInstance(){
         if (instancia == null){
@@ -32,7 +32,7 @@ private ContCliente(){
       
         this.clientes=new HashMap<>();
         this.dbUsuario=new DBUsuario();
-        this.art = Fabrica.getArtista();
+        this.contArt = Fabrica.getArtista();
     }
 
     @Override
@@ -71,7 +71,7 @@ private ContCliente(){
     }
 
     @Override
-    public DtCliente verPerfilCliente(String nickname) {
+    public DtCliente verPerfilCliente(String nickname) {        
         return this.clientes.get(nickname).getDatos();
     }
 
@@ -140,7 +140,7 @@ private ContCliente(){
     }
 
     public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
-       ArrayList<DtUsuario> retornar = this.art.BuscarUsuarios(palabra);
+       ArrayList<DtUsuario> retornar = this.contArt.BuscarUsuarios(palabra);
        Iterator iterador = this.clientes.values().iterator();
         while(iterador.hasNext()){
             Cliente aux = (Cliente)iterador.next();
@@ -157,7 +157,7 @@ private ContCliente(){
     }
     
     public Usuario seleccionarUsuario(String Nickname){
-        Usuario u = this.art.seleccionarUsuario(Nickname);
+        Usuario u = this.contArt.seleccionarUsuario(Nickname);
         if(u==null){
             u = this.clientes.get(Nickname);
         }
@@ -167,6 +167,19 @@ private ContCliente(){
     public ArrayList<DtUsuario> BuscarUsuariosSeg(String Nickname, String palabra){
         Cliente cli = (Cliente)this.clientes.get(Nickname);
         return cli.buscarEnUsuarios(palabra);
+    }
+    
+    public ArrayList<DtCliente> getSeguidores(String nickname){
+        ArrayList<DtCliente> seguidores = new ArrayList<>();
+        
+        for (Cliente cliente : this.clientes.values()) {
+            // Busca si el nickname esta en la lista de usuarios seguidos de cada cliente
+            if(cliente.getSiguiendo().containsKey(nickname)){
+                seguidores.add(cliente.getDatosResumidos());
+            }
+        }
+        
+        return seguidores;
     }
 }
 
