@@ -11,16 +11,18 @@ package Logica;
  */
 public class Particular extends Lista{
     private int id;
-    private String usuario;
+    private String nombreusuario;
+    private Cliente usuario;
     private String nombre;
     boolean esPrivado;
     
 
-    public Particular(int id, String usuario, String nombre, boolean esPrivado) {
+    public Particular(int id, String usuario, String nombre, boolean esPrivado, String img) {
         this.id = id;
-        this.usuario = usuario;
+        this.nombreusuario = usuario;
         this.nombre= nombre;
         this.esPrivado = esPrivado;
+        this.imagen = img;
       
     }
 
@@ -29,7 +31,7 @@ public class Particular extends Lista{
     }
 
     public void setUsuario(String usuario) {
-        this.usuario = usuario;
+        this.nombreusuario = usuario;
     }
 
     public int getId() {
@@ -37,7 +39,7 @@ public class Particular extends Lista{
     }
 
     public String getUsuario() {
-        return usuario;
+        return nombreusuario;
     }
 
     public boolean isEsPrivado() {
@@ -59,4 +61,13 @@ public class Particular extends Lista{
     public DtListaP getDatosResumidos(){
         return new DtListaP(nombre, null, null, "Creador", esPrivado); //Creador = Usuario, falta implementar
     }    
+    public void setCliente(Cliente c){
+        this.usuario = c;
+    }
+    public Cliente getCliente(){
+        return this.usuario;
+    }
+    public void AddTema(Tema t){
+        this.temas.add(t);
+    }
 }

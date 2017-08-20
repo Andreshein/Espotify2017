@@ -15,16 +15,19 @@ import java.util.HashMap;
 public class Genero {
     private int id;
     private String nombre;
-    private int Papa;
+    private int idPapa;
     private Genero Padre;
-    private ArrayList<Album> Albumes;
+    private HashMap<String, Album> Albumes;
     private HashMap<String, PorDefecto> Listas;
 
 
     public Genero(int id, String nombre,int Papa) {
         this.id = id;
         this.nombre = nombre;
-        this.Papa = Papa;
+        this.idPapa = Papa;
+        this.Padre = null;
+        this.Albumes = new HashMap();
+        this.Listas = new HashMap();
     }
 
     public Genero getPadre() {
@@ -43,12 +46,12 @@ public class Genero {
         this.nombre = nombre;
     }
 
-    public ArrayList<Album> getAlbumes() {
+    public HashMap<String, Album> getAlbumes() {
         return Albumes;
     }
 
-    public void setAlbumes(ArrayList<Album> Albumes) {
-        this.Albumes = Albumes;
+    public void setAlbumes(HashMap<String, Album> albumes) {
+        this.Albumes = albumes;
     }
 
     public HashMap<String, PorDefecto> getListas() {
@@ -58,13 +61,10 @@ public class Genero {
     public void setListas(HashMap<String, PorDefecto> Listas) {
         this.Listas = Listas;
     }
-    
-    public void setAlbum(Album a){
-        this.Albumes.add(a);
-    }
-    
-    public void setLista(PorDefecto pd){
+    public void AddLista(PorDefecto pd){
         this.Listas.put(pd.getNombre(), pd);
     }
-    
+    public void AddAlbum(Album a){
+        this.Albumes.put(a.getNombre(), a);
+    }
 }

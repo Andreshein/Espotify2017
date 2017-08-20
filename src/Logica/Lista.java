@@ -14,6 +14,7 @@ import java.util.ArrayList;
 abstract class Lista {
     protected String nombre;
     protected ArrayList<Tema> temas;
+    protected String imagen;
 
     abstract String getNombre();
 

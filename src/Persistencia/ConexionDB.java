@@ -17,21 +17,27 @@ import java.util.logging.Logger;
  * @author ninoh
  */
 public class ConexionDB {
-    private final String host="localhost";
+    /*private final String host="localhost";
     private final String port="3306";
     private final String db="espotify";
     private final String user="root";
-    private final String pass="root";
+    private final String pass="root";*/
+    
+    private static String host="localhost";
+    private static String port="3306";
+    private static String db="espotify";
+    private static String user="root";
+    private static String pass="root";
     
     //Para hacer ConexionDB singleton descomentar
-    //private static Connection conexion=null;
-    private Connection conexion=null;
+    private static Connection conexion=null;
+    //private Connection conexion=null;
     //Para hacer ConexionDB singleton descomentar
-    //private ConexionDB(){};
-    public ConexionDB(){};
+    ConexionDB(){};
+    //public ConexionDB(){};
     //Para hacer ConexionDB singleton descomentar
-    //public static Connection getConexion() {
-    public Connection getConexion() {
+    public static Connection getConexion() {
+    //public Connection getConexion() {
         if (conexion == null) {
             try {
                 Driver driver = new com.mysql.jdbc.Driver();
@@ -56,3 +62,4 @@ public class ConexionDB {
     }
     
 }
+

@@ -20,7 +20,7 @@ public class Artista extends Usuario {
     private String paginaWeb;
     private HashMap<String, Album> albumes;
 
-    public Artista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb) {
+    public Artista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb, String Imag) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -29,6 +29,7 @@ public class Artista extends Usuario {
         this.biografia = biografia;
         this.paginaWeb = paginaWeb;
         this.albumes= new HashMap<>();
+        this.Imagen= Imag;
     }
 
     public Artista() {
@@ -106,11 +107,14 @@ public class Artista extends Usuario {
         this.albumes.put(a.getNombre(),a);
     }
     
+    @Override
     public DtArtista getDatos(){
         ArrayList<DtAlbum> alb = this.getDtAlbumes();
         return new DtArtista(nickname, nombre, apellido, correo, this.fechaNac, null, biografia, paginaWeb, 0, null, this.getDtAlbumes());
     }
-    
+    public String getImagen(){
+        return Imagen;
+    }
     public ArrayList<DtAlbum> getDtAlbumes(){
         ArrayList<DtAlbum> retorno = new ArrayList<>();
         Iterator iterador = this.albumes.values().iterator();
@@ -124,5 +128,7 @@ public class Artista extends Usuario {
     public DtArtista getDatosResumidos(){
         return new DtArtista(nickname, nombre, apellido, correo, this.fechaNac, null, null, null, 0, null, null);
     }
-    
+    public void AddAlbum(Album a){
+        this.albumes.put(a.getNombre(), a);
+    }
 }

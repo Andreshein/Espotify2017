@@ -311,7 +311,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String cadena1,cadena2,cadena3,cadena4,cadena6,cadena7,cadena8;
+        String cadena1,cadena2,cadena3,cadena4,cadena6,cadena7,cadena8,cadena9;
         String fecha = Dia.getSelectedItem().toString()+"/"+Mes.getSelectedItem().toString()+"/"+Anio.getText();
         SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
         
@@ -322,6 +322,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         cadena7 = txt_Biografia.getText();
         cadena8 = txt_PaginaWeb.getText();
         cadena6 = cmb_Tipo.getSelectedItem().toString();
+        cadena9 = Nomb.getText();
         
         //Si hay algun campo vacio muestra un mensaje
         if ((txt_Nick.getText().equals("")) || (txt_Nombre.getText().equals("")) || (txt_Apellido.getText().equals("")) || (txt_Correo.getText().equals("")) || (Dia.getSelectedItem().toString().equals(""))
@@ -344,7 +345,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
                 if(cadena6.equals("Artista")){
 
                    try {
-                       Ok = Art.IngresarArtista(cadena1,cadena2,cadena3,cadena4,formato.parse(fecha),cadena7,cadena8);
+                       Ok = Art.IngresarArtista(cadena1,cadena2,cadena3,cadena4,formato.parse(fecha),cadena7,cadena8,cadena9);
                        if(Ok){
                            javax.swing.JOptionPane.showMessageDialog(null,"El artista ha sido dado de alta");}
                        else{javax.swing.JOptionPane.showMessageDialog(null,"El artista no ha podido ser dado de alta");}
@@ -357,7 +358,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
                 if(cadena6.equals("Cliente")){
 
                    try {
-                       Ok = Cli.IngresarCliente(cadena1,cadena2,cadena3,cadena4,formato.parse(fecha));
+                       Ok = Cli.IngresarCliente(cadena1,cadena2,cadena3,cadena4,formato.parse(fecha),cadena9);
                        if(Ok){
                            javax.swing.JOptionPane.showMessageDialog(null,"El cliente ha sido dado de alta");}
                        else{
@@ -387,6 +388,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
             
             String Rutaimagen = archivo.getPath();
             
+            Nomb.setText(Rutaimagen);
             ImageIcon imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
             Icon icono= new ImageIcon(imagen.getImage().getScaledInstance(Img.getWidth(),Img.getHeight(),Image.SCALE_DEFAULT));
                         

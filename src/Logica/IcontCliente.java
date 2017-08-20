@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 
 public interface IcontCliente{
 
-    public abstract boolean IngresarCliente(String nickname, String nombre, String apellido,String correo, Date fechaNac);
+    public abstract boolean IngresarCliente(String nickname, String nombre, String apellido,String correo, Date fechaNac, String img);
     public abstract boolean AltaDePerfil(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen);
     public abstract void AgregarArtista( String biografia, String link);
     public abstract void Corregir( String nick, String nombre, String apellido, String correo,Date fecha);
@@ -31,5 +31,6 @@ public interface IcontCliente{
     public abstract ArrayList<DtCliente> BuscarClientes(String palabra);
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract ArrayList<DtUsuario> BuscarUsuariosSeg(String Nickname, String palabra);
+    public abstract void CargadeDatos();
 }
 //hellou papaguena

@@ -5,6 +5,9 @@
  */
 package Presentacion;
 
+import Logica.Fabrica;
+import Logica.IcontArtista;
+import Logica.IcontCliente;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -16,11 +19,15 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Principal extends javax.swing.JFrame {
 
+    private IcontCliente Cli; 
+    private IcontArtista Art;
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
+        Cli = Fabrica.getCliente();
+        Art = Fabrica.getArtista();
         
         // Es para que la ventana se centre
         this.setLocationRelativeTo(null);
@@ -36,6 +43,18 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         jInternalFrame1 = new javax.swing.JInternalFrame();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        jMenu6 = new javax.swing.JMenu();
+        jMenu7 = new javax.swing.JMenu();
+        jMenuBar3 = new javax.swing.JMenuBar();
+        jMenu8 = new javax.swing.JMenu();
+        jMenu9 = new javax.swing.JMenu();
+        jMenuBar4 = new javax.swing.JMenuBar();
+        jMenu10 = new javax.swing.JMenu();
+        jMenu11 = new javax.swing.JMenu();
+        jMenuBar5 = new javax.swing.JMenuBar();
+        jMenu12 = new javax.swing.JMenu();
+        jMenu13 = new javax.swing.JMenu();
         escritorio = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
@@ -46,6 +65,8 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         agregarTemaListaMenuItem = new javax.swing.JMenuItem();
+        Datos = new javax.swing.JMenu();
+        CargaDatos = new javax.swing.JMenuItem();
 
         jInternalFrame1.setVisible(true);
 
@@ -59,6 +80,30 @@ public class Principal extends javax.swing.JFrame {
             jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        jMenu6.setText("File");
+        jMenuBar2.add(jMenu6);
+
+        jMenu7.setText("Edit");
+        jMenuBar2.add(jMenu7);
+
+        jMenu8.setText("File");
+        jMenuBar3.add(jMenu8);
+
+        jMenu9.setText("Edit");
+        jMenuBar3.add(jMenu9);
+
+        jMenu10.setText("File");
+        jMenuBar4.add(jMenu10);
+
+        jMenu11.setText("Edit");
+        jMenuBar4.add(jMenu11);
+
+        jMenu12.setText("File");
+        jMenuBar5.add(jMenu12);
+
+        jMenu13.setText("Edit");
+        jMenuBar5.add(jMenu13);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -137,6 +182,18 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu4);
 
+        Datos.setText("Datos");
+
+        CargaDatos.setText("Cargar Datos de Prueba");
+        CargaDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CargaDatosActionPerformed(evt);
+            }
+        });
+        Datos.add(CargaDatos);
+
+        jMenuBar1.add(Datos);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -186,6 +243,17 @@ public class Principal extends javax.swing.JFrame {
         agregarTL.show();
     }//GEN-LAST:event_agregarTemaListaMenuItemActionPerformed
 
+    private void CargaDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaDatosActionPerformed
+        int x = javax.swing.JOptionPane.showConfirmDialog(null, "Esta a punto de cargar los datos de prueba del sistema. Confirmar?", "Carga de datos", 1);
+        if (x==0){
+               javax.swing.JOptionPane.showMessageDialog(null,"Carga de datos completada","Carga de datos",1);
+               Cli.CargadeDatos();
+        }
+        if (x==1){
+            javax.swing.JOptionPane.showMessageDialog(null,"Operación cancelada","Carga de datos",0);    
+        }
+    }//GEN-LAST:event_CargaDatosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -219,15 +287,29 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem CargaDatos;
     private javax.swing.JMenuItem ConsultarPerfilCliMenuItem;
+    private javax.swing.JMenu Datos;
     private javax.swing.JMenuItem agregarTemaListaMenuItem;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu10;
+    private javax.swing.JMenu jMenu11;
+    private javax.swing.JMenu jMenu12;
+    private javax.swing.JMenu jMenu13;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenu jMenu8;
+    private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuBar jMenuBar3;
+    private javax.swing.JMenuBar jMenuBar4;
+    private javax.swing.JMenuBar jMenuBar5;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     // End of variables declaration//GEN-END:variables

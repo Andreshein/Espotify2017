@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
  */
 public interface IcontArtista {
   
-    public abstract boolean IngresarArtista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb);
+    public abstract boolean IngresarArtista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb, String img);
     public abstract boolean SelectArtista(String nick);
     public abstract void CrearAlbum(String nombre,int anio);
     public abstract void ElegirGenero(String nombre);
@@ -33,4 +33,5 @@ public interface IcontArtista {
     public abstract void corregir(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen);
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract Usuario seleccionarUsuario(String Nickname);
+    public abstract void CargarDatos();
 }

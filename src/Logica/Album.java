@@ -18,7 +18,9 @@ public class Album {
     private String artista;
     private String nombre;
     private int anio;
+    private String Imagen;
     private HashMap<String, Tema> temas;
+    private ArrayList<Genero> generos;
 
     public Album(int id, String artista,String nombre, int anio) {
         this.id = id;
@@ -26,6 +28,16 @@ public class Album {
         this.nombre = nombre;
         this.anio = anio;
         this.temas = new HashMap<>();
+        this.generos = new ArrayList();
+    }
+    public Album(int id, String artista,String nombre, int anio, String img) {
+        this.id = id;
+        this.artista = artista;
+        this.nombre = nombre;
+        this.anio = anio;
+        this.generos = new ArrayList();
+        this.temas = new HashMap<>();
+        this.Imagen = img;
     }
 
     public void setArtista(String artista) {
@@ -85,8 +97,12 @@ public class Album {
         }
         return retorno;
     }
-   
-
+    public void AddGenero(Genero e){
+        this.generos.add(e);
+    }
+    public void AddTema (Tema t){
+        this.temas.put(t.getNombre(), t);
+    }
 }
 
 
