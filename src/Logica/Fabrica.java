@@ -76,7 +76,7 @@ public class Fabrica {
                     for (int i = 0; i < claves.size(); i++) {
                         String nick, alb, t, clave = (String) claves.get(i);
                         nick = clave.substring(0, clave.indexOf(":"));
-                        alb = clave.substring(clave.indexOf(":"), clave.indexOf("-"));
+                        alb = clave.substring(clave.indexOf(":")+ 1, clave.indexOf("-"));
                         t = clave.substring(clave.indexOf("-") + 1);
                         Artista art = (Artista) artistas.get(nick);
                         Album al = (Album) art.getAlbumes().get(alb);
@@ -87,7 +87,7 @@ public class Fabrica {
                 for (int i = 0; i < claves.size(); i++) {
                     String nick, alb, t, clave = (String) claves.get(i);
                     nick = clave.substring(0, clave.indexOf(":"));
-                    alb = clave.substring(clave.indexOf(":"), clave.indexOf("-"));
+                    alb = clave.substring(clave.indexOf(":")+ 1, clave.indexOf("-"));
                     t = clave.substring(clave.indexOf("-") + 1);
                     Artista art = (Artista) artistas.get(nick);
                     Album al = (Album) art.getAlbumes().get(alb);
@@ -132,7 +132,7 @@ public class Fabrica {
                     for (int i = 0; i < claves.size(); i++) {
                         String nick, alb, t, clave = (String) claves.get(i);
                         nick = clave.substring(0, clave.indexOf(":"));
-                        alb = clave.substring(clave.indexOf(":"), clave.indexOf("-"));
+                        alb = clave.substring(clave.indexOf(":")+ 1, clave.indexOf("-"));
                         t = clave.substring(clave.indexOf("-") + 1);
                         Artista art = (Artista) artistas.get(nick);
                         Album al = (Album) art.getAlbumes().get(alb);
