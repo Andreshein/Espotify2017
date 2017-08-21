@@ -57,11 +57,12 @@ public class Fabrica {
             HashMap<String, Artista> artistas = c.cargarArtista();
             HashMap<String, Cliente> clientes = c.cargarCliente();
             HashMap<String, Genero> generos = c.cargarGenero();
-
+            
             Iterator aux = (Iterator) clientes.values().iterator();
             while (aux.hasNext()) {
                 Cliente cli = (Cliente) aux.next();
                 ArrayList<String> claves = c.Seguidos(cli.getNickname());
+                
                 for (int i = 0; i < claves.size(); i++) {
                     if (clientes.containsKey((String) claves.get(i))) {
                         cli.setSiguiendo(clientes.get((String) claves.get(i)));

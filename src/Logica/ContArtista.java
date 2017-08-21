@@ -62,6 +62,9 @@ public class ContArtista implements IcontArtista {
 
     @Override
     public ArrayList<DtArtista> ListarArtistas() {
+        System.out.println("ContArtistaDatos:");
+        System.out.println(this.artistas);
+        System.out.println("Fin:");
         ArrayList<DtArtista> a = new ArrayList<>();
         Iterator iterador = this.artistas.values().iterator();
         while (iterador.hasNext()) {
