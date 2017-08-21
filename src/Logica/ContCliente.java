@@ -32,7 +32,10 @@ private ContCliente(){
         
         this.clientes=new HashMap<>();
         this.dbUsuario=new DBUsuario();
-        this.art = Fabrica.getArtista();
+        //this.art = Fabrica.getArtista();
+    }
+    public void SetContArtista(IcontArtista art){
+        this.art = art;
     }
 
     @Override

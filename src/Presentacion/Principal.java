@@ -28,6 +28,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         Cli = Fabrica.getCliente();
         Art = Fabrica.getArtista();
+        Fabrica.SetControladores();
         
         // Es para que la ventana se centre
         this.setLocationRelativeTo(null);

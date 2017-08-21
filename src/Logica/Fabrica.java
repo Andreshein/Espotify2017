@@ -24,13 +24,17 @@ public class Fabrica {
     }
 
     public static IcontArtista getArtista() {
-         IcontArtista ica = ContArtista.getInstance();
-         return ica;
+         Artista = ContArtista.getInstance();
+         return Artista;
     }
 
      public static IcontCliente getCliente() {
-         IcontCliente icc = ContCliente.getInstance();
-         return icc;
+         Cliente = ContCliente.getInstance();
+         return Cliente;
+    }
+    public static void SetControladores(){
+       Cliente.SetContArtista(Artista);
+       Artista.SetContCliente(Cliente);
     }
     
      private Fabrica(){

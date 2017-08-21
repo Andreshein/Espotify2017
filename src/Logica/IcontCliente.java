@@ -32,5 +32,6 @@ public interface IcontCliente{
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract ArrayList<DtUsuario> BuscarUsuariosSeg(String Nickname, String palabra);
     public abstract void CargadeDatos();
+    public abstract void SetContArtista(IcontArtista art);
 }
 //hellou papaguena

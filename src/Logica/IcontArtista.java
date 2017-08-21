@@ -34,4 +34,6 @@ public interface IcontArtista {
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract Usuario seleccionarUsuario(String Nickname);
     public abstract void CargarDatos();
+    public abstract void SetContCliente(IcontCliente cli);
+    
 }

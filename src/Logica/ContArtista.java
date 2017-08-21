@@ -30,12 +30,14 @@ public class ContArtista implements IcontArtista{
 
 private ContArtista(){
         
-        this.Cli = Fabrica.getCliente();
+        //this.Cli = Fabrica.getCliente();
         this.artistas=new HashMap<>();
         this.dbUsuario=new DBUsuario();
     }
 
-    
+    public void SetContCliente(IcontCliente cli){
+        this.Cli = cli;
+    }
     @Override
     public boolean SelectArtista(String nick) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
