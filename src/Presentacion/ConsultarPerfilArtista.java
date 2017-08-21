@@ -240,13 +240,20 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
        String nickname = (String) tblArtistas.getValueAt(tblArtistas.getSelectedRow(), 0);
         DefaultTableModel modelo = (DefaultTableModel) tblInfoArt.getModel();
         SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
-        DtArtista art = artista.ElegirArtista(nickname);
+        DtArtista art2 = null;
+        for(DtArtista art: artista.ListarArtistas()){
+            if(art.getNickname().equals(nickname))
+            {
+                art2 = artista.ElegirArtista(art.getNombre());
+            }
+        }
+        //DtArtista art = artista.ElegirArtista(nickname);
         
         while(modelo.getRowCount()>0){
             modelo.removeRow(0);
         } 
         
-        String[] datos={art.getNombre(),art.getApellido(),art.getCorreo(),formato.format(art.getFechaNac()),art.getBiografia(),art.getPagWeb()};
+        String[] datos={art2.getNombre(),art2.getApellido(),art2.getCorreo(),art2.getFechaNac(),art2.getBiografia(),art2.getPagWeb()};
         modelo.addRow(datos);  
     }
     
