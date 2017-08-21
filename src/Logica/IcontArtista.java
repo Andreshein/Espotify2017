@@ -7,6 +7,7 @@ package Logica;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import javax.swing.ImageIcon;
 
 /**
@@ -34,4 +35,7 @@ public interface IcontArtista {
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract Usuario seleccionarUsuario(String Nickname);
     public abstract ArrayList<DtAlbum> ListarAlbumes();
+    public abstract void setArtista(HashMap<String,Artista> artistas);
+    public abstract void setGenero(HashMap<String,Genero> generos);
+
 }

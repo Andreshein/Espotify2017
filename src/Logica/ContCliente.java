@@ -8,7 +8,6 @@ package Logica;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 import Persistencia.*;
 import java.util.Iterator;
 import javax.swing.ImageIcon;
@@ -17,7 +16,7 @@ public class ContCliente implements IcontCliente {
 
     private static ContCliente instancia;
 
-    private Map<String, Cliente> clientes;
+    private HashMap<String, Cliente> clientes;
     private DBUsuario dbUsuario = null;
     private IcontArtista art;
 
@@ -27,12 +26,9 @@ public class ContCliente implements IcontCliente {
         }
         return instancia;
     }
-
     private ContCliente() {
-        Fabrica f = Fabrica.getInstance();
         this.clientes = new HashMap<>();
         this.dbUsuario = new DBUsuario();
-        this.art = f.getArtista();
     }
 
     @Override
@@ -72,7 +68,7 @@ public class ContCliente implements IcontCliente {
     }
 
     @Override
-    public DtCliente verPerfilCliente(String nickname) {
+    public DtCliente verPerfilCliente(String nickname) {        
         return this.clientes.get(nickname).getDatos();
     }
 
@@ -147,8 +143,7 @@ public class ContCliente implements IcontCliente {
             Cliente aux = (Cliente) iterador.next();
             if (aux.getNickname().contains(palabra) == true || aux.getNombre().contains(palabra) == true || aux.getApellido().contains(palabra) == true) {
                 retornar.add(aux.getDatos());
-            }
-        }
+        }}
         return retornar;
     }
 
@@ -169,9 +164,32 @@ public class ContCliente implements IcontCliente {
         Cliente cli = (Cliente) this.clientes.get(Nickname);
         return cli.buscarEnUsuarios(palabra);
     }
+    
+    public ArrayList<DtCliente> getSeguidores(String nickname){
+        ArrayList<DtCliente> seguidores = new ArrayList<>();
+        
+        for (Cliente cliente : this.clientes.values()) {
+            // Busca si el nickname esta en la lista de usuarios seguidos de cada cliente
+            if(cliente.getSiguiendo().containsKey(nickname)){
+                seguidores.add(cliente.getDatosResumidos());
+            }
+        }
+        
+        return seguidores;
+    }
 
     public ArrayList<DtGenero> ListarGeneros(String palabra) {
         ArrayList<DtGenero> ret;
         return null;
     }
+
+    public void setClientes(HashMap<String, Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public void setCA(IcontArtista art) {
+         this.art=art;
+    }
+    
+    
 }

@@ -34,16 +34,19 @@ public class Fabrica {
     }
 
     public IcontArtista getArtista() {
+        Artista = ContArtista.getInstance();
         return this.Artista;
     }
 
     public IcontCliente getCliente() {
+        Cliente = ContCliente.getInstance();
         return this.Cliente;
     }
 
     private Fabrica() {
-        this.Artista = ContArtista.getInstance();
-        this.Cliente = ContCliente.getInstance();
+        this.getArtista();
+        this.getCliente();
+        this.Cliente.setCA(Artista);
     }
 
     public void cargarDatos() {
@@ -147,8 +150,10 @@ public class Fabrica {
                 }
                 
             }
-
-        } catch (SQLException ex) {
+            this.Artista.setArtista(artistas);
+            this.Artista.setGenero(generos);
+            this.Cliente.setClientes(clientes);
+            } catch (SQLException ex) {
             
         }
     }

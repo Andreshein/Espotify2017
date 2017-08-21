@@ -86,84 +86,26 @@ public class DBUsuario {
             return false;
         }
     }
-    /**¡¡¡¡¡¡¡ no va !!!!!!!!**/
-    /**
-    public ArrayList<DtArtista> listarArtistas() {
-	try{
-            ArrayList<DtArtista> listaArtista = new ArrayList<DtArtista>();
-            DtArtista dtart;
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");
-            ResultSet rs = st.executeQuery();
-            while(rs.next()){
-                dtart=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);               
-                listaArtista.add(dtart);
-            }
-
-            
-            return listaArtista; 
-
-	}catch(SQLException ex){
-            ex.printStackTrace();
-            return null;
-	}
-    }
-    public DtArtista obtenerInfoArtista(String clave){
-	try{
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE Nickname = '"+clave+"'");
-	    ResultSet rs = st.executeQuery();
-	    DtArtista art;
-            while(rs.next()){
-            art=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);
-            return art;
-            }
-        
-            return null;    
-       
-        }catch(SQLException ex){
-            ex.printStackTrace();
-            return null;	
-        }   
-    }    
     
-    public ArrayList<DtAlbum> listarAlbumes() {
-	try{
-            ArrayList<DtAlbum> listaAlbum = new ArrayList<DtAlbum>();
-            DtAlbum dtalb;
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM album,artista WHERE album.Artista=artista.Nickname");
-            ResultSet rs = st.executeQuery();
-            while(rs.next()){
-                dtalb=new DtAlbum(rs.getString("Nombre"),rs.getString("Artista"),rs.getInt("Anio"),null);               
-                listaAlbum.add(dtalb);
+    public Map<String, Artista> cargarArtistas(){
+        try {
+            Map<String, Artista> lista=new HashMap<String, Artista>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                String nickname=rs.getString("nickname");
+                Artista a=new Artista(nickname,rs.getString("nombre"),rs.getString("apellido"),rs.getString("correo"),rs.getDate("fechanac"),rs.getString("biografia"),rs.getString("paginaweb"));
+                lista.put(nickname, a);
             }
-
-            
-            return listaAlbum; 
-
-	}catch(SQLException ex){
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
-	}
+        }        
     }
-    **/
-//    public Map<String, Artista> cargarArtistas(){
-//        try {
-//            Map<String, Artista> lista=new HashMap<String, Artista>();
-//            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");          
-//            ResultSet rs=st.executeQuery();
-//            while (rs.next()){
-//                String nickname=rs.getString("nickname");
-//                Artista a=new Artista(nickname,rs.getString("nombre"),rs.getString("apellido"),rs.getString("correo"),rs.getDate("fechanac"),rs.getString("biografia"),rs.getString("paginaweb"));
-//                lista.put(nickname, a);
-//            }
-//            rs.close();
-//            st.close();
-//            return lista;
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }        
-//    }
-//    
+    
 //    public Map<String, Cliente> cargarClientes(){
 //        try {
 //            Map<String, Cliente> lista=new HashMap<String, Cliente>();
@@ -247,7 +189,7 @@ public class DBUsuario {
 //            ResultSet rs=st.executeQuery();
 //            while (rs.next()){
 //                int id=rs.getInt("id");
-//                Particular pd=new Particular(rs.getString("nombre"),rs.getBoolean("privada"));
+//                Particular pd=new Particular(id,rs.getString("usuario"),rs.getString("nombre"),rs.getBoolean("privada"));
 //                lista.put(id,pd);
 //            }
 //            rs.close();
@@ -269,19 +211,14 @@ public class DBUsuario {
 //                int id=rs.getInt("id");
 //                Tema pd=new Tema(id,rs.getString("duracion"),rs.getString("nombre"),rs.getInt("orden"),rs.getString("archivo"),rs.getString("direccion"));
 //                lista.put(id,pd);
-//            }
-//            rs.close();
-//            st.close();
+//            }();
 //            return lista;
+//            rs.close();
+//            st.close
 //        } catch (SQLException ex) {
 //            ex.printStackTrace();
 //            return null;
 //        }  
 //                
 //    }
-//    
-//    
-//        
-//        
-//    
 }

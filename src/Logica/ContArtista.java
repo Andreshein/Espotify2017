@@ -176,13 +176,12 @@ public class ContArtista implements IcontArtista {
         return a;
     }
 
-    public void setArtistas(HashMap<String, Artista> artistas) {
+    public void setArtista(HashMap<String, Artista> artistas) {
         this.artistas = artistas;
     }
 
-    public void setGeneros(HashMap<String, Genero> generos) {
+    public void setGenero(HashMap<String, Genero> generos) {
         this.generos = generos;
     }
-    
     
 }

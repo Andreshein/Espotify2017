@@ -15,6 +15,7 @@ import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IcontCliente;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,15 +23,16 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Kevin
  */
-public class ConsultarPerfilCliente extends javax.swing.JFrame {
+public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
 
     IcontCliente contClientes;
     
-    ArrayList<DtTema> temasFavCli = null;
-    ArrayList<DtAlbum> albumesFavCli = null;
-    ArrayList<DtLista> listasFavCli = null;
-    ArrayList<DtUsuario> usuariosSeguidos = null;
-    ArrayList<DtCliente> seguidores = null;
+    ArrayList<DtListaP> listasCreadas = new ArrayList<>();
+    ArrayList<DtTema> temasFavCli = new ArrayList<>();
+    ArrayList<DtAlbum> albumesFavCli = new ArrayList<>();
+    ArrayList<DtLista> listasFavCli = new ArrayList<>();
+    ArrayList<DtUsuario> usuariosSeguidos = new ArrayList<>();
+    ArrayList<DtCliente> seguidores = new ArrayList<>();
     /**
      * Creates new form ConsultarPerfilCliente
      */
@@ -41,8 +43,9 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
         this.contClientes=f.getCliente();
         listarClientes();
         
-        // Es para que la ventana se centre
-        this.setLocationRelativeTo(null);
+        //Por defecto mostrar esas tablas al principio
+        mostrarFavoritos("Temas");
+        mostrarUsuarios("Siguiendo");
     }
 
     /**
@@ -55,13 +58,26 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         clientesTable = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        listasCreadasTable = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         favoritosComboBox = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        usuariosComboBox = new javax.swing.JComboBox<>();
+        usuariosPanel = new javax.swing.JPanel();
+        seguidoresPanel = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        seguidoresTable = new javax.swing.JTable();
+        usuariosSeguidosPanel = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        usuariosSeguidosTable = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        infoBasicaTable = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
         favoritosPanel = new javax.swing.JPanel();
         albumesPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -72,40 +88,12 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
         temasPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         temasTable = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
-        usuariosComboBox = new javax.swing.JComboBox<>();
-        usuariosPanel = new javax.swing.JPanel();
-        usuariosSeguidosPanel = new javax.swing.JPanel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        usuariosSeguidosTable = new javax.swing.JTable();
-        seguidoresPanel = new javax.swing.JPanel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        seguidoresTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setClosable(true);
+        setIconifiable(true);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Clientes:");
-
-        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nombre", "Apellido", "Fecha de nacimiento", "Email"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setGridColor(new java.awt.Color(204, 204, 204));
-        jScrollPane1.setViewportView(jTable1);
 
         clientesTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         clientesTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -136,6 +124,26 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Información Básica:");
 
+        listasCreadasTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        listasCreadasTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Tipo"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        listasCreadasTable.setGridColor(new java.awt.Color(204, 204, 204));
+        jScrollPane1.setViewportView(listasCreadasTable);
+
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Favoritos:");
 
@@ -146,135 +154,6 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
                 favoritosComboBoxActionPerformed(evt);
             }
         });
-
-        favoritosPanel.setLayout(new java.awt.CardLayout());
-
-        albumesTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        albumesTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Artista", "Nombre", "Año"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane4.setViewportView(albumesTable);
-
-        javax.swing.GroupLayout albumesPanelLayout = new javax.swing.GroupLayout(albumesPanel);
-        albumesPanel.setLayout(albumesPanelLayout);
-        albumesPanelLayout.setHorizontalGroup(
-            albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
-            .addGroup(albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, albumesPanelLayout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        albumesPanelLayout.setVerticalGroup(
-            albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 150, Short.MAX_VALUE)
-            .addGroup(albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, albumesPanelLayout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-
-        favoritosPanel.add(albumesPanel, "albumesPanel");
-
-        listasFavTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        listasFavTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nombre", "Tipo", "Creador/Género"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane5.setViewportView(listasFavTable);
-
-        javax.swing.GroupLayout listasFavPanelLayout = new javax.swing.GroupLayout(listasFavPanel);
-        listasFavPanel.setLayout(listasFavPanelLayout);
-        listasFavPanelLayout.setHorizontalGroup(
-            listasFavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
-            .addGroup(listasFavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listasFavPanelLayout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
-        );
-        listasFavPanelLayout.setVerticalGroup(
-            listasFavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 150, Short.MAX_VALUE)
-            .addGroup(listasFavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listasFavPanelLayout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-
-        favoritosPanel.add(listasFavPanel, "listasPanel");
-
-        temasTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        temasTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Artista", "Album", "Nombre", "Orden", "Duración"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        temasTable.setGridColor(new java.awt.Color(204, 204, 204));
-        jScrollPane3.setViewportView(temasTable);
-
-        javax.swing.GroupLayout temasPanelLayout = new javax.swing.GroupLayout(temasPanel);
-        temasPanel.setLayout(temasPanelLayout);
-        temasPanelLayout.setHorizontalGroup(
-            temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
-            .addGroup(temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, temasPanelLayout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        temasPanelLayout.setVerticalGroup(
-            temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 150, Short.MAX_VALUE)
-            .addGroup(temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, temasPanelLayout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-
-        favoritosPanel.add(temasPanel, "temasPanel");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Usuarios:");
@@ -288,6 +167,47 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
         });
 
         usuariosPanel.setLayout(new java.awt.CardLayout());
+
+        seguidoresTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        seguidoresTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nickname", "Nombre", "Apellido"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane8.setViewportView(seguidoresTable);
+
+        javax.swing.GroupLayout seguidoresPanelLayout = new javax.swing.GroupLayout(seguidoresPanel);
+        seguidoresPanel.setLayout(seguidoresPanelLayout);
+        seguidoresPanelLayout.setHorizontalGroup(
+            seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 579, Short.MAX_VALUE)
+            .addGroup(seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, seguidoresPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        seguidoresPanelLayout.setVerticalGroup(
+            seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 191, Short.MAX_VALUE)
+            .addGroup(seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, seguidoresPanelLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        usuariosPanel.add(seguidoresPanel, "seguidoresPanel");
 
         usuariosSeguidosTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         usuariosSeguidosTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -322,22 +242,49 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
         );
         usuariosSeguidosPanelLayout.setVerticalGroup(
             usuariosSeguidosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 187, Short.MAX_VALUE)
+            .addGap(0, 202, Short.MAX_VALUE)
             .addGroup(usuariosSeguidosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, usuariosSeguidosPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)))
+                .addGroup(usuariosSeguidosPanelLayout.createSequentialGroup()
+                    .addGap(23, 23, 23)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         usuariosPanel.add(usuariosSeguidosPanel, "siguiendoPanel");
 
-        seguidoresTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        seguidoresTable.setModel(new javax.swing.table.DefaultTableModel(
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setText("Listas Creadas:");
+
+        infoBasicaTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        infoBasicaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nickname", "Nombre", "Apellido"
+                "Nombre", "Apellido", "Fecha de nacimiento", "Email"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        infoBasicaTable.setGridColor(new java.awt.Color(204, 204, 204));
+        infoBasicaTable.setPreferredSize(new java.awt.Dimension(300, 16));
+        jScrollPane6.setViewportView(infoBasicaTable);
+
+        favoritosPanel.setLayout(new java.awt.CardLayout());
+
+        albumesTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        albumesTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Artista", "Nombre", "Año"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -348,91 +295,226 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane8.setViewportView(seguidoresTable);
+        jScrollPane4.setViewportView(albumesTable);
 
-        javax.swing.GroupLayout seguidoresPanelLayout = new javax.swing.GroupLayout(seguidoresPanel);
-        seguidoresPanel.setLayout(seguidoresPanelLayout);
-        seguidoresPanelLayout.setHorizontalGroup(
-            seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
-            .addGroup(seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, seguidoresPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout albumesPanelLayout = new javax.swing.GroupLayout(albumesPanel);
+        albumesPanel.setLayout(albumesPanelLayout);
+        albumesPanelLayout.setHorizontalGroup(
+            albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 510, Short.MAX_VALUE)
+            .addGroup(albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, albumesPanelLayout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-        seguidoresPanelLayout.setVerticalGroup(
-            seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 187, Short.MAX_VALUE)
-            .addGroup(seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, seguidoresPanelLayout.createSequentialGroup()
-                    .addGap(0, 11, Short.MAX_VALUE)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        albumesPanelLayout.setVerticalGroup(
+            albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 499, Short.MAX_VALUE)
+            .addGroup(albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE))
         );
 
-        usuariosPanel.add(seguidoresPanel, "seguidoresPanel");
+        favoritosPanel.add(albumesPanel, "albumesPanel");
+
+        listasFavTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        listasFavTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Tipo", "Creador/Género"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(listasFavTable);
+
+        javax.swing.GroupLayout listasFavPanelLayout = new javax.swing.GroupLayout(listasFavPanel);
+        listasFavPanel.setLayout(listasFavPanelLayout);
+        listasFavPanelLayout.setHorizontalGroup(
+            listasFavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 579, Short.MAX_VALUE)
+            .addGroup(listasFavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listasFavPanelLayout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(79, 79, 79)))
+        );
+        listasFavPanelLayout.setVerticalGroup(
+            listasFavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 499, Short.MAX_VALUE)
+            .addGroup(listasFavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE))
+        );
+
+        favoritosPanel.add(listasFavPanel, "listasPanel");
+
+        temasTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        temasTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Artista", "Album", "Nombre", "Orden", "Duración"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        temasTable.setGridColor(new java.awt.Color(204, 204, 204));
+        jScrollPane3.setViewportView(temasTable);
+
+        javax.swing.GroupLayout temasPanelLayout = new javax.swing.GroupLayout(temasPanel);
+        temasPanel.setLayout(temasPanelLayout);
+        temasPanelLayout.setHorizontalGroup(
+            temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 510, Short.MAX_VALUE)
+            .addGroup(temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, temasPanelLayout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        temasPanelLayout.setVerticalGroup(
+            temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 499, Short.MAX_VALUE)
+            .addGroup(temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE))
+        );
+
+        favoritosPanel.add(temasPanel, "temasPanel");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(favoritosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(favoritosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(favoritosPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel5)
+                    .addComponent(usuariosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(favoritosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)
-                            .addComponent(usuariosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(favoritosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(196, Short.MAX_VALUE)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(201, 201, 201)
                     .addComponent(usuariosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
+                    .addContainerGap(533, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(favoritosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(favoritosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(usuariosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(favoritosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(19, 19, 19)
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(usuariosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(380, 380, 380)
-                    .addComponent(usuariosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(393, Short.MAX_VALUE)
+                    .addComponent(usuariosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void clientesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesTableMouseClicked
+        String nickname = (String) clientesTable.getValueAt(clientesTable.getSelectedRow(), 0);
+        DtCliente cliente = contClientes.verPerfilCliente(nickname);
+
+        // limpiar las variables arraylist
+        listasCreadas.clear();
+        temasFavCli.clear();
+        albumesFavCli.clear();
+        listasFavCli.clear();
+        seguidores.clear();
+        usuariosSeguidos.clear();
+
+        //guardar los datos el cliente para poder mostrarlos o ocultarlos en la interfaz
+        listasCreadas = cliente.getListas();
+        temasFavCli = cliente.getFavTemas();
+        albumesFavCli = cliente.getFavAlbumes();
+        listasFavCli = cliente.getFavListas();
+        seguidores = contClientes.getSeguidores(nickname);
+        usuariosSeguidos = cliente.getUsuariosSeguidos();
+
+        //Información básica
+        DefaultTableModel modelo = (DefaultTableModel) infoBasicaTable.getModel();
+        while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla         
+        String[] datos = {cliente.getNombre(), cliente.getApellido(), cliente.getFechaNac(), cliente.getCorreo()}; 
+        modelo.addRow(datos);
+        
+        listarListasCreadas();
+        listarTemas(); //Todavia sin implementar los CU de favoritos
+        listarUsuariosSeguidos();
+    }//GEN-LAST:event_clientesTableMouseClicked
 
     private void favoritosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_favoritosComboBoxActionPerformed
         // TODO add your handling code here:
@@ -444,28 +526,7 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
         mostrarUsuarios( (String) usuariosComboBox.getSelectedItem() );
     }//GEN-LAST:event_usuariosComboBoxActionPerformed
 
-    private void clientesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesTableMouseClicked
-        String nickname = (String) clientesTable.getValueAt(clientesTable.getSelectedRow(), 0);
-        DtCliente cliente = contClientes.verPerfilCliente(nickname);
-        
-        // limpiar variables
-        temasFavCli.clear();
-        albumesFavCli.clear();
-        listasFavCli.clear();
-        seguidores.clear();
-        usuariosSeguidos.clear();
-        
-        //guardar los datos el cliente para poder mostrarlos o ocultarlos en la interfaz
-        temasFavCli = cliente.getFavTemas();
-        albumesFavCli = cliente.getFavAlbumes();
-        listasFavCli = cliente.getFavListas();
-        seguidores = cliente.getSeguidores();
-        usuariosSeguidos = cliente.getUsuariosSeguidos();
-        
-        
-        listarTemas();
-    }//GEN-LAST:event_clientesTableMouseClicked
-
+    // Funciones
     public void mostrarFavoritos(String tipo){
         CardLayout cl = (CardLayout)(favoritosPanel.getLayout());
         
@@ -503,6 +564,20 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
             System.out.println(nickname);
            String[] datos = {nickname}; 
            modelo.addRow(datos);
+        }
+    }
+    
+    public void listarListasCreadas(){
+        DefaultTableModel modelo = (DefaultTableModel) listasCreadasTable.getModel();
+        while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla
+        
+        for (DtListaP lista : listasCreadas) {
+            String tipo = "Pública";
+            if(lista.isPrivada()){
+                tipo = "Privada";
+            }
+            String[] datos ={lista.getNombre(), tipo};
+            modelo.addRow(datos);
         }
     }
     
@@ -576,40 +651,19 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
         }
     }
     
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPerfilCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPerfilCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPerfilCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultarPerfilCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ConsultarPerfilCliente().setVisible(true);
-            }
-        });
+    public void centrar(){
+        //este metodo devuelve el tamaÃ±o de la pantalla
+        Dimension pantalla = this.getParent().getSize();
+        //obtenemos el tamaÃ±o de la ventana
+        Dimension ventana = this.getSize();
+        //para centrar la ventana lo hacemos con el siguiente calculo
+        int a = pantalla.width;
+        int b = ventana.width;
+        a = (a-b)/2;
+        int c = pantalla.height;
+        int d = ventana.height;
+        c = (c-d)/2;
+        this.setLocation(a, c);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -618,18 +672,22 @@ public class ConsultarPerfilCliente extends javax.swing.JFrame {
     private javax.swing.JTable clientesTable;
     private javax.swing.JComboBox<String> favoritosComboBox;
     private javax.swing.JPanel favoritosPanel;
+    private javax.swing.JTable infoBasicaTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable listasCreadasTable;
     private javax.swing.JPanel listasFavPanel;
     private javax.swing.JTable listasFavTable;
     private javax.swing.JPanel seguidoresPanel;

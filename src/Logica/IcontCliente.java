@@ -7,6 +7,7 @@ package Logica;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import javax.swing.ImageIcon;
 
 
@@ -32,5 +33,8 @@ public interface IcontCliente{
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract ArrayList<DtUsuario> BuscarUsuariosSeg(String Nickname, String palabra);
     public abstract ArrayList<DtGenero> ListarGeneros(String palabra);
+    public abstract ArrayList<DtCliente> getSeguidores(String nickname);
+    public abstract void setClientes(HashMap<String,Cliente> clientes);
+    public abstract void setCA(IcontArtista art);
 }
 //hellou papaguena
