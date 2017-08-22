@@ -74,9 +74,6 @@ public class ContArtista implements IcontArtista {
 
     @Override
     public ArrayList<DtArtista> ListarArtistas() {
-        System.out.println("ContArtistaDatos:");
-        System.out.println(this.artistas);
-        System.out.println("Fin:");
         ArrayList<DtArtista> a = new ArrayList<>();
         Iterator iterador = this.artistas.values().iterator();
         while (iterador.hasNext()) {
@@ -86,6 +83,18 @@ public class ContArtista implements IcontArtista {
         return a;
 
     }
+    
+    @Override
+    public ArrayList<DtAlbum> listarAlbumesArtista(String nick){
+	Artista art=(Artista) this.artistas.get(nick);
+	return art.getDtAlbumes();
+    }
+
+    @Override
+    public ArrayList<DtCliente> listarSeguidores(String nick){
+	return this.Cli.getSeguidores(nick);
+    }
+
 
 //    @Override
 //    public ArrayList <DtGenero> obtenerGenero() {
@@ -385,20 +394,6 @@ public class ContArtista implements IcontArtista {
         pcl.AddLista(lpd1); //Agregar lista por defecto a los generos
         rkl.AddLista(lpd2);
         cla.AddLista(lpd3);
-    }
-
-    public ArrayList<DtAlbum> ListarAlbumes() {
-        ArrayList<DtAlbum> a = new ArrayList<>();
-        Iterator iterador = this.artistas.values().iterator();
-        while (iterador.hasNext()) {
-            Artista aux = (Artista) iterador.next();
-            Iterator iterador2 = aux.getAlbumes().values().iterator();
-            while (iterador2.hasNext()) {
-                Album al = (Album)iterador2.next();
-                a.add(al.getDatos());
-            }
-        }
-        return a;
     }
     
     private ArrayList<DtGenero> buscaHijos(String nombre){
