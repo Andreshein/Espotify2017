@@ -659,7 +659,6 @@ public class DBUsuario {
         }
         int rcl=0,rkl=0,rar=0,cla=0,dis=0,epo=0,dpo=0,pcl=0,bal=0,cum=0;
         try {
-            List<Genero> listageneros=new ArrayList<Genero>();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM genero");          
             ResultSet rs = st.executeQuery();
             while (rs.next()){

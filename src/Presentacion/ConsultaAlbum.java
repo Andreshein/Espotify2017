@@ -229,14 +229,14 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 modelo.addRow(dat);}
 
         }else {
-            ArrayList<DtArtista> art = this.Art.BuscarArtista(this.txnombre.getText());
+            ArrayList<DtAlbum> art = this.Art.BuscarArtista(this.txnombre.getText());
             DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
             modelo.setRowCount(0);
             for (int i=0;i<art.size();i++) {
-                DtArtista p=(DtArtista)art.get(i);
+                DtAlbum al=(DtAlbum)art.get(i);
                 Object[] dat={
-                    p.getNickname(),
-                    p.getAlbumes(),
+                    al.getNombreArtista(),
+                    al.getNombre(),
                 };
                 modelo.addRow(dat);
             }

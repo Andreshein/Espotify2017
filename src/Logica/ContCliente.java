@@ -173,6 +173,10 @@ private ContCliente(){
     }
     public void CargadeDatos(){
         this.dbUsuario.CargarDatosdePrueba();
+        cargarDatosDeLaBD();
+    }
+
+    public void cargarDatosDeLaBD(){
         this.art.CargarDatos();
         clientes = dbUsuario.cargarClientes();
         Map<Integer, Particular> ListaPar=new HashMap();
@@ -353,7 +357,6 @@ private ContCliente(){
         obiwan.setFavAlbum(album8);
         cacho.setFavAlbum(album11);
     }
-
     
     public ArrayList<DtCliente> getSeguidores(String nickname){
         ArrayList<DtCliente> seguidores = new ArrayList<>();
