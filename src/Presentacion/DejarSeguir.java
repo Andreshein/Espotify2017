@@ -24,7 +24,8 @@ public class DejarSeguir extends javax.swing.JFrame {
     
     public DejarSeguir() {
         initComponents();
-        this.icc = Fabrica.getCliente();
+        Fabrica f = Fabrica.getInstance();
+        this.icc=f.getCliente();
         this.limpiar();
         
     }

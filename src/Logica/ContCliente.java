@@ -8,21 +8,21 @@ package Logica;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 import Persistencia.*;
 import java.util.Iterator;
+import java.util.Map;
 import javax.swing.ImageIcon;
 
+public class ContCliente implements IcontCliente {
 
-public class ContCliente implements IcontCliente{
     private static ContCliente instancia;
-    
+
     private Map<String, Cliente> clientes;
     private DBUsuario dbUsuario=null;
     private IcontArtista art;
 
-    public static ContCliente getInstance(){
-        if (instancia == null){
+    public static ContCliente getInstance() {
+        if (instancia == null) {
             instancia = new ContCliente();
         }
         return instancia;
@@ -39,9 +39,10 @@ private ContCliente(){
     }
 
     @Override
-    public boolean AltaDePerfil(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen){
+    public boolean AltaDePerfil(String nickname, String nombre, String apellido, String correo, Date fechaNac, ImageIcon imagen) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
     public void AgregarArtista(String biografia, String link) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -65,16 +66,16 @@ private ContCliente(){
     @Override
     public ArrayList<String> listarNickClientes() {
         ArrayList<String> listaNicknames = new ArrayList<>();
-        
+
         for (Cliente cliente : this.clientes.values()) {
             listaNicknames.add(cliente.getNickname());
         }
-        
+
         return listaNicknames;
     }
 
     @Override
-    public DtCliente verPerfilCliente(String nickname) {
+    public DtCliente verPerfilCliente(String nickname) {        
         return this.clientes.get(nickname).getDatos();
     }
 
@@ -85,34 +86,34 @@ private ContCliente(){
 
     @Override
     public void DejarSeguir(String NickCli, String NickUsu) {
-        Cliente cli = (Cliente)this.clientes.get(NickCli);
+        Cliente cli = (Cliente) this.clientes.get(NickCli);
         cli.dejarSeguir(NickUsu);
     }
-    
+
     @Override
-    public void SeleccionarCliente(String nickname){
+    public void SeleccionarCliente(String nickname) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
-    public ArrayList<DtUsuario> listarUsuarios(){
+
+    public ArrayList<DtUsuario> listarUsuarios() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-      
+
     @Override
-    public void crearListaRP(String nickname,String nombre,ImageIcon imagen){
+    public void crearListaRP(String nickname, String nombre, ImageIcon imagen) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
-    public void crearListaRD(String genero,String nombre,ImageIcon imagen){
+    public void crearListaRD(String genero, String nombre, ImageIcon imagen) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
-    public void confirmar(){
+    public void confirmar() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
     public boolean IngresarCliente(String nickname, String nombre, String apellido, String correo,Date fechaNac, String Img) {
         if (this.clientes.get(nickname)!=null){
@@ -126,49 +127,48 @@ private ContCliente(){
                 this.clientes.put(nickname, c);
             }
             return tru;
-          
-    }
+
+        }
     }
 
     public ArrayList<DtCliente> BuscarClientes(String palabra) {
         ArrayList<DtCliente> retornar = new ArrayList<>();
         Iterator iterador = this.clientes.values().iterator();
-        while(iterador.hasNext()){
-            Cliente aux = (Cliente)iterador.next();
-            if(aux.getNickname().contains(palabra)==true || aux.getNombre().contains(palabra)==true || aux.getApellido().contains(palabra)==true){
-            retornar.add(aux.getDatos());
+        while (iterador.hasNext()) {
+            Cliente aux = (Cliente) iterador.next();
+            if (aux.getNickname().contains(palabra) == true || aux.getNombre().contains(palabra) == true || aux.getApellido().contains(palabra) == true) {
+                retornar.add(aux.getDatos());
             }
         }
         return retornar;
     }
 
     public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
-       ArrayList<DtUsuario> retornar = this.art.BuscarUsuarios(palabra);
-       Iterator iterador = this.clientes.values().iterator();
-        while(iterador.hasNext()){
-            Cliente aux = (Cliente)iterador.next();
-            if(aux.getNickname().contains(palabra)==true || aux.getNombre().contains(palabra)==true || aux.getApellido().contains(palabra)==true){
-            retornar.add(aux.getDatos());
-            }
-        }
+        ArrayList<DtUsuario> retornar = this.art.BuscarUsuarios(palabra);
+        Iterator iterador = this.clientes.values().iterator();
+        while (iterador.hasNext()) {
+            Cliente aux = (Cliente) iterador.next();
+            if (aux.getNickname().contains(palabra) == true || aux.getNombre().contains(palabra) == true || aux.getApellido().contains(palabra) == true) {
+                retornar.add(aux.getDatos());
+        }}
         return retornar;
     }
-    
-    public void seguir(String nickCli, String nickUsu){
-        Cliente cli = (Cliente)this.clientes.get(nickCli);
+
+    public void seguir(String nickCli, String nickUsu) {
+        Cliente cli = (Cliente) this.clientes.get(nickCli);
         cli.setSiguiendo(this.seleccionarUsuario(nickUsu));
     }
-    
-    public Usuario seleccionarUsuario(String Nickname){
+
+    public Usuario seleccionarUsuario(String Nickname) {
         Usuario u = this.art.seleccionarUsuario(Nickname);
-        if(u==null){
+        if (u == null) {
             u = this.clientes.get(Nickname);
         }
         return u;
     }
-    
-    public ArrayList<DtUsuario> BuscarUsuariosSeg(String Nickname, String palabra){
-        Cliente cli = (Cliente)this.clientes.get(Nickname);
+
+    public ArrayList<DtUsuario> BuscarUsuariosSeg(String Nickname, String palabra) {
+        Cliente cli = (Cliente) this.clientes.get(Nickname);
         return cli.buscarEnUsuarios(palabra);
     }
     public void CargadeDatos(){
@@ -353,5 +353,33 @@ private ContCliente(){
         obiwan.setFavAlbum(album8);
         cacho.setFavAlbum(album11);
     }
-}
 
+    
+    public ArrayList<DtCliente> getSeguidores(String nickname){
+        ArrayList<DtCliente> seguidores = new ArrayList<>();
+        
+        for (Cliente cliente : this.clientes.values()) {
+            // Busca si el nickname esta en la lista de usuarios seguidos de cada cliente
+            if(cliente.getSiguiendo().containsKey(nickname)){
+                seguidores.add(cliente.getDatosResumidos());
+            }
+        }
+        
+        return seguidores;
+    }
+
+    public ArrayList<DtGenero> ListarGeneros(String palabra) {
+        ArrayList<DtGenero> ret;
+        return null;
+    }
+
+    public void setClientes(HashMap<String, Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public void setCA(IcontArtista art) {
+         this.art=art;
+    }
+    
+    
+}

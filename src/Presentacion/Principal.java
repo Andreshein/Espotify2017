@@ -32,6 +32,10 @@ public class Principal extends javax.swing.JFrame {
         
         // Es para que la ventana se centre
         this.setLocationRelativeTo(null);
+        
+        this.setExtendedState(this.MAXIMIZED_BOTH);
+        Fabrica  f = Fabrica.getInstance();
+        //f.cargarDatos();
     }
 
     /**
@@ -214,7 +218,9 @@ public class Principal extends javax.swing.JFrame {
     private void ConsultarPerfilCliMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarPerfilCliMenuItemActionPerformed
         // TODO add your handling code here:
         ConsultarPerfilCliente perfilCli = new ConsultarPerfilCliente();
-        perfilCli.setVisible(true);
+        escritorio.add(perfilCli);
+        perfilCli.centrar();
+        perfilCli.show();
     }//GEN-LAST:event_ConsultarPerfilCliMenuItemActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
@@ -230,6 +236,7 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         AltaPerfil Ap = new AltaPerfil();
         escritorio.add(Ap);
+        Ap.centrar();
         Ap.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -241,6 +248,7 @@ public class Principal extends javax.swing.JFrame {
     private void agregarTemaListaMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarTemaListaMenuItemActionPerformed
         AgregarTemaaLista agregarTL = new AgregarTemaaLista();
         escritorio.add(agregarTL);
+        agregarTL.centrar();
         agregarTL.show();
     }//GEN-LAST:event_agregarTemaListaMenuItemActionPerformed
 

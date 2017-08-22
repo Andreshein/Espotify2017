@@ -8,6 +8,7 @@ package Persistencia;
 import Logica.Album;
 import Logica.Artista;
 import Logica.Cliente;
+import Logica.DtAlbum;
 import Logica.DtArtista;
 import Logica.DtListaP;
 import Logica.Genero;
@@ -257,7 +258,7 @@ public class DBUsuario {
             ResultSet rs=st.executeQuery();
             while (rs.next()){
                 int id=rs.getInt("Id");
-                Tema pd=new Tema(id,rs.getString("Duracion"),rs.getString("Nombre"),rs.getInt("Orden"),rs.getString("Archivo"),rs.getString("Direccion"));
+                Tema pd=new Tema(id,rs.getString("Duracion"),rs.getString("Nombre"),rs.getInt("Orden"),rs.getString("Archivo"),rs.getString("Dirección"));
                 lista.put(id,pd);
             }
             rs.close();
