@@ -24,8 +24,10 @@ public interface IcontArtista {
     public abstract void ConfirmarAlbum();
     public abstract DtArtista ElegirArtista(String nomArtista);
     public abstract ArrayList<DtArtista> ListarArtistas(); 
-    public abstract ArrayList<DtGenero> obtenerGenero(); //set(DtGenero);
-    public abstract ArrayList<DtArtista> obtenerArtista(); //set(DtArtista);
+//    public abstract ArrayList<DtArtista> obtenerArtista();
+//    public abstract ArrayList<DtGenero> obtenerGenero(); //set(DtGenero);
+    public abstract ArrayList<DtAlbum> BuscarGenero(String palabra);
+    public abstract ArrayList<DtArtista> BuscarArtista(String palabra);
     public abstract void seleccionarAlbum(String nick,String nombre);
     public abstract DtAlbum mostrarAlbum(); //DtAlbum
     public abstract Artista buscarArtista(String nickname);
@@ -40,5 +42,6 @@ public interface IcontArtista {
     public abstract ArrayList<DtAlbum> ListarAlbumes();
     public abstract void setArtista(HashMap<String,Artista> artistas);
     public abstract void setGenero(HashMap<String,Genero> generos);
+
 
 }

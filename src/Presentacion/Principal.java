@@ -68,6 +68,8 @@ public class Principal extends javax.swing.JFrame {
         ConsultarPerfilCliMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        ConsultaAlbum = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         agregarTemaListaMenuItem = new javax.swing.JMenuItem();
         Datos = new javax.swing.JMenu();
@@ -175,6 +177,23 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu5.setText("Álbum");
+        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu5ActionPerformed(evt);
+            }
+        });
+
+        ConsultaAlbum.setText("Consultar Álbum");
+        ConsultaAlbum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultaAlbumActionPerformed(evt);
+            }
+        });
+        jMenu5.add(ConsultaAlbum);
+
+        jMenuBar1.add(jMenu5);
+
         jMenu4.setText("Listas");
 
         agregarTemaListaMenuItem.setText("Agregar Tema");
@@ -263,6 +282,19 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CargaDatosActionPerformed
 
+    private void ConsultaAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultaAlbumActionPerformed
+        // TODO add your handling code here:
+        ConsultaAlbum album = new ConsultaAlbum();
+        escritorio.add(album);
+        album.centrar();
+        album.show();
+    }//GEN-LAST:event_ConsultaAlbumActionPerformed
+
+    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+        
+    }//GEN-LAST:event_jMenu5ActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -297,6 +329,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CargaDatos;
+    private javax.swing.JMenuItem ConsultaAlbum;
     private javax.swing.JMenuItem ConsultarPerfilCliMenuItem;
     private javax.swing.JMenu Datos;
     private javax.swing.JMenuItem agregarTemaListaMenuItem;
@@ -310,6 +343,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;

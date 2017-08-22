@@ -79,14 +79,51 @@ public class ContArtista implements IcontArtista {
 
     }
 
-    @Override
-    public ArrayList<DtGenero> obtenerGenero() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public ArrayList <DtGenero> obtenerGenero() {
+////        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+////        ArrayList<DtGenero> retornar=new ArrayList<DtGenero>();
+////        Iterator iterator = this.generos.values().iterator();
+////            while(iterator.hasNext()) {
+////                Genero aux = (Genero)iterator.next();
+////               retornar.add(aux.getDtGenero());}       
+////        return retornar;
+//        
+//    }
 
-    @Override
-    public ArrayList<DtArtista> obtenerArtista() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    @Override
+//    public ArrayList <DtArtista> obtenerArtista() {
+////        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+////        ArrayList<DtArtista> retornar=new ArrayList<DtArtista>();
+////        Iterator iterator = this.artistas.values().iterator();
+////        while(iterator.hasNext()) {
+////            Artista aux = (Artista)iterator.next();
+////            retornar.add(aux.getDtArtista());}       
+////        return retornar;
+//    }
+    
+    public ArrayList<DtAlbum> BuscarGenero(String palabra){
+        ArrayList<DtAlbum> retornar=new ArrayList<>();
+        Iterator iterator = this.generos.values().iterator();
+        while(iterator.hasNext()) {
+            Genero aux = (Genero)iterator.next();
+            if(aux.getNombre().contains(palabra)){
+//            if(aux.getNombre().indexOf(palabra)!=-1)
+                retornar.addAll(aux.getAlbumesGenero());
+            }
+        }       
+        return retornar;
+   }
+   
+    public ArrayList <DtArtista> BuscarArtista(String palabra) {
+        ArrayList<DtArtista> retornar=new ArrayList<DtArtista>();
+        Iterator iterator = this.artistas.values().iterator();
+        while(iterator.hasNext()) {
+            Artista aux = (Artista)iterator.next();
+            String nombrecompleto = aux.getNombre() + " " + aux.getApellido();
+            if(aux.getNickname().indexOf(palabra)!=-1 || aux.getNombre().indexOf(palabra)!=-1 || aux.getApellido().indexOf(palabra)!=-1 || nombrecompleto.indexOf(palabra)!=-1)
+                retornar.add(aux.getDtArtista());}       
+        return retornar;
     }
 
     @Override
@@ -138,7 +175,7 @@ public class ContArtista implements IcontArtista {
     public Artista buscarArtista(String nickname) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.    
     }
-
+    
     public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
         ArrayList<DtUsuario> retornar = new ArrayList<>();
         Iterator iterador = this.artistas.values().iterator();
@@ -369,6 +406,10 @@ public class ContArtista implements IcontArtista {
 
     public void setGenero(HashMap<String, Genero> generos) {
         this.generos = generos;
+    }
+
+    private void getDtGenero() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -131,4 +131,8 @@ public class Artista extends Usuario {
     public void AddAlbum(Album a){
         this.albumes.put(a.getNombre(), a);
     }
+
+    DtArtista getDtArtista() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
