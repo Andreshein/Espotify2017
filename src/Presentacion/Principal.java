@@ -30,6 +30,9 @@ public class Principal extends javax.swing.JFrame {
         Art = Fabrica.getArtista();
         Fabrica.SetControladores();
         
+        //levantar datos de la BD
+        Cli.cargarDatosDeLaBD();
+        
         // Es para que la ventana se centre
         this.setLocationRelativeTo(null);
         

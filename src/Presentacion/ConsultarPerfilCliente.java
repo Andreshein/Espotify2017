@@ -16,6 +16,7 @@ import Logica.Fabrica;
 import Logica.IcontCliente;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
@@ -117,6 +118,11 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         clientesTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 clientesTableMouseClicked(evt);
+            }
+        });
+        clientesTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                clientesTableKeyReleased(evt);
             }
         });
         jScrollPane2.setViewportView(clientesTable);
@@ -486,6 +492,27 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void clientesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesTableMouseClicked
+        getDatosCliente();
+    }//GEN-LAST:event_clientesTableMouseClicked
+
+    private void favoritosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_favoritosComboBoxActionPerformed
+        // TODO add your handling code here:
+        mostrarFavoritos( (String) favoritosComboBox.getSelectedItem() );
+    }//GEN-LAST:event_favoritosComboBoxActionPerformed
+
+    private void usuariosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariosComboBoxActionPerformed
+        // TODO add your handling code here:
+        mostrarUsuarios( (String) usuariosComboBox.getSelectedItem() );
+    }//GEN-LAST:event_usuariosComboBoxActionPerformed
+
+    private void clientesTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_clientesTableKeyReleased
+        if(evt.getKeyCode()== KeyEvent.VK_DOWN || evt.getKeyCode()== KeyEvent.VK_UP){
+            getDatosCliente();
+        }
+    }//GEN-LAST:event_clientesTableKeyReleased
+
+    // Funciones
+    public void getDatosCliente(){
         String nickname = (String) clientesTable.getValueAt(clientesTable.getSelectedRow(), 0);
         DtCliente cliente = contClientes.verPerfilCliente(nickname);
 
@@ -512,21 +539,15 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         modelo.addRow(datos);
         
         listarListasCreadas();
-        listarTemas(); //Todavia sin implementar los CU de favoritos
+        listarTemas(); 
         listarUsuariosSeguidos();
-    }//GEN-LAST:event_clientesTableMouseClicked
+        listarSeguidores();
+        listarAlbumes();        
+        listarListasFavoritas();
+        listarListasCreadas();
+        listarUsuariosSeguidos();
+    }
 
-    private void favoritosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_favoritosComboBoxActionPerformed
-        // TODO add your handling code here:
-        mostrarFavoritos( (String) favoritosComboBox.getSelectedItem() );
-    }//GEN-LAST:event_favoritosComboBoxActionPerformed
-
-    private void usuariosComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariosComboBoxActionPerformed
-        // TODO add your handling code here:
-        mostrarUsuarios( (String) usuariosComboBox.getSelectedItem() );
-    }//GEN-LAST:event_usuariosComboBoxActionPerformed
-
-    // Funciones
     public void mostrarFavoritos(String tipo){
         CardLayout cl = (CardLayout)(favoritosPanel.getLayout());
         
@@ -586,8 +607,8 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla
         if(temasFavCli != null){
             for (DtTema tema : temasFavCli) {
-                //String[] datos ={"No implementado", "No implementado", tema.getNombre(), tema.getOrden(), tema.getDuracion()};
-                //modelo.addRow(datos);
+                String[] datos ={"nomArtista", "nomAlbum", tema.getNombre(), String.valueOf(tema.getOrden()), tema.getDuracion()};
+                modelo.addRow(datos);
             }
         }
     }
