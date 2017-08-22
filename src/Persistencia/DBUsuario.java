@@ -105,7 +105,10 @@ public class DBUsuario {
             return null;
         }        
     }
+
     
+    
+//SORETES!!    
 //    public Map<String, Cliente> cargarClientes(){
 //        try {
 //            Map<String, Cliente> lista=new HashMap<String, Cliente>();

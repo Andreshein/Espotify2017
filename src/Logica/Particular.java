@@ -3,6 +3,7 @@ package Logica;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.ImageIcon;
 
 
 public class Particular extends Lista{
@@ -65,4 +66,10 @@ public class Particular extends Lista{
     ArrayList<Tema> getTemas() {
         return this.temas;
     }
+    
+    
+    public DtListaP getDtListaP(){
+        return new DtListaP(nombre,getDtTemas());
+    }
+    
 }
