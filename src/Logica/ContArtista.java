@@ -11,6 +11,8 @@ import Persistencia.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import javax.swing.ImageIcon;
 
 public class ContArtista implements IcontArtista {
@@ -19,6 +21,7 @@ public class ContArtista implements IcontArtista {
 
     private Map<String, Artista> artistas;
     private Map<String, Genero> generos;
+    private Map<String, PorDefecto> ListasPorDef;
     private DBUsuario dbUsuario=null;
     private IcontCliente Cli;
 
@@ -33,6 +36,11 @@ public class ContArtista implements IcontArtista {
 
         this.artistas = new HashMap<>();
         this.dbUsuario = new DBUsuario();
+        this.ListasPorDef = new HashMap<>();
+    }
+    
+    public Map<String, Genero> GetGeneros(){
+        return this.generos;
     }
 
     public void SetContCliente(IcontCliente cli){
@@ -157,11 +165,12 @@ public class ContArtista implements IcontArtista {
     public void CargarDatos(){
         this.artistas = dbUsuario.cargarArtistas();// cargar colección de artistas
         Map<Integer, Album> albumes=new HashMap();
-        Map<String, Genero> generos0=new HashMap();
+        //Map<String, Genero> generos0=new HashMap();
         Map<Integer, Tema> temas=new HashMap();
         Map<Integer, PorDefecto> ListaPD=new HashMap();
+        //this.setGenero((HashMap)generos0);
         albumes = dbUsuario.cargarAlbumes();
-        generos0 = dbUsuario.cargarGenero();
+        this.generos = dbUsuario.cargarGenero();
         temas = dbUsuario.cargarTema();
         ListaPD = dbUsuario.cargarListaPD();
         Artista vp = artistas.get("vpeople");
@@ -202,19 +211,19 @@ public class ContArtista implements IcontArtista {
         pi.getAlbumes().put(album11.getNombre(), album11);
         dy.getAlbumes().put(album12.getNombre(), album12);
         al.getAlbumes().put(album13.getNombre(), album13);
-        Genero rok = generos0.get("Rock");
-        Genero rcl = generos0.get("Rock Clásico");
-        Genero rkl = generos0.get("Rock Latino");
-        Genero rar = generos0.get("Rock & Roll");
-        Genero cla = generos0.get("Clásica");
-        Genero dis = generos0.get("Disco");
-        Genero pop = generos0.get("Pop");
-        Genero epo = generos0.get("Electropop");
-        Genero dpo = generos0.get("Dance-pop");
-        Genero pcl = generos0.get("Pop Clásico");
-        Genero gen = generos0.get("Género");
-        Genero bal = generos0.get("Balada");
-        Genero cum = generos0.get("Cumbia");
+        Genero rok = generos.get("Rock");
+        Genero rcl = generos.get("Rock Clásico");
+        Genero rkl = generos.get("Rock Latino");
+        Genero rar = generos.get("Rock & Roll");
+        Genero cla = generos.get("Clásica");
+        Genero dis = generos.get("Disco");
+        Genero pop = generos.get("Pop");
+        Genero epo = generos.get("Electropop");
+        Genero dpo = generos.get("Dance-pop");
+        Genero pcl = generos.get("Pop Clásico");
+        Genero gen = generos.get("Género");
+        Genero bal = generos.get("Balada");
+        Genero cum = generos.get("Cumbia");
         rok.setPadre(gen); //darle a los generos su padre
         pop.setPadre(gen);
         cla.setPadre(gen);
@@ -314,6 +323,9 @@ public class ContArtista implements IcontArtista {
         PorDefecto lpd1 = ListaPD.get(1);
         PorDefecto lpd2 = ListaPD.get(2);
         PorDefecto lpd3 = ListaPD.get(3);
+        this.ListasPorDef.put(lpd1.getNombre(),lpd1);
+        this.ListasPorDef.put(lpd2.getNombre(),lpd2);
+        this.ListasPorDef.put(lpd3.getNombre(),lpd3);
         lpd1.setGenero(pcl); //Agregar genero a listas por defecto
         lpd2.setGenero(rkl);
         lpd3.setGenero(cla);
@@ -369,6 +381,20 @@ public class ContArtista implements IcontArtista {
 
     public void setGenero(HashMap<String, Genero> generos) {
         this.generos = generos;
+    }
+    @Override
+    public List<DtArtista> BuscarArtistas(String nombre) {
+        List<DtArtista> retornar=new ArrayList<DtArtista>();
+        Set set = artistas.entrySet();
+        Iterator iterator = set.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry mentry = (Map.Entry)iterator.next();
+            Artista aux=(Artista) mentry.getValue();     
+            if (aux.getNickname().contains(nombre)){
+                retornar.add(aux.GetDtArtista());
+            }
+        }       
+        return retornar;
     }
     
 }

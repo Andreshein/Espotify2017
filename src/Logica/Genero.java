@@ -31,7 +31,14 @@ public class Genero {
         this.Albumes = new HashMap();
         this.Listas = new HashMap();
     }
-
+    
+    public int getid(){
+        return id;
+    }
+    
+    public int getidpadre(){
+        return idPapa;
+    }
     public Genero getPadre(){
         return Padre;
     }

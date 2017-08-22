@@ -131,4 +131,7 @@ public class Artista extends Usuario {
     public void AddAlbum(Album a){
         this.albumes.put(a.getNombre(), a);
     }
+    public DtArtista GetDtArtista(){
+        return new DtArtista(nickname,nombre,apellido);
+    } 
 }

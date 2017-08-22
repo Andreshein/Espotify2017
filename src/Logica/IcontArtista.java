@@ -8,6 +8,8 @@ package Logica;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.ImageIcon;
 
 /**
@@ -36,9 +38,10 @@ public interface IcontArtista {
     public abstract Usuario seleccionarUsuario(String Nickname);
     public abstract void CargarDatos();
     public abstract void SetContCliente(IcontCliente cli);
-    
+    public abstract List<DtArtista> BuscarArtistas(String nombre);
     public abstract ArrayList<DtAlbum> ListarAlbumes();
     public abstract void setArtista(HashMap<String,Artista> artistas);
     public abstract void setGenero(HashMap<String,Genero> generos);
+    public abstract Map<String, Genero> GetGeneros();
 
 }
