@@ -57,6 +57,7 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblAlbum = new javax.swing.JTable();
+        CantidadSeg = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -118,17 +119,9 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nickname seguidor", "Cantidad de seguidores"
+                "Nickname seguidor"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane3.setViewportView(tblSeguidores);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -152,6 +145,8 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(tblAlbum);
 
+        CantidadSeg.setText("jLabel6");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,25 +154,29 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane1))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(133, 133, 133)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(CantidadSeg)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane3)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE))))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -198,7 +197,9 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(CantidadSeg))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -214,6 +215,7 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
     private void tblArtistasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblArtistasMouseClicked
         this.mostrarInfoArtista();
         this.listarAlbumes();
+        this.listarSeguidores();
     }//GEN-LAST:event_tblArtistasMouseClicked
 
     public void listarNickArtistas(){
@@ -222,65 +224,54 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
         while(modelo.getRowCount()>0){
             modelo.removeRow(0);
         }
-        System.out.print(":Check:");
-        System.out.println(artista.ListarArtistas());
-        System.out.println(artista);
+      
         for(DtArtista art: artista.ListarArtistas()){
-            System.out.print(":Check:");
-            System.out.print(art.getNickname());
-            System.out.print(art.getNombre());
-            System.out.print(":Fin:");
             String[] datos={art.getNickname()};
             modelo.addRow(datos);
         }
-        System.out.print(":Fin:");
      }
     
     public void mostrarInfoArtista(){
        String nickname = (String) tblArtistas.getValueAt(tblArtistas.getSelectedRow(), 0);
         DefaultTableModel modelo = (DefaultTableModel) tblInfoArt.getModel();
-        SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
-        DtArtista art2 = null;
-        for(DtArtista art: artista.ListarArtistas()){
-            if(art.getNickname().equals(nickname))
-            {
-                art2 = artista.ElegirArtista(art.getNombre());
-            }
-        }
-        //DtArtista art = artista.ElegirArtista(nickname);
-        
+        DtArtista art = artista.ElegirArtista(nickname);
+
         while(modelo.getRowCount()>0){
             modelo.removeRow(0);
         } 
         
-        String[] datos={art2.getNombre(),art2.getApellido(),art2.getCorreo(),art2.getFechaNac(),art2.getBiografia(),art2.getPagWeb()};
+        String[] datos={art.getNombre(),art.getApellido(),art.getCorreo(),art.getFechaNac(),art.getBiografia(),art.getPagWeb(),null};
         modelo.addRow(datos);  
     }
     
      public void listarAlbumes(){
+        String nick=(String) tblArtistas.getValueAt(tblArtistas.getSelectedRow(), 0); ;
         DefaultTableModel modelo = (DefaultTableModel) tblAlbum.getModel();
         
         while(modelo.getRowCount()>0){
             modelo.removeRow(0);
         }
-        for(DtAlbum alb: artista.ListarAlbumes()){
+        for(DtAlbum alb: artista.listarAlbumesArtista(nick)){
             String[] datos={alb.getNombre()};
             modelo.addRow(datos);
         }
      }
 
-      public void listarSeguidores(){
+    public void listarSeguidores(){
+        String nick=(String) tblArtistas.getValueAt(tblArtistas.getSelectedRow(), 0);
         DefaultTableModel modelo = (DefaultTableModel) tblSeguidores.getModel();
         
         while(modelo.getRowCount()>0)
             modelo.removeRow(0);
         
-        if(seguidores != null){
-            for (DtArtista seguidor : seguidores) {
-                Integer cantSeg = Integer.valueOf(seguidor.getCantSeguidores());
-                //String[] datos ={seguidor.getNickname(),cantSeg};
-                //modelo.addRow(datos);
-            }
+        ArrayList<DtCliente> clientes=artista.listarSeguidores(nick);
+        int cant=clientes.size();
+        String cantidad=String.valueOf(cant);
+        CantidadSeg.setText(cantidad);
+       
+        for(DtCliente cli:clientes){
+            String[] datos={cli.getNickname()};
+            modelo.addRow(datos);
         }
     }
       
@@ -320,6 +311,7 @@ public class ConsultarPerfilArtista extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel CantidadSeg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

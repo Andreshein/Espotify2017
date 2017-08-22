@@ -30,6 +30,9 @@ public class Principal extends javax.swing.JFrame {
         Art = Fabrica.getArtista();
         Fabrica.SetControladores();
         
+        //levantar datos de la BD
+        Cli.cargarDatosDeLaBD();
+        
         // Es para que la ventana se centre
         this.setLocationRelativeTo(null);
         
@@ -64,10 +67,13 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         ConsultarPerfilCliMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        ConsultaAlbum = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         agregarTemaListaMenuItem = new javax.swing.JMenuItem();
         Datos = new javax.swing.JMenu();
@@ -128,7 +134,7 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.setPreferredSize(new java.awt.Dimension(445, 21));
 
-        jMenu3.setText("AltaPerfil");
+        jMenu3.setText("Nuevo");
         jMenu3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu3ActionPerformed(evt);
@@ -136,13 +142,21 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("AltaPerfil");
+        jMenuItem1.setText("Usuario");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
         jMenu3.add(jMenuItem1);
+
+        jMenuItem3.setText("Album");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
 
         jMenuBar1.add(jMenu3);
 
@@ -174,6 +188,23 @@ public class Principal extends javax.swing.JFrame {
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
+
+        jMenu5.setText("Álbum");
+        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu5ActionPerformed(evt);
+            }
+        });
+
+        ConsultaAlbum.setText("Consultar Álbum");
+        ConsultaAlbum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultaAlbumActionPerformed(evt);
+            }
+        });
+        jMenu5.add(ConsultaAlbum);
+
+        jMenuBar1.add(jMenu5);
 
         jMenu4.setText("Listas");
 
@@ -228,7 +259,6 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
-        // TODO add your handling code here:
 
     }//GEN-LAST:event_jMenu3ActionPerformed
 
@@ -263,6 +293,26 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CargaDatosActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        AltaAlbum ab = new AltaAlbum(escritorio);
+        escritorio.add(ab);
+        ab.setVisible(true);
+        ab.centrar();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void ConsultaAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultaAlbumActionPerformed
+        // TODO add your handling code here:
+        ConsultaAlbum album = new ConsultaAlbum();
+        escritorio.add(album);
+        album.centrar();
+        album.show();
+    }//GEN-LAST:event_ConsultaAlbumActionPerformed
+
+    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+        
+    }//GEN-LAST:event_jMenu5ActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -297,6 +347,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CargaDatos;
+    private javax.swing.JMenuItem ConsultaAlbum;
     private javax.swing.JMenuItem ConsultarPerfilCliMenuItem;
     private javax.swing.JMenu Datos;
     private javax.swing.JMenuItem agregarTemaListaMenuItem;
@@ -310,6 +361,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
@@ -321,5 +373,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar5;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     // End of variables declaration//GEN-END:variables
 }

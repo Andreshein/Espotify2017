@@ -98,6 +98,14 @@ public class Artista extends Usuario {
     public HashMap<String, Album> getAlbumes() {
         return albumes;
     }
+    
+    public ArrayList<DtAlbum> ListarAlbumes() {
+        ArrayList<DtAlbum> albumes = new ArrayList();
+        for (Album a : this.albumes.values()) {
+            albumes.add(a.getDatos());
+        }
+        return albumes;
+        }
 
     public void setAlbumes(HashMap<String, Album> albumes) {
         this.albumes = albumes;
@@ -131,4 +139,8 @@ public class Artista extends Usuario {
     public void AddAlbum(Album a){
         this.albumes.put(a.getNombre(), a);
     }
+    
+    public DtArtista GetDtArtista(){
+        return new DtArtista(nickname,nombre,apellido);
+    } 
 }

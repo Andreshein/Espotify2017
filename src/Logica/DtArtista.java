@@ -37,8 +37,17 @@ public class DtArtista extends DtUsuario{
         this.albumes = albumes;
     }    
     
-
-    
+    public DtArtista(String nick, String nombre, String ape){
+        this.nickname = nick;
+        this.nombre = nombre;
+        this.apellido = ape;
+        this.biografia = null;
+        this.pagWeb = null;
+        this.cantSeguidores = 0;
+        this.nickSeguidores = null;
+        this.albumes = null;
+    }
+        
     public String getBiografia() {
         return biografia;
     }
