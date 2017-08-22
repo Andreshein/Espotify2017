@@ -22,25 +22,28 @@ public class Fabrica {
 
     //SINGLETON
     private static Fabrica instancia;
-    private IcontCliente Cliente;
-    private IcontArtista Artista;
-
-    public static Fabrica getInstance() {
-        if (instancia == null) {
+    private static IcontArtista Artista;
+    private static IcontCliente Cliente;
+    public static Fabrica getInstance(){
+        if (instancia == null){
             instancia = new Fabrica();
         }
         return instancia;
 
     }
 
-    public IcontArtista getArtista() {
-        Artista = ContArtista.getInstance();
-        return this.Artista;
+    public static IcontArtista getArtista() {
+         Artista = ContArtista.getInstance();
+         return Artista;
     }
 
-    public IcontCliente getCliente() {
-        Cliente = ContCliente.getInstance();
-        return this.Cliente;
+     public static IcontCliente getCliente() {
+         Cliente = ContCliente.getInstance();
+         return Cliente;
+    }
+    public static void SetControladores(){
+       Cliente.SetContArtista(Artista);
+       Artista.SetContCliente(Cliente);
     }
 
     private Fabrica() {
@@ -49,7 +52,7 @@ public class Fabrica {
         this.Cliente.setCA(Artista);
     }
 
-    public void cargarDatos() {
+    /*public void cargarDatos() {
         ConexionDB bd = new ConexionDB();
         CargaDatos c = new CargaDatos(bd.getConexion());
 
@@ -57,11 +60,12 @@ public class Fabrica {
             HashMap<String, Artista> artistas = c.cargarArtista();
             HashMap<String, Cliente> clientes = c.cargarCliente();
             HashMap<String, Genero> generos = c.cargarGenero();
-
+            
             Iterator aux = (Iterator) clientes.values().iterator();
             while (aux.hasNext()) {
                 Cliente cli = (Cliente) aux.next();
                 ArrayList<String> claves = c.Seguidos(cli.getNickname());
+                
                 for (int i = 0; i < claves.size(); i++) {
                     if (clientes.containsKey((String) claves.get(i))) {
                         cli.setSiguiendo(clientes.get((String) claves.get(i)));
@@ -156,5 +160,5 @@ public class Fabrica {
             } catch (SQLException ex) {
             
         }
-    }
+    }*/
 }

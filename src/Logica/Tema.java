@@ -10,13 +10,15 @@ package Logica;
  * @author ninoh
  */
 public class Tema {
+    private int id;
     private String duracion;
     private String nombre;
     private int orden;
     private String archivo;
     private String direccion;
 
-    public Tema(String duracion, String nombre, int orden, String archivo, String direccion) {
+    public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion) {
+        this.id = id;
         this.duracion = duracion;
         this.nombre = nombre;
         this.orden = orden;

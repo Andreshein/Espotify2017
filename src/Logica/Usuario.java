@@ -14,6 +14,7 @@ public abstract class Usuario {
     protected String apellido;
     protected String correo;
     protected Date fechaNac;
+    protected String Imagen;
     //Falta implementar imagen
 
     abstract void setNickname(String nickname);

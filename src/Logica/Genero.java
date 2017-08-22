@@ -8,20 +8,28 @@ package Logica;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  *
  * @author ninoh
  */
 public class Genero {
+    private int id;
     private String nombre;
+    private int idPapa;
     private Genero Padre;
-    private ArrayList<Album> Albumes;
+    private HashMap<String, Album> Albumes;
     private HashMap<String, PorDefecto> Listas;
 
 
-    public Genero(String nombre) {
+    public Genero(int id, String nombre,int Papa) {
+        this.id = id;
         this.nombre = nombre;
+        this.idPapa = Papa;
+        this.Padre = null;
+        this.Albumes = new HashMap();
+        this.Listas = new HashMap();
     }
 
     public Genero getPadre(){
@@ -40,12 +48,12 @@ public class Genero {
         this.nombre = nombre;
     }
 
-    public ArrayList<Album> getAlbumes() {
+    public HashMap<String, Album> getAlbumes() {
         return Albumes;
     }
 
-    public void setAlbumes(ArrayList<Album> Albumes) {
-        this.Albumes = Albumes;
+    public void setAlbumes(HashMap<String, Album> albumes) {
+        this.Albumes = albumes;
     }
 
     public HashMap<String, PorDefecto> getListas() {
@@ -55,13 +63,11 @@ public class Genero {
     public void setListas(HashMap<String, PorDefecto> Listas) {
         this.Listas = Listas;
     }
-    
-    public void setAlbum(Album a){
-        this.Albumes.add(a);
-    }
-    
-    public void setLista(PorDefecto pd){
+    public void AddLista(PorDefecto pd){
         this.Listas.put(pd.getNombre(), pd);
+    }
+    public void AddAlbum(Album a){
+        this.Albumes.put(a.getNombre(), a);
     }
     
     public DtGenero getDatos(ArrayList<DtGenero> hijos){
@@ -70,9 +76,10 @@ public class Genero {
     
     public ArrayList<DtAlbum> getDtAlbumes(){
         ArrayList<DtAlbum> a = new ArrayList<>();
-        Iterator it = this.getAlbumes().iterator();
+        Iterator it = this.getAlbumes().entrySet().iterator();
         while(it.hasNext()){
-            Album al = (Album)it.next();
+            Map.Entry mentry = (Map.Entry)it.next();
+            Album al=(Album) mentry.getValue();
             a.add(al.getDatos());
         }
         return a;

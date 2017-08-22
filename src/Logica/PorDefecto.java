@@ -14,10 +14,24 @@ import java.util.Iterator;
  * @author ninoh
  */
 public class PorDefecto extends Lista{
+    private int id;
+    private Genero genero;
+    private String nombre;
     private HashMap<String, PorDefecto> Listas;
+    
 
-    public PorDefecto(String nombre) {
+    public PorDefecto(int id, Genero genero, String nombre) {
+        this.id = id;
+        this.genero = genero;
         this.nombre = nombre;
+        this.temas = new ArrayList();
+    }
+    public PorDefecto(int id, String nombre, String img) {
+        this.id = id;
+        this.genero = null;
+        this.nombre = nombre;
+        this.imagen = img;
+        this.temas = new ArrayList();
     }
             
             
@@ -43,6 +57,15 @@ public class PorDefecto extends Lista{
     
     public DtListaPD getDatosResumidos(){
         return new DtListaPD(nombre, null, null, "Genero"); // falta implementar puntero a genero
+    }
+    public Genero getGenero(){
+        return this.genero;
+    }
+    public void setGenero(Genero g){
+        this.genero = g;
+    }
+    public void AddTema(Tema t){
+        this.getTemas().add(t);
     }
     
     String getNombtre() {

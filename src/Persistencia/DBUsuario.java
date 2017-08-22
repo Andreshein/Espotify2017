@@ -15,6 +15,7 @@ import Logica.Genero;
 import Logica.Particular;
 import Logica.PorDefecto;
 import Logica.Tema;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,6 +23,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DBUsuario {
@@ -33,7 +35,7 @@ public class DBUsuario {
             java.sql.Date fechaN = new java.sql.Date(a.getFechaNac().getTime());
             
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
-                    + "(nickname, nombre, apellido, fechaNac,correo, biografia, pagweb) values(?,?,?,?,?,?,?)");
+                    + "(Nickname, Nombre, Apellido, FechaNac,Correo, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?)");
             statement.setString(1, a.getNickname());
             statement.setString(2, a.getNombre());
             statement.setString(3, a.getApellido());
@@ -41,6 +43,7 @@ public class DBUsuario {
             statement.setString(5, a.getCorreo());
             statement.setString(6, a.getBiografia());
             statement.setString(7, a.getPaginaWeb());
+            statement.setString(8, a.getImagen());
             statement.executeUpdate();
             statement.close();
             
@@ -56,12 +59,13 @@ public class DBUsuario {
             java.sql.Date fechaN = new java.sql.Date(c.getFechaNac().getTime());
 
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
-                    + "(nickname, nombre, apellido, fechaNac, correo) values(?,?,?,?,?)");
+                    + "(Nickname, Nombre, Apellido, FechaNac, Correo, Imagen) values(?,?,?,?,?,?)");
             statement.setString(1, c.getNickname());
             statement.setString(2, c.getNombre());
             statement.setString(3, c.getApellido());
             statement.setDate(4, fechaN);
             statement.setString(5, c.getCorreo());
+            statement.setString(6, c.getImage());
             statement.executeUpdate();
             statement.close();
             
@@ -87,14 +91,54 @@ public class DBUsuario {
         }
     }
     
+    public ArrayList<DtArtista> listarArtistas() {
+	try{
+            ArrayList<DtArtista> listaArtista = new ArrayList<DtArtista>();
+            DtArtista dtart;
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                dtart=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);               
+                listaArtista.add(dtart);
+            }
+            st.close();
+            
+            return listaArtista; // Devolver Lista Artista
+
+	}catch(SQLException ex){
+            ex.printStackTrace();
+            return null;
+	}
+    }
+
+    public DtArtista obtenerInfoArtista(String clave){
+	try{
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE Nickname = '"+clave+"'");
+	    ResultSet rs = st.executeQuery();
+	    DtArtista art;
+            while(rs.next()){
+            art=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);
+            return art;
+            }
+        return null;    
+            
+                
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            return null;	
+        }   
+        
+    }    
+    
     public Map<String, Artista> cargarArtistas(){
         try {
             Map<String, Artista> lista=new HashMap<String, Artista>();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");          
             ResultSet rs=st.executeQuery();
             while (rs.next()){
-                String nickname=rs.getString("nickname");
-                Artista a=new Artista(nickname,rs.getString("nombre"),rs.getString("apellido"),rs.getString("correo"),rs.getDate("fechanac"),rs.getString("biografia"),rs.getString("paginaweb"));
+                String nickname=rs.getString("Nickname");
+                Artista a=new Artista(nickname,rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),rs.getString("Biografia"),rs.getString("Pagweb"),rs.getString("Imagen"));
                 lista.put(nickname, a);
             }
             rs.close();
@@ -107,121 +151,958 @@ public class DBUsuario {
     }
 
     
+    public Map<String, Cliente> cargarClientes(){
+        try {
+            Map<String, Cliente> lista=new HashMap<String, Cliente>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM cliente");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                String nickname=rs.getString("Nickname");
+                Cliente c=new Cliente(nickname,rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),rs.getString("Imagen"));
+                lista.put(nickname,c);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }        
+    }
     
-//SORETES!!    
-//    public Map<String, Cliente> cargarClientes(){
-//        try {
-//            Map<String, Cliente> lista=new HashMap<String, Cliente>();
-//            PreparedStatement st = conexion.prepareStatement("SELECT * FROM cliente");          
-//            ResultSet rs=st.executeQuery();
-//            while (rs.next()){
-//                String nickname=rs.getString("nickname");
-//                Cliente c=new Cliente(nickname,rs.getString("nombre"),rs.getString("apellido"),rs.getString("correo"),rs.getDate("fechanac"));
-//                lista.put(nickname,c);
-//            }
-//            rs.close();
-//            st.close();
-//            return lista;
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }        
-//    }
-//    
-//     public Map<Integer, Album> cargarAlbumes(){
-//        try {
-//            Map<Integer, Album> lista=new HashMap<Integer, Album>();
-//            PreparedStatement st = conexion.prepareStatement("SELECT * FROM album");          
-//            ResultSet rs=st.executeQuery();
-//            while (rs.next()){
-//                int id=rs.getInt("id");
-//                Album a=new Album(id,rs.getString("artista"),rs.getString("nombre"),rs.getInt("anio"));
-//                lista.put(id,a);
-//            }
-//            rs.close();
-//            st.close();
-//            return lista;
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//    }        
-//        
-//        public Map<Integer, Genero> cargarGenero(){
-//        try {
-//            Map<Integer, Genero> lista=new HashMap<Integer, Genero>();
-//            PreparedStatement st = conexion.prepareStatement("SELECT * FROM genero");          
-//            ResultSet rs=st.executeQuery();
-//            while (rs.next()){
-//                int id=rs.getInt("id");
-//                Genero g=new Genero(id,rs.getString("nombre"),rs.getInt("idpadre"));
-//                lista.put(id,g);
-//            }
-//            rs.close();
-//            st.close();
-//            return lista;
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        } 
-//    }
-//        
-//         public Map<Integer, PorDefecto> cargarListaPD(){
-//        try {
-//            Map<Integer, PorDefecto> lista=new HashMap<Integer, PorDefecto>();
-//            PreparedStatement st = conexion.prepareStatement("SELECT * FROM listapordefecto");          
-//            ResultSet rs=st.executeQuery();
-//            while (rs.next()){
-//                int id=rs.getInt("id");
-//                PorDefecto pd=new PorDefecto(id,rs.getInt("idpadre"),rs.getString("nombre"));
-//                lista.put(id,pd);
-//            }
-//            rs.close();
-//            st.close();
-//            return lista;
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }
-//    }
-//        
-//        public Map<Integer, Particular> cargarListaP(){
-//        try {
-//            Map<Integer, Particular> lista=new HashMap<Integer, Particular>();
-//            PreparedStatement st = conexion.prepareStatement("SELECT * FROM listaparticular");          
-//            ResultSet rs=st.executeQuery();
-//            while (rs.next()){
-//                int id=rs.getInt("id");
-//                Particular pd=new Particular(id,rs.getString("usuario"),rs.getString("nombre"),rs.getBoolean("privada"));
-//                lista.put(id,pd);
-//            }
-//            rs.close();
-//            st.close();
-//            return lista;
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }  
-//                
-//    }
-//        
-//        public Map<Integer, Tema> cargarTema(){
-//        try {
-//            Map<Integer, Tema> lista=new HashMap<Integer, Tema>();
-//            PreparedStatement st = conexion.prepareStatement("SELECT * FROM tema");          
-//            ResultSet rs=st.executeQuery();
-//            while (rs.next()){
-//                int id=rs.getInt("id");
-//                Tema pd=new Tema(id,rs.getString("duracion"),rs.getString("nombre"),rs.getInt("orden"),rs.getString("archivo"),rs.getString("direccion"));
-//                lista.put(id,pd);
-//            }();
-//            return lista;
-//            rs.close();
-//            st.close
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//            return null;
-//        }  
-//                
-//    }
+     public Map<Integer, Album> cargarAlbumes(){
+        try {
+            Map<Integer, Album> lista=new HashMap<Integer, Album>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM album");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                int id=rs.getInt("Id");
+                Album a=new Album(id,rs.getString("Artista"),rs.getString("Nombre"),rs.getInt("Anio"),rs.getString("Imagen"));
+                lista.put(id,a);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }        
+        
+        public Map<String, Genero> cargarGenero(){
+        try {
+            Map<String, Genero> lista=new HashMap<String, Genero>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM genero");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                String nombre=rs.getString("Nombre");
+                Genero g=new Genero(rs.getInt("Id"),rs.getString("Nombre"),rs.getInt("idPadre"));
+                lista.put(nombre,g);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        } 
+    }
+        
+         public Map<Integer, PorDefecto> cargarListaPD(){
+        try {
+            Map<Integer, PorDefecto> lista=new HashMap<Integer, PorDefecto>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM listapordefecto");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                int id=rs.getInt("Id");
+                PorDefecto pd=new PorDefecto(id,rs.getString("Nombre"),rs.getString("Imagen"));
+                lista.put(id,pd);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+        
+        public Map<Integer, Particular> cargarListaP(){
+        try {
+            Map<Integer, Particular> lista=new HashMap<Integer, Particular>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM listaparticular");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                int id=rs.getInt("Id");
+                boolean privada;
+                if (rs.getInt("Privada") == 0)
+                    privada = true;
+                else
+                    privada = false;
+                Particular pd=new Particular(id,rs.getString("Usuario"),rs.getString("Nombre"),privada, rs.getString("Imagen"));
+                lista.put(id,pd);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }  
+                
+    }
+        
+        public Map<Integer, Tema> cargarTema(){
+        try {
+            Map<Integer, Tema> lista=new HashMap<Integer, Tema>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM tema");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                int id=rs.getInt("Id");
+                Tema pd=new Tema(id,rs.getString("Duracion"),rs.getString("Nombre"),rs.getInt("Orden"),rs.getString("Archivo"),rs.getString("Dirección"));
+                lista.put(id,pd);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+            }      
+        }
+    public void CargarDatosdePrueba(){
+        try{
+        PreparedStatement st = conexion.prepareStatement("Delete FROM album");          
+        st.executeUpdate();
+        st.close();
+        PreparedStatement st1 = conexion.prepareStatement("Delete FROM artista");          
+        st1.executeUpdate();
+        st1.close();
+        PreparedStatement st2 = conexion.prepareStatement("Delete FROM cliente");          
+        st2.executeUpdate();
+        st2.close();
+        PreparedStatement st3 = conexion.prepareStatement("Delete FROM favalbum");          
+        st3.executeUpdate();
+        st3.close();
+        PreparedStatement st4 = conexion.prepareStatement("Delete FROM favlistap");          
+        st4.executeUpdate();
+        st4.close();
+        PreparedStatement st5 = conexion.prepareStatement("Delete FROM favlistapd");          
+        st5.executeUpdate();
+        st5.close();
+        PreparedStatement st6 = conexion.prepareStatement("Delete FROM favtema");          
+        st6.executeUpdate();
+        st6.close();
+        PreparedStatement st7 = conexion.prepareStatement("Delete FROM genero");          
+        st7.executeUpdate();
+        st7.close();
+        PreparedStatement st8 = conexion.prepareStatement("Delete FROM generosalbum");          
+        st8.executeUpdate();
+        st8.close();
+        PreparedStatement st9 = conexion.prepareStatement("Delete FROM listaparticular");          
+        st9.executeUpdate();
+        st9.close();
+        PreparedStatement st10 = conexion.prepareStatement("Delete FROM listapordefecto");          
+        st10.executeUpdate();
+        st10.close();
+        PreparedStatement st11 = conexion.prepareStatement("Delete FROM seguidoart");          
+        st11.executeUpdate();
+        st11.close();
+        PreparedStatement st12 = conexion.prepareStatement("Delete FROM seguidorcli");          
+        st12.executeUpdate();
+        st12.close();
+        PreparedStatement st13 = conexion.prepareStatement("Delete FROM tema");          
+        st13.executeUpdate();
+        st13.close();
+        PreparedStatement st14 = conexion.prepareStatement("Delete FROM temalistap");          
+        st14.executeUpdate();
+        st14.close();
+        PreparedStatement st15 = conexion.prepareStatement("Delete FROM temalistapd");          
+        st15.executeUpdate();
+        st15.close();
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        String[] NickArtistas0 = {"vpeople","dmode","clauper","bruceTheBoss","tripleNelson","la_ley","tigerOfWales","chaiko","nicoleneu","lospimpi","dyangounchained","alcides"};
+        String[] NombreArtistas = {"Village","Depeche","Cyndi","Bruce","La Triple","La","Tom","Piotr","Nicole","Pimpinela","Dyango","Alcides"};
+        String[] ApellidoArtistas = {"People","Mode","Lauper","Springsteen","Nelson","Ley","Jones","Tchaikovsky","Neumann"," "," "," "};
+        String[] CorreoArtistas = {"vpeople@tuta.io","dmode@tuta.io","clauper@hotmail.com","bruceTheBoss@gmail.com","tripleNelson@tuta.io","la_ley@tuta.io","tigerOfWales@tuta.io","chaiko@tuta.io","nicoleneu@hotmail.com","lospimpi@gmail.com","dyangounchained@gmail.com","alcides@tuta.io"};
+        String[] NacimientoArtistas = {"1977-01-01","1980-06-14","1953-06-22","1949-09-23","1998-01-01","1987-02-14","1940-06-07","1840-4-25","1980-10-31","1981-08-13","1940-03-05","1952-07-17"};
+        String[] ImagenArtistas = {"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"VP.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"DM.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"CL.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"BS.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"CC.jpg",null,null,null,"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"NN.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"PP.jpg",null,null};
+        String[] BiografiaArtistas = {"Village People es una innovadora formación musical de estilo disco de finales de los años 70. Fue famosa tanto por sus peculiares disfraces, como por sus canciones pegadizas, con letras sugerentes y llenas de dobles sentidos.",null,"Cynthia Ann Stephanie Lauper, conocida simplemente como Cyndi Lauper, es una cantautora, actriz y empresaria estadounidense. Después de participar en el grupo musical, Blue Angel, en 1983 firmó con Portrait Records (filial de Epic Records) y lanzó su exitoso álbum debut She's So Unusual a finales de ese mismo año. Siguió lanzando una serie de álbumes en los que encontró una inmensa popularidad, superando los límites de contenido de las letras de sus canciones.",null,"La Triple Nelson es un grupo de rock uruguayo formado en enero de 1998 e integrado inicialmente por Christian Cary (guitarra y voz), Fernando \"Paco\" Pintos (bajo y coros) y Rubén Otonello (actualmente su nuevo baterista es Rafael Ugo).",null,"Sir Thomas John, conocido por su nombre artístico de Tom Jones, es un cantante británico. Ha vendido más de 100 millones de discos en todo el mundo.","Piotr Ilich Chaikovski fue un compositor ruso del período del Romanticismo",null,null,"José Gómez Romero, conocido artísticamente como Dyango es un cantante español de música romántica.","Su carrera comienza en 1976 cuando forma la banda Los Playeros junto a su hermano Víctor. Al poco tiempo se mudan a San Luis donde comienzan a hacerse conocidos en la escena musical. Su éxito a nivel nacional llega a comienzos de los años 1990 cuando desembarca en Buenos Aires y graba el éxito \"Violeta\", originalmente compuesta e interpretada en 1985 por el músico brasileño Luiz Caldas bajo el título «Fricote»."};
+        String[] Pagina = {"www.officialvillagepeople.com","www.depechemode.com","cyndilauper.com","brucespringsteen.net",null,null,"www.tomjones.com",null,null,"www.pimpinela.net",null,null};
+        try {
+            for (int i=0;i<12;i++){
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
+                        + "(Nickname, Nombre, Apellido, Correo, FechaNac, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?)");
+                statement.setString(1, NickArtistas0[i]);
+                statement.setString(2, NombreArtistas[i]);
+                statement.setString(3, ApellidoArtistas[i]);
+                statement.setString(4, CorreoArtistas[i]);
+                statement.setString(5, NacimientoArtistas[i]);
+                statement.setString(6, BiografiaArtistas[i]);
+                statement.setString(7, Pagina[i]);
+                statement.setString(8, ImagenArtistas[i]);
+                statement.executeUpdate();
+                statement.close();
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        String[] NickClientes = {"el_padrino","scarlettO","ppArgento","Heisenberg","benKenobi","lachiqui","cbochinche","Eleven11"};
+        String[] CorreoClientes = {"el_padrino@tuta.io","scarlettO@tuta.io","ppArgento@hotmail.com","Heisenberg@tuta.io","benKenobi@gmail.com","lachiqui@hotmail.com.ar","cbochinche@vera.com.uy","Eleven11@gmail.com"};
+        String[] NombreClientes = {"Vito","Scarlett","Pepe","Walter","Obi-Wan","Mirtha","Cacho","Eleven"};
+        String[] ApellidoClientes = {"Corleone","O’Hara","Argento","White","Kenobi","Legrand","Bochinche"," "};
+        String[] NacimientoClientes = {"1972-03-08","1984-11-27","1955-02-14","1956-03-07","1914-04-02","1927-02-23","1937-05-08","1971-12-31"};
+        String[] ImagenClientes = {"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"VC.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"SO.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"PA.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"WW.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"OK.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"ML.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"CB.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"EL.jpg"};
+        try {
+            for (int i=0;i<8;i++){
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
+                        + "(Nickname, Nombre, Apellido, Correo, FechaNac, Imagen) values(?,?,?,?,?,?)");
+                statement.setString(1, NickClientes[i]);
+                statement.setString(2, NombreClientes[i]);
+                statement.setString(3, ApellidoClientes[i]);
+                statement.setString(4, CorreoClientes[i]);
+                statement.setString(5, NacimientoClientes[i]);
+                statement.setString(6, ImagenClientes[i]);
+                statement.executeUpdate();
+                statement.close();
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        String[] NickArtistas = {"vpeople","dmode","clauper","bruceTheBoss","tigerOfWales","tripleNelson","la_ley","chaiko","nicoleneu","lospimpi","dyangounchained","alcides"};
+        try{
+            for (int i=0;i<3;i++){
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement.setString(1, NickClientes[0]);
+            statement.setString(2, NickArtistas[i]);
+            statement.executeUpdate();
+            statement.close();
+            }
+            for (int i=4;i<8;i++){
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement.setString(1, NickClientes[0]);
+            statement.setString(2, NickClientes[i]);
+            statement.executeUpdate();
+            statement.close();
+            }
+            for (int i=3;i<6;i++){
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement.setString(1, NickClientes[1]);
+            statement.setString(2, NickArtistas[i]);
+            statement.executeUpdate();
+            statement.close();    
+            }
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement.setString(1, NickClientes[1]);
+            statement.setString(2, NickArtistas[1]);
+            statement.executeUpdate();
+            statement.close();
+            for (int i=3;i<6;i++){
+            PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement1.setString(1, NickClientes[1]);
+            statement1.setString(2, NickClientes[i]);
+            statement1.executeUpdate();
+            statement1.close();    
+            }
+            PreparedStatement statement2 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement2.setString(1, NickClientes[2]);
+            statement2.setString(2, NickArtistas[1]);
+            statement2.executeUpdate();
+            statement2.close();
+            PreparedStatement statement3 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement3.setString(1, NickClientes[2]);
+            statement3.setString(2, NickArtistas[3]);
+            statement3.executeUpdate();
+            statement3.close();
+            PreparedStatement statement4 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement4.setString(1, NickClientes[2]);
+            statement4.setString(2, NickArtistas[5]);
+            statement4.executeUpdate();
+            statement4.close();
+            for (int i=4;i<8;i++){
+            PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement1.setString(1, NickClientes[2]);
+            statement1.setString(2, NickClientes[i]);
+            statement1.executeUpdate();
+            statement1.close();    
+            }
+            for (int i=3;i<6;i++){
+            PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement1.setString(1, NickClientes[3]);
+            statement1.setString(2, NickArtistas[i]);
+            statement1.executeUpdate();
+            statement1.close();    
+            }
+            for (int i=9;i<12;i++){
+            PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement1.setString(1, NickClientes[3]);
+            statement1.setString(2, NickArtistas[i]);
+            statement1.executeUpdate();
+            statement1.close();    
+            }
+            PreparedStatement statement5 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement5.setString(1, NickClientes[3]);
+            statement5.setString(2, NickArtistas[1]);
+            statement5.executeUpdate();
+            statement5.close();
+            for (int i=0;i<3;i++){
+            PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement1.setString(1, NickClientes[3]);
+            statement1.setString(2, NickClientes[i]);
+            statement1.executeUpdate();
+            statement1.close();    
+            }
+            PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement1.setString(1, NickClientes[3]);
+            statement1.setString(2, NickClientes[4]);
+            statement1.executeUpdate();
+            statement1.close();
+            PreparedStatement statement6 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement6.setString(1, NickClientes[3]);
+            statement6.setString(2, NickClientes[5]);
+            statement6.executeUpdate();
+            statement6.close();
+            PreparedStatement statement7 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement7.setString(1, NickClientes[3]);
+            statement7.setString(2, NickClientes[7]);
+            statement7.executeUpdate();
+            statement7.close();
+            for (int i=6;i<10;i++){
+            PreparedStatement statement8 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement8.setString(1, NickClientes[4]);
+            statement8.setString(2, NickArtistas[i]);
+            statement8.executeUpdate();
+            statement8.close();    
+            }
+            PreparedStatement statement9 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement9.setString(1, NickClientes[4]);
+            statement9.setString(2, NickArtistas[11]);
+            statement9.executeUpdate();
+            statement9.close();
+            PreparedStatement statement10 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement10.setString(1, NickClientes[4]);
+            statement10.setString(2, NickArtistas[1]);
+            statement10.executeUpdate();
+            statement10.close();
+            PreparedStatement statement11 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement11.setString(1, NickClientes[4]);
+            statement11.setString(2, NickArtistas[3]);
+            statement11.executeUpdate();
+            statement11.close();
+            PreparedStatement statement12 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement12.setString(1, NickClientes[4]);
+            statement12.setString(2, NickClientes[0]);
+            statement12.executeUpdate();
+            statement12.close();
+            PreparedStatement statement13 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement13.setString(1, NickClientes[4]);
+            statement13.setString(2, NickClientes[2]);
+            statement13.executeUpdate();
+            statement13.close();
+            for (int i=5;i<8;i++){
+            PreparedStatement statement14 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement14.setString(1, NickClientes[4]);
+            statement14.setString(2, NickClientes[i]);
+            statement14.executeUpdate();
+            statement14.close();
+            }
+            PreparedStatement statement15 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement15.setString(1, NickClientes[5]);
+            statement15.setString(2, NickArtistas[3]);
+            statement15.executeUpdate();
+            statement15.close();
+            PreparedStatement statement0 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement0.setString(1, NickClientes[5]);
+            statement0.setString(2, NickArtistas[6]);
+            statement0.executeUpdate();
+            statement0.close();
+            PreparedStatement statement16 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement16.setString(1, NickClientes[5]);
+            statement16.setString(2, NickArtistas[9]);
+            statement16.executeUpdate();
+            statement16.close();
+            PreparedStatement statement17 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement17.setString(1, NickClientes[5]);
+            statement17.setString(2, NickArtistas[11]);
+            statement17.executeUpdate();
+            statement17.close();
+            for (int i=0;i<3;i++){
+            PreparedStatement statement14 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement14.setString(1, NickClientes[5]);
+            statement14.setString(2, NickClientes[i]);
+            statement14.executeUpdate();
+            statement14.close();
+            }
+            PreparedStatement statement18 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement18.setString(1, NickClientes[6]);
+            statement18.setString(2, NickArtistas[6]);
+            statement18.executeUpdate();
+            statement18.close();
+            for (int i=9;i<12;i++){
+            PreparedStatement statement19 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement19.setString(1, NickClientes[6]);
+            statement19.setString(2, NickArtistas[i]);
+            statement19.executeUpdate();
+            statement19.close();
+            }
+            PreparedStatement statement14 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement14.setString(1, NickClientes[6]);
+            statement14.setString(2, NickClientes[2]);
+            statement14.executeUpdate();
+            statement14.close();
+            PreparedStatement statement19 = conexion.prepareStatement("INSERT INTO seguidoart "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement19.setString(1, NickClientes[7]);
+            statement19.setString(2, NickArtistas[6]);
+            statement19.executeUpdate();
+            statement19.close();
+            for (int i=0;i<3;i++){
+            PreparedStatement statement20 = conexion.prepareStatement("INSERT INTO seguidorcli "
+            + "(Seguidor, Seguido) values(?,?)");
+            statement20.setString(1, NickClientes[7]);
+            statement20.setString(2, NickClientes[i]);
+            statement20.executeUpdate();
+            statement20.close();
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        String[] generos = {"","Género","Rock","Pop","Rock Clásico","Rock Latino","Rock & Roll","Electropop","Dance-pop","Pop Clásico","Clásica","Disco","Balada","Cumbia"};
+        try{
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO genero "
+            + "(Id, Nombre, idPadre) values(?,?,?)");
+            statement.setInt(1, 1);
+            statement.setString(2, generos[1]);
+            statement.setInt(3, 0);
+            statement.executeUpdate();
+            statement.close();
+            PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO genero "
+            + "(Id, Nombre, idPadre) values(?,?,?)");
+            statement1.setInt(1, 2);
+            statement1.setString(2, generos[2]);
+            statement1.setInt(3, 1);
+            statement1.executeUpdate();
+            statement1.close();
+            PreparedStatement statement0 = conexion.prepareStatement("INSERT INTO genero "
+            + "(Id, Nombre, idPadre) values(?,?,?)");
+            statement0.setInt(1, 3);
+            statement0.setString(2, generos[3]);
+            statement0.setInt(3, 1);
+            statement0.executeUpdate();
+            statement0.close();
+            for (int i=4;i<7;i++){
+            PreparedStatement statement2 = conexion.prepareStatement("INSERT INTO genero "
+            + "(Id, Nombre, idPadre) values(?,?,?)");
+            statement2.setInt(1, i);
+            statement2.setString(2, generos[i]);
+            statement2.setInt(3, 2);
+            statement2.executeUpdate();
+            statement2.close();
+            }
+            for (int i=7;i<10;i++){
+            PreparedStatement statement2 = conexion.prepareStatement("INSERT INTO genero "
+            + "(Id, Nombre, idPadre) values(?,?,?)");
+            statement2.setInt(1, i);
+            statement2.setString(2, generos[i]);
+            statement2.setInt(3, 3);
+            statement2.executeUpdate();
+            statement2.close();
+            }
+            for (int i=10;i<14;i++){
+            PreparedStatement statement2 = conexion.prepareStatement("INSERT INTO genero "
+            + "(Id, Nombre, idPadre) values(?,?,?)");
+            statement2.setInt(1, i);
+            statement2.setString(2, generos[i]);
+            statement2.setInt(3, 1);
+            statement2.executeUpdate();
+            statement2.close();
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        int rcl=0,rkl=0,rar=0,cla=0,dis=0,epo=0,dpo=0,pcl=0,bal=0,cum=0;
+        try {
+            List<Genero> listageneros=new ArrayList<Genero>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM genero");          
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                if (rs.getString("Nombre").equals("Rock Clásico"))
+                    rcl = rs.getInt("Id");
+                if (rs.getString("Nombre").equals("Rock Latino"))
+                    rkl = rs.getInt("Id");
+                if (rs.getString("Nombre").equals("Rock & Roll"))
+                    rar = rs.getInt("Id");
+                if (rs.getString("Nombre").equals("Clásica"))
+                    cla = rs.getInt("Id");
+                if (rs.getString("Nombre").equals("Disco"))
+                    dis = rs.getInt("Id");
+                if (rs.getString("Nombre").equals("Electropop"))
+                    epo = rs.getInt("Id");
+                if (rs.getString("Nombre").equals("Dance-pop"))
+                    dpo = rs.getInt("Id");
+                if (rs.getString("Nombre").equals("Pop Clásico"))
+                    pcl = rs.getInt("Id");
+                if (rs.getString("Nombre").equals("Balada"))
+                    bal = rs.getInt("Id");
+                if (rs.getString("Nombre").equals("Cumbia"))
+                    cum = rs.getInt("Id");
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        String[] NombreAlbum = {"Village People Live and Sleazy","Violator","She’s So Unusual","Born In The U.S.A.","It’s Not Unusual","Agua Y Sal","MTV Unplugged","El Lago De Los Cisnes","Concierto Para Piano No. 1 En Si Menor, Opus 23","Primer Amor","Hay Amores Que Matan","Un Loco Como Yo","20 Grandes Éxitos"};
+        int[] anioalbum = {1980,1990,1983,1984,1965,2012,2001,1875,1875,1994,1993,1993,1989};
+        String[] ImagenAlbum = {null,null,"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"CLU.jpg",null,"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"INU.jpg",null,"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"LLU.jpg",null,null,null,null,"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"LOC.jpg","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"VIO.jpg"};
+
+        try{
+            int x=1;
+            int j=0;
+            for (int i=0;i<13;i++){
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO album "
+            + "(Id, Artista, Nombre, Anio, Imagen) values(?,?,?,?,?)");
+            statement.setInt(1, x);
+            statement.setString(2,NickArtistas[j]);
+            statement.setString(3, NombreAlbum[i]);
+            statement.setInt(4, anioalbum[i]);
+            statement.setString(5, ImagenAlbum[i]);
+            statement.executeUpdate();
+            statement.close();
+            ++x;
+            ++j;
+            if (NombreAlbum[i].equals("El Lago De Los Cisnes"))
+                j--;
+            }
+            
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        try{
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement.setInt(1, 1);
+            statement.setInt(2, dis);
+            statement.executeUpdate();
+            statement.close();
+            PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement1.setInt(1, 1);
+            statement1.setInt(2, dpo);
+            statement1.executeUpdate();
+            statement1.close();
+            PreparedStatement statement2 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement2.setInt(1, 1);
+            statement2.setInt(2, pcl);
+            statement2.executeUpdate();
+            statement2.close();
+            PreparedStatement statement3 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement3.setInt(1, 2);
+            statement3.setInt(2, epo);
+            statement3.executeUpdate();
+            statement3.close();
+            PreparedStatement statement4 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement4.setInt(1, 3);
+            statement4.setInt(2, pcl);
+            statement4.executeUpdate();
+            statement4.close();
+            PreparedStatement statement5 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement5.setInt(1, 3);
+            statement5.setInt(2, dpo);
+            statement5.executeUpdate();
+            statement5.close();
+            PreparedStatement statement6 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement6.setInt(1, 4);
+            statement6.setInt(2, rcl);
+            statement6.executeUpdate();
+            statement6.close();
+            PreparedStatement statement7 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement7.setInt(1, 4);
+            statement7.setInt(2, rar);
+            statement7.executeUpdate();
+            statement7.close();
+            PreparedStatement statement8 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement8.setInt(1, 4);
+            statement8.setInt(2, pcl);
+            statement8.executeUpdate();
+            statement8.close();
+            PreparedStatement statement9 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement9.setInt(1, 5);
+            statement9.setInt(2, rcl);
+            statement9.executeUpdate();
+            statement9.close();
+            PreparedStatement statement10 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement10.setInt(1, 5);
+            statement10.setInt(2, pcl);
+            statement10.executeUpdate();
+            statement10.close();
+            PreparedStatement statement11 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement11.setInt(1, 6);
+            statement11.setInt(2, rkl);
+            statement11.executeUpdate();
+            statement11.close();
+            PreparedStatement statement12 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement12.setInt(1, 7);
+            statement12.setInt(2, rkl);
+            statement12.executeUpdate();
+            statement12.close();
+            PreparedStatement statement13 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement13.setInt(1, 7);
+            statement13.setInt(2, pcl);
+            statement13.executeUpdate();
+            statement13.close();
+            PreparedStatement statement14 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement14.setInt(1, 8);
+            statement14.setInt(2, cla);
+            statement14.executeUpdate();
+            statement14.close();
+            PreparedStatement statement15 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement15.setInt(1, 9);
+            statement15.setInt(2, cla);
+            statement15.executeUpdate();
+            statement15.close();
+            PreparedStatement statement16 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement16.setInt(1, 10);
+            statement16.setInt(2, epo);
+            statement16.executeUpdate();
+            statement16.close();
+            PreparedStatement statement17 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement17.setInt(1, 11);
+            statement17.setInt(2, pcl);
+            statement17.executeUpdate();
+            statement17.close();
+            PreparedStatement statement18 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement18.setInt(1, 11);
+            statement18.setInt(2, bal);
+            statement18.executeUpdate();
+            statement18.close();
+            PreparedStatement statement19 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement19.setInt(1, 12);
+            statement19.setInt(2, pcl);
+            statement19.executeUpdate();
+            statement19.close();
+            PreparedStatement statement20 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement20.setInt(1, 12);
+            statement20.setInt(2, bal);
+            statement20.executeUpdate();
+            statement20.close();
+            PreparedStatement statement21 = conexion.prepareStatement("INSERT INTO generosalbum "
+            + "(idAlbum, idGenero) values(?,?)");
+            statement21.setInt(1, 13);
+            statement21.setInt(2, cum);
+            statement21.executeUpdate();
+            statement21.close();
+            
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        String[] Nombretema = {"YMCA","Macho Man","In the Navy","Personal Jesus","Enjoy The Silence","Girls Just Want To Have Fun","Time After Time","Born In The U.S.A.","Glory Days","Dancing In The Park","It’s Not Unusual","Adagio De Mi País","El Duelo","Mentira","Acto 2, Número 10, Escena (Moderato)","Primer Movimiento (Allegro non troppo e molto maestoso – Allegro con spirito)","No Quiero Estudiar","Por Ese Hombre","Por Ese Hombre","Violeta"};
+        String[] Duraciontema = {"4:28","3:28","3:13","4:56","4:21","3:15","5:12","4:58","5:23","3:58","2:00","4:50","5:23","4:48","2:40","21:58","2:12","4:45","5:13","1:56"};
+        int[] Ordentema = {1,2,3,1,2,1,2,1,2,3,1,1,1,2,1,1,1,1,1,1};
+        String[] Archivotema = {null,"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"Canciones"+File.separator+"T12.mp3",null,"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"Canciones"+File.separator+"T21.mp3","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"Canciones"+File.separator+"T22.mp3",null,"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"Canciones"+File.separator+"T32.mp3",null,null,"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"Canciones"+File.separator+"T43.mp3","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"Canciones"+File.separator+"T51.mp3",null,"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"Canciones"+File.separator+"T71.mp3","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"Canciones"+File.separator+"T72.mp3",null,null,"C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"Canciones"+File.separator+"T101.mp3","C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"Canciones"+File.separator+"T111.mp3",null,null};
+        String[] URLtema = {"bit.ly/SCvpymca",null,"bit.ly/SCvpinthenavy",null,null,"bit.ly/SCclgirlsjustwant",null,"bit.ly/SCbsborninusa","bit.ly/SCbsglorydays",null,null,"bit.ly/SCtnadagiopais",null,null,"bit.ly/SCptswanlake","bit.ly/SCptpiano",null,null,"bit.ly/SCdyporesehombre","bit.ly/SCvioleta"};
+        try{
+            int j=1;
+            int x=1;
+            for (int i=0;i<20;i++){
+            if (x==4)
+                j++;
+            if (x==6)
+                j++;
+            if (x==8)
+                j++;
+            if (x==11)
+                j++;
+            if (x==12)
+                j++;
+            if (x==13)
+                j++;
+            if (x==15)
+                j++;
+            if (x==16)
+                j++;
+            if (x==17)
+                j++;
+            if (x==18)
+                j++;
+            if (x==19)
+                j++;
+            if (x==20)
+                j++;
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO tema "
+            + "(Id, IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?,?)");
+            statement.setInt(1, x);
+            statement.setInt(2, j);
+            statement.setString(3, Duraciontema[i]);
+            statement.setString(4, Nombretema[i]);
+            statement.setInt(5, Ordentema[i]);
+            statement.setString(6, Archivotema[i]);
+            statement.setString(7, URLtema[i]);
+            statement.executeUpdate();
+            statement.close();
+            x++;
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        try{
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO listapordefecto "
+            + "(Id, Genero, Nombre, Imagen) values(?,?,?,?)");
+            statement.setInt(1, 1);
+            statement.setInt(2, pcl);
+            statement.setString(3, "Noche De La Nostalgia");
+            statement.setString(4, "C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"LD1.mp3");
+            statement.executeUpdate();
+            statement.close();
+            PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO listapordefecto "
+            + "(Id, Genero, Nombre, Imagen) values(?,?,?,?)");
+            statement1.setInt(1, 2);
+            statement1.setInt(2, rkl);
+            statement1.setString(3, "Rock En Español");
+            statement1.setString(4, null);
+            statement1.executeUpdate();
+            statement1.close();
+            PreparedStatement statement2 = conexion.prepareStatement("INSERT INTO listapordefecto "
+            + "(Id, Genero, Nombre, Imagen) values(?,?,?,?)");
+            statement2.setInt(1, 3);
+            statement2.setInt(2, cla);
+            statement2.setString(3, "Música Clásica");
+            statement2.setString(4, "C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"LD3.mp3");
+            statement2.executeUpdate();
+            statement2.close();
+            PreparedStatement statement3 = conexion.prepareStatement("INSERT INTO listaparticular "
+            + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+            statement3.setInt(1, 1);
+            statement3.setString(2, "el_padrino");
+            statement3.setString(3, "Música Inspiradora");
+            statement3.setInt(4, 1);
+            statement3.setString(5, "C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"LP1.mp3");
+            statement3.executeUpdate();
+            statement3.close();
+            PreparedStatement statement4 = conexion.prepareStatement("INSERT INTO listaparticular "
+            + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+            statement4.setInt(1, 2);
+            statement4.setString(2, "scarlettO");
+            statement4.setString(3, "De Todo Un Poco");
+            statement4.setInt(4, 1);
+            statement4.setString(5, null);
+            statement4.executeUpdate();
+            statement4.close();
+            PreparedStatement statement5 = conexion.prepareStatement("INSERT INTO listaparticular "
+            + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+            statement5.setInt(1, 3);
+            statement5.setString(2, "Heisenberg");
+            statement5.setString(3, "Para Cocinar");
+            statement5.setInt(4, 0);
+            statement5.setString(5, "C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"LP3.mp3");
+            statement5.executeUpdate();
+            statement5.close();
+            PreparedStatement statement6 = conexion.prepareStatement("INSERT INTO listaparticular "
+            + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+            statement6.setInt(1, 4);
+            statement6.setString(2, "lachiqui");
+            statement6.setString(3, "Para Las Chicas");
+            statement6.setInt(4, 1);
+            statement6.setString(5, null);
+            statement6.executeUpdate();
+            statement6.close();
+            PreparedStatement statement7 = conexion.prepareStatement("INSERT INTO listaparticular "
+            + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+            statement7.setInt(1, 5);
+            statement7.setString(2, "cbochinche");
+            statement7.setString(3, "Fiesteras");
+            statement7.setInt(4, 1);
+            statement7.setString(5, "C:"+File.separator+"Users"+File.separator+"Admin"+File.separator+"Documents"+File.separator+"IMAGENES"+File.separator+"LP5.mp3");
+            statement7.executeUpdate();
+            statement7.close();
+            PreparedStatement statement8 = conexion.prepareStatement("INSERT INTO listaparticular "
+            + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+            statement8.setInt(1, 6);
+            statement8.setString(2, "cbochinche");
+            statement8.setString(3, "Mis Favoritas");
+            statement8.setInt(4, 0);
+            statement8.setString(5, null);
+            statement8.executeUpdate();
+            statement8.close();
+            
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        try{
+            int[] arreglotemas ={1,2,3,6,7,8,9,10,11,12,13,14,15,16};
+            int[] arreglotemas2 = {15,16,4,6,7,11,15,4,5,8,9,6,11,16,17,19,1,2,3,9,20,12,6,18};
+            int j=0;
+            int k=1;
+            for (int i=0;i<14;i++){
+            if (j==9)
+                k++;
+            if (j==12)
+                k++;
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO temalistapd "
+            + "(IdLista, IdTema) values(?,?)");
+            statement.setInt(1, k);
+            statement.setInt(2, arreglotemas[j]);
+            statement.executeUpdate();
+            statement.close();
+            j++;
+            }
+            j=0;
+            k=1;
+            for (int i=0;i<24;i++){
+            if (j==3)
+                k++;
+            if (j==7)
+                k++;
+            if (j==11)
+                k++;
+            if (j==16)
+                k++;
+            if (j==21)
+                k++;
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO temalistap "
+            + "(IdLista, IdTema) values(?,?)");
+            statement.setInt(1, k);
+            statement.setInt(2, arreglotemas2[j]);
+            statement.executeUpdate();
+            statement.close();
+            j++;
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        int[] favalbum= {2,8,9,8,9,11};
+        int[] favtema= {13,12,16,17};
+        
+        try{
+            int x=0;
+            for (int i=0;i<4;i++){
+            if (i==1)
+                x=2;
+            if (i==2)
+                x=6;
+            if (i==3)
+                x=7;
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO favtema "
+            + "(Cliente, IdTema) values(?,?)");
+            statement.setString(1, NickClientes[x]);
+            statement.setInt(2, favtema[i]);
+            statement.executeUpdate();
+            statement.close();
+            }
+            x=0;
+            for (int i=0;i<6;i++){
+                if (i==3)
+                    x=4;
+                if (i==5)
+                    x=6;                           
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO favalbum "
+                + "(Cliente, IdAlbum) values(?,?)");
+                statement.setString(1, NickClientes[x]);
+                statement.setInt(2, favalbum[i]);
+                statement.executeUpdate();
+                statement.close();
+            }
+            for (int i=1;i<4;i=i+2){
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO favlistapd "
+            + "(Cliente, IdLista) values(?,?)");
+            statement.setString(1, NickClientes[0]);
+            statement.setInt(2, i);
+            statement.executeUpdate();
+            statement.close();
+            }
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO favlistapd "
+            + "(Cliente, IdLista) values(?,?)");
+            statement.setString(1, NickClientes[1]);
+            statement.setInt(2, 3);
+            statement.executeUpdate();
+            statement.close();
+            for (int i=1;i<3;i++){
+            PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO favlistapd "
+            + "(Cliente, IdLista) values(?,?)");
+            statement1.setString(1, NickClientes[2]);
+            statement1.setInt(2, i);
+            statement1.executeUpdate();
+            statement1.close();
+            }
+            PreparedStatement statement2 = conexion.prepareStatement("INSERT INTO favlistap "
+            + "(Cliente, IdLista) values(?,?)");
+            statement2.setString(1, NickClientes[3]);
+            statement2.setInt(2, 1);
+            statement2.executeUpdate();
+            statement2.close();
+            for (int i=1;i<3;i++){
+            PreparedStatement statement3 = conexion.prepareStatement("INSERT INTO favlistapd "
+            + "(Cliente, IdLista) values(?,?)");
+            statement3.setString(1, NickClientes[6]);
+            statement3.setInt(2, i);
+            statement3.executeUpdate();
+            statement3.close();
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }    
 }

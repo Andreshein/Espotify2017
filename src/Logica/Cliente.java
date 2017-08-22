@@ -18,12 +18,13 @@ public class Cliente extends Usuario{
     private ArrayList<Tema> favTemas;
     private HashMap<String, Usuario> Siguiendo;
     
-    public Cliente(String nickname, String nombre, String apellido, String correo, Date fechaNac) {
+    public Cliente(String nickname, String nombre, String apellido, String correo, Date fechaNac, String Imagen) {
         this.nickname = nickname;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNac = fechaNac;
         this.correo = correo;
+        this.Imagen = Imagen;
         this.Listas = new HashMap<>();
         this.favListas = new ArrayList<>();
         this.favAlbumes = new ArrayList<>();
@@ -54,7 +55,10 @@ public class Cliente extends Usuario{
     public String getNickname() {
         return nickname;
     }
-
+    public String getImage(){
+        return Imagen;
+    }
+    
     public String getNombre() {
         return nombre;
     }
@@ -189,4 +193,16 @@ public class Cliente extends Usuario{
     public void dejarSeguir(String Nickname){
         this.Siguiendo.remove(Nickname);
     }
+    public void AddLista(Particular p){
+        this.Listas.put(p.getNombre(), p);
+    }
+    
+    public ArrayList<DtListaP> ObtenerLista(){
+        ArrayList<DtListaP> retorno= new ArrayList<DtListaP>(); 
+        for(Particular lista : this.Listas.values()){
+            retorno.add(lista.getDatos(nickname));
+            
+        }
+        return retorno;
+} 
 }

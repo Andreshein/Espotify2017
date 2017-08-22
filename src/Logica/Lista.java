@@ -13,7 +13,9 @@ import java.util.ArrayList;
  */
 abstract class Lista {
     protected String nombre;
+    protected String imagen;
     protected ArrayList<Tema> temas;
+
 
     abstract String getNombre();
     abstract void setNombre(String nombre);

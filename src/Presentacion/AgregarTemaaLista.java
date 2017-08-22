@@ -5,6 +5,8 @@
  */
 package Presentacion;
 
+import Logica.DtListaP;
+import Logica.DtListaPD;
 import Logica.Fabrica;
 import Logica.IcontArtista;
 import Logica.IcontCliente;
@@ -263,20 +265,27 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
     private void cmb_ListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_ListaActionPerformed
         String texto=cmb_Lista.getSelectedItem().toString();
         if("Particular".equals(texto))
-        {            
-          ArrayList<Particular> listap=Cli.ListarListaP();
-            DefaultTableModel modelo=(DefaultTableModel) jList2.getModel();
-            modelo.setRowCount(0);
+        {   
+          ArrayList<DtListaP> listap=Cli.ListarListaP();
+            DefaultListModel modelo=new DefaultListModel();
             for (int i=0;i<listap.size();i++) {
-            Particular lp=(Particular)listap.get(i);
-            Object[] dat={lp.getNombre(),lp.getDtTemas()};
-            modelo.addRow(dat);
+            DtListaP lp=(DtListaP)listap.get(i);
+            modelo.addElement(lp.getNombre());
         }
-        /*else if("Por Defecto".equals(texto))
-        {
+        this.jList2.setModel(modelo);
+        }
+        else{
             
-        } */              
+            ArrayList<DtListaPD> listap=Cli.ListarListaPD();
+            DefaultListModel modelo=new DefaultListModel();
+            for (int i=0;i<listap.size();i++) {
+            DtListaPD lpd=(DtListaPD)listap.get(i);
+            modelo.addElement(lpd.getNombre());
         }
+        this.jList2.setModel(modelo);  
+        }               
+        
+        
     }//GEN-LAST:event_cmb_ListaActionPerformed
 
     public void centrar(){
