@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.HashMap;
 import Persistencia.*;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.ImageIcon;
 
 public class ContCliente implements IcontCliente {
@@ -384,5 +386,24 @@ private ContCliente(){
          this.art=art;
     }
     
+    public ArrayList<DtListaP> ListarListaP(){
+        ArrayList<DtListaP> devolver= new ArrayList<DtListaP>();
+        Set set = clientes.entrySet();
+        Iterator iterator = set.iterator();
+        while(iterator.hasNext()){
+            Map.Entry mentry =(Map.Entry)iterator.next();
+            Cliente aux=(Cliente) mentry.getValue();
+            devolver.addAll(aux.ObtenerLista());
+            
+        }
+        return devolver;
+    }
+    public ArrayList<DtListaPD> ListarListaPD(){
+        return this.art.ListarListaPD();
+    
+    }
+    
+
+   
     
 }

@@ -17,7 +17,7 @@ import javax.swing.ImageIcon;
  * @author ninoh
  */
 public interface IcontArtista {
-  
+    public abstract ArrayList<DtListaPD> ListarListaPD();
     public abstract boolean IngresarArtista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb, String img);
     public abstract boolean SelectArtista(String nick);
     public abstract void CrearAlbum(String nombre,int anio);
@@ -42,10 +42,9 @@ public interface IcontArtista {
     public abstract void CargarDatos();
     public abstract void SetContCliente(IcontCliente cli);
     public abstract List<DtArtista> BuscarArtistas(String nombre);
-    public abstract ArrayList<DtAlbum> ListarAlbumes();
     public abstract void setArtista(HashMap<String,Artista> artistas);
     public abstract void setGenero(HashMap<String,Genero> generos);
     public abstract Map<String, Genero> GetGeneros();
-
-
+    public abstract ArrayList<DtAlbum> listarAlbumesArtista(String nick);
+    public abstract ArrayList<DtCliente> listarSeguidores(String nick);
 }
