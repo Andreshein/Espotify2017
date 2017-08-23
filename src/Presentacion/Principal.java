@@ -71,11 +71,12 @@ public class Principal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         ConsultarPerfilCliMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        verperfArt = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         ConsultaAlbum = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         agregarTemaListaMenuItem = new javax.swing.JMenuItem();
+        verListaRep = new javax.swing.JMenuItem();
         Datos = new javax.swing.JMenu();
         CargaDatos = new javax.swing.JMenuItem();
 
@@ -179,13 +180,13 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu2.setText("Artistas");
 
-        jMenuItem2.setText("Consultar perfil del artista");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        verperfArt.setText("Consultar perfil de artista");
+        verperfArt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                verperfArtActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        jMenu2.add(verperfArt);
 
         jMenuBar1.add(jMenu2);
 
@@ -215,6 +216,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu4.add(agregarTemaListaMenuItem);
+
+        verListaRep.setText("Consultar lista de reproducción");
+        verListaRep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verListaRepActionPerformed(evt);
+            }
+        });
+        jMenu4.add(verListaRep);
 
         jMenuBar1.add(jMenu4);
 
@@ -270,11 +279,6 @@ public class Principal extends javax.swing.JFrame {
         Ap.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        ConsultarPerfilArtista perfArt = new ConsultarPerfilArtista();
-        perfArt.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void agregarTemaListaMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarTemaListaMenuItemActionPerformed
         AgregarTemaaLista agregarTL = new AgregarTemaaLista();
         escritorio.add(agregarTL);
@@ -311,6 +315,20 @@ public class Principal extends javax.swing.JFrame {
     private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
         
     }//GEN-LAST:event_jMenu5ActionPerformed
+
+    private void verperfArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verperfArtActionPerformed
+        ConsultarPerfilArtista cpa = new ConsultarPerfilArtista();
+        escritorio.add(cpa);
+        cpa.centrar();
+        cpa.show();
+    }//GEN-LAST:event_verperfArtActionPerformed
+
+    private void verListaRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verListaRepActionPerformed
+        ConsultarListaReproduccion cpr = new ConsultarListaReproduccion();
+        escritorio.add(cpr);
+        cpr.centrar();
+        cpr.show();
+    }//GEN-LAST:event_verListaRepActionPerformed
 
     
     /**
@@ -372,7 +390,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar4;
     private javax.swing.JMenuBar jMenuBar5;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem verListaRep;
+    private javax.swing.JMenuItem verperfArt;
     // End of variables declaration//GEN-END:variables
 }

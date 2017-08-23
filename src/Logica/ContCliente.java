@@ -382,7 +382,5 @@ private ContCliente(){
 
     public void setCA(IcontArtista art) {
          this.art=art;
-    }
-    
-    
+    }    
 }

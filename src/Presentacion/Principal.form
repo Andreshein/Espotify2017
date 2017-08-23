@@ -151,12 +151,12 @@
             <Property name="text" type="java.lang.String" value="Artistas"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="verperfArt">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Consultar perfil del artista"/>
+                <Property name="text" type="java.lang.String" value="Consultar perfil de artista"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verperfArtActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -190,6 +190,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="agregarTemaListaMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="verListaRep">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Consultar lista de reproducci&#xf3;n"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verListaRepActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
