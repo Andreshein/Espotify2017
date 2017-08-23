@@ -30,6 +30,7 @@ public interface IcontArtista {
 //    public abstract ArrayList<DtGenero> obtenerGenero(); //set(DtGenero);
     public abstract ArrayList<DtAlbum> BuscarGenero(String palabra);
     public abstract ArrayList<DtAlbum> BuscarArtista(String palabra);
+    public abstract ArrayList <DtTema> obtenerTema (String artista, String album);
     public abstract void seleccionarAlbum(String nick,String nombre);
     public abstract DtAlbum mostrarAlbum(); //DtAlbum
     public abstract Artista buscarArtista(String nickname);

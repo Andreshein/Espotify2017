@@ -136,6 +136,11 @@ public class ContArtista implements IcontArtista {
         return retornar;
     }
 
+    public ArrayList <DtTema> obtenerTema (String artista, String album){
+       Artista art = this.artistas.get(artista);
+       return art.getAlbumes().get(album).getDtTemas();
+    }
+    
     @Override
     public void seleccionarAlbum(String nick, String nombre) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
