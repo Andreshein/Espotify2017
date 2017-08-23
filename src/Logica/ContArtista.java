@@ -431,5 +431,14 @@ public class ContArtista implements IcontArtista {
         }       
         return retornar;
     }
+
+    @Override
+    public ArrayList<DtListaPD> ListarListaPD() {
+        ArrayList<DtListaPD> retorno = new ArrayList<DtListaPD>();
+        for(Genero g : this.generos.values()){
+            retorno.addAll(g.getDtListas());
+        }
+        return retorno;
+    }
     
 }

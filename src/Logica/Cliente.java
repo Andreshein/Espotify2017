@@ -196,4 +196,13 @@ public class Cliente extends Usuario{
     public void AddLista(Particular p){
         this.Listas.put(p.getNombre(), p);
     }
+    
+    public ArrayList<DtListaP> ObtenerLista(){
+        ArrayList<DtListaP> retorno= new ArrayList<DtListaP>(); 
+        for(Particular lista : this.Listas.values()){
+            retorno.add(lista.getDatos(nickname));
+            
+        }
+        return retorno;
+} 
 }

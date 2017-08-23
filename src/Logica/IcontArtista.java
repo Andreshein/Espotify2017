@@ -17,7 +17,7 @@ import javax.swing.ImageIcon;
  * @author ninoh
  */
 public interface IcontArtista {
-  
+    public abstract ArrayList<DtListaPD> ListarListaPD();
     public abstract boolean IngresarArtista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb, String img);
     public abstract boolean SelectArtista(String nick);
     public abstract void CrearAlbum(String nombre,int anio);

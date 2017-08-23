@@ -12,8 +12,9 @@ import javax.swing.ImageIcon;
 
 
 public interface IcontCliente{
-
+    public abstract ArrayList<DtListaPD> ListarListaPD(); 
     public abstract boolean IngresarCliente(String nickname, String nombre, String apellido,String correo, Date fechaNac, String img);
+    public abstract ArrayList<DtListaP> ListarListaP();
     public abstract boolean AltaDePerfil(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen);
     public abstract void AgregarArtista( String biografia, String link);
     public abstract void Corregir( String nick, String nombre, String apellido, String correo,Date fecha);
