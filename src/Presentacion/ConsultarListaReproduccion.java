@@ -137,11 +137,11 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nombre de la lista", "Nombre del usuario", "Género", "Es privada?"
+                "Nombre de la lista", "Género"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
