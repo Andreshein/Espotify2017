@@ -222,7 +222,7 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btBuscarMouseClicked
 
     private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
-        if(combo.getSelectedItem().equals("Género")){
+        /*if(combo.getSelectedItem().equals("Género")){
             ArrayList<DtAlbum> al = this.Art.BuscarGenero(this.txnombre.getText());
             DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
             modelo.setRowCount(0);
@@ -248,7 +248,7 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 };
                 modelo.addRow(dat);
             }
-        }
+        }*/
     }//GEN-LAST:event_btBuscarActionPerformed
 
     private void txnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txnombreActionPerformed

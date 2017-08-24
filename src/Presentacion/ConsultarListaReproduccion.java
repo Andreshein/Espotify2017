@@ -5,15 +5,26 @@
  */
 package Presentacion;
 
+import Logica.DtAlbum;
+import Logica.DtArtista;
+import Logica.DtCliente;
+import Logica.DtListaP;
+import Logica.IcontArtista;
+import Logica.IcontCliente;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author stephiRM
  */
 public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
-
+    
+    private IcontArtista artista;
+    private IcontCliente cliente;
     /**
      * Creates new form ConsultarListaReproduccion
      */
@@ -54,7 +65,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Consultar por:");
 
-        cboxBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Género", "Cliente", " " }));
+        cboxBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Género" }));
         cboxBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboxBuscarActionPerformed(evt);
@@ -62,6 +73,11 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         });
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Listas de reproducción:");
@@ -130,7 +146,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        ListasPanel.add(ParticularesPanel, "card3");
+        ListasPanel.add(ParticularesPanel, "ParticularesPanel");
 
         tblDefecto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -167,7 +183,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        ListasPanel.add(DefectoPanel, "card2");
+        ListasPanel.add(DefectoPanel, "DefectoPanel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -233,6 +249,36 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         mostrarListas((String) cboxBuscar.getSelectedItem());
     }//GEN-LAST:event_cboxBuscarActionPerformed
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if(cboxBuscar.getSelectedItem().equals("Cliente")){
+            ArrayList<DtCliente> clientes = this.cliente.BuscarClientes(this.txtBuscar.getText());
+            DefaultTableModel modelo = (DefaultTableModel) tblParticular.getModel();
+        
+            while(modelo.getRowCount()>0){
+                modelo.removeRow(0);
+            }
+        
+            for (int i=0;i<clientes.size();i++){
+                DtCliente dtcli = (DtCliente)clientes.get(i);
+                Object[] datos={dtcli.getNickname()};
+                modelo.addRow(datos);
+            }
+        }else{
+            /*ArrayList<DtAlbum> artistas = this.artista.BuscarGenero(this.txtBuscar.getText());
+            DefaultTableModel modelo = (DefaultTableModel) tblParticular.getModel();
+        
+            while(modelo.getRowCount()>0){
+                modelo.removeRow(0);
+            }
+        
+            for (int i=0;i<artistas.size();i++){
+                DtAlbum dtcli = (DtAlbum)artistas.get(i);
+                Object[] datos={dtcli.getNickname()};
+                modelo.addRow(datos);
+            }*/
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+ 
     public void mostrarListas(String tipo){
         CardLayout cl = (CardLayout)(ListasPanel.getLayout());
         
