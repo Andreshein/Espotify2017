@@ -92,6 +92,7 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
+        setTitle("Consultar Perfil Del Cliente");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Clientes:");

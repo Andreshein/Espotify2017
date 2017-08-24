@@ -136,12 +136,28 @@ private ContCliente(){
     public ArrayList<DtCliente> BuscarClientes(String palabra) {
         ArrayList<DtCliente> retornar = new ArrayList<>();
         Iterator iterador = this.clientes.values().iterator();
-        while (iterador.hasNext()) {
-            Cliente aux = (Cliente) iterador.next();
-            if (aux.getNickname().contains(palabra) == true || aux.getNombre().contains(palabra) == true || aux.getApellido().contains(palabra) == true) {
-                retornar.add(aux.getDatos());
+        if(palabra.equals("") == false){
+            while (iterador.hasNext()) {
+                Cliente aux = (Cliente) iterador.next();
+                
+                // toUpperCase convierte todas las letras del string en mayusculas para buscar mejor
+                palabra = palabra.toUpperCase();
+                String nick = aux.getNickname().toUpperCase();
+                String nombre = aux.getNombre().toUpperCase();
+                String apellido = aux.getApellido().toUpperCase();
+                String nomAp = aux.getNombre().toUpperCase()+aux.getApellido().toUpperCase();
+                
+                if (nick.startsWith(palabra) == true || nombre.startsWith(palabra) == true || apellido.startsWith(palabra) == true || nomAp.startsWith(palabra) == true) {
+                    retornar.add(aux.getDatos());
+                }
+            }
+        }else{
+            System.out.println("Logica.ContCliente.BuscarClientes() -> palabra vacia");
+            for (Cliente cliente : this.clientes.values()) {
+                retornar.add(cliente.getDatosResumidos());
             }
         }
+        
         return retornar;
     }
 
