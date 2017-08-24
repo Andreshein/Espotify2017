@@ -94,6 +94,13 @@ public class Album {
     public void AddTema (Tema t){
         this.temas.put(t.getNombre(), t);
     }
+    public ArrayList<DtTema> getAlbumesTema() {
+        ArrayList<DtTema> tema = new ArrayList();
+        for (Tema a : this.temas.values()) {
+            tema.add(a.getDatos());
+        }
+        return tema;
+        }
 }
 
 

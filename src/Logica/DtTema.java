@@ -14,13 +14,14 @@ public class DtTema {
     private final String duracion;
     private final int orden;
     private final String direccion;
-//   private final String archivo; //aca me parece que no seria string, seria el tipo de archivo, tipo mp3
+    private final String archivo;
 
-    public DtTema(String nombre, String duracion, int orden, String direccion) {
+    public DtTema(String nombre, String duracion, int orden, String direccion, String archivo) {
         this.nombre = nombre;
         this.duracion = duracion;
         this.orden = orden;
         this.direccion = direccion;
+        this.archivo = archivo;
     }
 
     public String getNombre() {
@@ -38,6 +39,8 @@ public class DtTema {
     public String getDireccion() {
         return direccion;
     }
-    
+    public String getArchivo() {
+        return archivo;
+    }
     
 }

@@ -5,6 +5,8 @@
  */
 package Logica;
 
+import java.util.Collection;
+
 /**
  *
  * @author ninoh
@@ -67,8 +69,10 @@ public class Tema {
     }
     
     public DtTema getDatos(){
-        return new DtTema(nombre, duracion, orden, direccion);
+        return new DtTema(nombre, duracion, orden, direccion, archivo);
     }
+
+    
     
     
 }
