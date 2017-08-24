@@ -5,6 +5,7 @@
  */
 package Presentacion;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 
 /**
@@ -42,10 +43,10 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         ListasPanel = new javax.swing.JPanel();
         ParticularesPanel = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblParticular = new javax.swing.JTable();
         DefectoPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblDefecto = new javax.swing.JTable();
 
         setClosable(true);
         setTitle("Consultar Lista de reproducción");
@@ -54,6 +55,11 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         jLabel1.setText("Consultar por:");
 
         cboxBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Género", "Cliente", " " }));
+        cboxBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboxBuscarActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
 
@@ -89,7 +95,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
         ListasPanel.setLayout(new java.awt.CardLayout());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblParticular.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -105,7 +111,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane6.setViewportView(jTable2);
+        jScrollPane6.setViewportView(tblParticular);
 
         javax.swing.GroupLayout ParticularesPanelLayout = new javax.swing.GroupLayout(ParticularesPanel);
         ParticularesPanel.setLayout(ParticularesPanelLayout);
@@ -126,7 +132,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
         ListasPanel.add(ParticularesPanel, "card3");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblDefecto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -142,7 +148,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable1);
+        jScrollPane4.setViewportView(tblDefecto);
 
         javax.swing.GroupLayout DefectoPanelLayout = new javax.swing.GroupLayout(DefectoPanel);
         DefectoPanel.setLayout(DefectoPanelLayout);
@@ -223,6 +229,23 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cboxBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxBuscarActionPerformed
+        mostrarListas((String) cboxBuscar.getSelectedItem());
+    }//GEN-LAST:event_cboxBuscarActionPerformed
+
+    public void mostrarListas(String tipo){
+        CardLayout cl = (CardLayout)(ListasPanel.getLayout());
+        
+        switch(tipo){
+            case "Género":
+                cl.show(ListasPanel, "DefectoPanel");
+                break;
+            case "Cliente":
+                cl.show(ListasPanel, "ParticularesPanel");
+                break;
+        }
+    }
+
      public void centrar(){
         //este metodo devuelve el tamaÃ±o de la pantalla
         Dimension pantalla = this.getParent().getSize();
@@ -252,9 +275,9 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tblDefecto;
     private javax.swing.JTable tblLista;
+    private javax.swing.JTable tblParticular;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }
