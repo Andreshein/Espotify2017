@@ -414,12 +414,9 @@ private ContCliente(){
         }
         return devolver;
     }
+    
     public ArrayList<DtListaPD> ListarListaPD(){
         return this.art.ListarListaPD();
     
-    }
-    
-
-   
-    
+    }    
 }

@@ -9,12 +9,15 @@ import Logica.DtAlbum;
 import Logica.DtArtista;
 import Logica.DtCliente;
 import Logica.DtListaP;
+import Logica.DtListaPD;
+import Logica.Fabrica;
 import Logica.IcontArtista;
 import Logica.IcontCliente;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,6 +33,8 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
      */
     public ConsultarListaReproduccion() {
         initComponents();
+        this.mostrarListasRep();
+        this.mostrarListaPD();
     }
 
     /**
@@ -116,11 +121,11 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nombre de la lista", "Nombre del usuario", "Cliente", "Es privado?"
+                "Usuario", "Nombre de la lista", "Es privado?"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -153,17 +158,9 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nombre de la lista", "Género"
+                "Nombre de la lista"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         jScrollPane4.setViewportView(tblDefecto);
 
         javax.swing.GroupLayout DefectoPanelLayout = new javax.swing.GroupLayout(DefectoPanel);
@@ -247,35 +244,35 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
     private void cboxBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxBuscarActionPerformed
         mostrarListas((String) cboxBuscar.getSelectedItem());
+        mostrarListaPD();
+        mostrarListasRep();
     }//GEN-LAST:event_cboxBuscarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if(cboxBuscar.getSelectedItem().equals("Cliente")){
-            ArrayList<DtCliente> clientes = this.cliente.BuscarClientes(this.txtBuscar.getText());
+            String nickname = txtBuscar.getText();
             DefaultTableModel modelo = (DefaultTableModel) tblParticular.getModel();
-        
+            ArrayList<DtCliente> cli = Fabrica.getCliente().BuscarClientes(nickname);
+          
+
             while(modelo.getRowCount()>0){
-                modelo.removeRow(0);
+       		modelo.setRowCount(0);
             }
-        
-            for (int i=0;i<clientes.size();i++){
-                DtCliente dtcli = (DtCliente)clientes.get(i);
-                Object[] datos={dtcli.getNickname()};
+         
+            for (int i=0;i<cli.size();i++) {
+                ArrayList<DtListaP> lista=cli.get(i).getListas();
+ 
+                for(int j=0;j<lista.size();j++){
+                    DtListaP lp =(DtListaP) lista.get(j);
+               
+                    Object[] datos={
+                        lp.getNombre(),
+                        lp.getUsuario(),
+                        lp.isPrivada()  
+                    };
                 modelo.addRow(datos);
+                }
             }
-        }else{
-            /*ArrayList<DtAlbum> artistas = this.artista.BuscarGenero(this.txtBuscar.getText());
-            DefaultTableModel modelo = (DefaultTableModel) tblParticular.getModel();
-        
-            while(modelo.getRowCount()>0){
-                modelo.removeRow(0);
-            }
-        
-            for (int i=0;i<artistas.size();i++){
-                DtAlbum dtcli = (DtAlbum)artistas.get(i);
-                Object[] datos={dtcli.getNickname()};
-                modelo.addRow(datos);
-            }*/
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
  
@@ -291,7 +288,38 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                 break;
         }
     }
+    
+    public void mostrarListasRep(){
+        if(cboxBuscar.getSelectedItem().equals("Cliente")){
+            List<DtListaP> lista= Fabrica.getCliente().ListarListaP();
+            DefaultTableModel modelo=(DefaultTableModel) tblParticular.getModel();
+        
+            while(modelo.getRowCount()>0){
+                modelo.removeRow(0);
+            }
+            
+            for(DtListaP lp: lista){
+                Object[] datos={lp.getUsuario(),lp.getNombre(),lp.isPrivada()};
+                modelo.addRow(datos);
+            }
+        }
+    }
 
+    public void mostrarListaPD(){
+        if(cboxBuscar.getSelectedItem().equals("Género")){
+            List<DtListaPD> lista= Fabrica.getArtista().ListarListaPD();
+            DefaultTableModel modelo=(DefaultTableModel) tblDefecto.getModel();
+        
+            while(modelo.getRowCount()>0){
+                modelo.removeRow(0);
+            }
+            
+            for(DtListaPD lpd: lista){
+                Object[] datos={lpd.getNombre()};
+                modelo.addRow(datos);
+            }
+        }
+    }
      public void centrar(){
         //este metodo devuelve el tamaÃ±o de la pantalla
         Dimension pantalla = this.getParent().getSize();
