@@ -13,11 +13,14 @@ import java.util.ArrayList;
  */
 abstract class Lista {
     protected String nombre;
-    protected ArrayList<Tema> temas;
     protected String imagen;
+    protected ArrayList<Tema> temas;
+
 
     abstract String getNombre();
-
     abstract void setNombre(String nombre);
-    
+    abstract void setTema(Tema t);
+    abstract void setTemas(ArrayList<Tema> temas);
+    abstract ArrayList<Tema> getTemas();
+    abstract DtLista getDatos(String Pertenece);
 }

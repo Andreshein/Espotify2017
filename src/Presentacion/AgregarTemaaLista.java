@@ -5,9 +5,12 @@
  */
 package Presentacion;
 
+import Logica.DtListaP;
+import Logica.DtListaPD;
 import Logica.Fabrica;
 import Logica.IcontArtista;
 import Logica.IcontCliente;
+import Logica.Particular;
 import java.awt.*;
 import java.io.File;
 import java.sql.*;
@@ -22,15 +25,14 @@ import javax.swing.table.DefaultTableModel;
 import static javax.xml.bind.DatatypeConverter.parseInteger;
 
 public class AgregarTemaaLista extends javax.swing.JInternalFrame {
-
-    /**
-     * Creates new form AgregarTemaaLista
-     */
+     
+    private IcontCliente Cli;
+    
     public AgregarTemaaLista() {
         initComponents();
         setTitle("AgregarTemaaLista");
-        
-        
+        Fabrica f = Fabrica.getInstance();
+        this.Cli=f.getCliente();
     }
 
     /**
@@ -51,7 +53,7 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cmb_Lista = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         PanelPadre = new javax.swing.JPanel();
         Album = new javax.swing.JPanel();
@@ -66,7 +68,7 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setIconifiable(true);
-        setPreferredSize(new java.awt.Dimension(645, 421));
+        setPreferredSize(new java.awt.Dimension(745, 621));
 
         cmb_Busqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Album", "Lista Por Defecto", "Lista Particular" }));
         cmb_Busqueda.addActionListener(new java.awt.event.ActionListener() {
@@ -95,7 +97,12 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Lista a agregar Tema: ");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Defecto", "Particular" }));
+        cmb_Lista.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Defecto", "Particular" }));
+        cmb_Lista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_ListaActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Temas: ");
 
@@ -125,9 +132,7 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
             AlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 255, Short.MAX_VALUE)
             .addGroup(AlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(AlbumLayout.createSequentialGroup()
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
         );
 
         PanelPadre.add(Album, "Album");
@@ -192,7 +197,7 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cmb_Lista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jButton1))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,7 +214,7 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(PanelPadre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,7 +223,7 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmb_Lista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmb_Busqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -233,7 +238,7 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -257,6 +262,46 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_cmb_BusquedaActionPerformed
 
+    private void cmb_ListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_ListaActionPerformed
+        String texto=cmb_Lista.getSelectedItem().toString();
+        if("Particular".equals(texto))
+        {   
+          ArrayList<DtListaP> listap=Cli.ListarListaP();
+            DefaultListModel modelo=new DefaultListModel();
+            for (int i=0;i<listap.size();i++) {
+            DtListaP lp=(DtListaP)listap.get(i);
+            modelo.addElement(lp.getNombre());
+        }
+        this.jList2.setModel(modelo);
+        }
+        else{
+            
+            ArrayList<DtListaPD> listap=Cli.ListarListaPD();
+            DefaultListModel modelo=new DefaultListModel();
+            for (int i=0;i<listap.size();i++) {
+            DtListaPD lpd=(DtListaPD)listap.get(i);
+            modelo.addElement(lpd.getNombre());
+        }
+        this.jList2.setModel(modelo);  
+        }               
+        
+        
+    }//GEN-LAST:event_cmb_ListaActionPerformed
+
+    public void centrar(){
+        //este metodo devuelve el tamaÃ±o de la pantalla
+        Dimension pantalla = this.getParent().getSize();
+        //obtenemos el tamaÃ±o de la ventana
+        Dimension ventana = this.getSize();
+        //para centrar la ventana lo hacemos con el siguiente calculo
+        int a = pantalla.width;
+        int b = ventana.width;
+        a = (a-b)/2;
+        int c = pantalla.height;
+        int d = ventana.height;
+        c = (c-d)/2;
+        this.setLocation(a, c);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Album;
@@ -267,9 +312,9 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
     private javax.swing.JTable TablaAlbum;
     private javax.swing.JTable TablaListaP;
     private javax.swing.JComboBox<String> cmb_Busqueda;
+    private javax.swing.JComboBox<String> cmb_Lista;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

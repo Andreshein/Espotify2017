@@ -5,6 +5,8 @@
  */
 package Logica;
 
+import java.util.Collection;
+
 /**
  *
  * @author ninoh
@@ -26,10 +28,6 @@ public class Tema {
         this.direccion = direccion;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -48,10 +46,6 @@ public class Tema {
 
     public String getDireccion() {
         return direccion;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setNombre(String nombre) {
@@ -75,8 +69,10 @@ public class Tema {
     }
     
     public DtTema getDatos(){
-        return new DtTema(id, nombre, duracion, orden, direccion);
+        return new DtTema(nombre, duracion, orden, direccion, archivo);
     }
+
+    
     
     
 }

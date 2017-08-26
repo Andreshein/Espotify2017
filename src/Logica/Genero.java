@@ -7,6 +7,8 @@ package Logica;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  *
@@ -29,8 +31,15 @@ public class Genero {
         this.Albumes = new HashMap();
         this.Listas = new HashMap();
     }
-
-    public Genero getPadre() {
+    
+    public int getid(){
+        return id;
+    }
+    
+    public int getidpadre(){
+        return idPapa;
+    }
+    public Genero getPadre(){
         return Padre;
     }
 
@@ -67,4 +76,37 @@ public class Genero {
     public void AddAlbum(Album a){
         this.Albumes.put(a.getNombre(), a);
     }
+    
+    public DtGenero getDatos(ArrayList<DtGenero> hijos){
+        return new DtGenero(this.nombre,this.getDtAlbumes(), this.getDtListas(), hijos);
+    }
+    
+    public ArrayList<DtAlbum> getDtAlbumes(){
+        ArrayList<DtAlbum> a = new ArrayList<>();
+        Iterator it = this.getAlbumes().entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry mentry = (Map.Entry)it.next();
+            Album al=(Album) mentry.getValue();
+            a.add(al.getDatos());
+        }
+        return a;
+    }
+    
+    public ArrayList<DtListaPD> getDtListas(){
+        ArrayList<DtListaPD> a = new ArrayList<>();
+        Iterator it = this.getListas().values().iterator();
+        while(it.hasNext()){
+            PorDefecto lpd = (PorDefecto)it.next();
+            a.add(lpd.getDatos(this.nombre));
+        }
+        return a;
+    }
+    
+        public ArrayList<DtAlbum> getAlbumesGenero() {
+        ArrayList<DtAlbum> albumes = new ArrayList();
+        for (Album a : this.Albumes.values()) {
+            albumes.add(a.getDatos());
+        }
+        return albumes;
+        }
 }

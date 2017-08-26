@@ -1,20 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Logica;
 
-/**
- *
- * @author ninoh
- */
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.ImageIcon;
+
+
 public class Particular extends Lista{
     private int id;
     private String nombreusuario;
     private Cliente usuario;
-    private String nombre;
-    boolean esPrivado;
+    private boolean esPrivado;
     
 
     public Particular(int id, String usuario, String nombre, boolean esPrivado, String img) {
@@ -23,8 +19,17 @@ public class Particular extends Lista{
         this.nombre= nombre;
         this.esPrivado = esPrivado;
         this.imagen = img;
+        this.temas = new ArrayList();
       
     }
+
+    public Particular(int id, String nombreusuario, String nombre, boolean esPrivado) {
+        this.id = id;
+        this.nombreusuario = nombreusuario;
+        this.nombre = nombre;
+        this.esPrivado = esPrivado;
+    }
+    
 
     public void setId(int id) {
         this.id = id;
@@ -70,4 +75,40 @@ public class Particular extends Lista{
     public void AddTema(Tema t){
         this.temas.add(t);
     }
+
+    public DtListaP getDatos(String Pertenece){
+        return new DtListaP(nombre, null, this.getDtTemas(), Pertenece, this.esPrivado);
+    }
+    
+    public ArrayList<DtTema> getDtTemas(){
+        ArrayList<DtTema> retorno = new ArrayList<>();
+        Iterator iterador = this.getTemas().iterator();
+        while(iterador.hasNext()){
+            Tema aux = (Tema)iterador.next();
+            retorno.add(aux.getDatos());
+        }
+        return retorno;
+    }
+
+    void setTema(Tema t) {
+        this.temas.add(t);
+    }
+
+    void setTemas(ArrayList<Tema> temas) {
+        this.temas = temas;
+    }
+
+    String getNombtre() {
+        return this.nombre;
+    }
+
+    ArrayList<Tema> getTemas() {
+        return this.temas;
+    }
+    
+    
+    public DtListaP getDtListaP(){
+        return new DtListaP(nombre,this.getDtTemas());
+    }
+    
 }

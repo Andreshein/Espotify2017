@@ -31,8 +31,9 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     
     public AltaPerfil() {
         initComponents();
-        this.Art=Fabrica.getArtista(); 
-        this.Cli=Fabrica.getCliente();
+        Fabrica f = Fabrica.getInstance();
+        this.Art=f.getArtista();
+        this.Cli=f.getCliente();
         setTitle("Alta Perfil"); // nombre de la ventana
         setResizable(false); // no se puede modificar el tamaño de la ventana      
         jPanel1.setVisible(false);
@@ -48,6 +49,10 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         Buscar = new javax.swing.JFileChooser();
+        jDialog1 = new javax.swing.JDialog();
+        jDialog2 = new javax.swing.JDialog();
+        jDialog3 = new javax.swing.JDialog();
+        jDialog4 = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -72,6 +77,50 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         CargarImg = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jDialog3Layout = new javax.swing.GroupLayout(jDialog3.getContentPane());
+        jDialog3.getContentPane().setLayout(jDialog3Layout);
+        jDialog3Layout.setHorizontalGroup(
+            jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog3Layout.setVerticalGroup(
+            jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jDialog4Layout = new javax.swing.GroupLayout(jDialog4.getContentPane());
+        jDialog4.getContentPane().setLayout(jDialog4Layout);
+        jDialog4Layout.setHorizontalGroup(
+            jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog4Layout.setVerticalGroup(
+            jDialog4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setClosable(true);
         setIconifiable(true);
@@ -106,7 +155,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
 
         Img.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        Nomb.setText("Nombre de imagen");
+        Nomb.setText("Ruta de imagen");
 
         Anio.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -497,6 +546,20 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     
     }//GEN-LAST:event_txt_PaginaWebFocusLost
 
+    public void centrar(){
+        //este metodo devuelve el tamaÃ±o de la pantalla
+        Dimension pantalla = this.getParent().getSize();
+        //obtenemos el tamaÃ±o de la ventana
+        Dimension ventana = this.getSize();
+        //para centrar la ventana lo hacemos con el siguiente calculo
+        int a = pantalla.width;
+        int b = ventana.width;
+        a = (a-b)/2;
+        int c = pantalla.height;
+        int d = ventana.height;
+        c = (c-d)/2;
+        this.setLocation(a, c);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Anio;
@@ -509,6 +572,10 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cmb_Tipo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
+    private javax.swing.JDialog jDialog3;
+    private javax.swing.JDialog jDialog4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

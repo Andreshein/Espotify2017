@@ -28,9 +28,17 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         Cli = Fabrica.getCliente();
         Art = Fabrica.getArtista();
+        Fabrica.SetControladores();
+        
+        //levantar datos de la BD
+        Fabrica.cargarDatos();
         
         // Es para que la ventana se centre
         this.setLocationRelativeTo(null);
+        
+        this.setExtendedState(this.MAXIMIZED_BOTH);
+        Fabrica  f = Fabrica.getInstance();
+        //f.cargarDatos();
     }
 
     /**
@@ -59,12 +67,19 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         ConsultarPerfilCliMenuItem = new javax.swing.JMenuItem();
+        pubListMenuItem = new javax.swing.JMenuItem();
+        seguir = new javax.swing.JMenuItem();
+        dseguir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        verperfArt = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        ConsultaAlbum = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         agregarTemaListaMenuItem = new javax.swing.JMenuItem();
+        verListaRep = new javax.swing.JMenuItem();
         Datos = new javax.swing.JMenu();
         CargaDatos = new javax.swing.JMenuItem();
 
@@ -123,7 +138,7 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.setPreferredSize(new java.awt.Dimension(445, 21));
 
-        jMenu3.setText("AltaPerfil");
+        jMenu3.setText("Nuevo");
         jMenu3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenu3ActionPerformed(evt);
@@ -131,13 +146,21 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("AltaPerfil");
+        jMenuItem1.setText("Usuario");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
             }
         });
         jMenu3.add(jMenuItem1);
+
+        jMenuItem3.setText("Album");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
 
         jMenuBar1.add(jMenu3);
 
@@ -156,19 +179,60 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu1.add(ConsultarPerfilCliMenuItem);
 
+        pubListMenuItem.setText("Publicar Lista");
+        pubListMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pubListMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(pubListMenuItem);
+
+        seguir.setText("Seguir Usuario");
+        seguir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seguirActionPerformed(evt);
+            }
+        });
+        jMenu1.add(seguir);
+
+        dseguir.setText("Dejar de Seguir");
+        dseguir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dseguirActionPerformed(evt);
+            }
+        });
+        jMenu1.add(dseguir);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Artistas");
 
-        jMenuItem2.setText("Consultar perfil del artista");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        verperfArt.setText("Consultar perfil de artista");
+        verperfArt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                verperfArtActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        jMenu2.add(verperfArt);
 
         jMenuBar1.add(jMenu2);
+
+        jMenu5.setText("Álbum");
+        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu5ActionPerformed(evt);
+            }
+        });
+
+        ConsultaAlbum.setText("Consultar Álbum");
+        ConsultaAlbum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConsultaAlbumActionPerformed(evt);
+            }
+        });
+        jMenu5.add(ConsultaAlbum);
+
+        jMenuBar1.add(jMenu5);
 
         jMenu4.setText("Listas");
 
@@ -179,6 +243,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu4.add(agregarTemaListaMenuItem);
+
+        verListaRep.setText("Consultar lista de reproducción");
+        verListaRep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verListaRepActionPerformed(evt);
+            }
+        });
+        jMenu4.add(verListaRep);
 
         jMenuBar1.add(jMenu4);
 
@@ -213,7 +285,9 @@ public class Principal extends javax.swing.JFrame {
     private void ConsultarPerfilCliMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultarPerfilCliMenuItemActionPerformed
         // TODO add your handling code here:
         ConsultarPerfilCliente perfilCli = new ConsultarPerfilCliente();
-        perfilCli.setVisible(true);
+        escritorio.add(perfilCli);
+        perfilCli.centrar();
+        perfilCli.show();
     }//GEN-LAST:event_ConsultarPerfilCliMenuItemActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
@@ -221,7 +295,6 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu1ActionPerformed
 
     private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
-        // TODO add your handling code here:
 
     }//GEN-LAST:event_jMenu3ActionPerformed
 
@@ -229,17 +302,14 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         AltaPerfil Ap = new AltaPerfil();
         escritorio.add(Ap);
+        Ap.centrar();
         Ap.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        ConsultarPerfilArtista perfArt = new ConsultarPerfilArtista();
-        perfArt.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void agregarTemaListaMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarTemaListaMenuItemActionPerformed
         AgregarTemaaLista agregarTL = new AgregarTemaaLista();
         escritorio.add(agregarTL);
+        agregarTL.centrar();
         agregarTL.show();
     }//GEN-LAST:event_agregarTemaListaMenuItemActionPerformed
 
@@ -254,6 +324,61 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CargaDatosActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        AltaAlbum ab = new AltaAlbum(escritorio);
+        escritorio.add(ab);
+        ab.setVisible(true);
+        ab.centrar();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void ConsultaAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultaAlbumActionPerformed
+        // TODO add your handling code here:
+        ConsultaAlbum album = new ConsultaAlbum();
+        escritorio.add(album);
+        album.centrar();
+        album.show();
+    }//GEN-LAST:event_ConsultaAlbumActionPerformed
+
+    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+        
+    }//GEN-LAST:event_jMenu5ActionPerformed
+
+    private void verperfArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verperfArtActionPerformed
+        ConsultarPerfilArtista cpa = new ConsultarPerfilArtista();
+        escritorio.add(cpa);
+        cpa.centrar();
+        cpa.show();
+    }//GEN-LAST:event_verperfArtActionPerformed
+
+    private void verListaRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verListaRepActionPerformed
+        ConsultarListaReproduccion cpr = new ConsultarListaReproduccion();
+        escritorio.add(cpr);
+        cpr.centrar();
+        cpr.show();
+    }//GEN-LAST:event_verListaRepActionPerformed
+
+    private void pubListMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pubListMenuItemActionPerformed
+        PublicarLista pubL = new PublicarLista();
+        escritorio.add(pubL);
+        pubL.centrar();
+        pubL.show();
+    }//GEN-LAST:event_pubListMenuItemActionPerformed
+
+    private void seguirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seguirActionPerformed
+        SeguirUsuario su = new SeguirUsuario();
+        escritorio.add(su);
+        su.centrar();
+        su.show();
+    }//GEN-LAST:event_seguirActionPerformed
+
+    private void dseguirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dseguirActionPerformed
+        DejarSeguir dsu = new DejarSeguir();
+        escritorio.add(dsu);
+        dsu.centrar();
+        dsu.show();// TODO add your handling code here:
+    }//GEN-LAST:event_dseguirActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -288,9 +413,11 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem CargaDatos;
+    private javax.swing.JMenuItem ConsultaAlbum;
     private javax.swing.JMenuItem ConsultarPerfilCliMenuItem;
     private javax.swing.JMenu Datos;
     private javax.swing.JMenuItem agregarTemaListaMenuItem;
+    private javax.swing.JMenuItem dseguir;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
@@ -301,6 +428,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
@@ -311,6 +439,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar4;
     private javax.swing.JMenuBar jMenuBar5;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem pubListMenuItem;
+    private javax.swing.JMenuItem seguir;
+    private javax.swing.JMenuItem verListaRep;
+    private javax.swing.JMenuItem verperfArt;
     // End of variables declaration//GEN-END:variables
 }

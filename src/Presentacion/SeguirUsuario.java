@@ -9,6 +9,7 @@ import Logica.DtCliente;
 import Logica.DtUsuario;
 import Logica.Fabrica;
 import Logica.IcontCliente;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.DefaultListModel;
@@ -17,7 +18,7 @@ import javax.swing.DefaultListModel;
  *
  * @author pc
  */
-public class SeguirUsuario extends javax.swing.JFrame {
+public class SeguirUsuario extends javax.swing.JInternalFrame {
 
     private ArrayList<DtCliente> clientes;
     private ArrayList<DtUsuario> usuarios;
@@ -25,8 +26,24 @@ public class SeguirUsuario extends javax.swing.JFrame {
     
     public SeguirUsuario() {
         initComponents();
-        this.icc = Fabrica.getCliente();
+        Fabrica f = Fabrica.getInstance();
+        this.icc=f.getCliente();
         this.limpiar();
+    }
+    
+     public void centrar(){
+        //este metodo devuelve el tamaÃ±o de la pantalla
+        Dimension pantalla = this.getParent().getSize();
+        //obtenemos el tamaÃ±o de la ventana
+        Dimension ventana = this.getSize();
+        //para centrar la ventana lo hacemos con el siguiente calculo
+        int a = pantalla.width;
+        int b = ventana.width;
+        a = (a-b)/2;
+        int c = pantalla.height;
+        int d = ventana.height;
+        c = (c-d)/2;
+        this.setLocation(a, c);
     }
     
     public void limpiar(){
@@ -78,6 +95,7 @@ public class SeguirUsuario extends javax.swing.JFrame {
         lbl_tipo = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -152,6 +170,13 @@ public class SeguirUsuario extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Seleccionar usuario a seguir");
 
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -197,7 +222,9 @@ public class SeguirUsuario extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnconfirmar)
-                        .addGap(103, 103, 103))))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)
+                        .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
                 .addGap(177, 177, 177)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -257,7 +284,9 @@ public class SeguirUsuario extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lbl_tipo)))
                         .addGap(21, 21, 21))
-                    .addComponent(btnconfirmar, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnconfirmar)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
 
@@ -291,13 +320,15 @@ public class SeguirUsuario extends javax.swing.JFrame {
     private void btnconfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconfirmarActionPerformed
         if(!this.lblcampo1.getText().equals("") && !this.lblcampo4.getText().equals("")){
             this.icc.seguir((String)this.lblcampo1.getText(), (String)this.lblcampo4.getText());
+            javax.swing.JOptionPane.showMessageDialog(null,"Operacion exitosa");
+            this.dispose();
         }else{
             javax.swing.JOptionPane.showMessageDialog(null,"Debe seleccionar el cliente y el usuario");
         }
     }//GEN-LAST:event_btnconfirmarActionPerformed
 
     private void btnbuscar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscar2ActionPerformed
-        if(this.txtbuscar2.getText().equals("")){
+        if(!this.txtbuscar2.getText().equals("")){
             this.usuarios=this.icc.BuscarUsuarios(this.txtbuscar2.getText());
             DefaultListModel modelo = new DefaultListModel();
             if (!this.usuarios.isEmpty()) {
@@ -312,7 +343,7 @@ public class SeguirUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnbuscar2ActionPerformed
 
     private void btnbuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscar1ActionPerformed
-        if(this.txtbuscar1.getText().equals("")){
+        if(!this.txtbuscar1.getText().equals("")){
             this.clientes=this.icc.BuscarClientes(this.txtbuscar1.getText());
             DefaultListModel modelo = new DefaultListModel();
             if (!this.clientes.isEmpty()) {
@@ -326,12 +357,17 @@ public class SeguirUsuario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnbuscar1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnbuscar1;
     private javax.swing.JButton btnbuscar2;
     private javax.swing.JButton btnconfirmar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;

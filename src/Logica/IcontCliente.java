@@ -7,12 +7,14 @@ package Logica;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import javax.swing.ImageIcon;
 
 
 public interface IcontCliente{
-
+    public abstract ArrayList<DtListaPD> ListarListaPD(); 
     public abstract boolean IngresarCliente(String nickname, String nombre, String apellido,String correo, Date fechaNac, String img);
+    public abstract ArrayList<DtListaP> ListarListaP();
     public abstract boolean AltaDePerfil(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen);
     public abstract void AgregarArtista( String biografia, String link);
     public abstract void Corregir( String nick, String nombre, String apellido, String correo,Date fecha);
@@ -32,5 +34,10 @@ public interface IcontCliente{
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract ArrayList<DtUsuario> BuscarUsuariosSeg(String Nickname, String palabra);
     public abstract void CargadeDatos();
+    public abstract void SetContArtista(IcontArtista art);
+    public abstract ArrayList<DtGenero> ListarGeneros(String palabra);
+    public abstract ArrayList<DtCliente> getSeguidores(String nickname);
+    public abstract void setClientes(HashMap<String,Cliente> clientes);
+    public abstract void setCA(IcontArtista art);
 }
 //hellou papaguena

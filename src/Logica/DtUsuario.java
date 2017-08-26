@@ -17,7 +17,7 @@ public abstract class DtUsuario {
     protected String nombre;
     protected String apellido;
     protected String correo;
-    protected Date fechaNac;
+    protected String fechaNac;
     protected ImageIcon imagen;
 
     public String getNickname() {
@@ -36,7 +36,7 @@ public abstract class DtUsuario {
         return correo;
     }
 
-    public Date getFechaNac() {
+    public String getFechaNac() {
         return fechaNac;
     }
 

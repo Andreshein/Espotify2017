@@ -27,17 +27,17 @@ public abstract class Usuario {
 
     abstract void setFechaNac(Date fechaNac);
 
-    abstract String getNickname();
+    abstract public String getNickname();
 
-    abstract String getNombre();
+    abstract public String getNombre();
 
-    abstract String getApellido();
+    abstract public String getApellido();
 
-    abstract String getCorreo();
+    abstract public String getCorreo();
 
-    abstract Date getFechaNac();
+    abstract public Date getFechaNac();
     
-    abstract DtUsuario getDatos();
+    abstract public DtUsuario getDatos();
     
     
 }
