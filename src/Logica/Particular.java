@@ -10,7 +10,6 @@ public class Particular extends Lista{
     private int id;
     private String nombreusuario;
     private Cliente usuario;
-    private String nombre;
     private boolean esPrivado;
     
 
@@ -23,6 +22,14 @@ public class Particular extends Lista{
         this.temas = new ArrayList();
       
     }
+
+    public Particular(int id, String nombreusuario, String nombre, boolean esPrivado) {
+        this.id = id;
+        this.nombreusuario = nombreusuario;
+        this.nombre = nombre;
+        this.esPrivado = esPrivado;
+    }
+    
 
     public void setId(int id) {
         this.id = id;

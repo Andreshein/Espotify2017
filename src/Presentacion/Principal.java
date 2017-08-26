@@ -31,7 +31,7 @@ public class Principal extends javax.swing.JFrame {
         Fabrica.SetControladores();
         
         //levantar datos de la BD
-        Cli.cargarDatosDeLaBD();
+        Fabrica.cargarDatos();
         
         // Es para que la ventana se centre
         this.setLocationRelativeTo(null);
@@ -71,6 +71,8 @@ public class Principal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         ConsultarPerfilCliMenuItem = new javax.swing.JMenuItem();
         pubListMenuItem = new javax.swing.JMenuItem();
+        seguir = new javax.swing.JMenuItem();
+        dseguir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         verperfArt = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -184,6 +186,22 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(pubListMenuItem);
+
+        seguir.setText("Seguir Usuario");
+        seguir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seguirActionPerformed(evt);
+            }
+        });
+        jMenu1.add(seguir);
+
+        dseguir.setText("Dejar de Seguir");
+        dseguir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dseguirActionPerformed(evt);
+            }
+        });
+        jMenu1.add(dseguir);
 
         jMenuBar1.add(jMenu1);
 
@@ -346,6 +364,20 @@ public class Principal extends javax.swing.JFrame {
         pubL.show();
     }//GEN-LAST:event_pubListMenuItemActionPerformed
 
+    private void seguirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seguirActionPerformed
+        SeguirUsuario su = new SeguirUsuario();
+        escritorio.add(su);
+        su.centrar();
+        su.show();
+    }//GEN-LAST:event_seguirActionPerformed
+
+    private void dseguirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dseguirActionPerformed
+        DejarSeguir dsu = new DejarSeguir();
+        escritorio.add(dsu);
+        dsu.centrar();
+        dsu.show();// TODO add your handling code here:
+    }//GEN-LAST:event_dseguirActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -385,6 +417,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem ConsultarPerfilCliMenuItem;
     private javax.swing.JMenu Datos;
     private javax.swing.JMenuItem agregarTemaListaMenuItem;
+    private javax.swing.JMenuItem dseguir;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
@@ -407,8 +440,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar5;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem pubListMenuItem;
+    private javax.swing.JMenuItem seguir;
     private javax.swing.JMenuItem verListaRep;
     private javax.swing.JMenuItem verperfArt;
-    private javax.swing.JMenuItem pubListMenuItem;
     // End of variables declaration//GEN-END:variables
 }

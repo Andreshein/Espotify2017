@@ -5,12 +5,13 @@
  */
 package Logica;
 
-import Persistencia.CargaDatos;
 import Persistencia.ConexionDB;
+import Persistencia.DBUsuario;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,8 +25,9 @@ public class Fabrica {
     private static Fabrica instancia;
     private static IcontArtista Artista;
     private static IcontCliente Cliente;
-    public static Fabrica getInstance(){
-        if (instancia == null){
+
+    public static Fabrica getInstance() {
+        if (instancia == null) {
             instancia = new Fabrica();
         }
         return instancia;
@@ -33,17 +35,18 @@ public class Fabrica {
     }
 
     public static IcontArtista getArtista() {
-         Artista = ContArtista.getInstance();
-         return Artista;
+        Artista = ContArtista.getInstance();
+        return Artista;
     }
 
-     public static IcontCliente getCliente() {
-         Cliente = ContCliente.getInstance();
-         return Cliente;
+    public static IcontCliente getCliente() {
+        Cliente = ContCliente.getInstance();
+        return Cliente;
     }
-    public static void SetControladores(){
-       Cliente.SetContArtista(Artista);
-       Artista.SetContCliente(Cliente);
+
+    public static void SetControladores() {
+        Cliente.SetContArtista(Artista);
+        Artista.SetContCliente(Cliente);
     }
 
     private Fabrica() {
@@ -52,113 +55,80 @@ public class Fabrica {
         this.Cliente.setCA(Artista);
     }
 
-    /*public void cargarDatos() {
-        ConexionDB bd = new ConexionDB();
-        CargaDatos c = new CargaDatos(bd.getConexion());
+    public static void cargarDatos() {
+        DBUsuario db = new DBUsuario();
+        Map<String, Cliente> clientes = db.cargarClientes();
+        Map<String, Genero> generos = db.cargarGenero();
+        Map<String, Artista> artistas = db.cargarArtistas();
 
-        try {
-            HashMap<String, Artista> artistas = c.cargarArtista();
-            HashMap<String, Cliente> clientes = c.cargarCliente();
-            HashMap<String, Genero> generos = c.cargarGenero();
-            
-            Iterator aux = (Iterator) clientes.values().iterator();
-            while (aux.hasNext()) {
-                Cliente cli = (Cliente) aux.next();
-                ArrayList<String> claves = c.Seguidos(cli.getNickname());
-                
-                for (int i = 0; i < claves.size(); i++) {
-                    if (clientes.containsKey((String) claves.get(i))) {
-                        cli.setSiguiendo(clientes.get((String) claves.get(i)));
-                    } else {
-                        cli.setSiguiendo(artistas.get((String) claves.get(i)));
-                    }
+        for (Genero g : generos.values()) {
+            g.setPadre(generos.get(g.getidpadre()));
+            for (PorDefecto pd : g.getListas().values()) {
+                ArrayList<Object[]> temas = db.getTemasListaPD(pd.getId());
+                for (int i = 0; i > temas.size(); i++) {
+                    Object[] o = temas.get(i);
+                    Artista a = artistas.get(o[2]);
+                    Album al = a.getAlbumes().get(o[1]);
+                    pd.setTema(al.getTema((String) o[0]));
                 }
-                Iterator it = (Iterator) cli.getListas().values().iterator();
-                while (it.hasNext()) {
-                    Particular l = (Particular) it.next();
-                    claves = c.temalistap(cli.getNickname(), l.getNombre());
-                    for (int i = 0; i < claves.size(); i++) {
-                        String nick, alb, t, clave = (String) claves.get(i);
-                        nick = clave.substring(0, clave.indexOf(":"));
-                        alb = clave.substring(clave.indexOf(":")+ 1, clave.indexOf("-"));
-                        t = clave.substring(clave.indexOf("-") + 1);
-                        Artista art = (Artista) artistas.get(nick);
-                        Album al = (Album) art.getAlbumes().get(alb);
-                        l.setTema(al.getTema(t));
-                    }
-                }
-                claves = c.favtemas(cli.getNickname());
-                for (int i = 0; i < claves.size(); i++) {
-                    String nick, alb, t, clave = (String) claves.get(i);
-                    nick = clave.substring(0, clave.indexOf(":"));
-                    alb = clave.substring(clave.indexOf(":")+ 1, clave.indexOf("-"));
-                    t = clave.substring(clave.indexOf("-") + 1);
-                    Artista art = (Artista) artistas.get(nick);
-                    Album al = (Album) art.getAlbumes().get(alb);
-                    cli.setFavTema(al.getTema(t));
-                }
-                claves = c.favalbum(cli.getNickname());
-                for (int i = 0; i < claves.size(); i++) {
-                    String nick, alb, t, clave = (String) claves.get(i);
-                    nick = clave.substring(0, clave.indexOf(":"));
-                    alb = clave.substring(clave.indexOf(":")+1);
-                    Artista art = (Artista) artistas.get(nick);
-                    Album al = (Album) art.getAlbumes().get(alb);
-                   cli.setFavAlbum(al);
-                }
-                claves = c.favlistap(cli.getNickname());
-                for (int i = 0; i < claves.size(); i++) {
-                    String nick, l, clave = (String) claves.get(i);
-                    nick = clave.substring(0, clave.indexOf(":"));
-                    l = clave.substring(clave.indexOf(":")+1);
-                    Cliente cl = clientes.get(nick);
-                    cli.setFavLista(cl.getListas().get(l));
-                }
-                claves = c.favlistapd(cli.getNickname());
-                for (int i = 0; i < claves.size(); i++) {
-                    String gen, l, clave = (String) claves.get(i);
-                    gen = clave.substring(0, clave.indexOf(":"));
-                    l = clave.substring(clave.indexOf(":")+1);
-                    Genero g = (Genero)generos.get(gen);
-                    cli.setFavLista(g.getListas().get(l));
-                }
-                
             }
-            aux = (Iterator)generos.values().iterator();
-            while(aux.hasNext()){
-                Genero g =(Genero)aux.next();
-                g.setPadre((Genero)generos.get(c.generoPadre(g.getNombre())));
-                Iterator it = (Iterator)g.getListas().values().iterator();
-                ArrayList<String> claves;
-                while (it.hasNext()) {
-                    PorDefecto l = (PorDefecto) it.next();
-                    claves = c.temalistapd(g.getNombre(), l.getNombre());
-                    for (int i = 0; i < claves.size(); i++) {
-                        String nick, alb, t, clave = (String) claves.get(i);
-                        nick = clave.substring(0, clave.indexOf(":"));
-                        alb = clave.substring(clave.indexOf(":")+ 1, clave.indexOf("-"));
-                        t = clave.substring(clave.indexOf("-") + 1);
-                        Artista art = (Artista) artistas.get(nick);
-                        Album al = (Album) art.getAlbumes().get(alb);
-                        l.setTema(al.getTema(t));
-                    }
-                }
-                claves = c.generoAlbum(g.getNombre());
-                for (int i = 0; i < claves.size(); i++) {
-                    String nick, alb, clave = (String) claves.get(i);
-                    nick = clave.substring(0, clave.indexOf(":"));
-                    alb = clave.substring(clave.indexOf(":")+1);
-                    Artista art = (Artista) artistas.get(nick);
-                    Album al = (Album) art.getAlbumes().get(alb);
-                    g.setAlbum(al);
-                }
-                
+            ArrayList<Object[]> albumes = db.getGeneroAlbum(g.getid());
+            for (int i = 0; i > albumes.size(); i++) {
+                Object[] o = albumes.get(i);
+                Artista a = artistas.get(o[1]);
+                Album al = a.getAlbumes().get(o[0]);
+                g.AddAlbum(al);
+                al.AddGenero(g);
             }
-            this.Artista.setArtista(artistas);
-            this.Artista.setGenero(generos);
-            this.Cliente.setClientes(clientes);
-            } catch (SQLException ex) {
+        }
+
+        for (Cliente c : clientes.values()) {
+            ArrayList<Object[]> albumes = db.getFAlbum(c.getNickname());
+            for (int i = 0; i > albumes.size(); i++) {
+                Object[] o = albumes.get(i);
+                Artista a = artistas.get(o[1]);
+                Album al = a.getAlbumes().get(o[0]);
+                c.setFavAlbum(al);
+            }
+            ArrayList<Object[]> temas = db.getFTemas(c.getNickname());
+            for (int i = 0; i > temas.size(); i++) {
+                Object[] o = temas.get(i);
+                Artista a = artistas.get(o[2]);
+                Album al = a.getAlbumes().get(o[1]);
+                c.setFavTema(al.getTema((String) o[0]));
+            }
+            ArrayList<Object[]> listasP = db.getFListasP(c.getNickname());
+            for (int i = 0; i > listasP.size(); i++) {
+                Object[] o = listasP.get(i);
+                Cliente c2 = clientes.get(o[1]);
+                c.setFavLista(c2.getListas().get(o[0]));
+            }
+            ArrayList<Object[]> listasPD = db.getFListasPD(c.getNickname());
+            for (int i = 0; i > listasPD.size(); i++) {
+                Object[] o = listasPD.get(i);
+                Genero g = generos.get(o[1]);
+                c.setFavLista(g.getListas().get(o[0]));
+            }
+            ArrayList<String> seg = db.seguidos(c.getNickname());
+            for (int i = 0; i > seg.size(); i++) {
+                if(clientes.containsKey(seg.get(i)))
+                    c.setSiguiendo(clientes.get(seg.get(i)));
+                else
+                    c.setSiguiendo(artistas.get(seg.get(i)));
+            }
+            for (Particular p : c.getListas().values()) {
+                ArrayList<Object[]> temasl = db.getTemasListaP(p.getId());
+                for (int i = 0; i > temasl.size(); i++) {
+                    Object[] o = temasl.get(i);
+                    Artista a = artistas.get(o[2]);
+                    Album al = a.getAlbumes().get(o[1]);
+                    p.setTema(al.getTema((String) o[0]));
+                }
+            }
             
         }
-    }*/
+        Artista.setArtista((HashMap)artistas);
+        Artista.setGenero((HashMap)generos);
+        Cliente.setClientes((HashMap)clientes);
+    }
 }

@@ -16,7 +16,6 @@ import java.util.Iterator;
 public class PorDefecto extends Lista{
     private int id;
     private Genero genero;
-    private String nombre;
     private HashMap<String, PorDefecto> Listas;
     
 

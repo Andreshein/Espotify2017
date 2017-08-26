@@ -205,7 +205,12 @@ public class ContArtista implements IcontArtista {
         Iterator iterador = this.artistas.values().iterator();
         while (iterador.hasNext()) {
             Artista aux = (Artista) iterador.next();
-            if (aux.getNickname().contains(palabra) == true || aux.getNombre().contains(palabra) == true || aux.getApellido().contains(palabra) == true) {
+            palabra = palabra.toUpperCase();
+                String nick = aux.getNickname().toUpperCase();
+                String nombre = aux.getNombre().toUpperCase();
+                String apellido = aux.getApellido().toUpperCase();
+                String nomAp = aux.getNombre().toUpperCase()+aux.getApellido().toUpperCase();
+            if (nick.contains(palabra) == true || nombre.contains(palabra) == true || apellido.contains(palabra) == true || nomAp.contains(palabra) == true) {
                 retornar.add(aux.getDatos());
             }
         }
@@ -215,7 +220,8 @@ public class ContArtista implements IcontArtista {
     public Usuario seleccionarUsuario(String Nickname) {
         return (Usuario) this.artistas.get(Nickname);
     }
-    public void CargarDatos(){
+    
+    /**public void CargarDatos(){
         this.artistas = dbUsuario.cargarArtistas();// cargar colección de artistas
         Map<Integer, Album> albumes=new HashMap();
         //Map<String, Genero> generos0=new HashMap();
@@ -399,7 +405,7 @@ public class ContArtista implements IcontArtista {
         pcl.AddLista(lpd1); //Agregar lista por defecto a los generos
         rkl.AddLista(lpd2);
         cla.AddLista(lpd3);
-    }
+    }**/
     
     private ArrayList<DtGenero> buscaHijos(String nombre){
         ArrayList<DtGenero> a = new ArrayList<>();

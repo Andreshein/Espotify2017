@@ -101,6 +101,19 @@ public class Album {
         }
         return tema;
         }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTemas(HashMap<String, Tema> temas) {
+        this.temas = temas;
+    }
+
+    public void setGeneros(ArrayList<Genero> generos) {
+        this.generos = generos;
+    }
+    
 }
 
 

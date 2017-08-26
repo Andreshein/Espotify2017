@@ -39,7 +39,7 @@ public interface IcontArtista {
     public abstract void corregir(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen);
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract Usuario seleccionarUsuario(String Nickname);
-    public abstract void CargarDatos();
+//    public abstract void CargarDatos();
     public abstract void SetContCliente(IcontCliente cli);
     public abstract List<DtArtista> BuscarArtistas(String nombre);
     public abstract void setArtista(HashMap<String,Artista> artistas);
