@@ -316,8 +316,8 @@ public class Principal extends javax.swing.JFrame {
     private void CargaDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaDatosActionPerformed
         int x = javax.swing.JOptionPane.showConfirmDialog(null, "Esta a punto de cargar los datos de prueba del sistema. Confirmar?", "Carga de datos", 1);
         if (x==0){
-               javax.swing.JOptionPane.showMessageDialog(null,"Carga de datos completada","Carga de datos",1);
-               Cli.CargadeDatos();
+            Cli.CargadeDatos();
+            javax.swing.JOptionPane.showMessageDialog(null,"Carga de datos completada","Carga de datos",1);
         }
         if (x==1){
             javax.swing.JOptionPane.showMessageDialog(null,"Operación cancelada","Carga de datos",0);    
