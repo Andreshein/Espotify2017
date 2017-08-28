@@ -16,8 +16,11 @@ import Logica.Fabrica;
 import Logica.IcontCliente;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,7 +45,9 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         
         Fabrica f = Fabrica.getInstance();
         this.contClientes=f.getCliente();
-        listarClientes();
+        
+        //lista todos
+        listarClientes("");
         
         //Por defecto mostrar esas tablas al principio
         mostrarFavoritos("Temas");
@@ -61,23 +66,13 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         clientesTable = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listasCreadasTable = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         favoritosComboBox = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         usuariosComboBox = new javax.swing.JComboBox<>();
-        usuariosPanel = new javax.swing.JPanel();
-        seguidoresPanel = new javax.swing.JPanel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        seguidoresTable = new javax.swing.JTable();
-        usuariosSeguidosPanel = new javax.swing.JPanel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        usuariosSeguidosTable = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        infoBasicaTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         favoritosPanel = new javax.swing.JPanel();
         albumesPanel = new javax.swing.JPanel();
@@ -89,13 +84,24 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         temasPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         temasTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        usuariosPanel = new javax.swing.JPanel();
+        usuariosSeguidosPanel = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        usuariosSeguidosTable = new javax.swing.JTable();
+        seguidoresPanel = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        seguidoresTable = new javax.swing.JTable();
+        buscarCliTextField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        imagenLabel = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
         setTitle("Consultar Perfil Del Cliente");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("Clientes:");
+        jLabel1.setText("Buscar Cliente:");
 
         clientesTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         clientesTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -103,11 +109,11 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nickname"
+                "Nickname", "Nombre", "Apellido", "Fecha de nacimiento", "Email"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -127,9 +133,6 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane2.setViewportView(clientesTable);
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Información Básica:");
 
         listasCreadasTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         listasCreadasTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -173,115 +176,8 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        usuariosPanel.setLayout(new java.awt.CardLayout());
-
-        seguidoresTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        seguidoresTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nickname", "Nombre", "Apellido"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane8.setViewportView(seguidoresTable);
-
-        javax.swing.GroupLayout seguidoresPanelLayout = new javax.swing.GroupLayout(seguidoresPanel);
-        seguidoresPanel.setLayout(seguidoresPanelLayout);
-        seguidoresPanelLayout.setHorizontalGroup(
-            seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
-            .addGroup(seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, seguidoresPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
-                    .addContainerGap()))
-        );
-        seguidoresPanelLayout.setVerticalGroup(
-            seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 191, Short.MAX_VALUE)
-            .addGroup(seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, seguidoresPanelLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        usuariosPanel.add(seguidoresPanel, "seguidoresPanel");
-
-        usuariosSeguidosTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        usuariosSeguidosTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nickname", "Nombre", "Apellido", "Tipo"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        usuariosSeguidosTable.setGridColor(new java.awt.Color(204, 204, 204));
-        jScrollPane7.setViewportView(usuariosSeguidosTable);
-
-        javax.swing.GroupLayout usuariosSeguidosPanelLayout = new javax.swing.GroupLayout(usuariosSeguidosPanel);
-        usuariosSeguidosPanel.setLayout(usuariosSeguidosPanelLayout);
-        usuariosSeguidosPanelLayout.setHorizontalGroup(
-            usuariosSeguidosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
-            .addGroup(usuariosSeguidosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, usuariosSeguidosPanelLayout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        usuariosSeguidosPanelLayout.setVerticalGroup(
-            usuariosSeguidosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 202, Short.MAX_VALUE)
-            .addGroup(usuariosSeguidosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(usuariosSeguidosPanelLayout.createSequentialGroup()
-                    .addGap(23, 23, 23)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-
-        usuariosPanel.add(usuariosSeguidosPanel, "siguiendoPanel");
-
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Listas Creadas:");
-
-        infoBasicaTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        infoBasicaTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nombre", "Apellido", "Fecha de nacimiento", "Email"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        infoBasicaTable.setGridColor(new java.awt.Color(204, 204, 204));
-        infoBasicaTable.setPreferredSize(new java.awt.Dimension(300, 16));
-        jScrollPane6.setViewportView(infoBasicaTable);
 
         favoritosPanel.setLayout(new java.awt.CardLayout());
 
@@ -308,18 +204,20 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         albumesPanel.setLayout(albumesPanelLayout);
         albumesPanelLayout.setHorizontalGroup(
             albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
+            .addGap(0, 472, Short.MAX_VALUE)
             .addGroup(albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, albumesPanelLayout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         albumesPanelLayout.setVerticalGroup(
             albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGap(0, 208, Short.MAX_VALUE)
             .addGroup(albumesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE))
+                .addGroup(albumesPanelLayout.createSequentialGroup()
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 8, Short.MAX_VALUE)))
         );
 
         favoritosPanel.add(albumesPanel, "albumesPanel");
@@ -351,14 +249,16 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
             .addGroup(listasFavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, listasFavPanelLayout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(79, 79, 79)))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(117, 117, 117)))
         );
         listasFavPanelLayout.setVerticalGroup(
             listasFavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGap(0, 208, Short.MAX_VALUE)
             .addGroup(listasFavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE))
+                .addGroup(listasFavPanelLayout.createSequentialGroup()
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 8, Short.MAX_VALUE)))
         );
 
         favoritosPanel.add(listasFavPanel, "listasPanel");
@@ -387,18 +287,20 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         temasPanel.setLayout(temasPanelLayout);
         temasPanelLayout.setHorizontalGroup(
             temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
+            .addGap(0, 472, Short.MAX_VALUE)
             .addGroup(temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, temasPanelLayout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         temasPanelLayout.setVerticalGroup(
             temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGap(0, 208, Short.MAX_VALUE)
             .addGroup(temasPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE))
+                .addGroup(temasPanelLayout.createSequentialGroup()
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 8, Short.MAX_VALUE)))
         );
 
         favoritosPanel.add(temasPanel, "temasPanel");
@@ -407,48 +309,160 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(favoritosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(favoritosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(favoritosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(favoritosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
+
+        usuariosPanel.setLayout(new java.awt.CardLayout());
+
+        usuariosSeguidosTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        usuariosSeguidosTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nickname", "Nombre", "Apellido", "Tipo"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        usuariosSeguidosTable.setGridColor(new java.awt.Color(204, 204, 204));
+        jScrollPane7.setViewportView(usuariosSeguidosTable);
+
+        javax.swing.GroupLayout usuariosSeguidosPanelLayout = new javax.swing.GroupLayout(usuariosSeguidosPanel);
+        usuariosSeguidosPanel.setLayout(usuariosSeguidosPanelLayout);
+        usuariosSeguidosPanelLayout.setHorizontalGroup(
+            usuariosSeguidosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 445, Short.MAX_VALUE)
+            .addGroup(usuariosSeguidosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, usuariosSeguidosPanelLayout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        usuariosSeguidosPanelLayout.setVerticalGroup(
+            usuariosSeguidosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 222, Short.MAX_VALUE)
+            .addGroup(usuariosSeguidosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(usuariosSeguidosPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        usuariosPanel.add(usuariosSeguidosPanel, "siguiendoPanel");
+
+        seguidoresTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        seguidoresTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nickname", "Nombre", "Apellido"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane8.setViewportView(seguidoresTable);
+
+        javax.swing.GroupLayout seguidoresPanelLayout = new javax.swing.GroupLayout(seguidoresPanel);
+        seguidoresPanel.setLayout(seguidoresPanelLayout);
+        seguidoresPanelLayout.setHorizontalGroup(
+            seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 445, Short.MAX_VALUE)
+            .addGroup(seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(seguidoresPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        seguidoresPanelLayout.setVerticalGroup(
+            seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 222, Short.MAX_VALUE)
+            .addGroup(seguidoresPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(seguidoresPanelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        usuariosPanel.add(seguidoresPanel, "seguidoresPanel");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(usuariosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(usuariosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        buscarCliTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                buscarCliTextFieldKeyReleased(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setText("Imagen:");
+
+        imagenLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buscarCliTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabel6)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7)
+                    .addComponent(imagenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(usuariosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(favoritosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(201, 201, 201)
-                    .addComponent(usuariosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(533, Short.MAX_VALUE)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -456,37 +470,36 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(favoritosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(favoritosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(usuariosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(usuariosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 73, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(buscarCliTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(imagenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(393, Short.MAX_VALUE)
-                    .addComponent(usuariosPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
         );
 
         pack();
@@ -512,11 +525,23 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_clientesTableKeyReleased
 
+    private void buscarCliTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarCliTextFieldKeyReleased
+        listarClientes(buscarCliTextField.getText());
+    }//GEN-LAST:event_buscarCliTextFieldKeyReleased
+
     // Funciones
     public void getDatosCliente(){
         String nickname = (String) clientesTable.getValueAt(clientesTable.getSelectedRow(), 0);
         DtCliente cliente = contClientes.verPerfilCliente(nickname);
 
+        //Imagen
+//        ImageIcon imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
+//        Icon icono= new ImageIcon(imagen.getImage().getScaledInstance(foto.getWidth(),foto.getHeight(),Image.SCALE_DEFAULT));
+//
+//        imagenLabel.setIcon(icono); // coloca la imagen en el label
+//        
+//        this.pack();
+        
         // limpiar las variables arraylist
         listasCreadas.clear();
         temasFavCli.clear();
@@ -533,12 +558,6 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         seguidores = contClientes.getSeguidores(nickname);
         usuariosSeguidos = cliente.getUsuariosSeguidos();
 
-        //Información básica
-        DefaultTableModel modelo = (DefaultTableModel) infoBasicaTable.getModel();
-        while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla         
-        String[] datos = {cliente.getNombre(), cliente.getApellido(), cliente.getFechaNac(), cliente.getCorreo()}; 
-        modelo.addRow(datos);
-        
         listarListasCreadas();
         listarTemas(); 
         listarUsuariosSeguidos();
@@ -578,14 +597,15 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         }
     }
     
-    public void listarClientes(){
+    public void listarClientes(String palabra){
         DefaultTableModel modelo = (DefaultTableModel) clientesTable.getModel();
         while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla
          
-        for (String nickname : contClientes.listarNickClientes()) {
-            System.out.println(nickname);
-           String[] datos = {nickname}; 
-           modelo.addRow(datos);
+        ArrayList<DtCliente> clientes = contClientes.BuscarClientes(palabra);
+        
+        for (DtCliente cliente : clientes) {
+            String[] datos = {cliente.getNickname(), cliente.getNombre(), cliente.getApellido(), cliente.getFechaNac(), cliente.getCorreo()}; 
+            modelo.addRow(datos);
         }
     }
     
@@ -613,6 +633,7 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
             }
         }
     }
+    
     
     public void listarAlbumes(){
         DefaultTableModel modelo = (DefaultTableModel) albumesTable.getModel();
@@ -691,22 +712,23 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel albumesPanel;
     private javax.swing.JTable albumesTable;
+    private javax.swing.JTextField buscarCliTextField;
     private javax.swing.JTable clientesTable;
     private javax.swing.JComboBox<String> favoritosComboBox;
     private javax.swing.JPanel favoritosPanel;
-    private javax.swing.JTable infoBasicaTable;
+    private javax.swing.JLabel imagenLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTable listasCreadasTable;
