@@ -145,7 +145,6 @@ public class DBUsuario {
                         privada = false;
                     }
                     Particular p = new Particular(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), privada);
-                    p.setCliente(c);
                     c.AddLista(p);
                 }
                 rs2.close();

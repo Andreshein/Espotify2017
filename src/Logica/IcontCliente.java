@@ -40,5 +40,6 @@ public interface IcontCliente{
     public abstract void setClientes(HashMap<String,Cliente> clientes);
     public abstract void setCA(IcontArtista art);
     public abstract DtGenero listarGArbol();
+    public abstract void publicarLista(String nickname, String nomLista);
 }
 //hellou papaguena

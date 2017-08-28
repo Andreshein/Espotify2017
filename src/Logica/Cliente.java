@@ -210,4 +210,8 @@ public class Cliente extends Usuario {
         }
         return retorno;
     }
+    
+    public void publicarLista(String nomLista){
+        this.Listas.get(nomLista).setEsPrivado(false);
+    }
 }

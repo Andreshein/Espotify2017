@@ -9,20 +9,8 @@ import javax.swing.ImageIcon;
 public class Particular extends Lista{
     private int id;
     private String nombreusuario;
-    private Cliente usuario;
     private boolean esPrivado;
     
-
-    public Particular(int id, String usuario, String nombre, boolean esPrivado, String img) {
-        this.id = id;
-        this.nombreusuario = usuario;
-        this.nombre= nombre;
-        this.esPrivado = esPrivado;
-        this.imagen = img;
-        this.temas = new ArrayList();
-      
-    }
-
     public Particular(int id, String nombreusuario, String nombre, boolean esPrivado) {
         this.id = id;
         this.nombreusuario = nombreusuario;
@@ -65,14 +53,9 @@ public class Particular extends Lista{
     }
     
     public DtListaP getDatosResumidos(){
-        return new DtListaP(nombre, null, null, "Creador", esPrivado); //Creador = Usuario, falta implementar
-    }    
-    public void setCliente(Cliente c){
-        this.usuario = c;
+        return new DtListaP(nombre, null, null, nombreusuario, esPrivado);
     }
-    public Cliente getCliente(){
-        return this.usuario;
-    }
+    
     public void AddTema(Tema t){
         this.temas.add(t);
     }

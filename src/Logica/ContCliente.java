@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.HashMap;
 import Persistencia.*;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.swing.ImageIcon;
@@ -239,5 +238,9 @@ private ContCliente(){
 
     public DtGenero listarGArbol(){
         return this.art.listarGArbol();
+    }
+    
+    public void publicarLista(String nickname, String nomLista){
+        this.clientes.get(nickname).publicarLista(nomLista);
     }
 }
