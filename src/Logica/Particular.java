@@ -28,6 +28,7 @@ public class Particular extends Lista{
         this.nombreusuario = nombreusuario;
         this.nombre = nombre;
         this.esPrivado = esPrivado;
+        this.temas = new ArrayList();
     }
     
 

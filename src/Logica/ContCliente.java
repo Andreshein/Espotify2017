@@ -169,7 +169,9 @@ private ContCliente(){
 
     public void seguir(String nickCli, String nickUsu) {
         Cliente cli = (Cliente) this.clientes.get(nickCli);
-        cli.setSiguiendo(this.seleccionarUsuario(nickUsu));
+        boolean control=cli.setSiguiendo(this.seleccionarUsuario(nickUsu));
+        if(control)
+        this.dbUsuario.SeguirUsu(nickCli, this.seleccionarUsuario(nickUsu));
     }
 
     public Usuario seleccionarUsuario(String Nickname) {
@@ -233,5 +235,9 @@ private ContCliente(){
     public ArrayList<DtListaPD> ListarListaPD(){
         return this.art.ListarListaPD();
     
-    }    
+    }
+
+    public DtGenero listarGArbol(){
+        return this.art.listarGArbol();
+    }
 }

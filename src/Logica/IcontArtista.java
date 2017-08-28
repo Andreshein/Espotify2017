@@ -47,4 +47,5 @@ public interface IcontArtista {
     public abstract Map<String, Genero> GetGeneros();
     public abstract ArrayList<DtAlbum> listarAlbumesArtista(String nick);
     public abstract ArrayList<DtCliente> listarSeguidores(String nick);
+    public abstract DtGenero listarGArbol();
 }

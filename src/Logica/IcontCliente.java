@@ -39,5 +39,6 @@ public interface IcontCliente{
     public abstract ArrayList<DtCliente> getSeguidores(String nickname);
     public abstract void setClientes(HashMap<String,Cliente> clientes);
     public abstract void setCA(IcontArtista art);
+    public abstract DtGenero listarGArbol();
 }
 //hellou papaguena

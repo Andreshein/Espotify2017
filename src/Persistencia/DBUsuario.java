@@ -9,8 +9,6 @@ package Persistencia;
 import Logica.Album;
 import Logica.Artista;
 import Logica.Cliente;
-import Logica.DtAlbum;
-import Logica.DtArtista;
 import Logica.DtListaP;
 import Logica.Genero;
 import Logica.Particular;
@@ -25,10 +23,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DBUsuario {
 
@@ -96,39 +91,6 @@ public class DBUsuario {
         }
     }
 
-    /**
-     * public ArrayList<DtArtista> listarArtistas() { try { ArrayList<DtArtista>
-     * listaArtista = new ArrayList<DtArtista>(); DtArtista dtart;
-     * PreparedStatement st = conexion.prepareStatement("SELECT * FROM
-     * artista"); ResultSet rs = st.executeQuery(); while (rs.next()) { dtart =
-     * new DtArtista(rs.getString("Nickname"), rs.getString("Nombre"),
-     * rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"),
-     * null, rs.getString("Biografia"), rs.getString("PagWeb"), 0, null, null);
-     * listaArtista.add(dtart); } st.close();
-     *
-     * return listaArtista; // Devolver Lista Artista
-     *
-     * } catch (SQLException ex) { ex.printStackTrace(); return null; } }
-*
-     */
-    public DtArtista obtenerInfoArtista(String clave) {
-        try {
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE Nickname = '" + clave + "'");
-            ResultSet rs = st.executeQuery();
-            DtArtista art;
-            while (rs.next()) {
-                art = new DtArtista(rs.getString("Nickname"), rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), null, rs.getString("Biografia"), rs.getString("PagWeb"), 0, null, null);
-                return art;
-            }
-            return null;
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-
-    }
-
     public Map<String, Artista> cargarArtistas() {
         try {
             Map<String, Artista> lista = new HashMap<String, Artista>();
@@ -138,18 +100,16 @@ public class DBUsuario {
                 String nickname = rs.getString("Nickname");
                 Artista a = new Artista(nickname, rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), rs.getString("Biografia"), rs.getString("Pagweb"), rs.getString("Imagen"));
                 lista.put(nickname, a);
-                Map<String, Album> listaA = new HashMap<>();
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM album WHERE Artista='" + nickname +"'");
                 ResultSet rs2 = st2.executeQuery();
                 while (rs2.next()) {
-                    Album al = new Album(rs2.getString("Nombre"), nickname, rs2.getInt("anio"));
-                    listaA.put(al.getNombre(), al);
-                    Map<String, Tema> listaT = new HashMap<>();
+                    Album al = new Album(nickname, rs2.getString("Nombre"), rs2.getInt("anio"));
+                    a.AddAlbum(al);
                     PreparedStatement st3 = conexion.prepareStatement("SELECT * FROM tema WHERE IdAlbum='" + String.valueOf(rs2.getInt(1))+"'");
                     ResultSet rs3 = st3.executeQuery();
                     while (rs3.next()) {
                         Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), "Archivo", rs3.getString("Dirección"));
-                        listaT.put(t.getNombre(), t);
+                        al.AddTema(t);
                     }
                     rs3.close();
                     st3.close();
@@ -200,24 +160,7 @@ public class DBUsuario {
         }
     }
 
-    public Map<Integer, Album> cargarAlbumes() {
-        try {
-            Map<Integer, Album> lista = new HashMap<Integer, Album>();
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM album");
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("Id");
-                Album a = new Album(id, rs.getString("Artista"), rs.getString("Nombre"), rs.getInt("Anio"), rs.getString("Imagen"));
-                lista.put(id, a);
-            }
-            rs.close();
-            st.close();
-            return lista;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-    }
+    
 
     public Map<String, Genero> cargarGenero() {
         try {
@@ -252,70 +195,7 @@ public class DBUsuario {
         }
     }
 
-    public Map<Integer, PorDefecto> cargarListaPD() {
-        try {
-            Map<Integer, PorDefecto> lista = new HashMap<Integer, PorDefecto>();
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM listapordefecto");
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("Id");
-                PorDefecto pd = new PorDefecto(id, rs.getString("Nombre"), rs.getString("Imagen"));
-                lista.put(id, pd);
-            }
-            rs.close();
-            st.close();
-            return lista;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-    }
-
-    public Map<Integer, Particular> cargarListaP() {
-        try {
-            Map<Integer, Particular> lista = new HashMap<Integer, Particular>();
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM listaparticular");
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("Id");
-                boolean privada;
-                if (rs.getInt("Privada") == 0) {
-                    privada = true;
-                } else {
-                    privada = false;
-                }
-                Particular pd = new Particular(id, rs.getString("Usuario"), rs.getString("Nombre"), privada, rs.getString("Imagen"));
-                lista.put(id, pd);
-            }
-            rs.close();
-            st.close();
-            return lista;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-
-    }
-
-    public Map<Integer, Tema> cargarTema() {
-        try {
-            Map<Integer, Tema> lista = new HashMap<Integer, Tema>();
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM tema");
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("Id");
-                Tema pd = new Tema(id, rs.getString("Duracion"), rs.getString("Nombre"), rs.getInt("Orden"), rs.getString("Archivo"), rs.getString("Dirección"));
-                lista.put(id, pd);
-            }
-            rs.close();
-            st.close();
-            return lista;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-    }
-
+    
     public void CargarDatosdePrueba() {
         try {
             PreparedStatement st = conexion.prepareStatement("Delete FROM album");
@@ -1213,12 +1093,12 @@ public class DBUsuario {
         }
     }
     
-    private String getNombreGenero(int id){
+    public String getNombreGenero(int id){
     try {
             String nombre = "";
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM genero WHERE Id='"+String.valueOf(id)+"'");
             ResultSet rs = st.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 nombre = rs.getString("Nombre");
             }
             rs.close();
@@ -1229,26 +1109,26 @@ public class DBUsuario {
             return null;
     }}
     
-    private Object[] getAlbumArtista(int id){
+    private String[] getAlbumArtista(int id){
     try {
-            Object[] o = {"", ""};
+            String[] s = {"", ""};
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM album WHERE Id='"+String.valueOf(id)+"'");
             ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                o[0] = rs.getString("Nombre");
-                o[1] = rs.getString("Artista");
+            while (rs.next()) {
+                s[0] = rs.getString("Nombre");
+                s[1] = rs.getString("Artista");
             }
             rs.close();
             st.close();
-            return o;
+            return s;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
     }}
     
-    public ArrayList<Object[]> getGeneroAlbum(int id){
+    public ArrayList<String[]> getGeneroAlbum(int id){
     try {
-            ArrayList<Object[]> list = new ArrayList<>();
+            ArrayList<String[]> list = new ArrayList<>();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM generosalbum WHERE idGenero='"+String.valueOf(id)+"'");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -1262,13 +1142,13 @@ public class DBUsuario {
             return null;
     }}
     
-    private Object[] getTema(int id){
+    private String[] getTema(int id){
     try {
-            Object[] o = {"", "", ""};
-            Object[] o2;
+            String[] o = {"", "", ""};
+            String[] o2;
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM tema WHERE Id='"+String.valueOf(id)+"'");
             ResultSet rs = st.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 o2 = this.getAlbumArtista(rs.getInt("IdAlbum"));
                 o[0] = rs.getString("Nombre");
                 o[1] = o2[0];
@@ -1282,9 +1162,9 @@ public class DBUsuario {
             return null;
     }}
     
-    public ArrayList<Object[]> getTemasListaP(int id){
+    public ArrayList<String[]> getTemasListaP(int id){
     try {
-            ArrayList<Object[]> list = new ArrayList<>();
+            ArrayList<String[]> list = new ArrayList<>();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM temalistap WHERE IdLista='"+String.valueOf(id)+"'");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -1298,9 +1178,9 @@ public class DBUsuario {
             return null;
     }}
     
-    public ArrayList<Object[]> getTemasListaPD(int id){
+    public ArrayList<String[]> getTemasListaPD(int id){
     try {
-            ArrayList<Object[]> list = new ArrayList<>();
+            ArrayList<String[]> list = new ArrayList<>();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM temalistapd WHERE IdLista='"+String.valueOf(id)+"'");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -1319,14 +1199,14 @@ public class DBUsuario {
             ArrayList<String> nombres = new ArrayList<>();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM seguidoart WHERE Seguidor='"+Cliente+"'");
             ResultSet rs = st.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 nombres.add(rs.getString("Seguido"));
             }
             rs.close();
             st.close();
             st = conexion.prepareStatement("SELECT * FROM seguidorcli WHERE Seguidor='"+Cliente+"'");
             rs = st.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 nombres.add(rs.getString("Seguido"));
             }
             rs.close();
@@ -1338,9 +1218,9 @@ public class DBUsuario {
     }
     }
     
-    public ArrayList<Object[]> getFTemas(String Nick){
+    public ArrayList<String[]> getFTemas(String Nick){
     try {
-            ArrayList<Object[]> list = new ArrayList<>();
+            ArrayList<String[]> list = new ArrayList<>();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM favtema WHERE Cliente='"+Nick+"'");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -1354,9 +1234,9 @@ public class DBUsuario {
             return null;
     }}
     
-    public ArrayList<Object[]> getFAlbum(String Nick){
+    public ArrayList<String[]> getFAlbum(String Nick){
     try {
-            ArrayList<Object[]> list = new ArrayList<>();
+            ArrayList<String[]> list = new ArrayList<>();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM favalbum WHERE Cliente='"+Nick+"'");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -1370,9 +1250,9 @@ public class DBUsuario {
             return null;
     }}
     
-    private Object[] getListasP(int id){
+    private String[] getListasP(int id){
     try {
-            Object[] o = {"", ""};
+            String[] o = {"", ""};
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM listaparticular WHERE id='"+String.valueOf(id)+"'");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -1387,9 +1267,9 @@ public class DBUsuario {
             return null;
     }}
     
-    private Object[] getListasPD(int id){
+    private String[] getListasPD(int id){
     try {
-            Object[] o = {"", ""};
+            String[] o = {"", ""};
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM listapordefecto WHERE id='"+String.valueOf(id)+"'");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -1404,9 +1284,9 @@ public class DBUsuario {
             return null;
     }}
     
-    public ArrayList<Object[]> getFListasP(String Nick){
+    public ArrayList<String[]> getFListasP(String Nick){
         try {
-            ArrayList<Object[]> list = new ArrayList<>();
+            ArrayList<String[]> list = new ArrayList<>();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM favlistap WHERE Cliente='"+Nick+"'");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -1421,9 +1301,9 @@ public class DBUsuario {
     }
     }
     
-    public ArrayList<Object[]> getFListasPD(String Nick){
+    public ArrayList<String[]> getFListasPD(String Nick){
         try {
-            ArrayList<Object[]> list = new ArrayList<>();
+            ArrayList<String[]> list = new ArrayList<>();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM favlistapd WHERE Cliente='"+Nick+"'");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {

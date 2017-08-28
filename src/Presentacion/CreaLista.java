@@ -13,8 +13,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.DefaultTreeSelectionModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -25,13 +30,12 @@ public class CreaLista extends javax.swing.JFrame {
     private IcontCliente icc;
     private ImageIcon img;
     private ArrayList<DtCliente> usr;
-    private ArrayList<DtGenero> gen;
     private int parte;
 
     public CreaLista() {
         initComponents();
         Fabrica f = Fabrica.getInstance();
-        this.icc=f.getCliente();
+        this.icc = f.getCliente();
     }
 
     public void limpiar() {
@@ -41,15 +45,30 @@ public class CreaLista extends javax.swing.JFrame {
         this.txtBuscar.setText("");
         DefaultListModel modelo = new DefaultListModel();
         this.lista.setModel(modelo);
-        DefaultMutableTreeNode principal = new DefaultMutableTreeNode("Genero");
-        DefaultTreeModel model = new DefaultTreeModel(principal);
         this.lista.setVisible(false);
         this.Info2.setVisible(false);
         this.campo2.setVisible(false);
         this.Img.setIcon(null);
-        this.img=null;
+        this.img = null;
         this.usr = new ArrayList<>();
-        this.gen = new ArrayList<>();
+        this.listargeneros();
+        this.jButton1.setEnabled(false);
+    }
+
+    private void listargeneros() {
+        DtGenero g = this.icc.listarGArbol();
+        DefaultMutableTreeNode principal = new DefaultMutableTreeNode(g.getNombre());
+        DefaultTreeModel model = new DefaultTreeModel(principal);
+        lgh(model, principal, g.getHijos());
+        this.arbol.setModel(model);
+    }
+    
+    private void lgh(DefaultTreeModel modelo, DefaultMutableTreeNode padre, ArrayList<DtGenero> g){
+        for(int i=0; i<g.size(); i++){
+            DefaultMutableTreeNode hijo = new DefaultMutableTreeNode(g.get(i).getNombre());
+            modelo.insertNodeInto(hijo, padre, i);
+            lgh(modelo,hijo,g.get(i).getHijos());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -76,16 +95,27 @@ public class CreaLista extends javax.swing.JFrame {
         Info2 = new javax.swing.JLabel();
         campo2 = new javax.swing.JLabel();
         Confirmar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por defecto", "Particular" }));
+        cmbTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTipoActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Tipo:");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Crear lista de reproducción");
 
+        arbol.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                arbolValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(arbol);
 
         lista.setModel(new javax.swing.AbstractListModel<String>() {
@@ -93,9 +123,20 @@ public class CreaLista extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
+        lista.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lista.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(lista);
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         Img.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -119,6 +160,20 @@ public class CreaLista extends javax.swing.JFrame {
         campo2.setText("jLabel7");
 
         Confirmar.setText("Confirmar");
+        Confirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConfirmarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.darkShadow"));
+        jButton1.setForeground(new java.awt.Color(255, 0, 0));
+        jButton1.setText("X");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -162,8 +217,11 @@ public class CreaLista extends javax.swing.JFrame {
                         .addGap(57, 57, 57)
                         .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(Nomb, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CargarImg, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(CargarImg, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addComponent(Confirmar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Img, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -207,7 +265,9 @@ public class CreaLista extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Img, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(CargarImg)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(CargarImg)
+                            .addComponent(jButton1))
                         .addGap(18, 18, 18)
                         .addComponent(Confirmar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -230,11 +290,84 @@ public class CreaLista extends javax.swing.JFrame {
             Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(Img.getWidth(), Img.getHeight(), Image.SCALE_DEFAULT));
 
             this.Img.setIcon(icono); // coloca la imagen en el label
-
+            this.img=imagen;
+            this.jButton1.setEnabled(true);
             this.pack();
         }
 
     }//GEN-LAST:event_CargarImgActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        DefaultListModel list = new DefaultListModel();
+        if (!this.txtBuscar.getText().equals("")) {
+            this.usr = this.icc.BuscarClientes(this.txtBuscar.getText());
+            for (int i = 0; i < this.usr.size(); i++) {
+                list.addElement(usr.get(i).getNickname());
+            }
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaMouseClicked
+        int index= this.lista.getSelectedIndex();
+        if(index!=-1){
+            DtCliente dtc =  this.usr.get(index);
+            this.campo1.setText(dtc.getNickname());
+            this.campo1.setText(dtc.getNombre()+" "+dtc.getApellido());
+        }
+    }//GEN-LAST:event_listaMouseClicked
+
+    private void cmbTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoActionPerformed
+        if(this.cmbTipo.getSelectedIndex()==0){
+            this.btnBuscar.setEnabled(false);
+            this.txtBuscar.setEditable(false);
+            this.arbol.setVisible(true);
+            this.parte=0;
+            this.lista.setVisible(false);
+            this.Info1.setText("Genero:");
+            this.Info2.setVisible(false);
+            this.campo2.setVisible(false);
+            this.campo1.setText("");
+            this.campo2.setText("");
+            
+        } else {
+            this.parte=1;
+            this.btnBuscar.setEnabled(true);
+            this.txtBuscar.setEditable(true);
+            this.arbol.setVisible(false);
+            this.lista.setVisible(true);
+            this.Info1.setText("Nickname:");
+            this.Info2.setVisible(true);
+            this.campo2.setVisible(true);
+            this.campo1.setText("");
+            this.campo2.setText("");
+        }
+    }//GEN-LAST:event_cmbTipoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    this.Img.setIcon(null);
+    this.img=null;
+    this.Nomb.setText("Nombre de imagen");
+    this.jButton1.setEnabled(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void arbolValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_arbolValueChanged
+        DefaultMutableTreeNode nodoSeleccionado;
+        nodoSeleccionado=(DefaultMutableTreeNode)arbol.getLastSelectedPathComponent();
+        String valor = (String)nodoSeleccionado.getUserObject();
+        this.campo1.setText(valor);
+    }//GEN-LAST:event_arbolValueChanged
+
+    private void ConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmarActionPerformed
+        switch(this.parte){
+            case 0:{
+                
+            } break;
+            case 1:{
+                
+            } break;
+            
+        }
+    }//GEN-LAST:event_ConfirmarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -250,6 +383,7 @@ public class CreaLista extends javax.swing.JFrame {
     private javax.swing.JLabel campo1;
     private javax.swing.JLabel campo2;
     private javax.swing.JComboBox<String> cmbTipo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
