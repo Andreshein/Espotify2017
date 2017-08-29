@@ -273,4 +273,11 @@ public class ContCliente implements IcontCliente {
     public void publicarLista(String nickname, String nomLista){
         this.clientes.get(nickname).publicarLista(nomLista);
     }
+    
+    @Override
+    public ArrayList<DtTema> listarTemasListaP(String nickname,String listaP){
+	Cliente cli=(Cliente) this.clientes.get(nickname);
+        Particular p=cli.getListas().get(listaP);
+        return p.getDtTemas();
+    }
 }

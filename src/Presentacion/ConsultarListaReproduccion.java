@@ -10,6 +10,7 @@ import Logica.DtArtista;
 import Logica.DtCliente;
 import Logica.DtListaP;
 import Logica.DtListaPD;
+import Logica.DtTema;
 import Logica.Fabrica;
 import Logica.IcontArtista;
 import Logica.IcontCliente;
@@ -33,7 +34,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
      */
     public ConsultarListaReproduccion() {
         initComponents();
-        this.mostrarListasRep();
+        this.mostrarListaP();
         this.mostrarListaPD();
     }
 
@@ -53,7 +54,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblLista = new javax.swing.JTable();
+        tblTemas = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         ListasPanel = new javax.swing.JPanel();
@@ -90,7 +91,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Información de los temas:");
 
-        tblLista.setModel(new javax.swing.table.DefaultTableModel(
+        tblTemas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -106,13 +107,14 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(tblLista);
+        jScrollPane3.setViewportView(tblTemas);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Imagen:");
 
         jLabel2.setBackground(new java.awt.Color(153, 153, 153));
         jLabel2.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         ListasPanel.setLayout(new java.awt.CardLayout());
 
@@ -130,6 +132,11 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblParticular.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblParticularMouseClicked(evt);
             }
         });
         jScrollPane6.setViewportView(tblParticular);
@@ -158,9 +165,22 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nombre de la lista"
+                "Nombre de la lista", "Género"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblDefecto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDefectoMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblDefecto);
 
         javax.swing.GroupLayout DefectoPanelLayout = new javax.swing.GroupLayout(DefectoPanel);
@@ -245,7 +265,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
     private void cboxBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxBuscarActionPerformed
         mostrarListas((String) cboxBuscar.getSelectedItem());
         mostrarListaPD();
-        mostrarListasRep();
+        mostrarListaP();
     }//GEN-LAST:event_cboxBuscarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -275,6 +295,14 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void tblParticularMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblParticularMouseClicked
+        this.mostrarTemasListaP();
+    }//GEN-LAST:event_tblParticularMouseClicked
+
+    private void tblDefectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDefectoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblDefectoMouseClicked
  
     public void mostrarListas(String tipo){
         CardLayout cl = (CardLayout)(ListasPanel.getLayout());
@@ -289,7 +317,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         }
     }
     
-    public void mostrarListasRep(){
+    public void mostrarListaP(){
         if(cboxBuscar.getSelectedItem().equals("Cliente")){
             List<DtListaP> lista= Fabrica.getCliente().ListarListaP();
             DefaultTableModel modelo=(DefaultTableModel) tblParticular.getModel();
@@ -315,12 +343,31 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             }
             
             for(DtListaPD lpd: lista){
-                Object[] datos={lpd.getNombre()};
+                Object[] datos={lpd.getNombre(),lpd.getGenero()};
                 modelo.addRow(datos);
             }
         }
     }
-     public void centrar(){
+    
+    public void mostrarTemasListaP(){
+        if(cboxBuscar.getSelectedItem().equals("Cliente")){
+            String nickname=(String) tblParticular.getValueAt(tblParticular.getSelectedRow(), 0);
+            String listaP=(String) tblParticular.getValueAt(tblParticular.getSelectedRow(), 1);
+            DefaultTableModel modelo = (DefaultTableModel) tblTemas.getModel();
+            ArrayList<DtTema> temaLP=Fabrica.getCliente().listarTemasListaP(nickname, listaP);
+            
+            while(modelo.getRowCount()>0){
+                modelo.removeRow(0);
+            }
+            
+            for(DtTema tema:temaLP){
+                Object[] datos={tema.getNombre(),tema.getDuracion(),tema.getOrden(),tema.getDireccion(),tema.getArchivo()};
+                modelo.addRow(datos);
+            }
+        }
+    }
+    
+    public void centrar(){
         //este metodo devuelve el tamaÃ±o de la pantalla
         Dimension pantalla = this.getParent().getSize();
         //obtenemos el tamaÃ±o de la ventana
@@ -350,8 +397,8 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTable tblDefecto;
-    private javax.swing.JTable tblLista;
     private javax.swing.JTable tblParticular;
+    private javax.swing.JTable tblTemas;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

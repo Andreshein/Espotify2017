@@ -41,5 +41,6 @@ public interface IcontCliente{
     public abstract void crearListaP(String nickname, String nombre, ImageIcon imagen);
     public abstract void crearListaPD(String genero, String nombre, ImageIcon imagen);
     public abstract void publicarLista(String nickname, String nomLista);
+    public abstract ArrayList<DtTema> listarTemasListaP(String nickname,String listaP);
 }
 //hellou papaguena
