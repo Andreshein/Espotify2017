@@ -220,6 +220,7 @@ public class ContArtista implements IcontArtista {
         Genero g = this.generos.get("Género");
         return g.getDatos(this.buscaHijos(g.getNombre()));
     }
+    
     private ArrayList<DtGenero> buscaHijos(String nombre){
         ArrayList<DtGenero> a = new ArrayList<>();
         Iterator it = this.generos.values().iterator();
@@ -275,5 +276,16 @@ public class ContArtista implements IcontArtista {
 	Genero g=(Genero) this.generos.get(nombreG);
         PorDefecto pd= g.getListas().get(listaPD);
         return pd.getDtTemas();
+    }
+    
+    @Override
+    public ArrayList<DtGenero> listarGeneros(String nombreG){
+        ArrayList<DtGenero> resultado= new ArrayList<>();
+        for(Genero g:this.generos.values()){
+            if(g.getNombre().contains(nombreG))
+                resultado.add(g.getDatos(resultado));
+        }
+        
+        return resultado;
     }
 }

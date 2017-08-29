@@ -8,6 +8,7 @@ package Presentacion;
 import Logica.DtAlbum;
 import Logica.DtArtista;
 import Logica.DtCliente;
+import Logica.DtGenero;
 import Logica.DtListaP;
 import Logica.DtListaPD;
 import Logica.DtTema;
@@ -19,6 +20,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -274,23 +276,47 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             DefaultTableModel modelo = (DefaultTableModel) tblParticular.getModel();
             ArrayList<DtCliente> cli = Fabrica.getCliente().BuscarClientes(nickname);
           
-
-            while(modelo.getRowCount()>0){
-       		modelo.setRowCount(0);
-            }
+            if(nickname.equals("")){
+                JOptionPane.showMessageDialog(null, "No se puede dejar el campo de búsqueda vacío", "Error al buscar", JOptionPane.ERROR_MESSAGE);
+            }else{
+                while(modelo.getRowCount()>0){
+                    modelo.setRowCount(0);
+                }
          
-            for (int i=0;i<cli.size();i++) {
-                ArrayList<DtListaP> lista=cli.get(i).getListas();
+                for (int i=0;i<cli.size();i++) {
+                    ArrayList<DtListaP> lista=cli.get(i).getListas();
  
-                for(int j=0;j<lista.size();j++){
-                    DtListaP lp =(DtListaP) lista.get(j);
+                    for(int j=0;j<lista.size();j++){
+                        DtListaP lp =(DtListaP) lista.get(j);
                
-                    Object[] datos={
-                        lp.getNombre(),
-                        lp.getUsuario(),
-                        lp.isPrivada()  
-                    };
-                modelo.addRow(datos);
+                        Object[] datos={
+                            lp.getNombre(),
+                            lp.getUsuario(),
+                            lp.isPrivada()  
+                        };
+                
+                        modelo.addRow(datos);
+                    }
+                }
+            }
+        }else if(cboxBuscar.getSelectedItem().equals("Género")){
+            String nombreG=txtBuscar.getText();
+            DefaultTableModel modelo=(DefaultTableModel) tblDefecto.getModel();
+            ArrayList<DtGenero> gen=Fabrica.getArtista().listarGeneros(nombreG);
+            if(nombreG.equals("")){
+                JOptionPane.showMessageDialog(null,"No se puede dejar el campo de búsqueda en blanco","Error al buscar",JOptionPane.ERROR_MESSAGE);
+            }else{
+                while(modelo.getRowCount()>0){
+                    modelo.removeRow(0);
+                }
+                
+                for(int i=0;i<gen.size();i++){
+                    ArrayList<DtListaPD> listaPD=gen.get(i).getListaspordefecto();
+                    for(int j=0;j<listaPD.size();j++){
+                        DtListaPD lpd=(DtListaPD) listaPD.get(j);
+                        Object[] datos={lpd.getNombre(),lpd.getGenero()};
+                        modelo.addRow(datos);
+                    }
                 }
             }
         }
