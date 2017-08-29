@@ -21,7 +21,7 @@ public class DtCliente extends DtUsuario{
     private final ArrayList<DtTema> favTemas;
     private final ArrayList<DtAlbum> favAlbumes;
     
-    SimpleDateFormat formato = new SimpleDateFormat("dd/mm/yyyy");
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     
     public DtCliente(String nickname, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes) {
         this.nickname = nickname;

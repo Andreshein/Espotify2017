@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -133,7 +134,9 @@ public class DBUsuario {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 String nickname = rs.getString("Nickname");
-                Cliente c = new Cliente(nickname, rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), rs.getString("Imagen"));
+                java.util.Date fechaN = new java.util.Date(rs.getDate("FechaNac").getTime()); // convertir el Date de sql al Date utilizado en java
+                System.out.println("-----> fecha util.Date: "+fechaN);
+                Cliente c = new Cliente(nickname, rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), fechaN, rs.getString("Imagen"));
                 lista.put(nickname, c);
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM listaparticular WHERE Usuario='"+ nickname+"'");
                 ResultSet rs2 = st2.executeQuery();
