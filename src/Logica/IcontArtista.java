@@ -48,4 +48,5 @@ public interface IcontArtista {
     public abstract ArrayList<DtCliente> listarSeguidores(String nick);
     public abstract DtGenero listarGArbol();
     public abstract Genero getGenero(String nombre);
+    public abstract ArrayList<DtTema> listarTemasListaPD(String listaPD,String nombreG);
 }

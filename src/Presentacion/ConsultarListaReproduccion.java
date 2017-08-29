@@ -301,7 +301,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblParticularMouseClicked
 
     private void tblDefectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDefectoMouseClicked
-        // TODO add your handling code here:
+        this.mostrarTemasListaPD();
     }//GEN-LAST:event_tblDefectoMouseClicked
  
     public void mostrarListas(String tipo){
@@ -366,6 +366,25 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             }
         }
     }
+    
+    public void mostrarTemasListaPD(){
+        if(cboxBuscar.getSelectedItem().equals("Género")){
+            String listaPD=(String) tblDefecto.getValueAt(tblDefecto.getSelectedRow(), 0);
+            String nombreG=(String) tblDefecto.getValueAt(tblDefecto.getSelectedRow(), 1);
+            DefaultTableModel modelo=(DefaultTableModel) tblTemas.getModel();
+            ArrayList<DtTema> temaLPD=Fabrica.getArtista().listarTemasListaPD(listaPD, nombreG);
+            
+            while(modelo.getRowCount()>0){
+                modelo.removeRow(0);
+            }
+            
+            for(DtTema tema:temaLPD){
+                Object[] datos={tema.getNombre(),tema.getDuracion(),tema.getOrden(),tema.getDireccion(),tema.getArchivo()};
+                modelo.addRow(datos);
+            }
+        }
+    }
+    
     
     public void centrar(){
         //este metodo devuelve el tamaÃ±o de la pantalla

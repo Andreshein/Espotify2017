@@ -269,4 +269,11 @@ public class ContArtista implements IcontArtista {
     public Genero getGenero(String nombre){
         return this.generos.get(nombre);
     }
+    
+    @Override
+    public ArrayList<DtTema> listarTemasListaPD(String listaPD,String nombreG){
+	Genero g=(Genero) this.generos.get(nombreG);
+        PorDefecto pd= g.getListas().get(listaPD);
+        return pd.getDtTemas();
+    }
 }
