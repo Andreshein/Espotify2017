@@ -166,11 +166,6 @@ public class ContArtista implements IcontArtista {
     }
 
     @Override
-    public Genero buscar(Genero nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-     @Override
      public void corregir(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen){
          throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
      }
@@ -222,7 +217,7 @@ public class ContArtista implements IcontArtista {
     }
     
     public DtGenero listarGArbol(){
-        Genero g = this.generos.get("Genero");
+        Genero g = this.generos.get("Género");
         return g.getDatos(this.buscaHijos(g.getNombre()));
     }
     private ArrayList<DtGenero> buscaHijos(String nombre){
@@ -230,6 +225,7 @@ public class ContArtista implements IcontArtista {
         Iterator it = this.generos.values().iterator();
         while(it.hasNext()){
             Genero g = (Genero)it.next();
+            if(g.getPadre()!= null)
             if(g.getPadre().getNombre().equals(nombre)){
                 DtGenero dtg = g.getDatos(this.buscaHijos(g.getNombre()));
                 a.add(dtg);
@@ -270,4 +266,7 @@ public class ContArtista implements IcontArtista {
         return retorno;
     }
     
+    public Genero getGenero(String nombre){
+        return this.generos.get(nombre);
+    }
 }

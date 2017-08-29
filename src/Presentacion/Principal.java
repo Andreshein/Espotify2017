@@ -78,6 +78,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         ConsultaAlbum = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        CrearLista = new javax.swing.JMenuItem();
         agregarTemaListaMenuItem = new javax.swing.JMenuItem();
         verListaRep = new javax.swing.JMenuItem();
         Datos = new javax.swing.JMenu();
@@ -236,6 +237,14 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu4.setText("Listas");
 
+        CrearLista.setText("Crear lista de reproducción");
+        CrearLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearListaActionPerformed(evt);
+            }
+        });
+        jMenu4.add(CrearLista);
+
         agregarTemaListaMenuItem.setText("Agregar Tema");
         agregarTemaListaMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -378,6 +387,13 @@ public class Principal extends javax.swing.JFrame {
         dsu.show();// TODO add your handling code here:
     }//GEN-LAST:event_dseguirActionPerformed
 
+    private void CrearListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearListaActionPerformed
+        CreaLista cl = new CreaLista();
+        escritorio.add(cl);
+        cl.centrar();
+        cl.show();
+    }//GEN-LAST:event_CrearListaActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -415,6 +431,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem CargaDatos;
     private javax.swing.JMenuItem ConsultaAlbum;
     private javax.swing.JMenuItem ConsultarPerfilCliMenuItem;
+    private javax.swing.JMenuItem CrearLista;
     private javax.swing.JMenu Datos;
     private javax.swing.JMenuItem agregarTemaListaMenuItem;
     private javax.swing.JMenuItem dseguir;

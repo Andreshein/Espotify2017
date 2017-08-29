@@ -334,8 +334,8 @@ public class DejarSeguir extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnconfirmarActionPerformed
 
     private void btnbuscar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscar2ActionPerformed
-        if(this.txtbuscar2.getText().equals("") && this.lblcampo1.getText().equals("")){
-            this.usuarios=this.icc.BuscarUsuariosSeg(this.txtbuscar2.getText(), this.lblcampo1.getText());
+        if(!this.txtbuscar2.getText().equals("") && !this.lblcampo1.getText().equals("")){
+            this.usuarios=this.icc.BuscarUsuariosSeg(this.lblcampo1.getText(), this.txtbuscar2.getText());
             DefaultListModel modelo = new DefaultListModel();
             if (!this.usuarios.isEmpty()) {
                 Iterator iterador = this.usuarios.iterator();
@@ -346,10 +346,12 @@ public class DejarSeguir extends javax.swing.JInternalFrame {
             }
             this.lista2.setModel(modelo);
         }
+        if(this.lblcampo1.getText().equals(""))
+            javax.swing.JOptionPane.showMessageDialog(null,"Debe seleccionar el cliente");
     }//GEN-LAST:event_btnbuscar2ActionPerformed
 
     private void btnbuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscar1ActionPerformed
-        if(this.txtbuscar1.getText().equals("")){
+        if(!this.txtbuscar1.getText().equals("")){
             this.clientes=this.icc.BuscarClientes(this.txtbuscar1.getText());
             DefaultListModel modelo = new DefaultListModel();
             if (!this.clientes.isEmpty()) {

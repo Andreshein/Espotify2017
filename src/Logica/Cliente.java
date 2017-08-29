@@ -133,7 +133,7 @@ public class Cliente extends Usuario {
     }
 
     public boolean setSiguiendo(Usuario u) {
-        if (!this.Siguiendo.containsValue(u)) {
+        if (!this.Siguiendo.containsKey(u.getNickname())) {
             this.Siguiendo.put(u.getNickname(), u);
             return true;
         }
@@ -184,10 +184,15 @@ public class Cliente extends Usuario {
 
     public ArrayList<DtUsuario> buscarEnUsuarios(String palabra) {
         ArrayList<DtUsuario> retornar = new ArrayList<>();
+        palabra = palabra.toUpperCase();
         Iterator iterador = this.Siguiendo.values().iterator();
         while (iterador.hasNext()) {
             Usuario aux = (Usuario) iterador.next();
-            if (aux.getNickname().contains(palabra) == true || aux.getNombre().contains(palabra) == true || aux.getApellido().contains(palabra) == true) {
+            String nick = aux.getNickname().toUpperCase();
+            String nombre = aux.getNombre().toUpperCase();
+            String apellido = aux.getApellido().toUpperCase();
+            String nomAp = aux.getNombre().toUpperCase() + aux.getApellido().toUpperCase();
+            if (nick.contains(palabra) == true || nombre.contains(palabra) == true || apellido.contains(palabra) == true || nomAp.contains(palabra)) {
                 retornar.add(aux.getDatos());
             }
         }

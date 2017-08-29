@@ -35,7 +35,6 @@ public interface IcontArtista {
     public abstract DtAlbum mostrarAlbum(); //DtAlbum
     public abstract Artista buscarArtista(String nickname);
     public abstract void LiberarMemoria();
-    public abstract Genero buscar(Genero nombre);
     public abstract void corregir(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen);
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract Usuario seleccionarUsuario(String Nickname);
@@ -48,4 +47,5 @@ public interface IcontArtista {
     public abstract ArrayList<DtAlbum> listarAlbumesArtista(String nick);
     public abstract ArrayList<DtCliente> listarSeguidores(String nick);
     public abstract DtGenero listarGArbol();
+    public abstract Genero getGenero(String nombre);
 }

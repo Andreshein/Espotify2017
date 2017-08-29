@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package Logica;
-
 import java.util.ArrayList;
 
 /**

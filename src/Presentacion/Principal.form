@@ -208,6 +208,14 @@
             <Property name="text" type="java.lang.String" value="Listas"/>
           </Properties>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="CrearLista">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Crear lista de reproducci&#xf3;n"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CrearListaActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="agregarTemaListaMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Agregar Tema"/>

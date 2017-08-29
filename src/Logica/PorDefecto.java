@@ -95,5 +95,8 @@ public class PorDefecto extends Lista{
     public void setListas(HashMap<String, PorDefecto> Listas) {
         this.Listas = Listas;
     }
-    
+
+    public void setId(int id){
+        this.id = id;
+    }
 }
