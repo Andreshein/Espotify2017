@@ -10,14 +10,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
+public class Cliente extends Usuario {
 
-public class Cliente extends Usuario{
     private HashMap<String, Particular> Listas;
     private ArrayList<Lista> favListas;
     private ArrayList<Album> favAlbumes;
     private ArrayList<Tema> favTemas;
     private HashMap<String, Usuario> Siguiendo;
-    
+
     public Cliente(String nickname, String nombre, String apellido, String correo, Date fechaNac, String Imagen) {
         this.nickname = nickname;
         this.nombre = nombre;
@@ -55,10 +55,11 @@ public class Cliente extends Usuario{
     public String getNickname() {
         return nickname;
     }
-    public String getImage(){
+
+    public String getImage() {
         return Imagen;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
@@ -114,86 +115,108 @@ public class Cliente extends Usuario{
     public void setSiguiendo(HashMap<String, Usuario> Siguiendo) {
         this.Siguiendo = Siguiendo;
     }
-    
+
     public void setFavAlbum(Album a) {
         this.favAlbumes.add(a);
     }
-    
+
     public void setFavTema(Tema t) {
         this.favTemas.add(t);
     }
-    
+
     public void setFavLista(Lista l) {
         this.favListas.add(l);
     }
-    
+
     public void setLista(Particular p) {
         this.Listas.put(p.getNombre(), p);
     }
 
-    public void setSiguiendo(Usuario u) {
-        this.Siguiendo.put(u.getNickname(), u);
+    public boolean setSiguiendo(Usuario u) {
+        if (!this.Siguiendo.containsKey(u.getNickname())) {
+            this.Siguiendo.put(u.getNickname(), u);
+            return true;
+        }
+        return false;
     }
-    
-    public DtCliente getDatos(){
+
+    public DtCliente getDatos() {
         ArrayList<DtListaP> listasCreadas = new ArrayList<>();
         ArrayList<DtUsuario> siguiendo = new ArrayList<>();
         ArrayList<DtAlbum> albumes = new ArrayList<>();
         ArrayList<DtTema> temas = new ArrayList<>();
         ArrayList<DtLista> listas = new ArrayList<>();
-        
+
         for (Particular lista : this.Listas.values()) {
             listasCreadas.add(lista.getDatosResumidos());
         }
-        
-        
+
         for (Album album : this.favAlbumes) {
             albumes.add(album.getDatos());
         }
-        
+
         for (Tema tema : this.favTemas) {
             temas.add(tema.getDatos());
         }
-        
+
         for (Lista lista : this.favListas) {
-            if(lista instanceof Particular){
-                listas.add(( (Particular)lista).getDatosResumidos());
-            }else{
-                listas.add(( (PorDefecto)lista).getDatosResumidos());
+            if (lista instanceof Particular) {
+                listas.add(((Particular) lista).getDatosResumidos());
+            } else {
+                listas.add(((PorDefecto) lista).getDatosResumidos());
             }
         }
-        
+
         for (Usuario usuario : this.Siguiendo.values()) {
-            if(usuario instanceof Cliente){
-               siguiendo.add(((Cliente) usuario).getDatosResumidos()); 
-            }else{
+            if (usuario instanceof Cliente) {
+                siguiendo.add(((Cliente) usuario).getDatosResumidos());
+            } else {
                 siguiendo.add(((Artista) usuario).getDatosResumidos());
             }
         }
-        
+
         return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, siguiendo, listasCreadas, listas, temas, albumes);
     }
-    
-    public DtCliente getDatosResumidos(){
+
+    public DtCliente getDatosResumidos() {
         return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, null, null, null, null, null);
     }
-    
-    public ArrayList<DtUsuario> buscarEnUsuarios(String palabra){
-       ArrayList<DtUsuario> retornar = new ArrayList<>();
-       Iterator iterador = this.Siguiendo.values().iterator();
-        while(iterador.hasNext()){
-            Usuario aux = (Usuario)iterador.next();
-            if(aux.getNickname().contains(palabra)==true || aux.getNombre().contains(palabra)==true || aux.getApellido().contains(palabra)==true){
-            retornar.add(aux.getDatos());
+
+    public ArrayList<DtUsuario> buscarEnUsuarios(String palabra) {
+        ArrayList<DtUsuario> retornar = new ArrayList<>();
+        palabra = palabra.toUpperCase();
+        Iterator iterador = this.Siguiendo.values().iterator();
+        while (iterador.hasNext()) {
+            Usuario aux = (Usuario) iterador.next();
+            String nick = aux.getNickname().toUpperCase();
+            String nombre = aux.getNombre().toUpperCase();
+            String apellido = aux.getApellido().toUpperCase();
+            String nomAp = aux.getNombre().toUpperCase() + aux.getApellido().toUpperCase();
+            if (nick.contains(palabra) == true || nombre.contains(palabra) == true || apellido.contains(palabra) == true || nomAp.contains(palabra)) {
+                retornar.add(aux.getDatos());
             }
         }
         return retornar;
     }
-    
-    public void dejarSeguir(String Nickname){
+
+    public void dejarSeguir(String Nickname) {
         this.Siguiendo.remove(Nickname);
     }
-    public void AddLista(Particular p){
+
+    public void AddLista(Particular p) {
         this.Listas.put(p.getNombre(), p);
+    }
+
+    public ArrayList<DtListaP> ObtenerLista() {
+        ArrayList<DtListaP> retorno = new ArrayList<DtListaP>();
+        for (Particular lista : this.Listas.values()) {
+            retorno.add(lista.getDatos(nickname));
+
+        }
+        return retorno;
+    }
+    
+    public void publicarLista(String nomLista){
+        this.Listas.get(nomLista).setEsPrivado(false);
     }
 }

@@ -21,7 +21,7 @@ public class DtArtista extends DtUsuario{
     private final ArrayList<String> nickSeguidores;
     private final ArrayList<DtAlbum> albumes;
 
-    SimpleDateFormat formato = new SimpleDateFormat("dd/mm/yyyy");
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     
     public DtArtista(String nickname, String nombre, String apellido, String correo, Date fechaNac, ImageIcon imagen, String biografia, String pagWeb, int cantSeguidores, ArrayList<String> nickSeguidores, ArrayList<DtAlbum> albumes) {
         this.nickname = nickname;

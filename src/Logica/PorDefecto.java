@@ -16,7 +16,6 @@ import java.util.Iterator;
 public class PorDefecto extends Lista{
     private int id;
     private Genero genero;
-    private String nombre;
     private HashMap<String, PorDefecto> Listas;
     
 
@@ -96,5 +95,8 @@ public class PorDefecto extends Lista{
     public void setListas(HashMap<String, PorDefecto> Listas) {
         this.Listas = Listas;
     }
-    
+
+    public void setId(int id){
+        this.id = id;
+    }
 }

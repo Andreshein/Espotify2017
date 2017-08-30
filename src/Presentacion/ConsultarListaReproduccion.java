@@ -5,17 +5,39 @@
  */
 package Presentacion;
 
+import Logica.DtAlbum;
+import Logica.DtArtista;
+import Logica.DtCliente;
+import Logica.DtGenero;
+import Logica.DtListaP;
+import Logica.DtListaPD;
+import Logica.DtTema;
+import Logica.Fabrica;
+import Logica.IcontArtista;
+import Logica.IcontCliente;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author stephiRM
  */
-public class ConsultarListaReproduccion extends javax.swing.JFrame {
-
+public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
+    
+    private IcontArtista artista;
+    private IcontCliente cliente;
     /**
      * Creates new form ConsultarListaReproduccion
      */
     public ConsultarListaReproduccion() {
         initComponents();
+        this.mostrarListaP();
+        this.mostrarListaPD();
     }
 
     /**
@@ -28,104 +50,124 @@ public class ConsultarListaReproduccion extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        cboxBuscar = new javax.swing.JComboBox<>();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        cboxBuscar = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblLista = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblGenero = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblCliente = new javax.swing.JTable();
+        tblTemas = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        ListasPanel = new javax.swing.JPanel();
+        ParticularesPanel = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tblParticular = new javax.swing.JTable();
+        DefectoPanel = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblDefecto = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setClosable(true);
+        setTitle("Consultar Lista de reproducción");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setText("CONSULTAR LISTA DE REPRODUCCIÓN");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Consultar por:");
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        cboxBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Género" }));
+        cboxBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboxBuscarActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
-
-        jLabel2.setText("Consultar por:");
-
-        cboxBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Género", "Cliente" }));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(cboxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnBuscar)
-                .addContainerGap(12, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cboxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        tblLista.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nombre", "Género", "Cliente", "Archivo"
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
             }
-        ));
-        jScrollPane1.setViewportView(tblLista);
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setText("Listas de reproducción:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel4.setText("Género:");
+        jLabel4.setText("Información de los temas:");
 
-        tblGenero.setModel(new javax.swing.table.DefaultTableModel(
+        tblTemas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nombre del Género", "Nombre de la lista"
+                "Nombre Tema", "Duración", "Orden", "Dirección", "Archivo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(tblGenero);
+        jScrollPane3.setViewportView(tblTemas);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel5.setText("Cliente:");
+        jLabel5.setText("Imagen:");
 
-        tblCliente.setModel(new javax.swing.table.DefaultTableModel(
+        jLabel2.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel2.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        ListasPanel.setLayout(new java.awt.CardLayout());
+
+        tblParticular.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nickname", "Nombre de la lista"
+                "Usuario", "Nombre de la lista", "Es privado?"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblParticular.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblParticularMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tblParticular);
+
+        javax.swing.GroupLayout ParticularesPanelLayout = new javax.swing.GroupLayout(ParticularesPanel);
+        ParticularesPanel.setLayout(ParticularesPanelLayout);
+        ParticularesPanelLayout.setHorizontalGroup(
+            ParticularesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ParticularesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        ParticularesPanelLayout.setVerticalGroup(
+            ParticularesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ParticularesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        ListasPanel.add(ParticularesPanel, "ParticularesPanel");
+
+        tblDefecto.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre de la lista", "Género"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -136,102 +178,259 @@ public class ConsultarListaReproduccion extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(tblCliente);
+        tblDefecto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDefectoMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tblDefecto);
+
+        javax.swing.GroupLayout DefectoPanelLayout = new javax.swing.GroupLayout(DefectoPanel);
+        DefectoPanel.setLayout(DefectoPanelLayout);
+        DefectoPanelLayout.setHorizontalGroup(
+            DefectoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DefectoPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(13, Short.MAX_VALUE))
+        );
+        DefectoPanelLayout.setVerticalGroup(
+            DefectoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DefectoPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        ListasPanel.add(DefectoPanel, "DefectoPanel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jLabel3))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jLabel4))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jScrollPane2)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel5))))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jLabel1)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ListasPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cboxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnBuscar))
+                                    .addComponent(jLabel3))))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel4)
+                    .addComponent(jScrollPane3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(cboxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscar))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(ListasPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    private void cboxBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxBuscarActionPerformed
+        mostrarListas((String) cboxBuscar.getSelectedItem());
+        mostrarListaPD();
+        mostrarListaP();
+    }//GEN-LAST:event_cboxBuscarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if(cboxBuscar.getSelectedItem().equals("Cliente")){
+            String nickname = txtBuscar.getText();
+            DefaultTableModel modelo = (DefaultTableModel) tblParticular.getModel();
+            ArrayList<DtCliente> cli = Fabrica.getCliente().BuscarClientes(nickname);
+          
+            if(nickname.equals("")){
+                JOptionPane.showMessageDialog(null, "No se puede dejar el campo de búsqueda vacío", "Error al buscar", JOptionPane.ERROR_MESSAGE);
+            }else{
+                while(modelo.getRowCount()>0){
+                    modelo.setRowCount(0);
+                }
+         
+                for (int i=0;i<cli.size();i++) {
+                    ArrayList<DtListaP> lista=cli.get(i).getListas();
+ 
+                    for(int j=0;j<lista.size();j++){
+                        DtListaP lp =(DtListaP) lista.get(j);
+               
+                        Object[] datos={
+                            lp.getNombre(),
+                            lp.getUsuario(),
+                            lp.isPrivada()  
+                        };
+                
+                        modelo.addRow(datos);
+                    }
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConsultarListaReproduccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConsultarListaReproduccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConsultarListaReproduccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConsultarListaReproduccion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ConsultarListaReproduccion().setVisible(true);
+        }else if(cboxBuscar.getSelectedItem().equals("Género")){
+            String nombreG=txtBuscar.getText();
+            DefaultTableModel modelo=(DefaultTableModel) tblDefecto.getModel();
+            ArrayList<DtGenero> gen=Fabrica.getArtista().listarGeneros(nombreG);
+            if(nombreG.equals("")){
+                JOptionPane.showMessageDialog(null,"No se puede dejar el campo de búsqueda en blanco","Error al buscar",JOptionPane.ERROR_MESSAGE);
+            }else{
+                while(modelo.getRowCount()>0){
+                    modelo.removeRow(0);
+                }
+                
+                for(int i=0;i<gen.size();i++){
+                    ArrayList<DtListaPD> listaPD=gen.get(i).getListaspordefecto();
+                    for(int j=0;j<listaPD.size();j++){
+                        DtListaPD lpd=(DtListaPD) listaPD.get(j);
+                        Object[] datos={lpd.getNombre(),lpd.getGenero()};
+                        modelo.addRow(datos);
+                    }
+                }
             }
-        });
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void tblParticularMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblParticularMouseClicked
+        this.mostrarTemasListaP();
+    }//GEN-LAST:event_tblParticularMouseClicked
+
+    private void tblDefectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDefectoMouseClicked
+        this.mostrarTemasListaPD();
+    }//GEN-LAST:event_tblDefectoMouseClicked
+ 
+    public void mostrarListas(String tipo){
+        CardLayout cl = (CardLayout)(ListasPanel.getLayout());
+        
+        switch(tipo){
+            case "Género":
+                cl.show(ListasPanel, "DefectoPanel");
+                break;
+            case "Cliente":
+                cl.show(ListasPanel, "ParticularesPanel");
+                break;
+        }
+    }
+    
+    public void mostrarListaP(){
+        if(cboxBuscar.getSelectedItem().equals("Cliente")){
+            List<DtListaP> lista= Fabrica.getCliente().ListarListaP();
+            DefaultTableModel modelo=(DefaultTableModel) tblParticular.getModel();
+        
+            while(modelo.getRowCount()>0){
+                modelo.removeRow(0);
+            }
+            
+            for(DtListaP lp: lista){
+                Object[] datos={lp.getUsuario(),lp.getNombre(),lp.isPrivada()};
+                modelo.addRow(datos);
+            }
+        }
+    }
+
+    public void mostrarListaPD(){
+        if(cboxBuscar.getSelectedItem().equals("Género")){
+            List<DtListaPD> lista= Fabrica.getArtista().ListarListaPD();
+            DefaultTableModel modelo=(DefaultTableModel) tblDefecto.getModel();
+        
+            while(modelo.getRowCount()>0){
+                modelo.removeRow(0);
+            }
+            
+            for(DtListaPD lpd: lista){
+                Object[] datos={lpd.getNombre(),lpd.getGenero()};
+                modelo.addRow(datos);
+            }
+        }
+    }
+    
+    public void mostrarTemasListaP(){
+        if(cboxBuscar.getSelectedItem().equals("Cliente")){
+            String nickname=(String) tblParticular.getValueAt(tblParticular.getSelectedRow(), 0);
+            String listaP=(String) tblParticular.getValueAt(tblParticular.getSelectedRow(), 1);
+            DefaultTableModel modelo = (DefaultTableModel) tblTemas.getModel();
+            ArrayList<DtTema> temaLP=Fabrica.getCliente().listarTemasListaP(nickname, listaP);
+            
+            while(modelo.getRowCount()>0){
+                modelo.removeRow(0);
+            }
+            
+            for(DtTema tema:temaLP){
+                Object[] datos={tema.getNombre(),tema.getDuracion(),tema.getOrden(),tema.getDireccion(),tema.getArchivo()};
+                modelo.addRow(datos);
+            }
+        }
+    }
+    
+    public void mostrarTemasListaPD(){
+        if(cboxBuscar.getSelectedItem().equals("Género")){
+            String listaPD=(String) tblDefecto.getValueAt(tblDefecto.getSelectedRow(), 0);
+            String nombreG=(String) tblDefecto.getValueAt(tblDefecto.getSelectedRow(), 1);
+            DefaultTableModel modelo=(DefaultTableModel) tblTemas.getModel();
+            ArrayList<DtTema> temaLPD=Fabrica.getArtista().listarTemasListaPD(listaPD, nombreG);
+            
+            while(modelo.getRowCount()>0){
+                modelo.removeRow(0);
+            }
+            
+            for(DtTema tema:temaLPD){
+                Object[] datos={tema.getNombre(),tema.getDuracion(),tema.getOrden(),tema.getDireccion(),tema.getArchivo()};
+                modelo.addRow(datos);
+            }
+        }
+    }
+    
+    
+    public void centrar(){
+        //este metodo devuelve el tamaÃ±o de la pantalla
+        Dimension pantalla = this.getParent().getSize();
+        //obtenemos el tamaÃ±o de la ventana
+        Dimension ventana = this.getSize();
+        //para centrar la ventana lo hacemos con el siguiente calculo
+        int a = pantalla.width;
+        int b = ventana.width;
+        a = (a-b)/2;
+        int c = pantalla.height;
+        int d = ventana.height;
+        c = (c-d)/2;
+        this.setLocation(a, c);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel DefectoPanel;
+    private javax.swing.JPanel ListasPanel;
+    private javax.swing.JPanel ParticularesPanel;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JComboBox<String> cboxBuscar;
     private javax.swing.JLabel jLabel1;
@@ -239,13 +438,12 @@ public class ConsultarListaReproduccion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable tblCliente;
-    private javax.swing.JTable tblGenero;
-    private javax.swing.JTable tblLista;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JTable tblDefecto;
+    private javax.swing.JTable tblParticular;
+    private javax.swing.JTable tblTemas;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

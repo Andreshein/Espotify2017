@@ -111,6 +111,26 @@ public class Album {
     public String getImagen(){
         return this.Imagen;
     }
+    public ArrayList<DtTema> getAlbumesTema() {
+        ArrayList<DtTema> tema = new ArrayList();
+        for (Tema a : this.temas.values()) {
+            tema.add(a.getDatos());
+        }
+        return tema;
+        }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTemas(HashMap<String, Tema> temas) {
+        this.temas = temas;
+    }
+
+    public void setGeneros(ArrayList<Genero> generos) {
+        this.generos = generos;
+    }
+    
 }
 
 

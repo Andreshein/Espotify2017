@@ -29,7 +29,10 @@ public class DtListaP extends DtLista{
         return Privada;
     }
     
-    
+    public DtListaP(String nombre, ArrayList<DtTema> temas) {
+        this.nombre = nombre;
+        this.temas = temas;
+    }
     
     
 }

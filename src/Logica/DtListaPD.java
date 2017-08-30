@@ -22,5 +22,8 @@ public class DtListaPD extends DtLista {
         return Genero;
     }   
     
+    public String getNombre(){
+        return nombre;
+    }
     
 }

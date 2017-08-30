@@ -3,25 +3,22 @@ package Logica;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.ImageIcon;
 
 
 public class Particular extends Lista{
     private int id;
     private String nombreusuario;
-    private Cliente usuario;
-    private String nombre;
     private boolean esPrivado;
     
-
-    public Particular(int id, String usuario, String nombre, boolean esPrivado, String img) {
+    public Particular(int id, String nombreusuario, String nombre, boolean esPrivado) {
         this.id = id;
-        this.nombreusuario = usuario;
-        this.nombre= nombre;
+        this.nombreusuario = nombreusuario;
+        this.nombre = nombre;
         this.esPrivado = esPrivado;
-        this.imagen = img;
         this.temas = new ArrayList();
-      
     }
+    
 
     public void setId(int id) {
         this.id = id;
@@ -56,14 +53,9 @@ public class Particular extends Lista{
     }
     
     public DtListaP getDatosResumidos(){
-        return new DtListaP(nombre, null, null, "Creador", esPrivado); //Creador = Usuario, falta implementar
-    }    
-    public void setCliente(Cliente c){
-        this.usuario = c;
+        return new DtListaP(nombreusuario, null, null, nombre, esPrivado);
     }
-    public Cliente getCliente(){
-        return this.usuario;
-    }
+    
     public void AddTema(Tema t){
         this.temas.add(t);
     }
@@ -97,4 +89,10 @@ public class Particular extends Lista{
     ArrayList<Tema> getTemas() {
         return this.temas;
     }
+    
+    
+    public DtListaP getDtListaP(){
+        return new DtListaP(nombre,this.getDtTemas());
+    }
+    
 }
