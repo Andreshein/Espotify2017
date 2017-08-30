@@ -124,8 +124,12 @@ public class ContArtista implements IcontArtista {
         Iterator iterator = this.generos.values().iterator();
         while(iterator.hasNext()) {
             Genero aux = (Genero)iterator.next();
-            if(aux.getNombre().contains(palabra)){
-//            if(aux.getNombre().indexOf(palabra)!=-1)
+            
+            //Pasa los strings a mayusculas para comparar mejor
+            String genero = aux.getNombre().toUpperCase();
+            palabra = palabra.toUpperCase();
+            
+            if(genero.startsWith(palabra)){
                 retornar.addAll(aux.getAlbumesGenero());
             }
         }       
@@ -137,8 +141,16 @@ public class ContArtista implements IcontArtista {
         Iterator iterator = this.artistas.values().iterator();
         while(iterator.hasNext()) {
             Artista aux = (Artista)iterator.next();
+            
+            //Pasa los strings a mayusculas para comparar mejor
+            palabra = palabra.toUpperCase();
+            String nickname = aux.getNickname().toUpperCase();
+            String nombre = aux.getNombre().toUpperCase();
+            String apellido = aux.getApellido().toUpperCase();
             String nombrecompleto = aux.getNombre() + " " + aux.getApellido();
-            if(aux.getNickname().contains(palabra) || aux.getNombre().contains(palabra) || aux.getApellido().contains(palabra) || nombrecompleto.contains(palabra)){
+            nombrecompleto = nombrecompleto.toUpperCase();
+            
+            if(nickname.startsWith(palabra) || nombre.startsWith(palabra) || apellido.contains(palabra) || nombrecompleto.startsWith(palabra)){
                 retornar.addAll(aux.ListarAlbumes());   
             }
         }

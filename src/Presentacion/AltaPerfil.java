@@ -391,6 +391,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
 
 
                 boolean Ok;
+                System.out.println("cadena6 = "+cadena6);
                 if(cadena6.equals("Artista")){
 
                    try {
@@ -538,10 +539,9 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txt_CorreoActionPerformed
 
     private void txt_PaginaWebFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_PaginaWebFocusLost
-            if(txt_PaginaWeb.getText().endsWith(".com")==false){
+        if(txt_PaginaWeb.getText().endsWith(".com")==false){
             javax.swing.JOptionPane.showMessageDialog(null,"El formato de la paginaWeb es incorrecto");
             txt_PaginaWeb.setText(null);
-            formatOk=false;
         }
     
     }//GEN-LAST:event_txt_PaginaWebFocusLost
