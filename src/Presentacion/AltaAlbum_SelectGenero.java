@@ -11,7 +11,14 @@ import Logica.IcontArtista;
 import Logica.IcontCliente;
 import java.awt.Dimension;
 import javax.swing.tree.*;
+import javax.swing.DefaultListModel;
 import java.util.*;
+import java.util.List;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -21,14 +28,33 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
 
     private IcontArtista Art;
     private IcontCliente Cli;
+    private DefaultListModel lista;
+    private AltaAlbum Ventana;
+    
+    private Map<String, Genero> ListaGeneros = new HashMap();
     /**
      * Creates new form AltaAlbum_SelectGenero
      */
-    public AltaAlbum_SelectGenero() {
+    
+    
+    public AltaAlbum_SelectGenero(AltaAlbum ventana) {
         initComponents();
         this.Art = Fabrica.getArtista();
         this.Cli = Fabrica.getCliente();
-        LlenarArbol(0, null);
+        this.Ventana = ventana;
+        this.Ventana.getGeneros().clear();
+        this.Ventana.getModelo().clear();
+        ListaGeneros = Art.GetGeneros();
+        arbolgen.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        tablagen.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        lista = new DefaultListModel();
+        tablagen.setModel(lista);
+        //arbolgen.addTreeSelectionListener(this);
+        
+        if (Art.GetGeneros()==null)
+            javax.swing.JOptionPane.showMessageDialog(null,"No hay generos ingresados en el sistema","Error",3);
+        else
+            LlenarArbol(1, null);
     }
     public void centrar(){
         //este metodo devuelve el tamaÃ±o de la pantalla
@@ -46,8 +72,8 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
     }
     public void LlenarArbol(int padre, DefaultMutableTreeNode nodo){
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Géneros");
-        Map<String, Genero> ListaGeneros = new HashMap();
-        ListaGeneros = Art.GetGeneros();
+        //Map<String, Genero> ListaGeneros = new HashMap();
+        //ListaGeneros = Art.GetGeneros();
         Set set = ListaGeneros.entrySet();
         Iterator it = set.iterator();
         DefaultTreeModel modeloarbol = new DefaultTreeModel(root);
@@ -57,7 +83,7 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
             Genero g = (Genero) mentry.getValue();
             if(g.getidpadre()== padre){
                 DefaultMutableTreeNode nuevonodo = new DefaultMutableTreeNode(g.getNombre());
-                if(padre == 0)
+                if(padre == 1)
                     root.add(nuevonodo);
                 else
                     nodo.add(nuevonodo);
@@ -66,8 +92,7 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
             }
         }
         this.arbolgen.setModel(modeloarbol);
-        DefaultMutableTreeNode selected = (DefaultMutableTreeNode) arbolgen.getLastSelectedPathComponent();
-        //selected.getUserObject()
+        
     }
 
     /**
@@ -81,35 +106,188 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         arbolgen = new javax.swing.JTree();
+        nomgenero = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        confirmar = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablagen = new javax.swing.JList<>();
+        Agregar = new javax.swing.JButton();
+        Quitar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
-        setClosable(true);
         setIconifiable(true);
+        setPreferredSize(new java.awt.Dimension(389, 300));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
+        arbolgen.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                arbolgenMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(arbolgen);
+
+        nomgenero.setText("Nombre Genero");
+
+        jLabel1.setText("Género Seleccionado:");
+
+        confirmar.setText("Aceptar");
+        confirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmarActionPerformed(evt);
+            }
+        });
+
+        jScrollPane3.setViewportView(tablagen);
+
+        Agregar.setText("Agregar");
+        Agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregarActionPerformed(evt);
+            }
+        });
+
+        Quitar.setText("Quitar");
+        Quitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                QuitarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(311, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(nomgenero))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Agregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Quitar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(confirmar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1)))
+                .addGap(0, 46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(nomgenero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Agregar)
+                            .addComponent(Quitar))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(confirmar)
+                            .addComponent(jButton1)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void arbolgenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arbolgenMouseClicked
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) arbolgen.getLastSelectedPathComponent();
+        if (node!=null){
+            nomgenero.setText(node.toString());
+        }
+    }//GEN-LAST:event_arbolgenMouseClicked
+
+    private void QuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitarActionPerformed
+        String s = tablagen.getSelectedValue();
+        if (s==null)
+            javax.swing.JOptionPane.showMessageDialog(this, "No hay ningún género seleccionado");
+        else{
+            lista.removeElement(s);
+            Ventana.getGeneros().remove(s);
+        }
+    }//GEN-LAST:event_QuitarActionPerformed
+
+    private void AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarActionPerformed
+        if (this.Ventana.getGeneros().get(nomgenero.getText())!=null)
+            javax.swing.JOptionPane.showMessageDialog(this, "Género ya seleccionado");
+        else{
+            Genero g = this.ListaGeneros.get(nomgenero.getText());
+            lista.addElement(g.getNombre());
+            this.Ventana.getGeneros().put(g.getNombre(),g);
+        }
+    }//GEN-LAST:event_AgregarActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+
+    }//GEN-LAST:event_formInternalFrameClosing
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int x = javax.swing.JOptionPane.showConfirmDialog(null, "Al cancelar no se guardaran los datos, proceder?", "Aviso", 2);
+        if (x==0){
+            this.dispose();
+            this.Ventana.getGeneros().clear();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void confirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmarActionPerformed
+        Ventana.getLista().setModel(Ventana.getModelo());
+        Set set = Ventana.getGeneros().entrySet();
+        Iterator iterator = set.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry mentry = (Map.Entry)iterator.next();
+            Genero aux=(Genero) mentry.getValue();
+            Ventana.getModelo().addElement(aux.getNombre());
+        }
+        this.dispose();
+    }//GEN-LAST:event_confirmarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Agregar;
+    private javax.swing.JButton Quitar;
     private javax.swing.JTree arbolgen;
+    private javax.swing.JButton confirmar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel nomgenero;
+    private javax.swing.JList<String> tablagen;
     // End of variables declaration//GEN-END:variables
 }

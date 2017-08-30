@@ -19,9 +19,9 @@ public class ContArtista implements IcontArtista {
 
     private static ContArtista instancia;
 
-    private Map<String, Artista> artistas;
-    private Map<String, Genero> generos;
-    private Map<String, PorDefecto> ListasPorDef;
+    private Map<String, Artista> artistas = null;
+    private Map<String, Genero> generos = null;
+    private Map<String, PorDefecto> ListasPorDef = null;
     private DBUsuario dbUsuario=null;
     private IcontCliente Cli;
 
@@ -45,6 +45,9 @@ public class ContArtista implements IcontArtista {
 
     public void SetContCliente(IcontCliente cli){
         this.Cli = cli;
+    }
+    public Map<String, Artista> GetArtistas(){
+        return this.artistas;
     }
     @Override
     public boolean SelectArtista(String nick) {
@@ -135,6 +138,33 @@ public class ContArtista implements IcontArtista {
             return tru;
         }
 
+    }
+    public void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, Tema> temas, HashMap<String,Genero> generos){
+        int anio2 = Integer.parseInt(anio);
+        ArrayList<Genero> l = new ArrayList();
+        Set set2 = generos.entrySet();
+        Iterator iter = set2.iterator();
+        while (iter.hasNext()){
+            Map.Entry x = (Map.Entry) iter.next();
+            Genero gen = (Genero)x.getValue();
+            l.add(gen);
+        }
+        Album a = new Album(nomartista, nombre, anio2, imagen, temas, l);
+        int idalbum = this.dbUsuario.InsertarAlbum(a);
+        
+        Artista ar = artistas.get(nomartista);
+        ar.getAlbumes().put(a.getNombre(), a);
+        for (int i=0;i<a.getGeneros().size();i++){
+            int idg = a.getGeneros().get(i).getid();
+            this.dbUsuario.InsertarGenero_Album(idalbum,idg);
+            }
+        Set set = a.getTemas().entrySet();
+        Iterator it = set.iterator();
+        while (it.hasNext()){
+            Map.Entry x = (Map.Entry) it.next();
+            Tema t = (Tema) x.getValue();
+            this.dbUsuario.InsertarTema(idalbum, t);
+        }        
     }
 
     @Override
@@ -396,5 +426,6 @@ public class ContArtista implements IcontArtista {
         }       
         return retornar;
     }
+    
     
 }

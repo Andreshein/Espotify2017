@@ -43,5 +43,7 @@ public interface IcontArtista {
     public abstract void setArtista(HashMap<String,Artista> artistas);
     public abstract void setGenero(HashMap<String,Genero> generos);
     public abstract Map<String, Genero> GetGeneros();
-
+    public abstract Map<String, Artista> GetArtistas();
+    public abstract void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, Tema> temas, HashMap<String, Genero> generos);
+    
 }

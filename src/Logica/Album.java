@@ -8,7 +8,6 @@ package Logica;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
 /**
  *
  * @author ninoh
@@ -38,7 +37,22 @@ public class Album {
         this.temas = new HashMap<>();
         this.Imagen = img;
     }
+    public Album(String artista,String nombre, int anio, String img, HashMap<String, Tema> temas, ArrayList<Genero> generos) {
+        this.artista = artista;
+        this.nombre = nombre;
+        this.anio = anio;
+        this.generos = generos;
+        this.temas = temas;
+        this.Imagen = img;
+    }
 
+    public HashMap<String, Tema> getTemas(){
+        return temas;
+    }
+    public ArrayList<Genero> getGeneros(){
+        return generos;
+    }
+    
     public void setArtista(String artista) {
         this.artista = artista;
     }
@@ -93,6 +107,9 @@ public class Album {
     }
     public void AddTema (Tema t){
         this.temas.put(t.getNombre(), t);
+    }
+    public String getImagen(){
+        return this.Imagen;
     }
 }
 

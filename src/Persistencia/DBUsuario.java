@@ -76,6 +76,7 @@ public class DBUsuario {
         }     
     }
     
+    
     public boolean agregarTema(DtListaP l){
         try {  
             PreparedStatement statement = conexion.prepareStatement("SELECT usuario, nombre FROM  listaparticular ");
@@ -129,7 +130,61 @@ public class DBUsuario {
             return null;	
         }   
         
-    }    
+    }
+    public int InsertarAlbum(Album a){
+        int idalbum = -1;
+        try {
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO album (Artista,Nombre,Anio,Imagen) values(?,?,?,?)");          
+            st.setString(1, a.getArtista());
+            st.setString(2, a.getNombre());
+            st.setInt(3, a.getAño());
+            st.setString(4, a.getImagen());
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        try{
+            PreparedStatement st = conexion.prepareStatement("SELECT max(Id) as id FROM espotify.album ;");
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                idalbum=rs.getInt("id");
+            }
+            rs.close();
+            st.close();
+            return idalbum;
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+            return idalbum;
+        }
+    }
+    public void InsertarGenero_Album(int idalbum, int idgenero){
+        try {
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO generosalbum (idAlbum, idGenero) values(?,?)");          
+            st.setInt(1, idalbum);
+            st.setInt(2, idgenero);
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public void InsertarTema(int idalbum, Tema t){
+        try {
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO tema (IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?)");          
+            st.setInt(1, idalbum);
+            st.setString(2, t.getDuracion());
+            st.setString(3, t.getNombre());
+            st.setInt(4, t.getOrden());
+            st.setString(5, t.getArchivo());
+            st.setString(6, t.getDireccion());
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
     
     public Map<String, Artista> cargarArtistas(){
         try {
