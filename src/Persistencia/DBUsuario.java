@@ -68,9 +68,10 @@ public class DBUsuario {
             return false;
         }
     }
-
-    public boolean agregarTema(DtListaP l) {
-        try {
+    
+    
+    public boolean agregarTema(DtListaP l){
+        try {  
             PreparedStatement statement = conexion.prepareStatement("SELECT usuario, nombre FROM  listaparticular ");
             statement.setString(1, l.getUsuario());
             statement.setString(1, l.getNombre());
@@ -84,14 +85,107 @@ public class DBUsuario {
         }
     }
 
-    public Map<String, Artista> cargarArtistas() {
+    /*public Map<String, Artista> cargarArtistas() {
         try {
             Map<String, Artista> lista = new HashMap<String, Artista>();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");
             ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                String nickname = rs.getString("Nickname");
-                Artista a = new Artista(nickname, rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), rs.getString("Biografia"), rs.getString("Pagweb"), rs.getString("Imagen"));
+            while(rs.next()){
+                dtart=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);               
+                listaArtista.add(dtart);
+            }
+            st.close();
+            
+            return listaArtista; // Devolver Lista Artista
+
+	}catch(SQLException ex){
+            ex.printStackTrace();
+            return null;
+	}
+    }*/
+
+    public DtArtista obtenerInfoArtista(String clave){
+	try{
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE Nickname = '"+clave+"'");
+	    ResultSet rs = st.executeQuery();
+	    DtArtista art;
+            while(rs.next()){
+            art=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);
+            return art;
+            }
+        return null;    
+            
+                
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            return null;	
+        }   
+        
+    }
+    public int InsertarAlbum(Album a){
+        int idalbum = -1;
+        try {
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO album (Artista,Nombre,Anio,Imagen) values(?,?,?,?)");          
+            st.setString(1, a.getArtista());
+            st.setString(2, a.getNombre());
+            st.setInt(3, a.getAño());
+            st.setString(4, a.getImagen());
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        try{
+            PreparedStatement st = conexion.prepareStatement("SELECT max(Id) as id FROM espotify.album ;");
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                idalbum=rs.getInt("id");
+            }
+            rs.close();
+            st.close();
+            return idalbum;
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+            return idalbum;
+        }
+    }
+    public void InsertarGenero_Album(int idalbum, int idgenero){
+        try {
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO generosalbum (idAlbum, idGenero) values(?,?)");          
+            st.setInt(1, idalbum);
+            st.setInt(2, idgenero);
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public void InsertarTema(int idalbum, Tema t){
+        try {
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO tema (IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?)");          
+            st.setInt(1, idalbum);
+            st.setString(2, t.getDuracion());
+            st.setString(3, t.getNombre());
+            st.setInt(4, t.getOrden());
+            st.setString(5, t.getArchivo());
+            st.setString(6, t.getDireccion());
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public Map<String, Artista> cargarArtistas(){
+        try {
+            Map<String, Artista> lista=new HashMap<String, Artista>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");          
+            ResultSet rs=st.executeQuery();
+            while (rs.next()){
+                String nickname=rs.getString("Nickname");
+                Artista a=new Artista(nickname,rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),rs.getString("Biografia"),rs.getString("Pagweb"),rs.getString("Imagen"));
                 lista.put(nickname, a);
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM album WHERE Artista='" + nickname + "'");
                 ResultSet rs2 = st2.executeQuery();
