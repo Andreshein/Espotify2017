@@ -360,7 +360,7 @@ public class DBUsuario {
                     String extension = aux[1];
 
                     //Ruta donde se va a copiar el archivo de imagen
-                    String rutaDestino = "Imagenes/Artistas/"+ImagenArtistas[i]+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+                    String rutaDestino = "Imagenes/Artistas/"+NickArtistas0[i]+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
                     try {
                         File archivoOrigen = new File(ImagenArtistas[i]);

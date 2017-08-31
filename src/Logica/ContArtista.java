@@ -185,11 +185,31 @@ public class ContArtista implements IcontArtista {
          throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
      }
      @Override
-    public boolean IngresarArtista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb, String img){
+    public boolean IngresarArtista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb, String Img){
         if (this.artistas.get(nickname)!=null){
             return false;
         }else{
-            Artista a=new Artista(nickname, nombre, apellido, correo, fechaNac, biografia, paginaWeb, img);
+            if(Img != null){
+                //Divide el string por el punto, tambien elimina el punto
+                String[] aux = Img.split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
+
+                //toma la segunda parte porque es la extension
+                //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
+                String extension = aux[1];
+
+                //Ruta donde se va a copiar el archivo de imagen
+                String rutaDestino = "Imagenes/Artistas/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+
+                //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
+                //la funcion ya esta definida en el controlador de cliente porque ahi se usa, entocnces no hay que declararla otra vez en este controlador
+                if(Fabrica.getCliente().copiarImagenAlServidor(Img, rutaDestino) == true){
+                    Img = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
+                }else{
+                    Img = null; // no se pudo copiar la imagen, queda en null
+                }
+            }
+            
+            Artista a=new Artista(nickname, nombre, apellido, correo, fechaNac, biografia, paginaWeb, Img);
             boolean tru =this.dbUsuario.agregarArtista(a);
             if (tru){
             
