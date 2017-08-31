@@ -471,11 +471,11 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel7)
-                                        .addComponent(imagenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(imagenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(18, 18, 18)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel6)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -522,7 +522,7 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton2)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(23, Short.MAX_VALUE))))
+                        .addContainerGap(27, Short.MAX_VALUE))))
         );
 
         pack();
@@ -561,13 +561,14 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         String nickname = (String) clientesTable.getValueAt(clientesTable.getSelectedRow(), 0);
         DtCliente cliente = contClientes.verPerfilCliente(nickname);
 
-        //Imagen
-//        ImageIcon imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
-//        Icon icono= new ImageIcon(imagen.getImage().getScaledInstance(foto.getWidth(),foto.getHeight(),Image.SCALE_DEFAULT));
-//
-//        imagenLabel.setIcon(icono); // coloca la imagen en el label
-//        
-//        this.pack();
+        //Imagen es opcional
+        if(cliente.getImagen() != null){
+            Icon icono= new ImageIcon(cliente.getImagen().getImage().getScaledInstance(imagenLabel.getWidth(),imagenLabel.getHeight(),Image.SCALE_DEFAULT));
+
+            imagenLabel.setIcon(icono); // coloca la imagen en el label
+
+            this.pack();
+        }
         
         // limpiar las variables arraylist
         listasCreadas.clear();

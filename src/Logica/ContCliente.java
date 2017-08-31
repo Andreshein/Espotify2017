@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import Persistencia.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -138,6 +142,27 @@ public class ContCliente implements IcontCliente {
         if (this.clientes.get(nickname) != null) {
             return false;
         } else {
+            
+            System.out.println("ruta imagen: "+Img);
+            if(Img != null){
+                //Divide el string por el punto, tambien elimina el punto
+                String[] aux = Img.split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
+
+                //toma la segunda parte porque es la extension
+                //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
+                String extension = aux[1];
+
+                //Ruta donde se va a copiar el archivo de imagen
+                String rutaDestino = "Imagenes/Clientes/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+
+                //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
+                if(copiarImagenAlServidor(Img, rutaDestino) == true){
+                    Img = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
+                }else{
+                    Img = null; // no se pudo copiar la imagen, queda en null
+                }
+            }
+            
             Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac, Img);
 
             boolean tru = this.dbUsuario.agregarCliente(c);
@@ -279,5 +304,30 @@ public class ContCliente implements IcontCliente {
 	Cliente cli=(Cliente) this.clientes.get(nickname);
         Particular p=cli.getListas().get(listaP);
         return p.getDtTemas();
+    }
+    
+    /////
+    public boolean copiarImagenAlServidor(String rutaOrigenArchivo, String rutaDestino){
+        try {
+            File archivoOrigen = new File(rutaOrigenArchivo);
+            
+            //Archivo de destino auxiliar
+            File dest = new File(rutaDestino);
+            
+            //Crea las carpetas en donde va a ser guardado el tema si no estaban creadas todavia
+            dest.getParentFile().mkdirs();
+            
+            //Crea el archivo auxiliar primero para despues sobreescribirlo, sino da error
+            dest.createNewFile();
+            
+            //Copiar el archivo seleccionado al destino
+            Files.copy(archivoOrigen.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            
+            return true; // Se pudo copiar la imagen correctamente
+        } catch (IOException ex) {
+            Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);
+        
+            return false; // Error, no se pudo copiar la imagen
+        }
     }
 }
