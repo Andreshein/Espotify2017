@@ -65,6 +65,9 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablap1 = new javax.swing.JTable();
 
+        setClosable(true);
+        setIconifiable(true);
+
         combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Género", "Artista" }));
         combo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
