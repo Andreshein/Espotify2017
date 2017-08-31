@@ -184,11 +184,13 @@ public class ContCliente implements IcontCliente {
         return retornar;
     }
 
-    public void seguir(String nickCli, String nickUsu) {
+    public void seguir(String nickCli, String nickUsu) throws Exception {
         Cliente cli = (Cliente) this.clientes.get(nickCli);
         boolean control = cli.setSiguiendo(this.seleccionarUsuario(nickUsu));
         if (control) {
             this.dbUsuario.SeguirUsu(nickCli, this.seleccionarUsuario(nickUsu));
+        }else{
+        throw new Exception("El cliente ya esta siendo seguigo");
         }
     }
 
