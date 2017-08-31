@@ -25,7 +25,7 @@ public interface IcontCliente{
     public abstract ArrayList<String> MostrarUsuariosSeguidos( String Nickname);
     public abstract void SeleccionarCliente(String nickname);
     public abstract ArrayList<DtUsuario> listarUsuarios();
-    public abstract void seguir(String nickCli, String nickUsu);
+    public abstract void seguir(String nickCli, String nickUsu) throws Exception;
     public abstract void confirmar() throws Exception;
     public abstract void DejarSeguir(String NickCli, String NickUsu);
     public abstract ArrayList<DtCliente> BuscarClientes(String palabra);

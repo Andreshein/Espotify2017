@@ -12,6 +12,8 @@ import Logica.IcontCliente;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 /**
@@ -319,9 +321,13 @@ public class SeguirUsuario extends javax.swing.JInternalFrame {
 
     private void btnconfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnconfirmarActionPerformed
         if(!this.lblcampo1.getText().equals("") && !this.lblcampo4.getText().equals("")){
-            this.icc.seguir((String)this.lblcampo1.getText(), (String)this.lblcampo4.getText());
-            javax.swing.JOptionPane.showMessageDialog(null,"Operacion exitosa");
-            this.dispose();
+            try {
+                this.icc.seguir((String)this.lblcampo1.getText(), (String)this.lblcampo4.getText());
+                javax.swing.JOptionPane.showMessageDialog(null,"Operacion exitosa");
+                this.dispose();
+            } catch (Exception ex) {
+                javax.swing.JOptionPane.showMessageDialog(null,ex.getMessage());
+            }
         }else{
             javax.swing.JOptionPane.showMessageDialog(null,"Debe seleccionar el cliente y el usuario");
         }
