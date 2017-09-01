@@ -231,7 +231,8 @@ public class ContArtista implements IcontArtista {
         }
         Album a = new Album(nomartista, nombre, anio2, imagen, temas, l);
         int idalbum = this.dbUsuario.InsertarAlbum(a);
-        
+        for (int i=0;i<l.size();i++)
+            l.get(i).AddAlbum(a);
         Artista ar = artistas.get(nomartista);
         ar.getAlbumes().put(a.getNombre(), a);
         for (int i=0;i<a.getGeneros().size();i++){
