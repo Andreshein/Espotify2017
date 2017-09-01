@@ -91,7 +91,7 @@ public class Fabrica {
                 c.setFavAlbum(al);
             }
             ArrayList<String[]> temas = db.getFTemas(c.getNickname());
-            for (int i = 0; i > temas.size(); i++) {
+            for (int i = 0; i < temas.size(); i++) {
                 String[] o = temas.get(i);
                 Artista a = artistas.get((String)o[2]);
                 Album al = a.getAlbumes().get((String)o[1]);
@@ -104,7 +104,7 @@ public class Fabrica {
                 c.setFavLista(c2.getListas().get((String)o[0]));
             }
             ArrayList<String[]> listasPD = db.getFListasPD(c.getNickname());
-            for (int i = 0; i > listasPD.size(); i++) {
+            for (int i = 0; i < listasPD.size(); i++) {
                 String[] o = listasPD.get(i);
                 Genero g = generos.get((String)o[1]);
                 c.setFavLista(g.getListas().get((String)o[0]));

@@ -5,10 +5,16 @@
  */
 package Logica;
 
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 public class Cliente extends Usuario {
 
@@ -17,6 +23,8 @@ public class Cliente extends Usuario {
     private ArrayList<Album> favAlbumes;
     private ArrayList<Tema> favTemas;
     private HashMap<String, Usuario> Siguiendo;
+    
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
     public Cliente(String nickname, String nombre, String apellido, String correo, Date fechaNac, String Imagen) {
         this.nickname = nickname;
@@ -30,6 +38,27 @@ public class Cliente extends Usuario {
         this.favAlbumes = new ArrayList<>();
         this.favTemas = new ArrayList<>();
         this.Siguiendo = new HashMap<>();
+    }
+    
+    //Se usa para la carga de datos de prueba
+    public Cliente(String nickname, String nombre, String apellido, String correo, String fechaNac, String Imagen) {
+        try {
+            Date fechaN = formato.parse(fechaNac);
+            
+            this.nickname = nickname;
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.fechaNac = fechaN;
+            this.correo = correo;
+            this.Imagen = Imagen;
+            this.Listas = new HashMap<>();
+            this.favListas = new ArrayList<>();
+            this.favAlbumes = new ArrayList<>();
+            this.favTemas = new ArrayList<>();
+            this.Siguiendo = new HashMap<>();
+        } catch (ParseException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void setNickname(String nickname) {
@@ -174,8 +203,17 @@ public class Cliente extends Usuario {
                 siguiendo.add(((Artista) usuario).getDatosResumidos());
             }
         }
+        
+        //La imagen es opcinonal, verificar si una
+        ImageIcon imagen = null;
+        if(Imagen != null){
+            File archivo = new File(Imagen);
+            String Rutaimagen = archivo.getPath();
 
-        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, siguiendo, listasCreadas, listas, temas, albumes);
+            imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
+        }
+
+        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, imagen, siguiendo, listasCreadas, listas, temas, albumes);
     }
 
     public DtCliente getDatosResumidos() {

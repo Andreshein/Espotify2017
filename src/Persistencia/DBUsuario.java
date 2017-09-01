@@ -8,6 +8,9 @@ package Persistencia;
 
 import Logica.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DBUsuario {
 
@@ -339,11 +344,47 @@ public class DBUsuario {
         String[] ApellidoArtistas = {"People", "Mode", "Lauper", "Springsteen", "Nelson", "Ley", "Jones", "Tchaikovsky", "Neumann", " ", " ", " "};
         String[] CorreoArtistas = {"vpeople@tuta.io", "dmode@tuta.io", "clauper@hotmail.com", "bruceTheBoss@gmail.com", "tripleNelson@tuta.io", "la_ley@tuta.io", "tigerOfWales@tuta.io", "chaiko@tuta.io", "nicoleneu@hotmail.com", "lospimpi@gmail.com", "dyangounchained@gmail.com", "alcides@tuta.io"};
         String[] NacimientoArtistas = {"1977-01-01", "1980-06-14", "1953-06-22", "1949-09-23", "1998-01-01", "1987-02-14", "1940-06-07", "1840-4-25", "1980-10-31", "1981-08-13", "1940-03-05", "1952-07-17"};
-        String[] ImagenArtistas = {"C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "VP.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "DM.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "CL.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "BS.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "CC.jpg", null, null, null, "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "NN.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "PP.jpg", null, null};
+        String[] ImagenArtistas = {"DatosDePrueba/Imagenes/VillagePeople.jpg", "DatosDePrueba/Imagenes/DepecheMode.jpg", "DatosDePrueba/Imagenes/CyndiLauper.png", "DatosDePrueba/Imagenes/BruceSpringsteen.jpg", "DatosDePrueba/Imagenes/TripleNelson.jpg", null, null, null, "DatosDePrueba/Imagenes/NicoleNeumann.jpg", "DatosDePrueba/Imagenes/LosPimpinela.jpg", null, null};
         String[] BiografiaArtistas = {"Village People es una innovadora formación musical de estilo disco de finales de los años 70. Fue famosa tanto por sus peculiares disfraces, como por sus canciones pegadizas, con letras sugerentes y llenas de dobles sentidos.", null, "Cynthia Ann Stephanie Lauper, conocida simplemente como Cyndi Lauper, es una cantautora, actriz y empresaria estadounidense. Después de participar en el grupo musical, Blue Angel, en 1983 firmó con Portrait Records (filial de Epic Records) y lanzó su exitoso álbum debut She's So Unusual a finales de ese mismo año. Siguió lanzando una serie de álbumes en los que encontró una inmensa popularidad, superando los límites de contenido de las letras de sus canciones.", null, "La Triple Nelson es un grupo de rock uruguayo formado en enero de 1998 e integrado inicialmente por Christian Cary (guitarra y voz), Fernando \"Paco\" Pintos (bajo y coros) y Rubén Otonello (actualmente su nuevo baterista es Rafael Ugo).", null, "Sir Thomas John, conocido por su nombre artístico de Tom Jones, es un cantante británico. Ha vendido más de 100 millones de discos en todo el mundo.", "Piotr Ilich Chaikovski fue un compositor ruso del período del Romanticismo", null, null, "José Gómez Romero, conocido artísticamente como Dyango es un cantante español de música romántica.", "Su carrera comienza en 1976 cuando forma la banda Los Playeros junto a su hermano Víctor. Al poco tiempo se mudan a San Luis donde comienzan a hacerse conocidos en la escena musical. Su éxito a nivel nacional llega a comienzos de los años 1990 cuando desembarca en Buenos Aires y graba el éxito \"Violeta\", originalmente compuesta e interpretada en 1985 por el músico brasileño Luiz Caldas bajo el título «Fricote»."};
         String[] Pagina = {"www.officialvillagepeople.com", "www.depechemode.com", "cyndilauper.com", "brucespringsteen.net", null, null, "www.tomjones.com", null, null, "www.pimpinela.net", null, null};
         try {
             for (int i = 0; i < 12; i++) {
+                //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
+                
+                if(ImagenArtistas[i] != null){
+                    //Divide el string por el punto, tambien elimina el punto
+                    String[] aux = ImagenArtistas[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
+
+                    //toma la segunda parte porque es la extension
+                    //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
+                    String extension = aux[1];
+
+                    //Ruta donde se va a copiar el archivo de imagen
+                    String rutaDestino = "Imagenes/Artistas/"+NickArtistas0[i]+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+
+                    try {
+                        File archivoOrigen = new File(ImagenArtistas[i]);
+
+                        //Archivo de destino auxiliar
+                        File dest = new File(rutaDestino);
+
+                        //Crea las carpetas en donde va a ser guardado el tema si no estaban creadas todavia
+                        dest.getParentFile().mkdirs();
+
+                        //Crea el archivo auxiliar primero para despues sobreescribirlo, sino da error
+                        dest.createNewFile();
+
+                        //Copiar el archivo seleccionado al destino
+                        Files.copy(archivoOrigen.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                        ImagenArtistas[i] = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
+                    } catch (IOException ex) {
+                        Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);
+
+                        ImagenArtistas[i] = null; // no se pudo copiar la imagen, queda en null
+                    }
+                }
+                
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
                         + "(Nickname, Nombre, Apellido, Correo, FechaNac, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?)");
                 statement.setString(1, NickArtistas0[i]);
@@ -365,9 +406,44 @@ public class DBUsuario {
         String[] NombreClientes = {"Vito", "Scarlett", "Pepe", "Walter", "Obi-Wan", "Mirtha", "Cacho", "Eleven"};
         String[] ApellidoClientes = {"Corleone", "O’Hara", "Argento", "White", "Kenobi", "Legrand", "Bochinche", " "};
         String[] NacimientoClientes = {"1972-03-08", "1984-11-27", "1955-02-14", "1956-03-07", "1914-04-02", "1927-02-23", "1937-05-08", "1971-12-31"};
-        String[] ImagenClientes = {"C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "VC.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "SO.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "PA.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "WW.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "OK.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "ML.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "CB.jpg", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "IMAGENES" + File.separator + "EL.jpg"};
+        String[] ImagenClientes = {"DatosDePrueba/Imagenes/VitoCorleone.jpg", "DatosDePrueba/Imagenes/ScarlettO’Hara.jpg", "DatosDePrueba/Imagenes/PepeArgento.png", "DatosDePrueba/Imagenes/Heisenberg.jpg", "DatosDePrueba/Imagenes/BenKenobi.png", "DatosDePrueba/Imagenes/MirthaLegrand.jpg", "DatosDePrueba/Imagenes/CachoBochinche.jpg", "DatosDePrueba/Imagenes/Eleven.jpg"};
         try {
             for (int i = 0; i < 8; i++) {
+                //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
+                
+                //Divide el string por el punto, tambien elimina el punto
+                String[] aux = ImagenClientes[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
+
+                //toma la segunda parte porque es la extension
+                //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
+                String extension = aux[1];
+
+                //Ruta donde se va a copiar el archivo de imagen
+                String rutaDestino = "Imagenes/Clientes/"+NickClientes[i]+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+
+                try {
+                    File archivoOrigen = new File(ImagenClientes[i]);
+
+                    //Archivo de destino auxiliar
+                    File dest = new File(rutaDestino);
+
+                    //Crea las carpetas en donde va a ser guardado el tema si no estaban creadas todavia
+                    dest.getParentFile().mkdirs();
+
+                    //Crea el archivo auxiliar primero para despues sobreescribirlo, sino da error
+                    dest.createNewFile();
+
+                    //Copiar el archivo seleccionado al destino
+                    Files.copy(archivoOrigen.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                    ImagenClientes[i] = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
+                } catch (IOException ex) {
+                    Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);
+
+                    ImagenClientes[i] = null; // no se pudo copiar la imagen, queda en null
+                }
+                 
+                
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                         + "(Nickname, Nombre, Apellido, Correo, FechaNac, Imagen) values(?,?,?,?,?,?)");
                 statement.setString(1, NickClientes[i]);

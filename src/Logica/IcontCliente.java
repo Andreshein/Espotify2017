@@ -25,7 +25,7 @@ public interface IcontCliente{
     public abstract ArrayList<String> MostrarUsuariosSeguidos( String Nickname);
     public abstract void SeleccionarCliente(String nickname);
     public abstract ArrayList<DtUsuario> listarUsuarios();
-    public abstract void seguir(String nickCli, String nickUsu);
+    public abstract void seguir(String nickCli, String nickUsu) throws Exception;
     public abstract void confirmar() throws Exception;
     public abstract void DejarSeguir(String NickCli, String NickUsu);
     public abstract ArrayList<DtCliente> BuscarClientes(String palabra);
@@ -42,5 +42,8 @@ public interface IcontCliente{
     public abstract void crearListaPD(String genero, String nombre, ImageIcon imagen);
     public abstract void publicarLista(String nickname, String nomLista);
     public abstract ArrayList<DtTema> listarTemasListaP(String nickname,String listaP);
+    
+    ///
+    public abstract boolean copiarImagenAlServidor(String rutaOrigenArchivo, String rutaDestino);
 }
 //hellou papaguena
