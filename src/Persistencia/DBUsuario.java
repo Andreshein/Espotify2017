@@ -200,7 +200,7 @@ public class DBUsuario {
                     PreparedStatement st3 = conexion.prepareStatement("SELECT * FROM tema WHERE IdAlbum='" + String.valueOf(rs2.getInt(1)) + "'");
                     ResultSet rs3 = st3.executeQuery();
                     while (rs3.next()) {
-                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), "Archivo", rs3.getString("Dirección"));
+                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), rs3.getString("Archivo"), rs3.getString("Dirección"));
                         al.AddTema(t);
                     }
                     rs3.close();
@@ -351,6 +351,9 @@ public class DBUsuario {
             for (int i = 0; i < 12; i++) {
                 //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
                 
+                //En pricipio esta en null, pero si el artista tiene una imagen se copia y se le setea la ruta de la copia de imagen 
+                String rutaImagen = null;
+                
                 if(ImagenArtistas[i] != null){
                     //Divide el string por el punto, tambien elimina el punto
                     String[] aux = ImagenArtistas[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
@@ -359,30 +362,18 @@ public class DBUsuario {
                     //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
                     String extension = aux[1];
 
+                    //Ruta del archvio de origen(en la capeta DatosDePrueba)
+                    String rutaOrigen = ImagenArtistas[i];
+                    
                     //Ruta donde se va a copiar el archivo de imagen
                     String rutaDestino = "Imagenes/Artistas/"+NickArtistas0[i]+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
-                    try {
-                        File archivoOrigen = new File(ImagenArtistas[i]);
-
-                        //Archivo de destino auxiliar
-                        File dest = new File(rutaDestino);
-
-                        //Crea las carpetas en donde va a ser guardado el tema si no estaban creadas todavia
-                        dest.getParentFile().mkdirs();
-
-                        //Crea el archivo auxiliar primero para despues sobreescribirlo, sino da error
-                        dest.createNewFile();
-
-                        //Copiar el archivo seleccionado al destino
-                        Files.copy(archivoOrigen.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                        ImagenArtistas[i] = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
-                    } catch (IOException ex) {
-                        Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);
-
-                        ImagenArtistas[i] = null; // no se pudo copiar la imagen, queda en null
+                    if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false){
+                        rutaImagen = null; // no se pudo copiar la imagen, queda en null
+                    }else{
+                        rutaImagen = rutaDestino;
                     }
+                    
                 }
                 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
@@ -394,7 +385,7 @@ public class DBUsuario {
                 statement.setString(5, NacimientoArtistas[i]);
                 statement.setString(6, BiografiaArtistas[i]);
                 statement.setString(7, Pagina[i]);
-                statement.setString(8, ImagenArtistas[i]);
+                statement.setString(8, rutaImagen);
                 statement.executeUpdate();
                 statement.close();
             }
@@ -418,29 +409,14 @@ public class DBUsuario {
                 //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
                 String extension = aux[1];
 
+                String rutaOrigen = (ImagenClientes[i]);
+                
+                
                 //Ruta donde se va a copiar el archivo de imagen
                 String rutaDestino = "Imagenes/Clientes/"+NickClientes[i]+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
-                try {
-                    File archivoOrigen = new File(ImagenClientes[i]);
-
-                    //Archivo de destino auxiliar
-                    File dest = new File(rutaDestino);
-
-                    //Crea las carpetas en donde va a ser guardado el tema si no estaban creadas todavia
-                    dest.getParentFile().mkdirs();
-
-                    //Crea el archivo auxiliar primero para despues sobreescribirlo, sino da error
-                    dest.createNewFile();
-
-                    //Copiar el archivo seleccionado al destino
-                    Files.copy(archivoOrigen.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                    ImagenClientes[i] = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
-                } catch (IOException ex) {
-                    Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);
-
-                    ImagenClientes[i] = null; // no se pudo copiar la imagen, queda en null
+                if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
+                    rutaDestino = null; // no se pudo copiar la imagen, queda en null
                 }
                  
                 
@@ -451,7 +427,7 @@ public class DBUsuario {
                 statement.setString(3, ApellidoClientes[i]);
                 statement.setString(4, CorreoClientes[i]);
                 statement.setString(5, NacimientoClientes[i]);
-                statement.setString(6, ImagenClientes[i]);
+                statement.setString(6, rutaDestino);
                 statement.executeUpdate();
                 statement.close();
             }
@@ -948,7 +924,7 @@ public class DBUsuario {
         String[] Nombretema = {"YMCA", "Macho Man", "In the Navy", "Personal Jesus", "Enjoy The Silence", "Girls Just Want To Have Fun", "Time After Time", "Born In The U.S.A.", "Glory Days", "Dancing In The Park", "It’s Not Unusual", "Adagio De Mi País", "El Duelo", "Mentira", "Acto 2, Número 10, Escena (Moderato)", "Primer Movimiento (Allegro non troppo e molto maestoso – Allegro con spirito)", "No Quiero Estudiar", "Por Ese Hombre", "Por Ese Hombre", "Violeta"};
         String[] Duraciontema = {"4:28", "3:28", "3:13", "4:56", "4:21", "3:15", "5:12", "4:58", "5:23", "3:58", "2:00", "4:50", "5:23", "4:48", "2:40", "21:58", "2:12", "4:45", "5:13", "1:56"};
         int[] Ordentema = {1, 2, 3, 1, 2, 1, 2, 1, 2, 3, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1};
-        String[] Archivotema = {null, "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "Canciones" + File.separator + "T12.mp3", null, "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "Canciones" + File.separator + "T21.mp3", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "Canciones" + File.separator + "T22.mp3", null, "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "Canciones" + File.separator + "T32.mp3", null, null, "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "Canciones" + File.separator + "T43.mp3", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "Canciones" + File.separator + "T51.mp3", null, "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "Canciones" + File.separator + "T71.mp3", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "Canciones" + File.separator + "T72.mp3", null, null, "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "Canciones" + File.separator + "T101.mp3", "C:" + File.separator + "Users" + File.separator + "Admin" + File.separator + "Documents" + File.separator + "Canciones" + File.separator + "T111.mp3", null, null};
+        String[] Archivotema = {null, "Temas/vpeople/Village People Live and Sleazy/Macho Man.mp3", null, "Temas/dmode/Violator/Personal Jesus.mp3", "Temas/dmode/Violator/Enjoy The Silence.mp3", null, "Temas/clauper/She’s So Unusual/Time After Time.mp3", null, null, "Temas/bruceTheBoss/Born In The U.S.A/Dancing In The Park.mp3", "Temas/tigerOfWales/It’s Not Unusual/It’s Not Unusual.mp3", null, "Temas/la_ley/MTV Unplugged/El Duelo.mp3", "Temas/la_ley/MTV Unplugged/Mentira.mp3", null, null, "Temas/nicoleneu/Primer Amor/No Quiero Estudiar.mp3", "Temas/lospimpi/Hay Amores Que Matan/Por Ese Hombre.mp3", null, null};
         String[] URLtema = {"bit.ly/SCvpymca", null, "bit.ly/SCvpinthenavy", null, null, "bit.ly/SCclgirlsjustwant", null, "bit.ly/SCbsborninusa", "bit.ly/SCbsglorydays", null, null, "bit.ly/SCtnadagiopais", null, null, "bit.ly/SCptswanlake", "bit.ly/SCptpiano", null, null, "bit.ly/SCdyporesehombre", "bit.ly/SCvioleta"};
         try {
             int j = 1;
@@ -990,6 +966,21 @@ public class DBUsuario {
                 if (x == 20) {
                     j++;
                 }
+                
+                String rutaArchivo = null;
+                
+                //Si el tema tiene archivo
+                if(Archivotema[i] != null){
+                    String rutaOrigen = "DatosDePrueba/"+Archivotema[i];
+                    String rutaDestino = Archivotema[i];
+                    
+                    //Si se pudo copiar la imagen correctamente
+                    if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true){
+                        rutaArchivo = rutaDestino;
+                    }
+                    
+                }
+                
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO tema "
                         + "(Id, IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?,?)");
                 statement.setInt(1, x);
@@ -997,7 +988,7 @@ public class DBUsuario {
                 statement.setString(3, Duraciontema[i]);
                 statement.setString(4, Nombretema[i]);
                 statement.setInt(5, Ordentema[i]);
-                statement.setString(6, Archivotema[i]);
+                statement.setString(6, rutaArchivo);
                 statement.setString(7, URLtema[i]);
                 statement.executeUpdate();
                 statement.close();
@@ -1537,6 +1528,31 @@ public class DBUsuario {
             sentencia.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    public boolean copiarArchivoAlServidor(String rutaOrigenArchivo, String rutaDestino){
+        try {
+            File archivoOrigen = new File(rutaOrigenArchivo);
+            
+            //Archivo de destino
+            File dest = new File(rutaDestino);
+            
+            //Crea las carpetas en donde va a ser guardado el archivo si no estaban creadas todavia
+            dest.getParentFile().mkdirs();
+            
+            //Crea el archivo auxiliar primero para despues sobreescribirlo, sino da error
+            dest.createNewFile();
+            
+            //Copiar el archivo seleccionado al destino
+            Files.copy(archivoOrigen.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            
+            return true; // Se pudo copiar el archivo correctamente
+        } catch (IOException ex) {
+            Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);
+        
+            return false; // Error, no se pudo copiar el archivo
         }
     }
 

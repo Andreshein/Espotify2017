@@ -70,7 +70,6 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         ConsultarPerfilCliMenuItem = new javax.swing.JMenuItem();
-        pubListMenuItem = new javax.swing.JMenuItem();
         seguir = new javax.swing.JMenuItem();
         dseguir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -81,6 +80,7 @@ public class Principal extends javax.swing.JFrame {
         CrearLista = new javax.swing.JMenuItem();
         agregarTemaListaMenuItem = new javax.swing.JMenuItem();
         verListaRep = new javax.swing.JMenuItem();
+        pubListMenuItem = new javax.swing.JMenuItem();
         Datos = new javax.swing.JMenu();
         CargaDatos = new javax.swing.JMenuItem();
 
@@ -180,14 +180,6 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu1.add(ConsultarPerfilCliMenuItem);
 
-        pubListMenuItem.setText("Publicar Lista");
-        pubListMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pubListMenuItemActionPerformed(evt);
-            }
-        });
-        jMenu1.add(pubListMenuItem);
-
         seguir.setText("Seguir Usuario");
         seguir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -260,6 +252,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu4.add(verListaRep);
+
+        pubListMenuItem.setText("Publicar Lista");
+        pubListMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pubListMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu4.add(pubListMenuItem);
 
         jMenuBar1.add(jMenu4);
 

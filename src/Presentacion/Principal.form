@@ -144,14 +144,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ConsultarPerfilCliMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="pubListMenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Publicar Lista"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pubListMenuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="seguir">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Seguir Usuario"/>
@@ -230,6 +222,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verListaRepActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="pubListMenuItem">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Publicar Lista"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pubListMenuItemActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
