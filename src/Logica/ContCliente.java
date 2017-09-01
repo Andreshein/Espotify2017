@@ -297,7 +297,9 @@ public class ContCliente implements IcontCliente {
     }
 
     
+    @Override
     public void publicarLista(String nickname, String nomLista){
+        dbUsuario.publicarLista(nickname, nomLista);
         this.clientes.get(nickname).publicarLista(nomLista);
     }
     
@@ -306,6 +308,11 @@ public class ContCliente implements IcontCliente {
 	Cliente cli=(Cliente) this.clientes.get(nickname);
         Particular p=cli.getListas().get(listaP);
         return p.getDtTemas();
+    }
+    
+    @Override
+    public ArrayList<DtListaP> listarListasPrivadas(String nickname){
+        return this.clientes.get(nickname).listarListasPrivadas();
     }
     
     /////

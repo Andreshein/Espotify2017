@@ -1526,5 +1526,18 @@ public class DBUsuario {
             return 0;
         }
     }
+    
+    public void publicarLista(String nickname, String nombreLista){
+        try {
+//            PreparedStatement sentencia = conexion.prepareStatement("UPDATE listaparticular " + "SET privada = ?" + "WHERE Usuario = '" + nickname + "'");
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE listaparticular " + "SET Privada = ? WHERE Usuario = ? AND Nombre = ?");
+            sentencia.setBoolean(1, false); // el 1 indica el numero de "?" en la sentencia
+            sentencia.setString(2, nickname); 
+            sentencia.setString(3, nombreLista); 
+            sentencia.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }
