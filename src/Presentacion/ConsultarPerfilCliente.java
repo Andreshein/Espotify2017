@@ -568,6 +568,8 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
             imagenLabel.setIcon(icono); // coloca la imagen en el label
 
             this.pack();
+        }else{
+            imagenLabel.setIcon(null); // se limpia la imagen del label
         }
         
         // limpiar las variables arraylist

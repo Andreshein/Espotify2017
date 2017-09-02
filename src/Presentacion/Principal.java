@@ -10,6 +10,7 @@ import Logica.IcontArtista;
 import Logica.IcontCliente;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -26,6 +27,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        
         Cli = Fabrica.getCliente();
         Art = Fabrica.getArtista();
         Fabrica.SetControladores();
@@ -323,13 +325,12 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_agregarTemaListaMenuItemActionPerformed
 
     private void CargaDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaDatosActionPerformed
-        int x = javax.swing.JOptionPane.showConfirmDialog(null, "Esta a punto de cargar los datos de prueba del sistema. Confirmar?", "Carga de datos", 1);
+        int x = javax.swing.JOptionPane.showConfirmDialog(null, "Esta a punto de cargar los datos de prueba del sistema. Confirmar?", "Carga de datos de prueba", JOptionPane.YES_NO_OPTION);
         if (x==0){
             Cli.CargadeDatos();
-            javax.swing.JOptionPane.showMessageDialog(null,"Carga de datos completada","Carga de datos",1);
-        }
-        if (x==1){
-            javax.swing.JOptionPane.showMessageDialog(null,"Operación cancelada","Carga de datos",0);    
+            javax.swing.JOptionPane.showMessageDialog(null,"Carga de datos de prueba completada","Carga de datos de prueba",1);
+        }else{
+            javax.swing.JOptionPane.showMessageDialog(null,"Operación cancelada","Carga de datos de prueba",0);    
         }
     }//GEN-LAST:event_CargaDatosActionPerformed
 

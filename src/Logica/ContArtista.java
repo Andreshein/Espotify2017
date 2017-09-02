@@ -186,39 +186,45 @@ public class ContArtista implements IcontArtista {
      }
      @Override
     public boolean IngresarArtista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb, String Img){
-        if (this.artistas.get(nickname)!=null){
+        if(Fabrica.getCliente().verificarDatos(nickname, correo) == false){ // si ya existe un cliente con ese nickname o correo
             return false;
         }else{
-            if(Img != null){
-                //Divide el string por el punto, tambien elimina el punto
-                String[] aux = Img.split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
-
-                //toma la segunda parte porque es la extension
-                //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
-                String extension = aux[1];
-
-                //Ruta donde se va a copiar el archivo de imagen
-                String rutaDestino = "Imagenes/Artistas/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
-
-                //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
-                //la funcion ya esta definida en el controlador de cliente porque ahi se usa, entocnces no hay que declararla otra vez en este controlador
-                if(Fabrica.getCliente().copiarImagenAlServidor(Img, rutaDestino) == true){
-                    Img = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
-                }else{
-                    Img = null; // no se pudo copiar la imagen, queda en null
-                }
+            if(this.verificarDatos(nickname, correo) == false){
+                return false;
             }
-            
-            Artista a=new Artista(nickname, nombre, apellido, correo, fechaNac, biografia, paginaWeb, Img);
-            boolean tru =this.dbUsuario.agregarArtista(a);
-            if (tru){
-            
-                this.artistas.put(nickname, a);
+        }
+        
+        //Si no retorno false antes, entonces los datos están bien
+        
+        if(Img != null){
+            //Divide el string por el punto, tambien elimina el punto
+            String[] aux = Img.split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
+
+            //toma la segunda parte porque es la extension
+            //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
+            String extension = aux[1];
+
+            //Ruta donde se va a copiar el archivo de imagen
+            String rutaDestino = "Imagenes/Artistas/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+
+            //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
+            //la funcion ya esta definida en el controlador de cliente porque ahi se usa, entocnces no hay que declararla otra vez en este controlador
+            if(Fabrica.getCliente().copiarImagenAlServidor(Img, rutaDestino) == true){
+                Img = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
+            }else{
+                Img = null; // no se pudo copiar la imagen, queda en null
             }
-            return tru;
         }
 
+        Artista a=new Artista(nickname, nombre, apellido, correo, fechaNac, biografia, paginaWeb, Img);
+        boolean ok =this.dbUsuario.agregarArtista(a);
+        if (ok){
+            this.artistas.put(nickname, a);
+        }
+        
+        return ok;
     }
+    
     public void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, Tema> temas, HashMap<String,Genero> generos){
         int anio2 = Integer.parseInt(anio);
         ArrayList<Genero> l = new ArrayList();
@@ -308,13 +314,13 @@ public class ContArtista implements IcontArtista {
     
     @Override
     public List<DtArtista> BuscarArtistas(String nombre) {
-        List<DtArtista> retornar=new ArrayList<DtArtista>();
+        List<DtArtista> retornar=new ArrayList<>();
         Set set = artistas.entrySet();
         Iterator iterator = set.iterator();
         while(iterator.hasNext()) {
             Map.Entry mentry = (Map.Entry)iterator.next();
             Artista aux=(Artista) mentry.getValue();     
-            if (aux.getNickname().contains(nombre)){
+            if (aux.getNickname().toUpperCase().startsWith(nombre.toUpperCase())){
                 retornar.add(aux.GetDtArtista());
             }
         }       
@@ -350,5 +356,21 @@ public class ContArtista implements IcontArtista {
         }
         
         return resultado;
+    }
+    
+    @Override
+    public boolean verificarDatos(String nickname, String correo){
+        for (Artista art : this.artistas.values()) {
+            if(art.getNickname().equals(nickname)){
+                return false; // nickname ya existe, repetido
+            }
+            
+            if(art.getCorreo().equals(correo)){
+                return false; //correo ya existe, repetido
+            }
+        }
+        
+        //Si no retornó false dentro del for, entonces los datos estan bien
+        return true;
     }
 }

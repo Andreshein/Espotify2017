@@ -139,40 +139,46 @@ public class ContCliente implements IcontCliente {
 
     @Override
     public boolean IngresarCliente(String nickname, String nombre, String apellido, String correo, Date fechaNac, String Img) {
-        if (this.clientes.get(nickname) != null) {
+        if(Fabrica.getArtista().verificarDatos(nickname, correo) == false){ // si ya existe un artista con ese nickname o correo
             return false;
-        } else {
-            
-            System.out.println("ruta imagen: "+Img);
-            if(Img != null){
-                //Divide el string por el punto, tambien elimina el punto
-                String[] aux = Img.split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
-
-                //toma la segunda parte porque es la extension
-                //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
-                String extension = aux[1];
-
-                //Ruta donde se va a copiar el archivo de imagen
-                String rutaDestino = "Imagenes/Clientes/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
-
-                //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
-                if(copiarImagenAlServidor(Img, rutaDestino) == true){
-                    Img = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
-                }else{
-                    Img = null; // no se pudo copiar la imagen, queda en null
-                }
+        }else{
+            if(this.verificarDatos(nickname, correo) == false){
+                return false;
             }
-            
-            Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac, Img);
-
-            boolean tru = this.dbUsuario.agregarCliente(c);
-            if (tru) {
-
-                this.clientes.put(nickname, c);
-            }
-            return tru;
-
         }
+        
+        
+        //Si no retorno false antes, entonces los datos están bien
+        
+        if(Img != null){
+            //Divide el string por el punto, tambien elimina el punto
+            String[] aux = Img.split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
+
+            //toma la segunda parte porque es la extension
+            //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
+            String extension = aux[1];
+
+            //Ruta donde se va a copiar el archivo de imagen
+            String rutaDestino = "Imagenes/Clientes/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+
+            //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
+            if(copiarImagenAlServidor(Img, rutaDestino) == true){
+                Img = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
+            }else{
+                Img = null; // no se pudo copiar la imagen, queda en null
+            }
+        }
+
+        Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac, Img);
+
+        boolean tru = this.dbUsuario.agregarCliente(c);
+        if (tru) {
+
+            this.clientes.put(nickname, c);
+        }
+        return tru;
+
+        
     }
 
     public ArrayList<DtCliente> BuscarClientes(String palabra) {
@@ -313,6 +319,22 @@ public class ContCliente implements IcontCliente {
     @Override
     public ArrayList<DtListaP> listarListasPrivadas(String nickname){
         return this.clientes.get(nickname).listarListasPrivadas();
+    }
+    
+    @Override
+    public boolean verificarDatos(String nickname, String correo){
+        for (Cliente cli : this.clientes.values()) {
+            if(cli.getNickname().equals(nickname)){
+                return false; // nickname ya existe, repetido
+            }
+            
+            if(cli.getCorreo().equals(correo)){
+                return false; //correo ya existe, repetido
+            }
+        }
+        
+        //Si no retornó false dentro del for, entonces los datos estan bien
+        return true;
     }
     
     /////

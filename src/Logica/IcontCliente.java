@@ -43,6 +43,7 @@ public interface IcontCliente{
     public abstract void publicarLista(String nickname, String nomLista);
     public abstract ArrayList<DtTema> listarTemasListaP(String nickname,String listaP);
     public abstract ArrayList<DtListaP> listarListasPrivadas(String nickname);
+    public abstract boolean verificarDatos(String nickname, String correo);
     
     ///
     public abstract boolean copiarImagenAlServidor(String rutaOrigenArchivo, String rutaDestino);
