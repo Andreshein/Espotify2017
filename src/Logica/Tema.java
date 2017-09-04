@@ -12,15 +12,17 @@ import java.util.Collection;
  * @author ninoh
  */
 public class Tema {
-    private int id;
+    private String artista;
+    private String album;
     private String duracion;
     private String nombre;
     private int orden;
     private String archivo;
     private String direccion;
 
-    public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion) {
-        this.id = id;
+    public Tema(String artista, String album, String nombre, String duracion, int orden, String archivo, String direccion) {
+        this.artista = artista;
+        this.album = album;
         this.duracion = duracion;
         this.nombre = nombre;
         this.orden = orden;
@@ -76,7 +78,7 @@ public class Tema {
     }
     
     public DtTema getDatos(){
-        return new DtTema(nombre, duracion, orden, direccion, archivo);
+        return new DtTema(artista, album, nombre, duracion, orden, direccion, archivo);
     }
 
     

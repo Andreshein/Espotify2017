@@ -140,7 +140,7 @@ public class Artista extends Usuario {
         Iterator iterador = this.albumes.values().iterator();
         while(iterador.hasNext()){
             Album aux = (Album)iterador.next();
-            retorno.add(aux.getDatos(this.nickname));
+            retorno.add(aux.getDatos());
         }
         return retorno;
     }

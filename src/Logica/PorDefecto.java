@@ -19,11 +19,12 @@ public class PorDefecto extends Lista{
     private HashMap<String, PorDefecto> Listas;
     
 
-    public PorDefecto(int id, Genero genero, String nombre) {
+    public PorDefecto(int id, Genero genero, String nombre, String imagen) {
         this.id = id;
         this.genero = genero;
         this.nombre = nombre;
         this.temas = new ArrayList();
+        this.imagen = imagen;
     }
     public PorDefecto(int id, String nombre, String img) {
         this.id = id;

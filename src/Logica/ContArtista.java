@@ -205,7 +205,7 @@ public class ContArtista implements IcontArtista {
             String extension = aux[1];
 
             //Ruta donde se va a copiar el archivo de imagen
-            String rutaDestino = "Imagenes/Artistas/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+            String rutaDestino = "Imagenes/Artistas/"+nickname+"/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
             //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
             //la funcion ya esta definida en el controlador de cliente porque ahi se usa, entocnces no hay que declararla otra vez en este controlador
