@@ -24,6 +24,12 @@ public class DtAlbum {
         this.anio = anio;
         this.temas = temas;
     }
+    public DtAlbum(String nombre, String nombreArtista, int anio) {
+        this.nombre = nombre;
+        this.nombreArtista = nombreArtista;
+        this.anio = anio;
+        this.temas = null;
+    }
 
     
 

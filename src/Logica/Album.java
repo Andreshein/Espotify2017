@@ -46,6 +46,10 @@ public class Album {
         this.Imagen = img;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public HashMap<String, Tema> getTemas(){
         return temas;
     }

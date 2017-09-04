@@ -8,6 +8,8 @@ package Logica;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.ImageIcon;
 
 
@@ -28,7 +30,9 @@ public interface IcontCliente{
     public abstract void seguir(String nickCli, String nickUsu) throws Exception;
     public abstract void confirmar() throws Exception;
     public abstract void DejarSeguir(String NickCli, String NickUsu);
+    public abstract Map<String, Cliente> GetClientes();
     public abstract ArrayList<DtCliente> BuscarClientes(String palabra);
+    public abstract List<DtCliente> BuscarClientesFav(String palabra);
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract ArrayList<DtUsuario> BuscarUsuariosSeg(String Nickname, String palabra);
     public abstract void CargadeDatos();
@@ -42,6 +46,9 @@ public interface IcontCliente{
     public abstract void crearListaPD(String genero, String nombre, ImageIcon imagen);
     public abstract void publicarLista(String nickname, String nomLista);
     public abstract ArrayList<DtTema> listarTemasListaP(String nickname,String listaP);
+    public abstract ArrayList<DtListaP> listarTodasListasP();
+    public abstract boolean InsertarFavorito(String cliente, String[] elementos, int tipo);
+    public abstract void EliminarFavorito(String cliente, String[] elemento, int tipo);
     
     ///
     public abstract boolean copiarImagenAlServidor(String rutaOrigenArchivo, String rutaDestino);

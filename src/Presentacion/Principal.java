@@ -63,6 +63,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar5 = new javax.swing.JMenuBar();
         jMenu12 = new javax.swing.JMenu();
         jMenu13 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         escritorio = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
@@ -73,6 +74,8 @@ public class Principal extends javax.swing.JFrame {
         pubListMenuItem = new javax.swing.JMenuItem();
         seguir = new javax.swing.JMenuItem();
         dseguir = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         verperfArt = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -120,6 +123,8 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu13.setText("Edit");
         jMenuBar5.add(jMenu13);
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -203,6 +208,22 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(dseguir);
+
+        jMenuItem4.setText("Agregar Favorito");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
+
+        jMenuItem5.setText("Eliminar Favorito");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
 
         jMenuBar1.add(jMenu1);
 
@@ -394,6 +415,20 @@ public class Principal extends javax.swing.JFrame {
         cl.show();
     }//GEN-LAST:event_CrearListaActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+       AgregarFavorito af = new AgregarFavorito();
+       escritorio.add(af);
+       af.centrar();
+       af.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        EliminarFavorito ef = new EliminarFavorito();
+        escritorio.add(ef);
+        ef.centrar();
+        ef.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -456,7 +491,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar4;
     private javax.swing.JMenuBar jMenuBar5;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem pubListMenuItem;
     private javax.swing.JMenuItem seguir;
     private javax.swing.JMenuItem verListaRep;

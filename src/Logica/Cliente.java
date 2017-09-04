@@ -116,6 +116,52 @@ public class Cliente extends Usuario {
     public ArrayList<Lista> getFavListas() {
         return favListas;
     }
+    
+    public ArrayList<DtListaPD> getFavDtListasPD(){
+        ArrayList<DtListaPD> retorno = new ArrayList();
+        for (int i=0;i<favListas.size();i++){
+            Lista x = favListas.get(i);
+            if (x instanceof PorDefecto){
+                PorDefecto p = (PorDefecto)x;
+                DtListaPD dt = new DtListaPD(p.getNombre(),p.getGenero().getNombre());
+                retorno.add(dt);
+            }        
+        }
+        return retorno;
+    }
+    
+    public ArrayList<DtListaP> getFavDtListasP(){
+        ArrayList<DtListaP> retorno = new ArrayList();
+        for (int i=0;i<favListas.size();i++){
+            Lista x = favListas.get(i);
+            if (x instanceof Particular){
+                Particular p = (Particular)x;
+                DtListaP dt = new DtListaP(p.getNombre(),p.getUsuario());
+                retorno.add(dt);
+            }        
+        }
+        return retorno;
+    }
+    
+    public ArrayList<DtAlbum> getFavDtAlbumes(){
+        ArrayList<DtAlbum> retorno = new ArrayList();
+        for (int i=0;i<favAlbumes.size();i++){
+            Album a = favAlbumes.get(i);
+            DtAlbum dt = new DtAlbum(a.getNombre(),a.getArtista(),a.getAño());
+            retorno.add(dt);
+        }
+        return retorno;
+    }
+    
+    public ArrayList<DtTema> getFavDtTemas(){
+        ArrayList<DtTema> retorno = new ArrayList();
+        for (int i=0;i<favTemas.size();i++){
+            Tema t = favTemas.get(i);
+            DtTema dt = new DtTema(t.getNombre(),t.getNombrealbum(),t.getNombreartista());
+            retorno.add(dt);
+        }
+        return retorno;
+    }
 
     public void setFavListas(ArrayList<Lista> favListas) {
         this.favListas = favListas;

@@ -144,6 +144,15 @@ public class Artista extends Usuario {
         }
         return retorno;
     }
+    public ArrayList<DtAlbum> getDtAlbumes2(){
+        ArrayList<DtAlbum> retorno = new ArrayList<>();
+        Iterator iterador = this.albumes.values().iterator();
+        while(iterador.hasNext()){
+            Album aux = (Album)iterador.next();
+            retorno.add(aux.getDatos(this.nombre));
+        }
+        return retorno;
+    }
     
     public DtArtista getDatosResumidos(){
         return new DtArtista(nickname, nombre, apellido, correo, this.fechaNac, null, null, null, 0, null, null);

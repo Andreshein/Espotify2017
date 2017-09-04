@@ -18,7 +18,20 @@ public class Tema {
     private int orden;
     private String archivo;
     private String direccion;
+    private String nombrealbum;
+    private String nombreartista;
 
+    public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion, String art, String alb) {
+        this.id = id;
+        this.duracion = duracion;
+        this.nombre = nombre;
+        this.orden = orden;
+        this.archivo = archivo;
+        this.direccion = direccion;
+        this.nombrealbum = alb;
+        this.nombreartista = art;
+    }
+    
     public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion) {
         this.id = id;
         this.duracion = duracion;
@@ -35,6 +48,18 @@ public class Tema {
         this.direccion = direccion;
     }
 
+    public String getNombrealbum() {
+        return nombrealbum;
+    }
+
+    public String getNombreartista() {
+        return nombreartista;
+    }
+
+    public int getId() {
+        return id;
+    }
+    
     public String getNombre() {
         return nombre;
     }

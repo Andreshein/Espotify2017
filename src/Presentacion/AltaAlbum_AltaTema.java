@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Presentacion;
-import Logica.Tema;
+import Logica.*;
 import java.awt.Dimension;
 import java.io.File;
 import javax.swing.JFileChooser;
@@ -239,15 +239,20 @@ public class AltaAlbum_AltaTema extends javax.swing.JInternalFrame {
                         url.requestFocus();
                     }
                     else{
-                        if (cadenaurl.equals(""))
-                            cadenaurl = null;
-                        if (cadenaarch.equals(""))
-                            cadenaarch = null;
-                        Object[] dat={orden , cadenanom, cadenadur, cadenaurl, cadenaarch};
-                        this.Ventana.getModeloTemas().addRow(dat);
-                        Tema t = new Tema(cadenadur, cadenanom, orden, cadenaarch, cadenaurl);
-                        this.Ventana.getTemas().put(t.getNombre(), t);
-                        this.dispose();
+                        cadenanom = this.Ventana.ConvertirString(cadenanom);
+                        if (this.Ventana.getTemas().get(cadenanom)!=null)
+                            javax.swing.JOptionPane.showMessageDialog(this,"Este Album ya tiene un Tema con ese nombre","AVISO!",javax.swing.JOptionPane.ERROR_MESSAGE);
+                        else{
+                            if (cadenaurl.equals(""))
+                                cadenaurl = null;
+                            if (cadenaarch.equals(""))
+                                cadenaarch = null;
+                            Object[] dat={orden , cadenanom, cadenadur, cadenaurl, cadenaarch};
+                            this.Ventana.getModeloTemas().addRow(dat);
+                            DtTema t = new DtTema(cadenanom,cadenadur,orden,cadenaurl,cadenaarch);
+                            this.Ventana.getTemas().put(t.getNombre(), t);
+                            this.dispose();
+                        }
                     }
     }//GEN-LAST:event_jButton1ActionPerformed
 

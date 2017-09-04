@@ -195,12 +195,13 @@ public class DBUsuario {
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM album WHERE Artista='" + nickname + "'");
                 ResultSet rs2 = st2.executeQuery();
                 while (rs2.next()) {
-                    Album al = new Album(nickname, rs2.getString("Nombre"), rs2.getInt("anio"));
+                    //Album al = new Album(nickname, rs2.getString("Nombre"), rs2.getInt("anio"));
+                    Album al = new Album(rs2.getInt("Id"),nickname, rs2.getString("Nombre"), rs2.getInt("anio"), rs2.getString("Imagen"));
                     a.AddAlbum(al);
                     PreparedStatement st3 = conexion.prepareStatement("SELECT * FROM tema WHERE IdAlbum='" + String.valueOf(rs2.getInt(1)) + "'");
                     ResultSet rs3 = st3.executeQuery();
                     while (rs3.next()) {
-                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), "Archivo", rs3.getString("Dirección"));
+                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), "Archivo", rs3.getString("Dirección"), nickname, rs2.getString("Nombre"));
                         al.AddTema(t);
                     }
                     rs3.close();
@@ -233,7 +234,7 @@ public class DBUsuario {
                 ResultSet rs2 = st2.executeQuery();
                 while (rs2.next()) {
                     boolean privada;
-                    if (rs2.getInt("Privada") == 1) {
+                    if (rs2.getInt("Privada") == 0) {
                         privada = true;
                     } else {
                         privada = false;
@@ -1524,6 +1525,103 @@ public class DBUsuario {
         } catch (SQLException ex) {
             ex.printStackTrace();
             return 0;
+        }
+    }
+    public void EliminarFavorito(int tipo, int id, String cliente){
+        if (tipo==0){
+            try{
+            PreparedStatement statement = conexion.prepareStatement("DELETE FROM favtema WHERE Cliente='" + cliente + "' AND IdTema='" + id + "'");
+            statement.executeUpdate();
+            statement.close();
+            }
+            catch (SQLException ex) {
+            ex.printStackTrace();
+            }
+        }
+        if (tipo==1){
+            try{
+            PreparedStatement statement = conexion.prepareStatement("DELETE FROM favalbum WHERE Cliente='" + cliente + "' AND IdAlbum='" + id + "'");
+            statement.executeUpdate();
+            statement.close();
+            }
+            catch (SQLException ex) {
+            ex.printStackTrace();
+            }
+        }
+        if (tipo==2){
+            try{
+            PreparedStatement statement = conexion.prepareStatement("DELETE FROM favlistap WHERE Cliente='" + cliente + "' AND IdLista='" + id + "'");
+            statement.executeUpdate();
+            statement.close();
+            }
+            catch (SQLException ex) {
+            ex.printStackTrace();
+            }
+        }
+        if (tipo==3){
+            try{
+            PreparedStatement statement = conexion.prepareStatement("DELETE FROM favlistapd WHERE Cliente='" + cliente + "' AND IdLista='" + id + "'");
+            statement.executeUpdate();
+            statement.close();
+            }
+            catch (SQLException ex) {
+            ex.printStackTrace();
+            }
+        }
+    }
+    
+    public void InsertarFavorito(int tipo, String nick, int id){
+        if (tipo==0){
+            try{
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO favtema "
+                    + "(Cliente, IdTema) values(?,?)");
+            statement.setString(1, nick);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            statement.close();
+            }
+            catch (SQLException ex) {
+            ex.printStackTrace();
+            }
+        }
+        if (tipo==1){
+            try{
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO favalbum "
+                    + "(Cliente, IdAlbum) values(?,?)");
+            statement.setString(1, nick);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            statement.close();
+            }
+            catch (SQLException ex) {
+            ex.printStackTrace();
+            }
+        }
+        if (tipo==2){
+            try{
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO favlistap "
+                    + "(Cliente, IdLista) values(?,?)");
+            statement.setString(1, nick);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            statement.close();
+            }
+            catch (SQLException ex) {
+            ex.printStackTrace();
+            }
+        }
+        if (tipo==3){
+            try{
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO favlistapd "
+                    + "(Cliente, IdLista) values(?,?)");
+            statement.setString(1, nick);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            statement.close();
+            }
+            catch (SQLException ex) {
+            ex.printStackTrace();
+            }
         }
     }
 
