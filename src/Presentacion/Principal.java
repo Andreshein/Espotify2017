@@ -66,6 +66,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu12 = new javax.swing.JMenu();
         jMenu13 = new javax.swing.JMenu();
         escritorio = new javax.swing.JDesktopPane();
+        fondoLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -128,15 +129,17 @@ public class Principal extends javax.swing.JFrame {
         escritorio.setBackground(new java.awt.Color(255, 255, 255));
         escritorio.setPreferredSize(new java.awt.Dimension(645, 421));
 
+        escritorio.setLayer(fondoLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 645, Short.MAX_VALUE)
+            .addComponent(fondoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 417, Short.MAX_VALUE)
+            .addComponent(fondoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
         );
 
         jMenuBar1.setPreferredSize(new java.awt.Dimension(445, 21));
@@ -437,6 +440,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem agregarTemaListaMenuItem;
     private javax.swing.JMenuItem dseguir;
     private javax.swing.JDesktopPane escritorio;
+    private javax.swing.JLabel fondoLabel;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;

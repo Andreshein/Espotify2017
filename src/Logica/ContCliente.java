@@ -159,7 +159,7 @@ public class ContCliente implements IcontCliente {
             String extension = aux[1];
 
             //Ruta donde se va a copiar el archivo de imagen
-            String rutaDestino = "Imagenes/Clientes/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+            String rutaDestino = "Imagenes/Clientes/"+nickname+"/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
             //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
             if(copiarImagenAlServidor(Img, rutaDestino) == true){
@@ -299,7 +299,7 @@ public class ContCliente implements IcontCliente {
     public void crearListaPD(String Genero, String nombre, ImageIcon imagen) {
         Genero g = null;
         this.genero = this.art.getGenero(Genero);
-        this.lista = new PorDefecto(0, g, nombre);
+        this.lista = new PorDefecto(0, g, nombre, null);
     }
 
     

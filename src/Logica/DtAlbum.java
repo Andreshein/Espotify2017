@@ -6,6 +6,7 @@
 package Logica;
 
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -16,13 +17,14 @@ public class DtAlbum {
     private final String nombreArtista;
     private final int anio;
     private final ArrayList<DtTema> temas;
-    //falta implementar Imagen
+    private final ImageIcon imagen;
 
-    public DtAlbum(String nombre, String nombreArtista, int anio, ArrayList<DtTema> temas) {
+    public DtAlbum(String nombre, String nombreArtista, int anio, ArrayList<DtTema> temas, ImageIcon imagen) {
         this.nombre = nombre;
         this.nombreArtista = nombreArtista;
         this.anio = anio;
         this.temas = temas;
+        this.imagen = imagen;
     }
 
     
@@ -41,6 +43,10 @@ public class DtAlbum {
 
     public ArrayList<DtTema> getTemas() {
         return temas;
+    }
+
+    public ImageIcon getImagen() {
+        return imagen;
     }
     
 }

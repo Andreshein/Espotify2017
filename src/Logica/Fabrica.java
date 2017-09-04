@@ -65,11 +65,10 @@ public class Fabrica {
             g.setPadre(generos.get(db.getNombreGenero(g.getidpadre())));
             for (PorDefecto pd : g.getListas().values()) {
                 ArrayList<String[]> temas = db.getTemasListaPD(pd.getId());
-                for (int i = 0; i < temas.size(); i++) {
-                    String[] o = temas.get(i);
-                    Artista a = artistas.get((String)o[2]);
-                    Album al = a.getAlbumes().get((String)o[1]);
-                    pd.setTema(al.getTema((String) o[0]));
+                for (String[] tema: temas) {
+                    Artista a = artistas.get(tema[2]);
+                    Album al = a.getAlbumes().get(tema[1]);
+                    pd.setTema(al.getTema(tema[0]));
                 }
             }
             ArrayList<String[]> albumes = db.getGeneroAlbum(g.getid());
@@ -91,11 +90,10 @@ public class Fabrica {
                 c.setFavAlbum(al);
             }
             ArrayList<String[]> temas = db.getFTemas(c.getNickname());
-            for (int i = 0; i < temas.size(); i++) {
-                String[] o = temas.get(i);
-                Artista a = artistas.get((String)o[2]);
-                Album al = a.getAlbumes().get((String)o[1]);
-                c.setFavTema(al.getTema((String) o[0]));
+            for (String[] tema: temas) {
+                Artista a = artistas.get(tema[2]);
+                Album al = a.getAlbumes().get(tema[1]);
+                c.setFavTema(al.getTema(tema[0]));
             }
             ArrayList<String[]> listasP = db.getFListasP(c.getNickname());
             for (int i = 0; i < listasP.size(); i++) {

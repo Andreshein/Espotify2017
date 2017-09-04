@@ -5,15 +5,16 @@
  */
 package Logica;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import javax.swing.ImageIcon;
 /**
  *
  * @author ninoh
  */
 public class Album {
-    private int id;
     private String artista;
     private String nombre;
     private int anio;
@@ -28,8 +29,7 @@ public class Album {
         this.temas = new HashMap<>();
         this.generos = new ArrayList();
     }
-    public Album(int id, String artista,String nombre, int anio, String img) {
-        this.id = id;
+    public Album(String artista,String nombre, int anio, String img) {
         this.artista = artista;
         this.nombre = nombre;
         this.anio = anio;
@@ -85,12 +85,16 @@ public class Album {
         this.temas.put(tema.getNombre(), tema);
     }
     
-    public DtAlbum getDatos(String Artista){
-        return new DtAlbum(nombre, Artista, anio, this.getDtTemas()); 
-    }
-    
     public DtAlbum getDatos(){
-        return new DtAlbum(nombre, artista, anio, this.getDtTemas()); 
+        //La imagen es opcinonal, verificar si tiene
+        ImageIcon imagen = null;
+        if(Imagen != null){
+            File archivo = new File(Imagen);
+            String Rutaimagen = archivo.getPath();
+
+            imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
+        }
+        return new DtAlbum(nombre, artista, anio, this.getDtTemas(), imagen); 
     }
     
     public ArrayList<DtTema> getDtTemas(){
@@ -117,10 +121,6 @@ public class Album {
             tema.add(a.getDatos());
         }
         return tema;
-        }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setTemas(HashMap<String, Tema> temas) {
