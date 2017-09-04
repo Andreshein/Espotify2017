@@ -22,7 +22,7 @@ public class ContArtista implements IcontArtista {
     private Map<String, Artista> artistas = null;
     private Map<String, Genero> generos = null;
     private Map<String, PorDefecto> ListasPorDef = null;
-    private DBUsuario dbUsuario=null;
+    private DBUsuario dbUsuario = null;
     private IcontCliente Cli;
 
     public static ContArtista getInstance() {
@@ -38,17 +38,19 @@ public class ContArtista implements IcontArtista {
         this.dbUsuario = new DBUsuario();
         this.ListasPorDef = new HashMap<>();
     }
-    
-    public Map<String, Genero> GetGeneros(){
+
+    public Map<String, Genero> GetGeneros() {
         return this.generos;
     }
 
-    public void SetContCliente(IcontCliente cli){
+    public void SetContCliente(IcontCliente cli) {
         this.Cli = cli;
     }
-    public Map<String, Artista> GetArtistas(){
+
+    public Map<String, Artista> GetArtistas() {
         return this.artistas;
     }
+
     @Override
     public boolean SelectArtista(String nick) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -86,18 +88,17 @@ public class ContArtista implements IcontArtista {
         return a;
 
     }
-    
+
     @Override
-    public ArrayList<DtAlbum> listarAlbumesArtista(String nick){
-	Artista art=(Artista) this.artistas.get(nick);
-	return art.getDtAlbumes();
+    public ArrayList<DtAlbum> listarAlbumesArtista(String nick) {
+        Artista art = (Artista) this.artistas.get(nick);
+        return art.getDtAlbumes();
     }
 
     @Override
-    public ArrayList<DtCliente> listarSeguidores(String nick){
-	return this.Cli.getSeguidores(nick);
+    public ArrayList<DtCliente> listarSeguidores(String nick) {
+        return this.Cli.getSeguidores(nick);
     }
-
 
 //    @Override
 //    public ArrayList <DtGenero> obtenerGenero() {
@@ -110,7 +111,6 @@ public class ContArtista implements IcontArtista {
 ////        return retornar;
 //        
 //    }
-
 //    @Override
 //    public ArrayList <DtArtista> obtenerArtista() {
 ////        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -121,30 +121,29 @@ public class ContArtista implements IcontArtista {
 ////            retornar.add(aux.getDtArtista());}       
 ////        return retornar;
 //    }
-    
-    public ArrayList<DtAlbum> BuscarGenero(String palabra){
-        ArrayList<DtAlbum> retornar=new ArrayList<>();
+    public ArrayList<DtAlbum> BuscarGenero(String palabra) {
+        ArrayList<DtAlbum> retornar = new ArrayList<>();
         Iterator iterator = this.generos.values().iterator();
-        while(iterator.hasNext()) {
-            Genero aux = (Genero)iterator.next();
-            
+        while (iterator.hasNext()) {
+            Genero aux = (Genero) iterator.next();
+
             //Pasa los strings a mayusculas para comparar mejor
             String genero = aux.getNombre().toUpperCase();
             palabra = palabra.toUpperCase();
-            
-            if(genero.startsWith(palabra)){
+
+            if (genero.startsWith(palabra)) {
                 retornar.addAll(aux.getAlbumesGenero());
             }
-        }       
+        }
         return retornar;
-   }
-   
-    public ArrayList <DtAlbum> BuscarArtista(String palabra) {
-        ArrayList<DtAlbum> retornar=new ArrayList<>();
+    }
+
+    public ArrayList<DtAlbum> BuscarArtista(String palabra) {
+        ArrayList<DtAlbum> retornar = new ArrayList<>();
         Iterator iterator = this.artistas.values().iterator();
-        while(iterator.hasNext()) {
-            Artista aux = (Artista)iterator.next();
-            
+        while (iterator.hasNext()) {
+            Artista aux = (Artista) iterator.next();
+
             //Pasa los strings a mayusculas para comparar mejor
             palabra = palabra.toUpperCase();
             String nickname = aux.getNickname().toUpperCase();
@@ -152,19 +151,19 @@ public class ContArtista implements IcontArtista {
             String apellido = aux.getApellido().toUpperCase();
             String nombrecompleto = aux.getNombre() + " " + aux.getApellido();
             nombrecompleto = nombrecompleto.toUpperCase();
-            
-            if(nickname.startsWith(palabra) || nombre.startsWith(palabra) || apellido.contains(palabra) || nombrecompleto.startsWith(palabra)){
-                retornar.addAll(aux.ListarAlbumes());   
+
+            if (nickname.startsWith(palabra) || nombre.startsWith(palabra) || apellido.contains(palabra) || nombrecompleto.startsWith(palabra)) {
+                retornar.addAll(aux.ListarAlbumes());
             }
         }
         return retornar;
     }
 
-    public ArrayList <DtTema> obtenerTema (String artista, String album){
-       Artista art = this.artistas.get(artista);
-       return art.getAlbumes().get(album).getDtTemas();
+    public ArrayList<DtTema> obtenerTema(String artista, String album) {
+        Artista art = this.artistas.get(artista);
+        return art.getAlbumes().get(album).getDtTemas();
     }
-    
+
     @Override
     public void seleccionarAlbum(String nick, String nombre) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -181,22 +180,22 @@ public class ContArtista implements IcontArtista {
     }
 
     @Override
-     public void corregir(String nickname,String nombre,String apellido,String correo,Date fechaNac,ImageIcon imagen){
-         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-     }
-     @Override
-    public boolean IngresarArtista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb, String Img){
-        if(Fabrica.getCliente().verificarDatos(nickname, correo) == false){ // si ya existe un cliente con ese nickname o correo
+    public void corregir(String nickname, String nombre, String apellido, String correo, Date fechaNac, ImageIcon imagen) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean IngresarArtista(String nickname, String nombre, String apellido, String correo, Date fechaNac, String biografia, String paginaWeb, String Img) {
+        if (Fabrica.getCliente().verificarDatos(nickname, correo) == false) { // si ya existe un cliente con ese nickname o correo
             return false;
-        }else{
-            if(this.verificarDatos(nickname, correo) == false){
+        } else {
+            if (this.verificarDatos(nickname, correo) == false) {
                 return false;
             }
         }
-        
+
         //Si no retorno false antes, entonces los datos están bien
-        
-        if(Img != null){
+        if (Img != null) {
             //Divide el string por el punto, tambien elimina el punto
             String[] aux = Img.split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
 
@@ -205,53 +204,54 @@ public class ContArtista implements IcontArtista {
             String extension = aux[1];
 
             //Ruta donde se va a copiar el archivo de imagen
-            String rutaDestino = "Imagenes/Artistas/"+nickname+"/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+            String rutaDestino = "Imagenes/Artistas/" + nickname + "/" + nickname + "." + extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
             //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
             //la funcion ya esta definida en el controlador de cliente porque ahi se usa, entocnces no hay que declararla otra vez en este controlador
-            if(Fabrica.getCliente().copiarImagenAlServidor(Img, rutaDestino) == true){
+            if (Fabrica.getCliente().copiarImagenAlServidor(Img, rutaDestino) == true) {
                 Img = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
-            }else{
+            } else {
                 Img = null; // no se pudo copiar la imagen, queda en null
             }
         }
 
-        Artista a=new Artista(nickname, nombre, apellido, correo, fechaNac, biografia, paginaWeb, Img);
-        boolean ok =this.dbUsuario.agregarArtista(a);
-        if (ok){
+        Artista a = new Artista(nickname, nombre, apellido, correo, fechaNac, biografia, paginaWeb, Img);
+        boolean ok = this.dbUsuario.agregarArtista(a);
+        if (ok) {
             this.artistas.put(nickname, a);
         }
-        
+
         return ok;
     }
-    
-    public void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, Tema> temas, HashMap<String,Genero> generos){
+
+    public void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, Tema> temas, HashMap<String, Genero> generos) {
         int anio2 = Integer.parseInt(anio);
         ArrayList<Genero> l = new ArrayList();
         Set set2 = generos.entrySet();
         Iterator iter = set2.iterator();
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             Map.Entry x = (Map.Entry) iter.next();
-            Genero gen = (Genero)x.getValue();
+            Genero gen = (Genero) x.getValue();
             l.add(gen);
         }
         Album a = new Album(nomartista, nombre, anio2, imagen, temas, l);
         int idalbum = this.dbUsuario.InsertarAlbum(a);
-        for (int i=0;i<l.size();i++)
+        for (int i = 0; i < l.size(); i++) {
             l.get(i).AddAlbum(a);
+        }
         Artista ar = artistas.get(nomartista);
         ar.getAlbumes().put(a.getNombre(), a);
-        for (int i=0;i<a.getGeneros().size();i++){
+        for (int i = 0; i < a.getGeneros().size(); i++) {
             int idg = a.getGeneros().get(i).getid();
-            this.dbUsuario.InsertarGenero_Album(idalbum,idg);
-            }
+            this.dbUsuario.InsertarGenero_Album(idalbum, idg);
+        }
         Set set = a.getTemas().entrySet();
         Iterator it = set.iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             Map.Entry x = (Map.Entry) it.next();
             Tema t = (Tema) x.getValue();
             this.dbUsuario.InsertarTema(idalbum, t);
-        }        
+        }
     }
 
     @Override
@@ -263,62 +263,95 @@ public class ContArtista implements IcontArtista {
     public Artista buscarArtista(String nickname) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.    
     }
-    
+
     public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
         ArrayList<DtUsuario> retornar = new ArrayList<>();
         Iterator iterador = this.artistas.values().iterator();
         while (iterador.hasNext()) {
             Artista aux = (Artista) iterador.next();
             palabra = palabra.toUpperCase();
-                String nick = aux.getNickname().toUpperCase();
-                String nombre = aux.getNombre().toUpperCase();
-                String apellido = aux.getApellido().toUpperCase();
-                String nomAp = aux.getNombre().toUpperCase()+aux.getApellido().toUpperCase();
+            String nick = aux.getNickname().toUpperCase();
+            String nombre = aux.getNombre().toUpperCase();
+            String apellido = aux.getApellido().toUpperCase();
+            String nomAp = aux.getNombre().toUpperCase() + aux.getApellido().toUpperCase();
             if (nick.contains(palabra) == true || nombre.contains(palabra) == true || apellido.contains(palabra) == true || nomAp.contains(palabra) == true) {
                 retornar.add(aux.getDatos());
             }
         }
         return retornar;
     }
-    
-    public Artista BuscarUsuariosA(String nickname) {
-        Iterator iterador = this.artistas.values().iterator();
-        while (iterador.hasNext()) {
-            Artista aux = (Artista) iterador.next();
-            nickname = nickname.toUpperCase();
-                String nick = aux.getNickname().toUpperCase();
-                String nombre = aux.getNombre().toUpperCase();
-                String apellido = aux.getApellido().toUpperCase();
-                String nomAp = aux.getNombre().toUpperCase()+aux.getApellido().toUpperCase();
-            if (nick.contains(nickname) == true || nombre.contains(nickname) == true || apellido.contains(nickname) == true || nomAp.contains(nickname) == true) {
-                return aux;
-            }
+
+    public void AgregarTemaListaG(String nickname, String Album, String Tema, String Genero, String Lista) throws Exception {
+        Artista a = this.artistas.get(nickname);
+        Album al = a.getAlbumes().get(Album);
+        Tema t = al.getTema(Tema);
+        Genero g = this.generos.get(Genero);
+        PorDefecto pd = g.getListas().get(Lista);
+        if (pd.getTemas().contains(t)) {
+            throw new Exception("El tema ya esta en la lista");
         }
-        return null;
+        pd.AddTema(t);
+        this.dbUsuario.agregarTemaListaPD(pd.getId(), t.getNombre(), al.getNombre(), al.getArtista());
+    }
+
+    public void AgregarTemaListaC(String nickname, String Album, String Tema, String Cliente, String Lista) throws Exception {
+        Artista a = this.artistas.get(nickname);
+        Album al = a.getAlbumes().get(Album);
+        Tema t = al.getTema(Tema);
+        Cliente c= this.Cli.BuscarUsuariosC(Cliente);
+        Particular p= c.getListas().get(Lista);
+        if (p.getTemas().contains(t)) {
+            throw new Exception("El tema ya esta en la lista");
+        }
+        p.AddTema(t);
+        this.dbUsuario.agregarTemaListaP(p.getId(), t.getNombre(), al.getNombre(), al.getArtista());
     }
     
-    /*public Album BuscarAlbum(String nombre, String nickname){
-        
-    }*/
-    
+    public void BorrarTemaListaG(String nickname, String Album, String Tema, String Genero, String Lista) throws Exception {
+        Artista a = this.artistas.get(nickname);
+        Album al = a.getAlbumes().get(Album);
+        Tema t = al.getTema(Tema);
+        Genero g = this.generos.get(Genero);
+        PorDefecto pd = g.getListas().get(Lista);
+        if (!pd.getTemas().contains(t)) {
+            throw new Exception("El tema no esta en la lista");
+        }
+        pd.getTemas().remove(t);
+        this.dbUsuario.BorrarTemaListaPD(pd.getId(), t.getNombre(), al.getNombre(), al.getArtista());
+    }
+
+    public void BorrarTemaListaC(String nickname, String Album, String Tema, String Cliente, String Lista) throws Exception {
+        Artista a = this.artistas.get(nickname);
+        Album al = a.getAlbumes().get(Album);
+        Tema t = al.getTema(Tema);
+        Cliente c= this.Cli.BuscarUsuariosC(Cliente);
+        Particular p= c.getListas().get(Lista);
+        if (!p.getTemas().contains(t)) {
+            throw new Exception("El tema no esta en la lista");
+        }
+        p.getTemas().remove(t);
+        this.dbUsuario.BorrarTemaListaP(p.getId(), t.getNombre(), al.getNombre(), al.getArtista());
+    }
+
     public Usuario seleccionarUsuario(String Nickname) {
         return (Usuario) this.artistas.get(Nickname);
     }
-    
-    public DtGenero listarGArbol(){
+
+    public DtGenero listarGArbol() {
         Genero g = this.generos.get("Género");
         return g.getDatos(this.buscaHijos(g.getNombre()));
     }
-    
-    private ArrayList<DtGenero> buscaHijos(String nombre){
+
+    private ArrayList<DtGenero> buscaHijos(String nombre) {
         ArrayList<DtGenero> a = new ArrayList<>();
         Iterator it = this.generos.values().iterator();
-        while(it.hasNext()){
-            Genero g = (Genero)it.next();
-            if(g.getPadre()!= null)
-            if(g.getPadre().getNombre().equals(nombre)){
-                DtGenero dtg = g.getDatos(this.buscaHijos(g.getNombre()));
-                a.add(dtg);
+        while (it.hasNext()) {
+            Genero g = (Genero) it.next();
+            if (g.getPadre() != null) {
+                if (g.getPadre().getNombre().equals(nombre)) {
+                    DtGenero dtg = g.getDatos(this.buscaHijos(g.getNombre()));
+                    a.add(dtg);
+                }
             }
         }
         return a;
@@ -331,83 +364,85 @@ public class ContArtista implements IcontArtista {
     public void setGenero(HashMap<String, Genero> generos) {
         this.generos = generos;
     }
-    
+
     @Override
     public List<DtArtista> BuscarArtistas(String nombre) {
-        List<DtArtista> retornar=new ArrayList<>();
+        List<DtArtista> retornar = new ArrayList<>();
         Set set = artistas.entrySet();
         Iterator iterator = set.iterator();
-        while(iterator.hasNext()) {
-            Map.Entry mentry = (Map.Entry)iterator.next();
-            Artista aux=(Artista) mentry.getValue();     
-            if (aux.getNickname().toUpperCase().startsWith(nombre.toUpperCase())){
+        while (iterator.hasNext()) {
+            Map.Entry mentry = (Map.Entry) iterator.next();
+            Artista aux = (Artista) mentry.getValue();
+            if (aux.getNickname().toUpperCase().startsWith(nombre.toUpperCase())) {
                 retornar.add(aux.GetDtArtista());
             }
-        }       
+        }
         return retornar;
     }
 
     @Override
     public ArrayList<DtListaPD> ListarListaPD() {
         ArrayList<DtListaPD> retorno = new ArrayList<DtListaPD>();
-        for(Genero g : this.generos.values()){
+        for (Genero g : this.generos.values()) {
             retorno.addAll(g.getDtListas());
         }
         return retorno;
     }
+
     @Override
     public ArrayList<DtAlbum> ListarAlbum() {
         ArrayList<DtAlbum> al = new ArrayList<DtAlbum>();
-        for(Artista a:this.artistas.values()){
-          al.addAll(a.getDtAlbumes());
+        for (Artista a : this.artistas.values()) {
+            al.addAll(a.getDtAlbumes());
         }
         return al;
     }
-   
-    
-    public Genero getGenero(String nombre){
+
+    public Genero getGenero(String nombre) {
         return this.generos.get(nombre);
     }
-    
+
     @Override
-    public ArrayList<DtTema> listarTemasListaPD(String listaPD,String nombreG){
-	Genero g=(Genero) this.generos.get(nombreG);
-        PorDefecto pd= g.getListas().get(listaPD);
+    public ArrayList<DtTema> listarTemasListaPD(String listaPD, String nombreG) {
+        Genero g = (Genero) this.generos.get(nombreG);
+        PorDefecto pd = g.getListas().get(listaPD);
         return pd.getDtTemas();
     }
+
     @Override
-    public ArrayList<DtTema> listarTemasListaA(String nickname,String nombre){
-	Artista a=(Artista) this.artistas.get(nickname);
-        Album al= (Album) a.getAlbumes().get(nombre);
+    public ArrayList<DtTema> listarTemasListaA(String nickname, String nombre) {
+        Artista a = (Artista) this.artistas.get(nickname);
+        Album al = (Album) a.getAlbumes().get(nombre);
         return al.getDtTemas();
     }
-    
+
     @Override
-    public ArrayList<DtGenero> listarGeneros(String nombreG){
-        ArrayList<DtGenero> resultado= new ArrayList<>();
-        for(Genero g:this.generos.values()){
-            if(g.getNombre().contains(nombreG))
+    public ArrayList<DtGenero> listarGeneros(String nombreG) {
+        ArrayList<DtGenero> resultado = new ArrayList<>();
+        for (Genero g : this.generos.values()) {
+            if (g.getNombre().contains(nombreG)) {
                 resultado.add(g.getDatos(resultado));
+            }
         }
-        
+
         return resultado;
     }
-    
+
     @Override
-    public boolean verificarDatos(String nickname, String correo){
+    public boolean verificarDatos(String nickname, String correo) {
         for (Artista art : this.artistas.values()) {
-            if(art.getNickname().equals(nickname)){
+            if (art.getNickname().equals(nickname)) {
                 return false; // nickname ya existe, repetido
             }
-            
-            if(art.getCorreo().equals(correo)){
+
+            if (art.getCorreo().equals(correo)) {
                 return false; //correo ya existe, repetido
             }
         }
-        
+
         //Si no retornó false dentro del for, entonces los datos estan bien
         return true;
     }
 
- 
+    
 }

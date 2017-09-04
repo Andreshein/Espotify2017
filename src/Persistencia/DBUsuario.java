@@ -72,10 +72,9 @@ public class DBUsuario {
             return false;
         }
     }
-    
-    
-    public boolean agregarTema(DtListaP l){
-        try {  
+
+    public boolean agregarTema(DtListaP l) {
+        try {
             PreparedStatement statement = conexion.prepareStatement("SELECT usuario, nombre FROM  listaparticular ");
             statement.setString(1, l.getUsuario());
             statement.setString(1, l.getNombre());
@@ -107,30 +106,28 @@ public class DBUsuario {
             return null;
 	}
     }*/
-
-    public DtArtista obtenerInfoArtista(String clave){
-	try{
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE Nickname = '"+clave+"'");
-	    ResultSet rs = st.executeQuery();
-	    DtArtista art;
-            while(rs.next()){
-            art=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);
-            return art;
+    public DtArtista obtenerInfoArtista(String clave) {
+        try {
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE Nickname = '" + clave + "'");
+            ResultSet rs = st.executeQuery();
+            DtArtista art;
+            while (rs.next()) {
+                art = new DtArtista(rs.getString("Nickname"), rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), null, rs.getString("Biografia"), rs.getString("PagWeb"), 0, null, null);
+                return art;
             }
-        return null;    
-            
-                
-            
-        }catch(SQLException ex){
+            return null;
+
+        } catch (SQLException ex) {
             ex.printStackTrace();
-            return null;	
-        }   
-        
+            return null;
+        }
+
     }
-    public int InsertarAlbum(Album a){
+
+    public int InsertarAlbum(Album a) {
         int idalbum = -1;
         try {
-            PreparedStatement st = conexion.prepareStatement("INSERT INTO album (Artista,Nombre,Anio,Imagen) values(?,?,?,?)");          
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO album (Artista,Nombre,Anio,Imagen) values(?,?,?,?)");
             st.setString(1, a.getArtista());
             st.setString(2, a.getNombre());
             st.setInt(3, a.getAño());
@@ -140,24 +137,24 @@ public class DBUsuario {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        try{
+        try {
             PreparedStatement st = conexion.prepareStatement("SELECT max(Id) as id FROM espotify.album ;");
-            ResultSet rs=st.executeQuery();
-            while (rs.next()){
-                idalbum=rs.getInt("id");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                idalbum = rs.getInt("id");
             }
             rs.close();
             st.close();
             return idalbum;
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
             return idalbum;
         }
     }
-    public void InsertarGenero_Album(int idalbum, int idgenero){
+
+    public void InsertarGenero_Album(int idalbum, int idgenero) {
         try {
-            PreparedStatement st = conexion.prepareStatement("INSERT INTO generosalbum (idAlbum, idGenero) values(?,?)");          
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO generosalbum (idAlbum, idGenero) values(?,?)");
             st.setInt(1, idalbum);
             st.setInt(2, idgenero);
             st.executeUpdate();
@@ -166,9 +163,10 @@ public class DBUsuario {
             ex.printStackTrace();
         }
     }
-    public void InsertarTema(int idalbum, Tema t){
+
+    public void InsertarTema(int idalbum, Tema t) {
         try {
-            PreparedStatement st = conexion.prepareStatement("INSERT INTO tema (IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?)");          
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO tema (IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?)");
             st.setInt(1, idalbum);
             st.setString(2, t.getDuracion());
             st.setString(3, t.getNombre());
@@ -181,15 +179,15 @@ public class DBUsuario {
             ex.printStackTrace();
         }
     }
-    
-    public Map<String, Artista> cargarArtistas(){
+
+    public Map<String, Artista> cargarArtistas() {
         try {
-            Map<String, Artista> lista=new HashMap<String, Artista>();
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");          
-            ResultSet rs=st.executeQuery();
-            while (rs.next()){
-                String nickname=rs.getString("Nickname");
-                Artista a=new Artista(nickname,rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),rs.getString("Biografia"),rs.getString("Pagweb"),rs.getString("Imagen"));
+            Map<String, Artista> lista = new HashMap<String, Artista>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                String nickname = rs.getString("Nickname");
+                Artista a = new Artista(nickname, rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), rs.getString("Biografia"), rs.getString("Pagweb"), rs.getString("Imagen"));
                 lista.put(nickname, a);
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM album WHERE Artista='" + nickname + "'");
                 ResultSet rs2 = st2.executeQuery();
@@ -226,7 +224,7 @@ public class DBUsuario {
             while (rs.next()) {
                 String nickname = rs.getString("Nickname");
                 java.util.Date fechaN = new java.util.Date(rs.getDate("FechaNac").getTime()); // convertir el Date de sql al Date utilizado en java
-                System.out.println("-----> fecha util.Date: "+fechaN);
+                System.out.println("-----> fecha util.Date: " + fechaN);
                 Cliente c = new Cliente(nickname, rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), fechaN, rs.getString("Imagen"));
                 lista.put(nickname, c);
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM listaparticular WHERE Usuario='" + nickname + "'");
@@ -350,11 +348,11 @@ public class DBUsuario {
         try {
             for (int i = 0; i < 12; i++) {
                 //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
-                
+
                 //En pricipio esta en null, pero si el artista tiene una imagen se copia y se le setea la ruta de la copia de imagen 
                 String rutaImagen = null;
-                
-                if(ImagenArtistas[i] != null){
+
+                if (ImagenArtistas[i] != null) {
                     //Divide el string por el punto, tambien elimina el punto
                     String[] aux = ImagenArtistas[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
 
@@ -364,18 +362,18 @@ public class DBUsuario {
 
                     //Ruta del archvio de origen(en la capeta DatosDePrueba)
                     String rutaOrigen = ImagenArtistas[i];
-                    
-                    //Ruta donde se va a copiar el archivo de imagen
-                    String rutaDestino = "Imagenes/Artistas/"+NickArtistas0[i]+"/"+NickArtistas0[i]+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
-                    if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false){
+                    //Ruta donde se va a copiar el archivo de imagen
+                    String rutaDestino = "Imagenes/Artistas/" + NickArtistas0[i] + "/" + NickArtistas0[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+
+                    if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
                         rutaImagen = null; // no se pudo copiar la imagen, queda en null
-                    }else{
+                    } else {
                         rutaImagen = rutaDestino;
                     }
-                    
+
                 }
-                
+
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
                         + "(Nickname, Nombre, Apellido, Correo, FechaNac, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?)");
                 statement.setString(1, NickArtistas0[i]);
@@ -401,7 +399,7 @@ public class DBUsuario {
         try {
             for (int i = 0; i < 8; i++) {
                 //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
-                
+
                 //Divide el string por el punto, tambien elimina el punto
                 String[] aux = ImagenClientes[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
 
@@ -410,16 +408,14 @@ public class DBUsuario {
                 String extension = aux[1];
 
                 String rutaOrigen = (ImagenClientes[i]);
-                
-                
-                //Ruta donde se va a copiar el archivo de imagen
-                String rutaDestino = "Imagenes/Clientes/"+NickClientes[i]+"/"+NickClientes[i]+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
-                if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
+                //Ruta donde se va a copiar el archivo de imagen
+                String rutaDestino = "Imagenes/Clientes/" + NickClientes[i] + "/" + NickClientes[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+
+                if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
                     rutaDestino = null; // no se pudo copiar la imagen, queda en null
                 }
-                 
-                
+
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                         + "(Nickname, Nombre, Apellido, Correo, FechaNac, Imagen) values(?,?,?,?,?,?)");
                 statement.setString(1, NickClientes[i]);
@@ -764,13 +760,13 @@ public class DBUsuario {
         try {
             int x = 1;
             int j = 0;
-            for (int i = 0; i < 13; i++) {                
+            for (int i = 0; i < 13; i++) {
                 //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
-                
+
                 //En pricipio esta en null, pero si el album tiene una imagen se copia y se le setea la ruta de la copia de imagen 
                 String rutaImagen = null;
-                
-                if(ImagenAlbum[i] != null){
+
+                if (ImagenAlbum[i] != null) {
                     //Divide el string por el punto, tambien elimina el punto
                     String[] aux = ImagenAlbum[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
 
@@ -780,18 +776,18 @@ public class DBUsuario {
 
                     //Ruta del archvio de origen(en la capeta DatosDePrueba)
                     String rutaOrigen = ImagenAlbum[i];
-                    
-                    //Ruta donde se va a copiar el archivo de imagen
-                    String rutaDestino = "Imagenes/Artistas/"+NickArtistas0[j]+"/Albumes/"+NombreAlbum[i]+"."+extension; // se le agrega el punto(.) porque la hacer el split se borra
 
-                    if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false){
+                    //Ruta donde se va a copiar el archivo de imagen
+                    String rutaDestino = "Imagenes/Artistas/" + NickArtistas0[j] + "/Albumes/" + NombreAlbum[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split se borra
+
+                    if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
                         rutaImagen = null; // no se pudo copiar la imagen, queda en null
-                    }else{
+                    } else {
                         rutaImagen = rutaDestino;
                     }
-                    
+
                 }
-                
+
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO album "
                         + "(Id, Artista, Nombre, Anio, Imagen) values(?,?,?,?,?)");
                 statement.setInt(1, x);
@@ -993,21 +989,21 @@ public class DBUsuario {
                 if (x == 20) {
                     j++;
                 }
-                
+
                 String rutaArchivo = null;
-                
+
                 //Si el tema tiene archivo
-                if(Archivotema[i] != null){
-                    String rutaOrigen = "DatosDePrueba/"+Archivotema[i];
+                if (Archivotema[i] != null) {
+                    String rutaOrigen = "DatosDePrueba/" + Archivotema[i];
                     String rutaDestino = Archivotema[i];
-                    
+
                     //Si se pudo copiar la imagen correctamente
-                    if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true){
+                    if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                         rutaArchivo = rutaDestino;
                     }
-                    
+
                 }
-                
+
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO tema "
                         + "(Id, IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?,?)");
                 statement.setInt(1, x);
@@ -1026,17 +1022,17 @@ public class DBUsuario {
         }
         try {
             ///// Listas Por Defecto /////
-            
-            String rutaArchivo = null;                
-            
+
+            String rutaArchivo = null;
+
             String rutaOrigen = "DatosDePrueba/Imagenes/laNocheNostalgia.jpg";
             String rutaDestino = "Imagenes/ListasPorDef/laNocheNostalgia.jpg";
 
             //Si se pudo copiar la imagen correctamente
-            if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true){
+            if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                 rutaArchivo = rutaDestino;
             }
-            
+
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO listapordefecto "
                     + "(Id, Genero, Nombre, Imagen) values(?,?,?,?)");
             statement.setInt(1, 1);
@@ -1045,7 +1041,7 @@ public class DBUsuario {
             statement.setString(4, rutaArchivo);
             statement.executeUpdate();
             statement.close();
-            
+
             /////
             PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO listapordefecto "
                     + "(Id, Genero, Nombre, Imagen) values(?,?,?,?)");
@@ -1055,18 +1051,18 @@ public class DBUsuario {
             statement1.setString(4, null);
             statement1.executeUpdate();
             statement1.close();
-            
+
             /////
-            rutaArchivo = null;                
-            
+            rutaArchivo = null;
+
             rutaOrigen = "DatosDePrueba/Imagenes/musicaClasica.jpg";
             rutaDestino = "Imagenes/ListasPorDef/musicaClasica.jpg";
 
             //Si se pudo copiar la imagen correctamente
-            if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true){
+            if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                 rutaArchivo = rutaDestino;
             }
-            
+
             PreparedStatement statement2 = conexion.prepareStatement("INSERT INTO listapordefecto "
                     + "(Id, Genero, Nombre, Imagen) values(?,?,?,?)");
             statement2.setInt(1, 3);
@@ -1075,19 +1071,18 @@ public class DBUsuario {
             statement2.setString(4, rutaArchivo);
             statement2.executeUpdate();
             statement2.close();
-            
+
             ///// Listas Particulares /////
-            
-            rutaArchivo = null;                
-            
+            rutaArchivo = null;
+
             rutaOrigen = "DatosDePrueba/Imagenes/musicInspiradora.jpg";
             rutaDestino = "Imagenes/Clientes/el_padrino/Listas/Música Inspiradora.jpg";
 
             //Si se pudo copiar la imagen correctamente
-            if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true){
+            if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                 rutaArchivo = rutaDestino;
             }
-            
+
             PreparedStatement statement3 = conexion.prepareStatement("INSERT INTO listaparticular "
                     + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
             statement3.setInt(1, 1);
@@ -1097,7 +1092,7 @@ public class DBUsuario {
             statement3.setString(5, rutaArchivo);
             statement3.executeUpdate();
             statement3.close();
-            
+
             /////
             PreparedStatement statement4 = conexion.prepareStatement("INSERT INTO listaparticular "
                     + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
@@ -1108,18 +1103,18 @@ public class DBUsuario {
             statement4.setString(5, null);
             statement4.executeUpdate();
             statement4.close();
-            
+
             /////
-            rutaArchivo = null;                
-            
+            rutaArchivo = null;
+
             rutaOrigen = "DatosDePrueba/Imagenes/ParaCocinar.jpg";
             rutaDestino = "Imagenes/Clientes/Heisenberg/Listas/Para Cocinar.jpg";
 
             //Si se pudo copiar la imagen correctamente
-            if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true){
+            if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                 rutaArchivo = rutaDestino;
             }
-            
+
             PreparedStatement statement5 = conexion.prepareStatement("INSERT INTO listaparticular "
                     + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
             statement5.setInt(1, 3);
@@ -1129,7 +1124,7 @@ public class DBUsuario {
             statement5.setString(5, rutaArchivo);
             statement5.executeUpdate();
             statement5.close();
-            
+
             /////
             PreparedStatement statement6 = conexion.prepareStatement("INSERT INTO listaparticular "
                     + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
@@ -1140,19 +1135,18 @@ public class DBUsuario {
             statement6.setString(5, null);
             statement6.executeUpdate();
             statement6.close();
-            
+
             /////
-            
-            rutaArchivo = null;                
-            
+            rutaArchivo = null;
+
             rutaOrigen = "DatosDePrueba/Imagenes/Fiesteras.jpg";
             rutaDestino = "Imagenes/Clientes/cbochinche/Listas/Fiesteras.jpg";
 
             //Si se pudo copiar la imagen correctamente
-            if(copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true){
+            if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                 rutaArchivo = rutaDestino;
             }
-            
+
             PreparedStatement statement7 = conexion.prepareStatement("INSERT INTO listaparticular "
                     + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
             statement7.setInt(1, 5);
@@ -1162,7 +1156,7 @@ public class DBUsuario {
             statement7.setString(5, rutaArchivo);
             statement7.executeUpdate();
             statement7.close();
-            
+
             /////
             PreparedStatement statement8 = conexion.prepareStatement("INSERT INTO listaparticular "
                     + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
@@ -1586,7 +1580,7 @@ public class DBUsuario {
             st.close();
             st = conexion.prepareStatement("SELECT max(id) as id from listaparticular");
             ResultSet rs = st.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 id = rs.getInt("id");
             }
             return id;
@@ -1605,7 +1599,7 @@ public class DBUsuario {
             st.close();
             st = conexion.prepareStatement("SELECT max(id) as id from listapordefecto");
             ResultSet rs = st.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 id = rs.getInt("id");
             }
             return id;
@@ -1614,42 +1608,110 @@ public class DBUsuario {
             return 0;
         }
     }
-    
-    public void publicarLista(String nickname, String nombreLista){
+
+    public void publicarLista(String nickname, String nombreLista) {
         try {
 //            PreparedStatement sentencia = conexion.prepareStatement("UPDATE listaparticular " + "SET privada = ?" + "WHERE Usuario = '" + nickname + "'");
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE listaparticular " + "SET Privada = ? WHERE Usuario = ? AND Nombre = ?");
             sentencia.setBoolean(1, false); // el 1 indica el numero de "?" en la sentencia
-            sentencia.setString(2, nickname); 
-            sentencia.setString(3, nombreLista); 
+            sentencia.setString(2, nickname);
+            sentencia.setString(3, nombreLista);
             sentencia.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
-    public boolean copiarArchivoAlServidor(String rutaOrigenArchivo, String rutaDestino){
+
+    public boolean copiarArchivoAlServidor(String rutaOrigenArchivo, String rutaDestino) {
         try {
             File archivoOrigen = new File(rutaOrigenArchivo);
-            
+
             //Archivo de destino
             File dest = new File(rutaDestino);
-            
+
             //Crea las carpetas en donde va a ser guardado el archivo si no estaban creadas todavia
             dest.getParentFile().mkdirs();
-            
+
             //Crea el archivo auxiliar primero para despues sobreescribirlo, sino da error
             dest.createNewFile();
-            
+
             //Copiar el archivo seleccionado al destino
             Files.copy(archivoOrigen.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            
+
             return true; // Se pudo copiar el archivo correctamente
         } catch (IOException ex) {
             Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);
-        
+
             return false; // Error, no se pudo copiar el archivo
+        }
+    }
+
+    public void agregarTemaListaP(int lista, String tema, String album, String nickname) {
+        try {
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO temalistapd VALUES (" + lista + "," + this.getIdTema(tema, album, nickname) + ")");
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("error tema lista bd");
+        }
+    }
+
+    public void agregarTemaListaPD(int lista, String tema, String album, String nickname) {
+        try {
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO temalistapd VALUES (" + lista + "," + this.getIdTema(tema, album, nickname) + ")");
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("error tema lista bd");
+        }
+    }
+
+    public void BorrarTemaListaP(int lista, String tema, String album, String nickname) {
+        try {
+            PreparedStatement st = conexion.prepareStatement("DELETE FROM temalistap WHERE IdLista=" + lista + " and IdTema=" + this.getIdTema(tema, album, nickname));
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("error tema lista bd");
+        }
+    }
+
+    public void BorrarTemaListaPD(int lista, String tema, String album, String nickname) {
+        try {
+            PreparedStatement st = conexion.prepareStatement("DELETE FROM temalistapd WHERE IdLista=" + lista + " and IdTema=" + this.getIdTema(tema, album, nickname));
+            st.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("error tema lista bd");
+        }
+    }
+
+
+    private int getIdTema(String nombre, String album, String nickname) {
+        try {
+            int id = 0;
+            PreparedStatement st;
+            st = conexion.prepareStatement("SELECT Id from tema where Nombre='"+ nombre +"' and IdAlbum="+ this.getIdAlbum(album, nickname));
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("Id");
+            }
+            return id;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return 0;
+        }
+    }
+    
+    private int getIdAlbum(String nombre, String nickname) {
+        try {
+            int id = 0;
+            PreparedStatement st;
+            st = conexion.prepareStatement("SELECT Id from album where Nombre='"+ nombre +"' and Artista = '"+nickname+"'");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("Id");
+            }
+            return id;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return 0;
         }
     }
 
