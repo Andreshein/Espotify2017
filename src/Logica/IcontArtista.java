@@ -28,8 +28,11 @@ public interface IcontArtista {
     public abstract ArrayList<DtArtista> ListarArtistas(); 
 //    public abstract ArrayList<DtArtista> obtenerArtista();
 //    public abstract ArrayList<DtGenero> obtenerGenero(); //set(DtGenero);
-    public abstract ArrayList<DtAlbum> BuscarGenero(String palabra);
-    public abstract ArrayList<DtAlbum> BuscarArtista(String palabra);
+//    public abstract ArrayList<DtAlbum> BuscarGenero(String palabra);
+    public abstract ArrayList<String> BuscarGenero(String palabra);
+    public abstract ArrayList<DtAlbum> listarAlbumGenero(String genero);
+    public abstract ArrayList<DtArtista> BuscarArtista(String palabra);
+    public abstract void descargarArchivo(String rutaArchivo, String rutaDestino);
     public abstract ArrayList <DtTema> obtenerTema (String artista, String album);
     public abstract void seleccionarAlbum(String nick,String nombre);
     public abstract DtAlbum mostrarAlbum(); //DtAlbum

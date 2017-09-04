@@ -18,13 +18,15 @@ public class DtAlbum {
     private final int anio;
     private final ArrayList<DtTema> temas;
     private final ImageIcon imagen;
+    private final ArrayList<String> generos;
 
-    public DtAlbum(String nombre, String nombreArtista, int anio, ArrayList<DtTema> temas, ImageIcon imagen) {
+    public DtAlbum(String nombre, String nombreArtista, int anio, ArrayList<DtTema> temas, ImageIcon imagen, ArrayList<String> generos) {
         this.nombre = nombre;
         this.nombreArtista = nombreArtista;
         this.anio = anio;
         this.temas = temas;
         this.imagen = imagen;
+        this.generos=generos;
     }
 
     
@@ -47,6 +49,10 @@ public class DtAlbum {
 
     public ImageIcon getImagen() {
         return imagen;
+    }
+
+    public ArrayList<String> getGeneros() {
+        return generos;
     }
     
 }

@@ -162,7 +162,7 @@ public class ContCliente implements IcontCliente {
             String rutaDestino = "Imagenes/Clientes/"+nickname+"/"+nickname+"."+extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
             //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
-            if(copiarImagenAlServidor(Img, rutaDestino) == true){
+            if(copiarArchivo(Img, rutaDestino) == true){
                 Img = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
             }else{
                 Img = null; // no se pudo copiar la imagen, queda en null
@@ -338,7 +338,7 @@ public class ContCliente implements IcontCliente {
     }
     
     /////
-    public boolean copiarImagenAlServidor(String rutaOrigenArchivo, String rutaDestino){
+    public boolean copiarArchivo(String rutaOrigenArchivo, String rutaDestino){
         try {
             File archivoOrigen = new File(rutaOrigenArchivo);
             

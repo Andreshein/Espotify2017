@@ -102,6 +102,11 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
 
         jButton2.setText("Cancelar");
 
+        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList2MouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(jList2);
 
         jLabel2.setText("Lista a agregar Tema: ");
@@ -392,6 +397,10 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
         modelo.addRow(dat);
         }
     }//GEN-LAST:event_TablaAlbumMouseClicked
+
+    private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jList2MouseClicked
 
     public void centrar(){
         //este metodo devuelve el tamaÃ±o de la pantalla

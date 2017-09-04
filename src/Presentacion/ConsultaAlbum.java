@@ -31,6 +31,7 @@ import static javax.xml.bind.DatatypeConverter.parseInteger;
 public class ConsultaAlbum extends javax.swing.JInternalFrame {
 
     private IcontArtista Art;
+    ArrayList<DtAlbum> al = new ArrayList<>();
     /**
      * Creates new form ConsultaAlbum
      */
@@ -39,6 +40,7 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         this.Art=Fabrica.getArtista(); 
         setTitle("Consulta Álbum"); // nombre de la ventana
         setResizable(false);
+        buscarTipo("Género");
     }
 
     /**
@@ -53,17 +55,29 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         combo = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         btBuscar = new javax.swing.JButton();
-        Img = new javax.swing.JLabel();
         jSplitPane1 = new javax.swing.JSplitPane();
         Nombre = new javax.swing.JLabel();
         txnombre = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablap = new javax.swing.JTable();
-        btBuscar1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablap1 = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        Img = new javax.swing.JLabel();
+        botonDescargar = new javax.swing.JButton();
+        rutaDestino = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablap = new javax.swing.JTable();
+        btBuscar1 = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        listaGenerosAlbum = new javax.swing.JList<>();
+        jPanel1 = new javax.swing.JPanel();
+        contenedor = new javax.swing.JPanel();
+        PanelArtistas = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tablaArtista = new javax.swing.JTable();
+        PanelGeneros = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        listaGeneros = new javax.swing.JList<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -89,8 +103,6 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
             }
         });
 
-        Img.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         jSplitPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         Nombre.setText("Nombre");
@@ -104,12 +116,39 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         });
         jSplitPane1.setRightComponent(txnombre);
 
-        jLabel3.setText("Imágen");
-
         jButton1.setText("Salir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        tablap1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre Tema", "Duración", "Orden", "Dirección", "Archivo"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tablap1);
+
+        jLabel3.setText("Imágen");
+
+        Img.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        botonDescargar.setText("Descargar Archivo");
+        botonDescargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDescargarActionPerformed(evt);
             }
         });
 
@@ -118,10 +157,23 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nick", "Álbum", "Año"
+                "Artista", "Álbum", "Año"
             }
-        ));
-        jScrollPane1.setViewportView(tablap);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablap.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablapMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tablap);
 
         btBuscar1.setText("Seleccionar");
         btBuscar1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -135,56 +187,151 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
             }
         });
 
-        tablap1.setModel(new javax.swing.table.DefaultTableModel(
+        listaGenerosAlbum.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listaGenerosAlbum.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaGenerosAlbumMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(listaGenerosAlbum);
+
+        contenedor.setLayout(new java.awt.CardLayout());
+
+        tablaArtista.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nombre Tema", "Duración", "Orden", "Dirección", "Archivo"
+                "Nick", "Nombre", "Apellido"
             }
-        ));
-        jScrollPane2.setViewportView(tablap1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaArtista.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaArtistaMouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tablaArtista);
+
+        javax.swing.GroupLayout PanelArtistasLayout = new javax.swing.GroupLayout(PanelArtistas);
+        PanelArtistas.setLayout(PanelArtistasLayout);
+        PanelArtistasLayout.setHorizontalGroup(
+            PanelArtistasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelArtistasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelArtistasLayout.setVerticalGroup(
+            PanelArtistasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelArtistasLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(78, Short.MAX_VALUE))
+        );
+
+        contenedor.add(PanelArtistas, "PanelArtistas");
+
+        listaGeneros.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listaGeneros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaGenerosMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(listaGeneros);
+
+        javax.swing.GroupLayout PanelGenerosLayout = new javax.swing.GroupLayout(PanelGeneros);
+        PanelGeneros.setLayout(PanelGenerosLayout);
+        PanelGenerosLayout.setHorizontalGroup(
+            PanelGenerosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelGenerosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(115, Short.MAX_VALUE))
+        );
+        PanelGenerosLayout.setVerticalGroup(
+            PanelGenerosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelGenerosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        contenedor.add(PanelGeneros, "PanelGeneros");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btBuscar))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 395, Short.MAX_VALUE)
-                                .addComponent(jButton1))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(74, 74, 74)
+                                .addComponent(botonDescargar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rutaDestino)
+                                .addGap(662, 662, 662))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(btBuscar1)
+                                                .addGap(189, 189, 189))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18))))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btBuscar)))))
-                        .addGap(23, 23, 23))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(177, 177, 177)
-                                .addComponent(btBuscar1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Img, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(29, 29, 29)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(20, 20, 20)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Img, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jButton1))))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,24 +347,36 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Img, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btBuscar1)
+                                .addGap(44, 44, 44))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btBuscar1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botonDescargar)
+                            .addComponent(rutaDestino))
+                        .addGap(43, 43, 43))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Img, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(19, 19, 19))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void comboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboActionPerformed
-
+        buscarTipo( (String) combo.getSelectedItem() );
     }//GEN-LAST:event_comboActionPerformed
 
     private void btBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btBuscarMouseClicked
@@ -226,28 +385,23 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
 
     private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
         if(combo.getSelectedItem().equals("Género")){
-            ArrayList<DtAlbum> al = this.Art.BuscarGenero(this.txnombre.getText());
-            DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
-            modelo.setRowCount(0);
-            for (int i=0;i<al.size();i++) {
-                DtAlbum p=(DtAlbum)al.get(i);
-                Object[] dat={
-                    p.getNombreArtista(),
-                    p.getNombre(),
-                    p.getAnio(),
-                };
-                modelo.addRow(dat);}
+            ArrayList<String> listageneros = this.Art.BuscarGenero(this.txnombre.getText());
+            DefaultListModel modelo= new DefaultListModel();
+            for (String genero:listageneros) {
+            
+            modelo.addElement(genero);}
+            this.listaGeneros.setModel(modelo);
+
 
         }else {
-            ArrayList<DtAlbum> art = this.Art.BuscarArtista(this.txnombre.getText());
-            DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
+            ArrayList<DtArtista> art = this.Art.BuscarArtista(this.txnombre.getText());
+            DefaultTableModel modelo=(DefaultTableModel) tablaArtista.getModel();
             modelo.setRowCount(0);
-            for (int i=0;i<art.size();i++) {
-                DtAlbum al=(DtAlbum)art.get(i);
+            for (DtArtista artista: art) {
                 Object[] dat={
-                    al.getNombreArtista(),
-                    al.getNombre(),
-                    al.getAnio(),
+                    artista.getNickname(),
+                    artista.getNombre(),
+                    artista.getApellido(),
                 };
                 modelo.addRow(dat);
             }
@@ -286,9 +440,96 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                     p.getArchivo(),
                 };
                 modelo.addRow(dat);
+            }
+        }
     }//GEN-LAST:event_btBuscar1ActionPerformed
+
+    private void listaGenerosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaGenerosMouseClicked
+        String generoSelec = listaGeneros.getSelectedValue();
+        al = Art.listarAlbumGenero(generoSelec);
+           DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
+            modelo.setRowCount(0);
+            for (int i=0;i<al.size();i++) {
+                DtAlbum p=(DtAlbum)al.get(i);
+                Object[] dat={
+                    p.getNombreArtista(),
+                    p.getNombre(),
+                    p.getAnio(),
+                };
+                modelo.addRow(dat);}
+    }//GEN-LAST:event_listaGenerosMouseClicked
+
+    private void listaGenerosAlbumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaGenerosAlbumMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_listaGenerosAlbumMouseClicked
+
+    private void tablapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablapMouseClicked
+     ArrayList<String> gen = al.get(tablap.getSelectedRow()).getGeneros();
+        DefaultListModel modelo= new DefaultListModel();
+            for (String genero:gen) {
+            
+            modelo.addElement(genero);}
+            this.listaGenerosAlbum.setModel(modelo);
+    }//GEN-LAST:event_tablapMouseClicked
+
+    private void botonDescargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDescargarActionPerformed
+        if(tablap1.getSelectedRow()>-1){
+            if(rutaDestino.getText().equals("")){
+                
+                JFileChooser elegirarchivo = new JFileChooser();
+                elegirarchivo.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                elegirarchivo.setAcceptAllFileFilterUsed(false);
+                int a= elegirarchivo.showOpenDialog(this); // guarda la accion que se realiza en el filechooser
+
+                if(a == JFileChooser.APPROVE_OPTION){ // la accion si se le da a abrir
+    //            File archivo = elegirarchivo.getSelectedFile(); // capturar el nombre y ruta
+    //            String RutaArchivo = archivo.getPath();
+                    System.out.println(elegirarchivo.getSelectedFile());
+                    rutaDestino.setText(elegirarchivo.getSelectedFile().toString());
+                }
+            }else{
+                String ruta = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 4);
+                String nombre = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 0);
+
+                Art.descargarArchivo(ruta, rutaDestino.getText()+"/"+nombre+".mp3");
+                rutaDestino.setText("");
+                JOptionPane.showMessageDialog(this,"Se ha descargado el archivo correctamente","Descarga completa",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    
+            }
         }
+    }//GEN-LAST:event_botonDescargarActionPerformed
+
+    private void tablaArtistaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaArtistaMouseClicked
+        String nickname = (String) tablaArtista.getValueAt(tablaArtista.getSelectedRow(), 0);
+        al = Art.listarAlbumesArtista(nickname);
+        DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
+        modelo.setRowCount(0);
+        for (int i=0;i<al.size();i++) {
+            DtAlbum p=(DtAlbum)al.get(i);
+            Object[] dat={
+                p.getNombreArtista(),
+                p.getNombre(),
+                p.getAnio(),
+            };
+            modelo.addRow(dat);}
+
+        listaGenerosAlbum.setModel(new DefaultListModel<>());
+    }//GEN-LAST:event_tablaArtistaMouseClicked
+        
+    public void buscarTipo(String tipo){
+        CardLayout cl = (CardLayout)(contenedor.getLayout());
+        
+        switch(tipo){
+            case "Género":
+                cl.show(contenedor, "PanelGeneros");
+                break;
+            case "Artista":
+                cl.show(contenedor, "PanelArtistas");
+                break;
         }
+    }    
+    
+    
     public void centrar(){
         //este metodo devuelve el tamaÃ±o de la pantalla
         Dimension pantalla = this.getParent().getSize();
@@ -307,15 +548,27 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Img;
     private javax.swing.JLabel Nombre;
+    private javax.swing.JPanel PanelArtistas;
+    private javax.swing.JPanel PanelGeneros;
+    private javax.swing.JButton botonDescargar;
     private javax.swing.JButton btBuscar;
     private javax.swing.JButton btBuscar1;
     private javax.swing.JComboBox<String> combo;
+    private javax.swing.JPanel contenedor;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JList<String> listaGeneros;
+    private javax.swing.JList<String> listaGenerosAlbum;
+    private javax.swing.JLabel rutaDestino;
+    private javax.swing.JTable tablaArtista;
     private javax.swing.JTable tablap;
     private javax.swing.JTable tablap1;
     private javax.swing.JTextField txnombre;
