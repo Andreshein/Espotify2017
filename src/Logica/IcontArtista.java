@@ -26,7 +26,6 @@ public interface IcontArtista {
     public abstract void ConfirmarAlbum();
     public abstract DtArtista ElegirArtista(String nomArtista);
     public abstract ArrayList<DtArtista> ListarArtistas(); 
-//    public abstract ArrayList<DtArtista> obtenerArtista();
 //    public abstract ArrayList<DtGenero> obtenerGenero(); //set(DtGenero);
     public abstract ArrayList<DtAlbum> BuscarGenero(String palabra);
     public abstract ArrayList<DtAlbum> BuscarArtista(String palabra);
@@ -55,4 +54,5 @@ public interface IcontArtista {
     public abstract ArrayList<DtTema> listarTemasListaA(String nickname,String nombre);
     public abstract ArrayList<DtGenero> listarGeneros(String nombreG);
     public abstract boolean verificarDatos(String nickname, String correo);
+    public abstract Artista BuscarUsuariosA(String nickname);
 }

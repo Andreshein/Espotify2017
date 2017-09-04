@@ -44,7 +44,7 @@ public interface IcontCliente{
     public abstract ArrayList<DtTema> listarTemasListaP(String nickname,String listaP);
     public abstract ArrayList<DtListaP> listarListasPrivadas(String nickname);
     public abstract boolean verificarDatos(String nickname, String correo);
-    
+    public abstract Cliente BuscarUsuariosC(String nickname);
     ///
     public abstract boolean copiarImagenAlServidor(String rutaOrigenArchivo, String rutaDestino);
 }

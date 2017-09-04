@@ -86,6 +86,7 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jLabel1.setText("Selecione el tipo de busqueda: ");
 
         TablaTemas.setModel(new javax.swing.table.DefaultTableModel(
@@ -95,16 +96,30 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
             new String [] {
                 "Nombre", "Artista", "Album"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(TablaTemas);
 
         jButton1.setText("Aceptar");
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jScrollPane4.setViewportView(jList2);
 
-        jLabel2.setText("Lista a agregar Tema: ");
+        jLabel2.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel2.setText("Lista a modificar: ");
 
         cmb_Lista.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Defecto", "Particular" }));
         cmb_Lista.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +128,7 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jLabel3.setText("Temas: ");
 
         PanelPadre.setLayout(new java.awt.CardLayout());
@@ -156,7 +172,15 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
             new String [] {
                 "Nombre", "Genero"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TablaListaPD.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TablaListaPDMouseClicked(evt);
@@ -186,9 +210,17 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Artista", "Nombre Lista"
+                "Cliente", "Nombre Lista"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TablaListaP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TablaListaPMouseClicked(evt);
@@ -250,7 +282,7 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
                         .addComponent(cmb_Lista1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(PanelPadre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,7 +394,7 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
         modeloB.setRowCount(0);
         for(int i=0; i<tema.size();i++){
         DtTema t=(DtTema) tema.get(i);
-        Object[] dat={t.getNombre()};
+        Object[] dat={t.getNombre(),t.getArtista(),t.getAlbum()};
         modeloB.addRow(dat);
         }
     }//GEN-LAST:event_TablaListaPMouseClicked
@@ -375,7 +407,7 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
         modeloA.setRowCount(0);
         for(int i=0; i<tema.size();i++){
         DtTema t=(DtTema) tema.get(i);
-        Object[] dat={t.getNombre()};
+        Object[] dat={t.getNombre(),t.getArtista(),t.getAlbum()};
         modeloA.addRow(dat);
         }
     }//GEN-LAST:event_TablaListaPDMouseClicked
@@ -388,10 +420,14 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
         modelo.setRowCount(0);
         for(int i=0; i<tema.size();i++){
         DtTema t=(DtTema) tema.get(i);
-        Object[] dat={t.getNombre()};
+        Object[] dat={t.getNombre(),t.getArtista(),t.getAlbum()};
         modelo.addRow(dat);
         }
     }//GEN-LAST:event_TablaAlbumMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public void centrar(){
         //este metodo devuelve el tamaÃ±o de la pantalla

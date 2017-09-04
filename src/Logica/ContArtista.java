@@ -280,7 +280,27 @@ public class ContArtista implements IcontArtista {
         }
         return retornar;
     }
-
+    
+    public Artista BuscarUsuariosA(String nickname) {
+        Iterator iterador = this.artistas.values().iterator();
+        while (iterador.hasNext()) {
+            Artista aux = (Artista) iterador.next();
+            nickname = nickname.toUpperCase();
+                String nick = aux.getNickname().toUpperCase();
+                String nombre = aux.getNombre().toUpperCase();
+                String apellido = aux.getApellido().toUpperCase();
+                String nomAp = aux.getNombre().toUpperCase()+aux.getApellido().toUpperCase();
+            if (nick.contains(nickname) == true || nombre.contains(nickname) == true || apellido.contains(nickname) == true || nomAp.contains(nickname) == true) {
+                return aux;
+            }
+        }
+        return null;
+    }
+    
+    /*public Album BuscarAlbum(String nombre, String nickname){
+        
+    }*/
+    
     public Usuario seleccionarUsuario(String Nickname) {
         return (Usuario) this.artistas.get(Nickname);
     }
