@@ -98,4 +98,7 @@ public interface IcontArtista {
     public abstract void BorrarTemaListaG(String nickname, String Album, String Tema, String Genero, String Lista) throws Exception;
 
     public abstract void BorrarTemaListaC(String nickname, String Album, String Tema, String Cliente, String Lista) throws Exception;
+    
+    public abstract void CrearGenero(String nombre, String padre) throws Exception;
+
 }

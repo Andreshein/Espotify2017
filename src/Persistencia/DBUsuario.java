@@ -1714,5 +1714,21 @@ public class DBUsuario {
             return 0;
         }
     }
+    
+    public void insertarGenero(Genero g) {
+        try {
+            PreparedStatement st;
+            st = conexion.prepareStatement("INSERT INTO genero (Nombre, idPadre) VALUES ('" + g.getNombre() + "'," + g.getidpadre() + ")");
+            st.executeUpdate();
+            st.close();
+            st = conexion.prepareStatement("SELECT max(id) as id from genero");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                g.setId(rs.getInt("id"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 
 }

@@ -298,15 +298,15 @@ public class ContArtista implements IcontArtista {
         Artista a = this.artistas.get(nickname);
         Album al = a.getAlbumes().get(Album);
         Tema t = al.getTema(Tema);
-        Cliente c= this.Cli.BuscarUsuariosC(Cliente);
-        Particular p= c.getListas().get(Lista);
+        Cliente c = this.Cli.BuscarUsuariosC(Cliente);
+        Particular p = c.getListas().get(Lista);
         if (p.getTemas().contains(t)) {
             throw new Exception("El tema ya esta en la lista");
         }
         p.AddTema(t);
         this.dbUsuario.agregarTemaListaP(p.getId(), t.getNombre(), al.getNombre(), al.getArtista());
     }
-    
+
     public void BorrarTemaListaG(String nickname, String Album, String Tema, String Genero, String Lista) throws Exception {
         Artista a = this.artistas.get(nickname);
         Album al = a.getAlbumes().get(Album);
@@ -324,8 +324,8 @@ public class ContArtista implements IcontArtista {
         Artista a = this.artistas.get(nickname);
         Album al = a.getAlbumes().get(Album);
         Tema t = al.getTema(Tema);
-        Cliente c= this.Cli.BuscarUsuariosC(Cliente);
-        Particular p= c.getListas().get(Lista);
+        Cliente c = this.Cli.BuscarUsuariosC(Cliente);
+        Particular p = c.getListas().get(Lista);
         if (!p.getTemas().contains(t)) {
             throw new Exception("El tema no esta en la lista");
         }
@@ -444,5 +444,17 @@ public class ContArtista implements IcontArtista {
         return true;
     }
 
-    
+    @Override
+    public void CrearGenero(String nombre, String padre) throws Exception {
+        if (!this.generos.containsKey(nombre)) {
+            Genero gpadre = this.generos.get(padre);
+            Genero g = new Genero(0, nombre, gpadre.getid());
+            g.setPadre(gpadre);
+            this.generos.put(nombre, g);
+            this.dbUsuario.insertarGenero(g);
+        } else {
+            throw new Exception("Ya existe el genero");
+        }
+    }
+
 }
