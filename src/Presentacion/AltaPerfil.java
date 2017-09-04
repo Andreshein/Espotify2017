@@ -371,9 +371,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
            boolean formatOk=true;
      
         int anio= Integer.parseInt(Anio.getText());
-        if((anio>2016 || anio<1900) ){
-                    javax.swing.JOptionPane.showMessageDialog(this,"El año es incorrecto \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
-        }else{
+        if(anio<2016 && anio>1900 ){
         String nickname,nombre,apellido,correo,comboTipo,biografia,paginaWeb;
         String fecha = Dia.getSelectedItem().toString()+"/"+Mes.getSelectedItem().toString()+"/"+Anio.getText();
         SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
@@ -439,7 +437,6 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
 
             }
         }}}catch(NumberFormatException ex ) {
-                javax.swing.JOptionPane.showMessageDialog(null,"Debe ingresar solo numeros en el año");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
