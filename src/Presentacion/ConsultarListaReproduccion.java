@@ -17,9 +17,12 @@ import Logica.IcontArtista;
 import Logica.IcontCliente;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -58,7 +61,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblTemas = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        Imagen = new javax.swing.JLabel();
         ListasPanel = new javax.swing.JPanel();
         ParticularesPanel = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -66,6 +69,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         DefectoPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblDefecto = new javax.swing.JTable();
+        btnSalir = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Consultar Lista de reproducción");
@@ -114,9 +118,9 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Imagen:");
 
-        jLabel2.setBackground(new java.awt.Color(153, 153, 153));
-        jLabel2.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        Imagen.setBackground(new java.awt.Color(153, 153, 153));
+        Imagen.setForeground(new java.awt.Color(153, 153, 153));
+        Imagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         ListasPanel.setLayout(new java.awt.CardLayout());
 
@@ -204,6 +208,13 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
         ListasPanel.add(DefectoPanel, "DefectoPanel");
 
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -229,10 +240,14 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(Imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel4)
                     .addComponent(jScrollPane3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalir)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,11 +268,13 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                         .addGap(72, 72, 72)
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSalir)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -275,9 +292,8 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             String nickname = txtBuscar.getText();
             DefaultTableModel modelo = (DefaultTableModel) tblParticular.getModel();
             ArrayList<DtCliente> cli = Fabrica.getCliente().BuscarClientes(nickname);
-          
-            if(nickname.equals("")){
-                JOptionPane.showMessageDialog(null, "No se puede dejar el campo de búsqueda vacío", "Error al buscar", JOptionPane.ERROR_MESSAGE);
+            if(cli.isEmpty()){
+                JOptionPane.showMessageDialog(null, "No se encontraron coincidencias", "Error al buscar", JOptionPane.ERROR_MESSAGE);
             }else{
                 while(modelo.getRowCount()>0){
                     modelo.setRowCount(0);
@@ -290,8 +306,8 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                         DtListaP lp =(DtListaP) lista.get(j);
                
                         Object[] datos={
-                            lp.getNombre(),
                             lp.getUsuario(),
+                            lp.getNombre(),
                             lp.isPrivada()  
                         };
                 
@@ -303,20 +319,16 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             String nombreG=txtBuscar.getText();
             DefaultTableModel modelo=(DefaultTableModel) tblDefecto.getModel();
             ArrayList<DtGenero> gen=Fabrica.getArtista().listarGeneros(nombreG);
-            if(nombreG.equals("")){
-                JOptionPane.showMessageDialog(null,"No se puede dejar el campo de búsqueda en blanco","Error al buscar",JOptionPane.ERROR_MESSAGE);
-            }else{
-                while(modelo.getRowCount()>0){
-                    modelo.removeRow(0);
-                }
+            while(modelo.getRowCount()>0){
+                modelo.setRowCount(0);
+            }
                 
-                for(int i=0;i<gen.size();i++){
-                    ArrayList<DtListaPD> listaPD=gen.get(i).getListaspordefecto();
-                    for(int j=0;j<listaPD.size();j++){
-                        DtListaPD lpd=(DtListaPD) listaPD.get(j);
-                        Object[] datos={lpd.getNombre(),lpd.getGenero()};
-                        modelo.addRow(datos);
-                    }
+            for(int i=0;i<gen.size();i++){
+                ArrayList<DtListaPD> listaPD=gen.get(i).getListaspordefecto();
+                for(int j=0;j<listaPD.size();j++){
+                    DtListaPD lpd=(DtListaPD) listaPD.get(j);
+                    Object[] datos={lpd.getNombre(),lpd.getGenero()};
+                    modelo.addRow(datos);
                 }
             }
         }
@@ -329,6 +341,14 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
     private void tblDefectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDefectoMouseClicked
         this.mostrarTemasListaPD();
     }//GEN-LAST:event_tblDefectoMouseClicked
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        int confirmar=JOptionPane.showConfirmDialog(null, "¿Está seguro que desea salir?", "Salir", JOptionPane.YES_NO_OPTION);
+        
+        if(confirmar==JOptionPane.YES_OPTION){
+            this.dispose();
+        }     
+    }//GEN-LAST:event_btnSalirActionPerformed
  
     public void mostrarListas(String tipo){
         CardLayout cl = (CardLayout)(ListasPanel.getLayout());
@@ -351,8 +371,18 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             while(modelo.getRowCount()>0){
                 modelo.removeRow(0);
             }
-            
+           
             for(DtListaP lp: lista){
+                //Imagen es opcional
+                if(lp.getImagen() != null){
+                Icon icono= new ImageIcon(lp.getImagen().getImage().getScaledInstance(Imagen.getWidth(),Imagen.getHeight(),Image.SCALE_DEFAULT));
+
+                Imagen.setIcon(icono); // coloca la imagen en el label
+
+                }else{
+                    Imagen.setIcon(null); 
+                }
+                
                 Object[] datos={lp.getUsuario(),lp.getNombre(),lp.isPrivada()};
                 modelo.addRow(datos);
             }
@@ -429,12 +459,13 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel DefectoPanel;
+    private javax.swing.JLabel Imagen;
     private javax.swing.JPanel ListasPanel;
     private javax.swing.JPanel ParticularesPanel;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cboxBuscar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
