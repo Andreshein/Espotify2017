@@ -46,12 +46,13 @@ public interface IcontArtista {
     public abstract Map<String, Genero> GetGeneros();
     public abstract Map<String, Artista> GetArtistas();
     public abstract void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, Tema> temas, HashMap<String, Genero> generos);
-    
+    public abstract ArrayList<DtAlbum> ListarAlbum();
     public abstract ArrayList<DtAlbum> listarAlbumesArtista(String nick);
     public abstract ArrayList<DtCliente> listarSeguidores(String nick);
     public abstract DtGenero listarGArbol();
     public abstract Genero getGenero(String nombre);
     public abstract ArrayList<DtTema> listarTemasListaPD(String listaPD,String nombreG);
+    public abstract ArrayList<DtTema> listarTemasListaA(String nickname,String nombre);
     public abstract ArrayList<DtGenero> listarGeneros(String nombreG);
     public abstract boolean verificarDatos(String nickname, String correo);
 }

@@ -239,7 +239,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu4.add(CrearLista);
 
-        agregarTemaListaMenuItem.setText("Agregar Tema");
+        agregarTemaListaMenuItem.setText("Agregar o Quitar Tema");
         agregarTemaListaMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agregarTemaListaMenuItemActionPerformed(evt);
@@ -318,7 +318,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void agregarTemaListaMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarTemaListaMenuItemActionPerformed
-        AgregarTemaaLista agregarTL = new AgregarTemaaLista();
+        AgregarQuitarTemaaLista agregarTL = new AgregarQuitarTemaaLista();
         escritorio.add(agregarTL);
         agregarTL.centrar();
         agregarTL.show();

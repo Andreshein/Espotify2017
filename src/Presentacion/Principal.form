@@ -210,7 +210,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="agregarTemaListaMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Agregar Tema"/>
+                <Property name="text" type="java.lang.String" value="Agregar o Quitar Tema"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="agregarTemaListaMenuItemActionPerformed"/>

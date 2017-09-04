@@ -335,6 +335,15 @@ public class ContArtista implements IcontArtista {
         }
         return retorno;
     }
+    @Override
+    public ArrayList<DtAlbum> ListarAlbum() {
+        ArrayList<DtAlbum> al = new ArrayList<DtAlbum>();
+        for(Artista a:this.artistas.values()){
+          al.addAll(a.getDtAlbumes());
+        }
+        return al;
+    }
+   
     
     public Genero getGenero(String nombre){
         return this.generos.get(nombre);
@@ -345,6 +354,12 @@ public class ContArtista implements IcontArtista {
 	Genero g=(Genero) this.generos.get(nombreG);
         PorDefecto pd= g.getListas().get(listaPD);
         return pd.getDtTemas();
+    }
+    @Override
+    public ArrayList<DtTema> listarTemasListaA(String nickname,String nombre){
+	Artista a=(Artista) this.artistas.get(nickname);
+        Album al= (Album) a.getAlbumes().get(nombre);
+        return al.getDtTemas();
     }
     
     @Override
@@ -373,4 +388,6 @@ public class ContArtista implements IcontArtista {
         //Si no retornó false dentro del for, entonces los datos estan bien
         return true;
     }
+
+ 
 }

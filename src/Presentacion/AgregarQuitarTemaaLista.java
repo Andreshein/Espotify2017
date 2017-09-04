@@ -5,8 +5,10 @@
  */
 package Presentacion;
 
+import Logica.DtAlbum;
 import Logica.DtListaP;
 import Logica.DtListaPD;
+import Logica.DtTema;
 import Logica.Fabrica;
 import Logica.IcontArtista;
 import Logica.IcontCliente;
@@ -24,15 +26,21 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import static javax.xml.bind.DatatypeConverter.parseInteger;
 
-public class AgregarTemaaLista extends javax.swing.JInternalFrame {
+public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
      
     private IcontCliente Cli;
+    private IcontArtista Art;
+    private DefaultTableModel modelo;
+    private DefaultTableModel modeloA;
+    private DefaultTableModel modeloB;
+    private String a,b;
     
-    public AgregarTemaaLista() {
+    public AgregarQuitarTemaaLista() {
         initComponents();
-        setTitle("AgregarTemaaLista");
+        setTitle("AgregarQuitarTemaaLista");
         Fabrica f = Fabrica.getInstance();
         this.Cli=f.getCliente();
+        this.Art=f.getArtista();
     }
 
     /**
@@ -47,7 +55,7 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
         cmb_Busqueda = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TablaTemas = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -60,15 +68,16 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         TablaAlbum = new javax.swing.JTable();
         ListaPD = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        ListaPart = new javax.swing.JList<>();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        TablaListaPD = new javax.swing.JTable();
         ListaP = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         TablaListaP = new javax.swing.JTable();
+        cmb_Lista1 = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
-        setPreferredSize(new java.awt.Dimension(745, 621));
+        setPreferredSize(new java.awt.Dimension(800, 632));
 
         cmb_Busqueda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Album", "Lista Por Defecto", "Lista Particular" }));
         cmb_Busqueda.addActionListener(new java.awt.event.ActionListener() {
@@ -79,7 +88,7 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Selecione el tipo de busqueda: ");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TablaTemas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -87,7 +96,7 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
                 "Nombre", "Artista", "Album"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(TablaTemas);
 
         jButton1.setText("Aceptar");
 
@@ -116,42 +125,58 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
                 "Artista", "Nombre Album", "Año"
             }
         ));
+        TablaAlbum.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaAlbumMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(TablaAlbum);
 
         javax.swing.GroupLayout AlbumLayout = new javax.swing.GroupLayout(Album);
         Album.setLayout(AlbumLayout);
         AlbumLayout.setHorizontalGroup(
             AlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
+            .addGap(0, 492, Short.MAX_VALUE)
             .addGroup(AlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(AlbumLayout.createSequentialGroup()
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 1, Short.MAX_VALUE)))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
         );
         AlbumLayout.setVerticalGroup(
             AlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 255, Short.MAX_VALUE)
+            .addGap(0, 286, Short.MAX_VALUE)
             .addGroup(AlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
         );
 
         PanelPadre.add(Album, "Album");
 
-        jScrollPane3.setViewportView(ListaPart);
+        TablaListaPD.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Genero"
+            }
+        ));
+        TablaListaPD.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaListaPDMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(TablaListaPD);
 
         javax.swing.GroupLayout ListaPDLayout = new javax.swing.GroupLayout(ListaPD);
         ListaPD.setLayout(ListaPDLayout);
         ListaPDLayout.setHorizontalGroup(
             ListaPDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
+            .addGap(0, 492, Short.MAX_VALUE)
             .addGroup(ListaPDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
         );
         ListaPDLayout.setVerticalGroup(
             ListaPDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 255, Short.MAX_VALUE)
+            .addGap(0, 286, Short.MAX_VALUE)
             .addGroup(ListaPDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
         );
 
         PanelPadre.add(ListaPD, "ListaPD");
@@ -164,33 +189,47 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
                 "Artista", "Nombre Lista"
             }
         ));
+        TablaListaP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaListaPMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(TablaListaP);
 
         javax.swing.GroupLayout ListaPLayout = new javax.swing.GroupLayout(ListaP);
         ListaP.setLayout(ListaPLayout);
         ListaPLayout.setHorizontalGroup(
             ListaPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
+            .addGap(0, 492, Short.MAX_VALUE)
             .addGroup(ListaPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(ListaPLayout.createSequentialGroup()
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 1, Short.MAX_VALUE)))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
         );
         ListaPLayout.setVerticalGroup(
             ListaPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 255, Short.MAX_VALUE)
+            .addGap(0, 286, Short.MAX_VALUE)
             .addGroup(ListaPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(ListaPLayout.createSequentialGroup()
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
         );
 
         PanelPadre.add(ListaP, "ListaP");
+
+        cmb_Lista1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Agregar", "Quitar" }));
+        cmb_Lista1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_Lista1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(206, 206, 206)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(219, 219, 219))
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -198,23 +237,20 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmb_Lista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jButton1))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(167, 167, 167)
-                        .addComponent(jButton2))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cmb_Busqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cmb_Busqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(PanelPadre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))))
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cmb_Lista1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PanelPadre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,15 +265,17 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(PanelPadre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(cmb_Lista1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane4))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -249,15 +287,39 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
         String Busqueda= (String) cmb_Busqueda.getSelectedItem();
         if(Busqueda.equals("Album"))
         {
-            cl.show(PanelPadre, "Album");
+            cl.show(PanelPadre,"Album");
+            ArrayList<DtAlbum> album=  Art.ListarAlbum();
+            modelo= (DefaultTableModel) TablaAlbum.getModel();
+            modelo.setRowCount(0);
+            for(int i=0; i<album.size();i++){
+            DtAlbum a=(DtAlbum) album.get(i);
+            Object[] dat={a.getNombreArtista(),a.getNombre(),a.getAnio()};
+            modelo.addRow(dat);
+            }
         }
         if(Busqueda.equals("Lista Por Defecto"))
         {
-            cl.show(PanelPadre, "ListaPD");
+            cl.show(PanelPadre,"ListaPD");
+            ArrayList<DtListaPD> listapd= Art.ListarListaPD();
+            modeloA= (DefaultTableModel) TablaListaPD.getModel();
+            modeloA.setRowCount(0);
+            for(int i=0; i<listapd.size();i++){
+            DtListaPD lpd=(DtListaPD) listapd.get(i);
+            Object[] dat={lpd.getNombre(),lpd.getGenero()};
+            modeloA.addRow(dat);
+            }
         }
         if(Busqueda.equals("Lista Particular"))
         {
-            cl.show(PanelPadre, "ListaP");
+            cl.show(PanelPadre,"ListaP");
+            ArrayList<DtListaP> listap= Cli.ListarListaP();
+            modeloB= (DefaultTableModel) TablaListaP.getModel();
+            modeloB.setRowCount(0);
+            for(int i=0; i<listap.size();i++){
+            DtListaP lp=(DtListaP) listap.get(i);
+            Object[] dat={lp.getUsuario(),lp.getNombre()};
+            modeloB.addRow(dat);
+            }
         }
         
     }//GEN-LAST:event_cmb_BusquedaActionPerformed
@@ -266,7 +328,7 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
         String texto=cmb_Lista.getSelectedItem().toString();
         if("Particular".equals(texto))
         {   
-          ArrayList<DtListaP> listap=Cli.ListarListaP();
+            ArrayList<DtListaP> listap=Cli.ListarListaP();
             DefaultListModel modelo=new DefaultListModel();
             for (int i=0;i<listap.size();i++) {
             DtListaP lp=(DtListaP)listap.get(i);
@@ -288,6 +350,49 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_cmb_ListaActionPerformed
 
+    private void cmb_Lista1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_Lista1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmb_Lista1ActionPerformed
+
+    private void TablaListaPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaListaPMouseClicked
+        a = (String) modeloB.getValueAt(TablaListaP.getSelectedRow(), 0);
+        b = (String) modeloB.getValueAt(TablaListaP.getSelectedRow(), 1);
+        ArrayList<DtTema> tema= Cli.listarTemasListaP(a,b);
+        modeloB= (DefaultTableModel) TablaTemas.getModel();
+        modeloB.setRowCount(0);
+        for(int i=0; i<tema.size();i++){
+        DtTema t=(DtTema) tema.get(i);
+        Object[] dat={t.getNombre()};
+        modeloB.addRow(dat);
+        }
+    }//GEN-LAST:event_TablaListaPMouseClicked
+
+    private void TablaListaPDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaListaPDMouseClicked
+        a = (String) modeloA.getValueAt(TablaListaPD.getSelectedRow(), 0);
+        b = (String) modeloA.getValueAt(TablaListaPD.getSelectedRow(), 1);
+        ArrayList<DtTema> tema= Art.listarTemasListaPD(a,b);
+        modeloA= (DefaultTableModel) TablaTemas.getModel();
+        modeloA.setRowCount(0);
+        for(int i=0; i<tema.size();i++){
+        DtTema t=(DtTema) tema.get(i);
+        Object[] dat={t.getNombre()};
+        modeloA.addRow(dat);
+        }
+    }//GEN-LAST:event_TablaListaPDMouseClicked
+
+    private void TablaAlbumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaAlbumMouseClicked
+        a = (String) modelo.getValueAt(TablaAlbum.getSelectedRow(), 0);
+        b = (String) modelo.getValueAt(TablaAlbum.getSelectedRow(), 1);
+        ArrayList<DtTema> tema= Art.listarTemasListaA(a,b);
+        modelo= (DefaultTableModel) TablaTemas.getModel();
+        modelo.setRowCount(0);
+        for(int i=0; i<tema.size();i++){
+        DtTema t=(DtTema) tema.get(i);
+        Object[] dat={t.getNombre()};
+        modelo.addRow(dat);
+        }
+    }//GEN-LAST:event_TablaAlbumMouseClicked
+
     public void centrar(){
         //este metodo devuelve el tamaÃ±o de la pantalla
         Dimension pantalla = this.getParent().getSize();
@@ -307,12 +412,14 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
     private javax.swing.JPanel Album;
     private javax.swing.JPanel ListaP;
     private javax.swing.JPanel ListaPD;
-    private javax.swing.JList<String> ListaPart;
     private javax.swing.JPanel PanelPadre;
     private javax.swing.JTable TablaAlbum;
     private javax.swing.JTable TablaListaP;
+    private javax.swing.JTable TablaListaPD;
+    private javax.swing.JTable TablaTemas;
     private javax.swing.JComboBox<String> cmb_Busqueda;
     private javax.swing.JComboBox<String> cmb_Lista;
+    private javax.swing.JComboBox<String> cmb_Lista1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -321,9 +428,8 @@ public class AgregarTemaaLista extends javax.swing.JInternalFrame {
     private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane6;
     // End of variables declaration//GEN-END:variables
 }
