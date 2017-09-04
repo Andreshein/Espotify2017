@@ -442,9 +442,9 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
                 if ("Particular".equals(texto)) {
                     int index = TablaTemas.getSelectedRow();
                     int index2 = jList2.getSelectedIndex();
-                    if (index == -1 && index2 == -1) {
+                    if (index == -1 || index2 == -1) {
                         throw new Exception("Debe seleccionar una lista y un tema");
-                    }
+                    }else{
                     String nick, album, tema, cliente, lista;
                     tema = (String) TablaTemas.getValueAt(index, 0);
                     nick = (String) TablaTemas.getValueAt(index, 1);
@@ -452,12 +452,13 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
                     cliente = this.listasp.get(index2).getUsuario();
                     lista = this.listasp.get(index2).getNombre();
                     this.Art.AgregarTemaListaC(nick, album, tema, cliente, lista);
+                    throw new Exception("Tema agregado");}
                 } else {
                     int index = TablaTemas.getSelectedRow();
                     int index2 = jList2.getSelectedIndex();
-                    if (index == -1 && index2 == -1) {
+                    if (index == -1 || index2 == -1) {
                         throw new Exception("Debe seleccionar una lista y un tema");
-                    }
+                    }else{
                     String nick, album, tema, genero, lista;
                     tema = (String) TablaTemas.getValueAt(index, 0);
                     nick = (String) TablaTemas.getValueAt(index, 1);
@@ -465,15 +466,16 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
                     genero = this.listaspd.get(index2).getGenero();
                     lista = this.listaspd.get(index2).getNombre();
                     this.Art.AgregarTemaListaG(nick, album, tema, genero, lista);
+                    throw new Exception("Tema agregado");}
                 }
             } else {
                 String texto = cmb_Lista.getSelectedItem().toString();
                 if ("Particular".equals(texto)) {
                     int index = TablaTemas.getSelectedRow();
                     int index2 = jList2.getSelectedIndex();
-                    if (index == -1 && index2 == -1) {
+                    if (index == -1 || index2 == -1) {
                         throw new Exception("Debe seleccionar una lista y un tema");
-                    }
+                    }else{
                     String nick, album, tema, cliente, lista;
                     tema = (String) TablaTemas.getValueAt(index, 0);
                     nick = (String) TablaTemas.getValueAt(index, 1);
@@ -481,12 +483,13 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
                     cliente = this.listasp.get(index2).getUsuario();
                     lista = this.listasp.get(index2).getNombre();
                     this.Art.BorrarTemaListaC(nick, album, tema, cliente, lista);
+                    throw new Exception("Tema borrado");}
                 } else {
                     int index = TablaTemas.getSelectedRow();
                     int index2 = jList2.getSelectedIndex();
-                    if (index == -1 && index2 == -1) {
+                    if (index == -1 || index2 == -1) {
                         throw new Exception("Debe seleccionar una lista y un tema");
-                    }
+                    }else{
                     String nick, album, tema, genero, lista;
                     tema = (String) TablaTemas.getValueAt(index, 0);
                     nick = (String) TablaTemas.getValueAt(index, 1);
@@ -494,6 +497,7 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
                     genero = this.listaspd.get(index2).getGenero();
                     lista = this.listaspd.get(index2).getNombre();
                     this.Art.BorrarTemaListaG(nick, album, tema, genero, lista);
+                    throw new Exception("Tema borrado");}
                 }
             }
         } catch (Exception e) {
