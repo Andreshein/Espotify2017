@@ -6,6 +6,7 @@
 package Presentacion;
 
 import Logica.DtAlbum;
+import Logica.DtLista;
 import Logica.DtListaP;
 import Logica.DtListaPD;
 import Logica.DtTema;
@@ -27,20 +28,19 @@ import javax.swing.table.DefaultTableModel;
 import static javax.xml.bind.DatatypeConverter.parseInteger;
 
 public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
-     
+
     private IcontCliente Cli;
     private IcontArtista Art;
-    private DefaultTableModel modelo;
-    private DefaultTableModel modeloA;
-    private DefaultTableModel modeloB;
-    private String a,b;
-    
+    private String a, b;
+    private ArrayList<DtListaP> listasp;
+    private ArrayList<DtListaPD> listaspd;
+
     public AgregarQuitarTemaaLista() {
         initComponents();
         setTitle("AgregarQuitarTemaaLista");
         Fabrica f = Fabrica.getInstance();
-        this.Cli=f.getCliente();
-        this.Art=f.getArtista();
+        this.Cli = f.getCliente();
+        this.Art = f.getArtista();
     }
 
     /**
@@ -86,6 +86,7 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jLabel1.setText("Selecione el tipo de busqueda: ");
 
         TablaTemas.setModel(new javax.swing.table.DefaultTableModel(
@@ -95,12 +96,30 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
             new String [] {
                 "Nombre", "Artista", "Album"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(TablaTemas);
 
         jButton1.setText("Aceptar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jList2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -109,7 +128,8 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
         });
         jScrollPane4.setViewportView(jList2);
 
-        jLabel2.setText("Lista a agregar Tema: ");
+        jLabel2.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel2.setText("Lista a modificar: ");
 
         cmb_Lista.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Por Defecto", "Particular" }));
         cmb_Lista.addActionListener(new java.awt.event.ActionListener() {
@@ -118,6 +138,7 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jLabel3.setText("Temas: ");
 
         PanelPadre.setLayout(new java.awt.CardLayout());
@@ -161,7 +182,15 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
             new String [] {
                 "Nombre", "Genero"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TablaListaPD.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TablaListaPDMouseClicked(evt);
@@ -191,9 +220,17 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Artista", "Nombre Lista"
+                "Cliente", "Nombre Lista"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         TablaListaP.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TablaListaPMouseClicked(evt);
@@ -255,7 +292,7 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
                         .addComponent(cmb_Lista1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(PanelPadre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,71 +325,69 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmb_BusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_BusquedaActionPerformed
-        CardLayout cl = (CardLayout)(PanelPadre.getLayout());
-        String Busqueda= (String) cmb_Busqueda.getSelectedItem();
-        if(Busqueda.equals("Album"))
-        {
-            cl.show(PanelPadre,"Album");
-            ArrayList<DtAlbum> album=  Art.ListarAlbum();
-            modelo= (DefaultTableModel) TablaAlbum.getModel();
+        DefaultTableModel modelo = new DefaultTableModel();
+        CardLayout cl = (CardLayout) (PanelPadre.getLayout());
+        String Busqueda = (String) cmb_Busqueda.getSelectedItem();
+        if (Busqueda.equals("Album")) {
+            cl.show(PanelPadre, "Album");
+            ArrayList<DtAlbum> album = Art.ListarAlbum();
+            modelo = (DefaultTableModel) TablaAlbum.getModel();
             modelo.setRowCount(0);
-            for(int i=0; i<album.size();i++){
-            DtAlbum a=(DtAlbum) album.get(i);
-            Object[] dat={a.getNombreArtista(),a.getNombre(),a.getAnio()};
-            modelo.addRow(dat);
+            for (int i = 0; i < album.size(); i++) {
+                DtAlbum a = (DtAlbum) album.get(i);
+                Object[] dat = {a.getNombreArtista(), a.getNombre(), a.getAnio()};
+                modelo.addRow(dat);
             }
         }
-        if(Busqueda.equals("Lista Por Defecto"))
-        {
-            cl.show(PanelPadre,"ListaPD");
-            ArrayList<DtListaPD> listapd= Art.ListarListaPD();
-            modeloA= (DefaultTableModel) TablaListaPD.getModel();
-            modeloA.setRowCount(0);
-            for(int i=0; i<listapd.size();i++){
-            DtListaPD lpd=(DtListaPD) listapd.get(i);
-            Object[] dat={lpd.getNombre(),lpd.getGenero()};
-            modeloA.addRow(dat);
+        if (Busqueda.equals("Lista Por Defecto")) {
+            cl.show(PanelPadre, "ListaPD");
+            ArrayList<DtListaPD> listapd = Art.ListarListaPD();
+            modelo = (DefaultTableModel) TablaListaPD.getModel();
+            modelo.setRowCount(0);
+            for (int i = 0; i < listapd.size(); i++) {
+                DtListaPD lpd = (DtListaPD) listapd.get(i);
+                Object[] dat = {lpd.getNombre(), lpd.getGenero()};
+                modelo.addRow(dat);
             }
         }
-        if(Busqueda.equals("Lista Particular"))
-        {
-            cl.show(PanelPadre,"ListaP");
-            ArrayList<DtListaP> listap= Cli.ListarListaP();
-            modeloB= (DefaultTableModel) TablaListaP.getModel();
-            modeloB.setRowCount(0);
-            for(int i=0; i<listap.size();i++){
-            DtListaP lp=(DtListaP) listap.get(i);
-            Object[] dat={lp.getUsuario(),lp.getNombre()};
-            modeloB.addRow(dat);
+        if (Busqueda.equals("Lista Particular")) {
+            cl.show(PanelPadre, "ListaP");
+            ArrayList<DtListaP> listap = Cli.ListarListaP();
+            modelo = (DefaultTableModel) TablaListaP.getModel();
+            modelo.setRowCount(0);
+            for (int i = 0; i < listap.size(); i++) {
+                DtListaP lp = (DtListaP) listap.get(i);
+                Object[] dat = {lp.getUsuario(), lp.getNombre()};
+                modelo.addRow(dat);
             }
         }
-        
+
     }//GEN-LAST:event_cmb_BusquedaActionPerformed
 
     private void cmb_ListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_ListaActionPerformed
-        String texto=cmb_Lista.getSelectedItem().toString();
-        if("Particular".equals(texto))
-        {   
-            ArrayList<DtListaP> listap=Cli.ListarListaP();
-            DefaultListModel modelo=new DefaultListModel();
-            for (int i=0;i<listap.size();i++) {
-            DtListaP lp=(DtListaP)listap.get(i);
-            modelo.addElement(lp.getNombre());
+        String texto = cmb_Lista.getSelectedItem().toString();
+        if ("Particular".equals(texto)) {
+            ArrayList<DtListaP> listap = Cli.ListarListaP();
+            this.listasp = listap;
+            DefaultListModel modelo = new DefaultListModel();
+            for (int i = 0; i < listap.size(); i++) {
+                DtListaP lp = (DtListaP) listap.get(i);
+                modelo.addElement(lp.getNombre());
+            }
+            this.jList2.setModel(modelo);
+        } else {
+
+            ArrayList<DtListaPD> listapd = Cli.ListarListaPD();
+            this.listaspd = listapd;
+            DefaultListModel modelo = new DefaultListModel();
+            for (int i = 0; i < listapd.size(); i++) {
+                DtListaPD lpd = (DtListaPD) listapd.get(i);
+                modelo.addElement(lpd.getNombre());
+            }
+            this.jList2.setModel(modelo);
         }
-        this.jList2.setModel(modelo);
-        }
-        else{
-            
-            ArrayList<DtListaPD> listap=Cli.ListarListaPD();
-            DefaultListModel modelo=new DefaultListModel();
-            for (int i=0;i<listap.size();i++) {
-            DtListaPD lpd=(DtListaPD)listap.get(i);
-            modelo.addElement(lpd.getNombre());
-        }
-        this.jList2.setModel(modelo);  
-        }               
-        
-        
+
+
     }//GEN-LAST:event_cmb_ListaActionPerformed
 
     private void cmb_Lista1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_Lista1ActionPerformed
@@ -360,41 +395,44 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cmb_Lista1ActionPerformed
 
     private void TablaListaPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaListaPMouseClicked
-        a = (String) modeloB.getValueAt(TablaListaP.getSelectedRow(), 0);
-        b = (String) modeloB.getValueAt(TablaListaP.getSelectedRow(), 1);
-        ArrayList<DtTema> tema= Cli.listarTemasListaP(a,b);
-        modeloB= (DefaultTableModel) TablaTemas.getModel();
-        modeloB.setRowCount(0);
-        for(int i=0; i<tema.size();i++){
-        DtTema t=(DtTema) tema.get(i);
-        Object[] dat={t.getNombre()};
-        modeloB.addRow(dat);
+        DefaultTableModel modelo = (DefaultTableModel)TablaListaP.getModel();
+        a = (String) modelo.getValueAt(TablaListaP.getSelectedRow(), 0);
+        b = (String) modelo.getValueAt(TablaListaP.getSelectedRow(), 1);
+        ArrayList<DtTema> tema = Cli.listarTemasListaP(a, b);
+        modelo = (DefaultTableModel) TablaTemas.getModel();
+        modelo.setRowCount(0);
+        for (int i = 0; i < tema.size(); i++) {
+            DtTema t = (DtTema) tema.get(i);
+            Object[] dat = {t.getNombre(), t.getArtista(), t.getAlbum()};
+            modelo.addRow(dat);
         }
     }//GEN-LAST:event_TablaListaPMouseClicked
 
     private void TablaListaPDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaListaPDMouseClicked
-        a = (String) modeloA.getValueAt(TablaListaPD.getSelectedRow(), 0);
-        b = (String) modeloA.getValueAt(TablaListaPD.getSelectedRow(), 1);
-        ArrayList<DtTema> tema= Art.listarTemasListaPD(a,b);
-        modeloA= (DefaultTableModel) TablaTemas.getModel();
-        modeloA.setRowCount(0);
-        for(int i=0; i<tema.size();i++){
-        DtTema t=(DtTema) tema.get(i);
-        Object[] dat={t.getNombre()};
-        modeloA.addRow(dat);
+        DefaultTableModel modelo = (DefaultTableModel)TablaListaPD.getModel();
+        a = (String) modelo.getValueAt(TablaListaPD.getSelectedRow(), 0);
+        b = (String) modelo.getValueAt(TablaListaPD.getSelectedRow(), 1);
+        ArrayList<DtTema> tema = Art.listarTemasListaPD(a, b);
+        modelo = (DefaultTableModel) TablaTemas.getModel();
+        modelo.setRowCount(0);
+        for (int i = 0; i < tema.size(); i++) {
+            DtTema t = (DtTema) tema.get(i);
+            Object[] dat = {t.getNombre(), t.getArtista(), t.getAlbum()};
+            modelo.addRow(dat);
         }
     }//GEN-LAST:event_TablaListaPDMouseClicked
 
     private void TablaAlbumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaAlbumMouseClicked
+        DefaultTableModel modelo = (DefaultTableModel)TablaAlbum.getModel();
         a = (String) modelo.getValueAt(TablaAlbum.getSelectedRow(), 0);
         b = (String) modelo.getValueAt(TablaAlbum.getSelectedRow(), 1);
-        ArrayList<DtTema> tema= Art.listarTemasListaA(a,b);
-        modelo= (DefaultTableModel) TablaTemas.getModel();
+        ArrayList<DtTema> tema = Art.listarTemasListaA(a, b);
+        modelo = (DefaultTableModel) TablaTemas.getModel();
         modelo.setRowCount(0);
-        for(int i=0; i<tema.size();i++){
-        DtTema t=(DtTema) tema.get(i);
-        Object[] dat={t.getNombre()};
-        modelo.addRow(dat);
+        for (int i = 0; i < tema.size(); i++) {
+            DtTema t = (DtTema) tema.get(i);
+            Object[] dat = {t.getNombre(), t.getArtista(), t.getAlbum()};
+            modelo.addRow(dat);
         }
     }//GEN-LAST:event_TablaAlbumMouseClicked
 
@@ -402,7 +440,82 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jList2MouseClicked
 
-    public void centrar(){
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            if (cmb_Lista1.getSelectedItem().equals("Agregar")) {
+                String texto = cmb_Lista.getSelectedItem().toString();
+                if ("Particular".equals(texto)) {
+                    int index = TablaTemas.getSelectedRow();
+                    int index2 = jList2.getSelectedIndex();
+                    if (index == -1 || index2 == -1) {
+                        throw new Exception("Debe seleccionar una lista y un tema");
+                    }else{
+                    String nick, album, tema, cliente, lista;
+                    tema = (String) TablaTemas.getValueAt(index, 0);
+                    nick = (String) TablaTemas.getValueAt(index, 1);
+                    album = (String) TablaTemas.getValueAt(index, 2);
+                    cliente = this.listasp.get(index2).getUsuario();
+                    lista = this.listasp.get(index2).getNombre();
+                    this.Art.AgregarTemaListaC(nick, album, tema, cliente, lista);
+                    throw new Exception("Tema agregado");}
+                } else {
+                    int index = TablaTemas.getSelectedRow();
+                    int index2 = jList2.getSelectedIndex();
+                    if (index == -1 || index2 == -1) {
+                        throw new Exception("Debe seleccionar una lista y un tema");
+                    }else{
+                    String nick, album, tema, genero, lista;
+                    tema = (String) TablaTemas.getValueAt(index, 0);
+                    nick = (String) TablaTemas.getValueAt(index, 1);
+                    album = (String) TablaTemas.getValueAt(index, 2);
+                    genero = this.listaspd.get(index2).getGenero();
+                    lista = this.listaspd.get(index2).getNombre();
+                    this.Art.AgregarTemaListaG(nick, album, tema, genero, lista);
+                    throw new Exception("Tema agregado");}
+                }
+            } else {
+                String texto = cmb_Lista.getSelectedItem().toString();
+                if ("Particular".equals(texto)) {
+                    int index = TablaTemas.getSelectedRow();
+                    int index2 = jList2.getSelectedIndex();
+                    if (index == -1 || index2 == -1) {
+                        throw new Exception("Debe seleccionar una lista y un tema");
+                    }else{
+                    String nick, album, tema, cliente, lista;
+                    tema = (String) TablaTemas.getValueAt(index, 0);
+                    nick = (String) TablaTemas.getValueAt(index, 1);
+                    album = (String) TablaTemas.getValueAt(index, 2);
+                    cliente = this.listasp.get(index2).getUsuario();
+                    lista = this.listasp.get(index2).getNombre();
+                    this.Art.BorrarTemaListaC(nick, album, tema, cliente, lista);
+                    throw new Exception("Tema borrado");}
+                } else {
+                    int index = TablaTemas.getSelectedRow();
+                    int index2 = jList2.getSelectedIndex();
+                    if (index == -1 || index2 == -1) {
+                        throw new Exception("Debe seleccionar una lista y un tema");
+                    }else{
+                    String nick, album, tema, genero, lista;
+                    tema = (String) TablaTemas.getValueAt(index, 0);
+                    nick = (String) TablaTemas.getValueAt(index, 1);
+                    album = (String) TablaTemas.getValueAt(index, 2);
+                    genero = this.listaspd.get(index2).getGenero();
+                    lista = this.listaspd.get(index2).getNombre();
+                    this.Art.BorrarTemaListaG(nick, album, tema, genero, lista);
+                    throw new Exception("Tema borrado");}
+                }
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void centrar() {
         //este metodo devuelve el tamaÃ±o de la pantalla
         Dimension pantalla = this.getParent().getSize();
         //obtenemos el tamaÃ±o de la ventana
@@ -410,10 +523,10 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
         //para centrar la ventana lo hacemos con el siguiente calculo
         int a = pantalla.width;
         int b = ventana.width;
-        a = (a-b)/2;
+        a = (a - b) / 2;
         int c = pantalla.height;
         int d = ventana.height;
-        c = (c-d)/2;
+        c = (c - d) / 2;
         this.setLocation(a, c);
     }
 
