@@ -43,6 +43,8 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
      */
     public ConsultarListaReproduccion() {
         initComponents();
+        Fabrica f = Fabrica.getInstance();
+        this.artista=Fabrica.getArtista(); 
         this.mostrarListaP();
         this.mostrarListaPD();
     }
@@ -107,11 +109,11 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nombre Tema", "Duración", "Orden", "Dirección", "Archivo"
+                "Archivo", "Nombre del tema", "Albúm", "Duración", "Orden", "Dirección", "Archivo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -321,7 +323,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
  
                     for(int j=0;j<lista.size();j++){
                         DtListaP lp =(DtListaP) lista.get(j);
-               
+                        
                         Object[] datos={
                             lp.getUsuario(),
                             lp.getNombre(),
@@ -407,11 +409,11 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 //            String RutaArchivo = archivo.getPath();
                 String carpetaDestino = elegirArchivo.getSelectedFile().toString();
             
-                String ruta = (String) tblTemas.getValueAt(tblTemas.getSelectedRow(), 4);
-                String nomLista= (String) tblParticular.getValueAt(tblParticular.getSelectedRow(), 0);
-                String nombreTema = (String) tblTemas.getValueAt(tblTemas.getSelectedRow(), 0);
+                String ruta = (String) tblTemas.getValueAt(tblTemas.getSelectedRow(), 6);
+                String nomArtista= (String) tblTemas.getValueAt(tblTemas.getSelectedRow(), 0);
+                String nombreTema = (String) tblTemas.getValueAt(tblTemas.getSelectedRow(), 1);
 
-                if(artista.descargarArchivo(ruta, carpetaDestino, nomLista, nombreTema) == true){
+                if(artista.descargarArchivo(ruta, carpetaDestino, nomArtista, nombreTema) == true){
                     JOptionPane.showMessageDialog(this,"Se ha descargado el archivo correctamente","Descarga completa",javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 }else{
                     JOptionPane.showMessageDialog(this,"Ha ocurrido un error al decargar el tema, la descarga ha sido cancelada","Descarga cancelada",javax.swing.JOptionPane.ERROR_MESSAGE);
@@ -479,7 +481,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             }
             
             for(DtTema tema:temaLP){
-                Object[] datos={tema.getNombre(),tema.getDuracion(),tema.getOrden(),tema.getDireccion(),tema.getArchivo()};
+                String [] datos={tema.getArtista(),tema.getNombre(),tema.getAlbum(),tema.getDuracion(),String.valueOf(tema.getOrden()),tema.getDireccion(),tema.getArchivo()};
                 modelo.addRow(datos);
             }
         }
@@ -497,7 +499,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             }
             
             for(DtTema tema:temaLPD){
-                Object[] datos={tema.getNombre(),tema.getDuracion(),tema.getOrden(),tema.getDireccion(),tema.getArchivo()};
+                String [] datos={tema.getArtista(),tema.getNombre(),tema.getAlbum(),tema.getDuracion(),String.valueOf(tema.getOrden()),tema.getDireccion(),tema.getArchivo()};
                 modelo.addRow(datos);
             }
         }
