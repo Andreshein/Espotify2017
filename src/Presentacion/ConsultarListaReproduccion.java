@@ -336,16 +336,20 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             String nombreG=txtBuscar.getText();
             DefaultTableModel modelo=(DefaultTableModel) tblDefecto.getModel();
             ArrayList<DtGenero> gen=Fabrica.getArtista().listarGeneros(nombreG);
-            while(modelo.getRowCount()>0){
-                modelo.setRowCount(0);
-            }
+            if(gen.isEmpty()){
+                JOptionPane.showMessageDialog(null, "No se encontraron coincidencias", "Error al buscar", JOptionPane.ERROR_MESSAGE);
+            }else{
+                while(modelo.getRowCount()>0){
+                    modelo.setRowCount(0);
+                }
                 
-            for(int i=0;i<gen.size();i++){
-                ArrayList<DtListaPD> listaPD=gen.get(i).getListaspordefecto();
-                for(int j=0;j<listaPD.size();j++){
-                    DtListaPD lpd=(DtListaPD) listaPD.get(j);
-                    Object[] datos={lpd.getNombre(),lpd.getGenero()};
-                    modelo.addRow(datos);
+                for(int i=0;i<gen.size();i++){
+                    ArrayList<DtListaPD> listaPD=gen.get(i).getListaspordefecto();
+                    for(int j=0;j<listaPD.size();j++){
+                        DtListaPD lpd=(DtListaPD) listaPD.get(j);
+                        Object[] datos={lpd.getNombre(),lpd.getGenero()};
+                        modelo.addRow(datos);
+                    }
                 }
             }
         }
