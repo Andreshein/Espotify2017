@@ -1,6 +1,7 @@
 
 package Logica;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.ImageIcon;
@@ -11,12 +12,13 @@ public class Particular extends Lista{
     private String nombreusuario;
     private boolean esPrivado;
     
-    public Particular(int id, String nombreusuario, String nombre, boolean esPrivado) {
+    public Particular(int id, String nombreusuario, String nombre, boolean esPrivado,String imagen) {
         this.id = id;
         this.nombreusuario = nombreusuario;
         this.nombre = nombre;
         this.esPrivado = esPrivado;
         this.temas = new ArrayList();
+        this.imagen=imagen;
     }
     
 
@@ -60,8 +62,22 @@ public class Particular extends Lista{
         this.temas.add(t);
     }
 
+    public String getImagen(){
+        return imagen;
+    }
+    
     public DtListaP getDatos(String Pertenece){
-        return new DtListaP(nombre, null, this.getDtTemas(), Pertenece, this.esPrivado);
+         //La imagen es opcinonal
+        ImageIcon image = null;
+        
+        if(imagen != null){
+            File archivo = new File(imagen);
+            String Rutaimagen = archivo.getPath();
+
+            image = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
+        }
+        
+        return new DtListaP(nombre, image, this.getDtTemas(), Pertenece, this.esPrivado);
     }
     
     public ArrayList<DtTema> getDtTemas(){

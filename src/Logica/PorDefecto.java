@@ -5,9 +5,11 @@
  */
 package Logica;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -75,8 +77,22 @@ public class PorDefecto extends Lista{
         return this.nombre;
     }
 
+    public String getImagen(){
+        return imagen;
+    }
+    
     DtListaPD getDatos(String Pertenece) {
-        return new DtListaPD(nombre, null, this.getDtTemas(), Pertenece);
+        //La imagen es opcinonal
+        ImageIcon image = null;
+        
+        if(imagen != null){
+            File archivo = new File(imagen);
+            String Rutaimagen = archivo.getPath();
+
+            image = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
+        }
+        
+        return new DtListaPD(nombre, image, this.getDtTemas(), Pertenece);
     }
     
     public ArrayList<DtTema> getDtTemas(){

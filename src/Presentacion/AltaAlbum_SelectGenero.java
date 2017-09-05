@@ -42,7 +42,6 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
         this.Ventana = ventana;
         this.Ventana.getGeneros().clear();
         this.Ventana.getModelo().clear();
-        ListaGeneros = Art.GetDataGeneros();
         arbolgen.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         tablagen.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         lista = new DefaultListModel();

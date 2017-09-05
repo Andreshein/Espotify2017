@@ -225,7 +225,7 @@ public class ContCliente implements IcontCliente {
         if (control) {
             this.dbUsuario.SeguirUsu(nickCli, this.seleccionarUsuario(nickUsu));
         }else{
-        throw new Exception("El cliente ya esta siendo seguigo");
+        throw new Exception("El cliente ya esta siendo seguido");
         }
     }
 
@@ -297,7 +297,7 @@ public class ContCliente implements IcontCliente {
 
     public void crearListaP(String Nickname, String nombre, String Img) {
         this.cliente = this.clientes.get(Nickname);
-        this.lista = new Particular(0, "x", nombre, true);
+        this.lista = new Particular(0, "x", nombre, true,Img);
         if (Img != null) {
             String[] aux = Img.split("\\."); 
             String extension = aux[1];
