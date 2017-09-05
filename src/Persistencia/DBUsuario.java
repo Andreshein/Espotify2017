@@ -198,7 +198,7 @@ public class DBUsuario {
                     PreparedStatement st3 = conexion.prepareStatement("SELECT * FROM tema WHERE IdAlbum='" + String.valueOf(rs2.getInt(1)) + "'");
                     ResultSet rs3 = st3.executeQuery();
                     while (rs3.next()) {
-                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), "Archivo", rs3.getString("Dirección"), nickname, rs2.getString("Nombre"));
+                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), rs3.getString("Archivo"), rs3.getString("Dirección"), nickname, rs2.getString("Nombre"));
                         al.AddTema(t);
                     }
                     rs3.close();
