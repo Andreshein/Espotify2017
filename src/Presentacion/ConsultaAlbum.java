@@ -12,7 +12,14 @@ import Logica.DtArtista;
 import Logica.Fabrica;
 import Logica.IcontArtista;
 import java.awt.*;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -71,6 +78,7 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        botonurl = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -125,6 +133,11 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tablap1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablap1MouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tablap1);
@@ -281,6 +294,13 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Temas:");
 
+        botonurl.setText("Abrir URL");
+        botonurl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonurlActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -318,7 +338,9 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(botonDescargar))
+                                .addComponent(botonDescargar)
+                                .addGap(41, 41, 41)
+                                .addComponent(botonurl))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -363,7 +385,8 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonDescargar)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(botonurl))
                 .addContainerGap())
         );
 
@@ -533,7 +556,36 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
     private void txnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txnombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txnombreActionPerformed
-        
+
+    private void tablap1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablap1MouseClicked
+        String aux = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 4);
+        String aux2 = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 3);
+        if (aux==null){
+            this.botonDescargar.setEnabled(false);
+            this.botonurl.setEnabled(true);
+        }
+        if (aux2==null){
+            this.botonDescargar.setEnabled(true);
+            this.botonurl.setEnabled(false);
+        }
+    }//GEN-LAST:event_tablap1MouseClicked
+
+    private void botonurlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonurlActionPerformed
+        String url = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 3);
+        url = "http://" + url;
+        try{
+        if(Desktop.isDesktopSupported())
+            {
+            Desktop.getDesktop().browse(new URI(url));
+            }
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(ConsultaAlbum.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ConsultaAlbum.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_botonurlActionPerformed
+  
+    
     public void buscarTipo(String tipo){
         CardLayout cl = (CardLayout)(contenedor.getLayout());
         
@@ -568,6 +620,7 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
     private javax.swing.JPanel PanelArtistas;
     private javax.swing.JPanel PanelGeneros;
     private javax.swing.JButton botonDescargar;
+    private javax.swing.JButton botonurl;
     private javax.swing.JButton btBuscar;
     private javax.swing.JComboBox<String> combo;
     private javax.swing.JPanel contenedor;

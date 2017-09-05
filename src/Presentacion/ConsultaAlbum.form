@@ -68,6 +68,8 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                               <Component id="botonDescargar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                              <Component id="botonurl" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="txnombre" min="-2" pref="181" max="-2" attributes="0"/>
@@ -129,6 +131,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="botonDescargar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="botonurl" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
@@ -236,6 +239,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablap1MouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -539,6 +545,14 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Temas:"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="botonurl">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Abrir URL"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonurlActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
