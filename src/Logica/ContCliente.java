@@ -127,12 +127,12 @@ public class ContCliente implements IcontCliente {
             }
         } else {
             PorDefecto pd = (PorDefecto) this.lista;
-            if (!this.genero.getListas().containsKey(pd.getNombre())) {
+            if (!this.art.ExisteListaPD(lista.getNombre())) {
                 pd.setGenero(this.genero);
                 this.genero.AddLista(pd);
                 pd.setId(this.dbUsuario.insertarlista(pd));
             } else {
-                throw new Exception("El genero ya tiene una lista con ese nombre");
+                throw new Exception("Ya tiene una lista con ese nombre");
             }
         }
     }

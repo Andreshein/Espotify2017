@@ -515,4 +515,13 @@ public class ContArtista implements IcontArtista {
         }
     }
 
+    @Override
+    public boolean ExisteListaPD(String lista) {
+        for(Genero g: this.generos.values()){
+            if(g.getListas().containsKey(lista))
+                return true;
+        }
+        return false;
+    }
+
 }
