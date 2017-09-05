@@ -22,4 +22,12 @@ abstract class Lista {
     abstract void setTemas(ArrayList<Tema> temas);
     abstract ArrayList<Tema> getTemas();
     abstract DtLista getDatos(String Pertenece);
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 }

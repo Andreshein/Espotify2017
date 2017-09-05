@@ -88,42 +88,6 @@ public class DBUsuario {
         }
     }
 
-    /*public Map<String, Artista> cargarArtistas() {
-        try {
-            Map<String, Artista> lista = new HashMap<String, Artista>();
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");
-            ResultSet rs = st.executeQuery();
-            while(rs.next()){
-                dtart=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);               
-                listaArtista.add(dtart);
-            }
-            st.close();
-            
-            return listaArtista; // Devolver Lista Artista
-
-	}catch(SQLException ex){
-            ex.printStackTrace();
-            return null;
-	}
-    }*/
-    public DtArtista obtenerInfoArtista(String clave) {
-        try {
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE Nickname = '" + clave + "'");
-            ResultSet rs = st.executeQuery();
-            DtArtista art;
-            while (rs.next()) {
-                art = new DtArtista(rs.getString("Nickname"), rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), null, rs.getString("Biografia"), rs.getString("PagWeb"), 0, null, null);
-                return art;
-            }
-            return null;
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-
-    }
-
     public int InsertarAlbum(Album a) {
         int idalbum = -1;
         try {
@@ -224,7 +188,6 @@ public class DBUsuario {
             while (rs.next()) {
                 String nickname = rs.getString("Nickname");
                 java.util.Date fechaN = new java.util.Date(rs.getDate("FechaNac").getTime()); // convertir el Date de sql al Date utilizado en java
-                System.out.println("-----> fecha util.Date: " + fechaN);
                 Cliente c = new Cliente(nickname, rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), fechaN, rs.getString("Imagen"));
                 lista.put(nickname, c);
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM listaparticular WHERE Usuario='" + nickname + "'");
@@ -1583,6 +1546,10 @@ public class DBUsuario {
             while (rs.next()) {
                 id = rs.getInt("id");
             }
+            if(p.getImagen()!=null){
+                st = conexion.prepareStatement("UPDATE listaparticular SET Imagen='"+p.getImagen()+"' WHERE Id="+id);
+                st.executeUpdate();
+            }
             return id;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -1602,6 +1569,12 @@ public class DBUsuario {
             while (rs.next()) {
                 id = rs.getInt("id");
             }
+            rs.close();
+            if(pd.getImagen()!=null){
+                st = conexion.prepareStatement("UPDATE listapordefecto SET Imagen='"+pd.getImagen()+"' WHERE Id="+id);
+                st.executeUpdate();
+            }
+            st.close();
             return id;
         } catch (SQLException ex) {
             ex.printStackTrace();

@@ -38,8 +38,8 @@ public interface IcontCliente{
     public abstract void setClientes(HashMap<String,Cliente> clientes);
     public abstract void setCA(IcontArtista art);
     public abstract DtGenero listarGArbol();
-    public abstract void crearListaP(String nickname, String nombre, ImageIcon imagen);
-    public abstract void crearListaPD(String genero, String nombre, ImageIcon imagen);
+    public abstract void crearListaP(String nickname, String nombre, String imagen);
+    public abstract void crearListaPD(String genero, String nombre, String imagen);
     public abstract void publicarLista(String nickname, String nomLista);
     public abstract ArrayList<DtTema> listarTemasListaP(String nickname,String listaP);
     public abstract ArrayList<DtListaP> listarListasPrivadas(String nickname);

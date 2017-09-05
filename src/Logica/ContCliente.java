@@ -291,15 +291,31 @@ public class ContCliente implements IcontCliente {
         return this.art.listarGArbol();
     }
 
-    public void crearListaP(String Nickname, String nombre, ImageIcon imagen) {
+    public void crearListaP(String Nickname, String nombre, String Img) {
         this.cliente = this.clientes.get(Nickname);
         this.lista = new Particular(0, "x", nombre, false);
+        if (Img != null) {
+            String[] aux = Img.split("\\."); 
+            String extension = aux[1];
+            String rutaDestino = "Imagenes/Clientes/" + Nickname + "/Listas/" + nombre + "." + extension; 
+            this.copiarArchivo(Img, rutaDestino);
+            this.lista.setImagen(rutaDestino);
+        }else{
+            this.lista.setImagen(null);
+        }
     }
 
-    public void crearListaPD(String Genero, String nombre, ImageIcon imagen) {
+    public void crearListaPD(String Genero, String nombre, String Img) {
         Genero g = null;
         this.genero = this.art.getGenero(Genero);
         this.lista = new PorDefecto(0, g, nombre, null);
+        if (Img != null) {
+            String[] aux = Img.split("\\."); 
+            String extension = aux[1];
+            String rutaDestino = "Imagenes/ListasPorDef/" + nombre + "." + extension; 
+            this.copiarArchivo(Img, rutaDestino);
+            this.lista.setImagen(rutaDestino);
+        }
     }
 
     

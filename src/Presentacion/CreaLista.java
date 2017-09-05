@@ -29,9 +29,9 @@ import javax.swing.tree.TreePath;
 public class CreaLista extends javax.swing.JInternalFrame {
 
     private IcontCliente icc;
-    private ImageIcon img;
     private ArrayList<DtCliente> usr;
     private int parte;
+    private String ruta;
 
     public CreaLista() {
         initComponents();
@@ -67,7 +67,7 @@ public class CreaLista extends javax.swing.JInternalFrame {
         this.Info2.setVisible(false);
         this.campo2.setVisible(false);
         this.Img.setIcon(null);
-        this.img = null;
+        this.ruta=null;
         this.usr = new ArrayList<>();
         this.listargeneros();
         this.jButton1.setEnabled(false);
@@ -317,12 +317,11 @@ public class CreaLista extends javax.swing.JInternalFrame {
             File archivo = Buscar.getSelectedFile(); // capturar el nombre y ruta
 
             String Rutaimagen = archivo.getPath();
-
+            this.ruta = Rutaimagen;
             ImageIcon imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
             Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(Img.getWidth(), Img.getHeight(), Image.SCALE_DEFAULT));
-
+            this.Nomb.setText(Rutaimagen);
             this.Img.setIcon(icono); // coloca la imagen en el label
-            this.img = imagen;
             this.jButton1.setEnabled(true);
             this.pack();
         }
@@ -382,8 +381,8 @@ public class CreaLista extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.Img.setIcon(null);
-        this.img = null;
-        this.Nomb.setText("Nombre de imagen");
+        this.Nomb.setText("Imagen");
+        this.ruta=null;
         this.jButton1.setEnabled(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -405,7 +404,7 @@ public class CreaLista extends javax.swing.JInternalFrame {
                 String nombre = this.txNombre.getText();
                 if(nombre.equals("")) 
                 throw new Exception("Debe nombrar la lista de reproducción");
-                this.icc.crearListaPD(genero, nombre, img);
+                this.icc.crearListaPD(genero, nombre, ruta);
                 this.icc.confirmar();
                 javax.swing.JOptionPane.showMessageDialog(null,"Operación realizada");
                 this.dispose();
@@ -418,7 +417,7 @@ public class CreaLista extends javax.swing.JInternalFrame {
                 String nombre = this.txNombre.getText();
                 if(nombre.equals("")) 
                 throw new Exception("Debe nombrar la lista de reproducción");
-                this.icc.crearListaP(nickname, nombre, img);
+                this.icc.crearListaP(nickname, nombre, ruta);
                 this.icc.confirmar();
                 javax.swing.JOptionPane.showMessageDialog(null,"Operación realizada");
                 this.dispose();
