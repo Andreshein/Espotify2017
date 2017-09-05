@@ -526,7 +526,13 @@ public class ContArtista implements IcontArtista {
         }
         return al;
     }
-
+    public boolean ControlDeAlbum(String cadenaart, String cadenanom){
+    if (this.artistas.get(cadenaart).getAlbumes().get(cadenanom)!=null)
+        return false;
+    else
+        return true;
+    }
+    
     public Genero getGenero(String nombre) {
         return this.generos.get(nombre);
     }

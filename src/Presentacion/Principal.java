@@ -10,16 +10,11 @@ import Logica.IcontArtista;
 import Logica.IcontCliente;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -32,6 +27,7 @@ public class Principal extends javax.swing.JFrame {
 
     private IcontCliente Cli; 
     private IcontArtista Art;
+    public static Panel escritorio = new Panel();
     /**
      * Creates new form Principal
      */
@@ -50,6 +46,7 @@ public class Principal extends javax.swing.JFrame {
         
         this.setExtendedState(this.MAXIMIZED_BOTH);
         Fabrica  f = Fabrica.getInstance();
+        setContentPane(escritorio);
         //f.cargarDatos();
 //        ImageIcon imagen = new ImageIcon(RutaImagen); //genera la imagen que seleccionamos
 //        Icon icono= new ImageIcon(imagen.getImage().getScaledInstance(Img.getWidth(),Img.getHeight(),Image.SCALE_DEFAULT));
@@ -80,8 +77,6 @@ public class Principal extends javax.swing.JFrame {
         jMenu12 = new javax.swing.JMenu();
         jMenu13 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
-        escritorio = new javax.swing.JDesktopPane();
-        fondoLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -145,24 +140,6 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        escritorio.setBackground(new java.awt.Color(255, 255, 255));
-        escritorio.setPreferredSize(new java.awt.Dimension(645, 421));
-
-        escritorio.setLayer(fondoLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
-        escritorio.setLayout(escritorioLayout);
-        escritorioLayout.setHorizontalGroup(
-            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(escritorioLayout.createSequentialGroup()
-                .addGap(1030, 1030, 1030)
-                .addComponent(fondoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        escritorioLayout.setVerticalGroup(
-            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(fondoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
-        );
 
         jMenuBar1.setPreferredSize(new java.awt.Dimension(445, 21));
 
@@ -332,11 +309,11 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 645, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+            .addGap(0, 417, Short.MAX_VALUE)
         );
 
         pack();
@@ -506,8 +483,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu Datos;
     private javax.swing.JMenuItem agregarTemaListaMenuItem;
     private javax.swing.JMenuItem dseguir;
-    private javax.swing.JDesktopPane escritorio;
-    private javax.swing.JLabel fondoLabel;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
@@ -538,4 +513,25 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem verListaRep;
     private javax.swing.JMenuItem verperfArt;
     // End of variables declaration//GEN-END:variables
+}
+
+class Panel extends JDesktopPane{
+    
+    public Panel(){
+              
+    }
+    
+    @Override
+    public void paintComponent(Graphics g){
+        Toolkit miPantalla = Toolkit.getDefaultToolkit();
+        Dimension tamanio = getSize();
+        
+        ImageIcon imagen = new ImageIcon("Imagenes\\espotifyFondo.png");
+        
+        g.drawImage(imagen.getImage(), 0, 0, tamanio.width, tamanio.height, null);
+        
+        setOpaque(false);
+       
+        super.paintComponent(g);
+    }
 }

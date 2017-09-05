@@ -103,5 +103,7 @@ public interface IcontArtista {
     public abstract void CrearGenero(String nombre, String padre) throws Exception;
     
     public abstract boolean ExisteListaPD(String lista);
+    
+    public abstract boolean ControlDeAlbum(String cadenaart, String cadenanom);
 
 }

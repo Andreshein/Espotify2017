@@ -427,7 +427,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BusquedaArtistaActionPerformed
 
     private void BusquedaArtistaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BusquedaArtistaKeyReleased
-        if (Art.GetArtistas()==null)
+        if (Art.GetArtistas().isEmpty())
             javax.swing.JOptionPane.showMessageDialog(null,"No hay artistas ingresados", "Aviso", 2);
         else{
             this.NombreAlbum.setEditable(false);
@@ -538,7 +538,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
                 if (x<1500 || x>2017)
                     javax.swing.JOptionPane.showMessageDialog(null, "Año inválido", "Error",0);
                 else
-                    if ((Art.GetArtistas().get(cadenaart).getAlbumes().get(cadenanom))!=null) {
+                    if (Art.ControlDeAlbum(cadenaart, cadenanom)==false) {
                         javax.swing.JOptionPane.showMessageDialog(null, "Este Artista ya tiene un album con ese nombre", "Error",0);
                     }
                     else{
