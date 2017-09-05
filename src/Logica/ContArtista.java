@@ -37,6 +37,19 @@ public class ContArtista implements IcontArtista {
         this.dbUsuario = new DBUsuario();
     }
 
+    public Map<String, DtGenero> GetDataGeneros(){
+        Map<String, DtGenero> datageneros = new HashMap();
+        Set set = this.generos.entrySet();
+        Iterator it = set.iterator();
+        while (it.hasNext()){
+            Map.Entry m = (Map.Entry) it.next();
+            Genero g = (Genero) m.getValue();
+            DtGenero dt = new DtGenero(g.getNombre(),g.getidpadre(),g.getid(),g.getPadre());
+            datageneros.put(dt.getNombre(), dt);
+        }
+        return datageneros;
+    }
+    
     @Override
     public void SetContCliente(IcontCliente cli) {
         this.Cli = cli;
@@ -493,7 +506,13 @@ public class ContArtista implements IcontArtista {
         }
         return al;
     }
-
+    public boolean ControlDeAlbum(String cadenaart, String cadenanom){
+    if (this.artistas.get(cadenaart).getAlbumes().get(cadenanom)!=null)
+        return false;
+    else
+        return true;
+    }
+    
     public Genero getGenero(String nombre) {
         return this.generos.get(nombre);
     }

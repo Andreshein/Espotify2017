@@ -48,7 +48,11 @@ public class Principal extends javax.swing.JFrame {
         Fabrica  f = Fabrica.getInstance();
         setContentPane(escritorio);
         //f.cargarDatos();
+//        ImageIcon imagen = new ImageIcon(RutaImagen); //genera la imagen que seleccionamos
+//        Icon icono= new ImageIcon(imagen.getImage().getScaledInstance(Img.getWidth(),Img.getHeight(),Image.SCALE_DEFAULT));
+//        this.Img.setIcon(icono); // coloca la imagen en el label
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
