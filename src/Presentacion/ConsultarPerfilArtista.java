@@ -350,7 +350,7 @@ public class ConsultarPerfilArtista extends javax.swing.JInternalFrame {
         
             for (int i=0;i<artistas.size();i++){
                 DtArtista dtart = (DtArtista)artistas.get(i);
-                Object[] datos={dtart.getNickname()};
+                String[] datos={dtart.getNickname()};
                 modelo.addRow(datos);
             }
         }
