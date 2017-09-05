@@ -30,6 +30,7 @@ public class AltaAlbum_AltaTema extends javax.swing.JInternalFrame {
         Orden.setEditable(false);
         Orden.setText(String.valueOf(aux));
         archivo.setEditable(false);
+        url.setEditable(false);
     }
 
      public void centrar(){
@@ -71,6 +72,7 @@ public class AltaAlbum_AltaTema extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        activarurl = new javax.swing.JCheckBox();
 
         setIconifiable(true);
 
@@ -116,6 +118,13 @@ public class AltaAlbum_AltaTema extends javax.swing.JInternalFrame {
             }
         });
 
+        activarurl.setText("URL Stream");
+        activarurl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                activarurlActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -151,13 +160,15 @@ public class AltaAlbum_AltaTema extends javax.swing.JInternalFrame {
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addComponent(archivo)
                                     .addComponent(url))))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3)
+                            .addComponent(activarurl)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(14, 14, 14)
                         .addComponent(Orden, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,8 +198,9 @@ public class AltaAlbum_AltaTema extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(url, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                    .addComponent(url, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(activarurl))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -272,10 +284,24 @@ public class AltaAlbum_AltaTema extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void activarurlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activarurlActionPerformed
+        if (activarurl.isSelected()){
+            url.setEditable(true);
+            jButton3.setEnabled(false);
+            archivo.setText("");
+        }
+        if (!activarurl.isSelected()){
+            url.setEditable(false);
+            jButton3.setEnabled(true);
+        }
+            
+    }//GEN-LAST:event_activarurlActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Nombre;
     private javax.swing.JTextField Orden;
+    private javax.swing.JCheckBox activarurl;
     private javax.swing.JTextField archivo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

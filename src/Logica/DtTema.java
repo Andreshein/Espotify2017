@@ -17,6 +17,16 @@ public class DtTema {
     private final String archivo;
     private final String nomartista;
     private final String nomalbum;
+    
+    public DtTema(String nombre, String duracion, int orden, String direccion, String archivo) {
+        this.nombre = nombre;
+        this.duracion = duracion;
+        this.orden = orden;
+        this.direccion = direccion;
+        this.archivo = archivo;
+        this.nomartista = null;
+        this.nomalbum = null;
+    }
 
     public DtTema(String artista, String album, String nombre, String duracion, int orden, String direccion, String archivo) {
         this.nombre = nombre;

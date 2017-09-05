@@ -406,6 +406,10 @@ public class EliminarFavorito extends javax.swing.JInternalFrame {
                     Cli.EliminarFavorito(cliente, elemento, tipo);
                 }
                 javax.swing.JOptionPane.showMessageDialog(null, "Operación Completada","Favorito Eliminado", 1);
+                this.modelo.setRowCount(0);
+                this.modelodinamico.setRowCount(0);
+                nick2.setText("Seleccionar en tabla...");
+                favorito1.setText("Seleccionar en tabla...");
             }
     }
 

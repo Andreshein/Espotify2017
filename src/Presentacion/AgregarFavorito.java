@@ -362,8 +362,13 @@ public class AgregarFavorito extends javax.swing.JInternalFrame {
                     }
                 if (this.favtipo.getSelectedIndex() == 3)
                     tru = Cli.InsertarFavorito(cliente, elementos, 3);
-                if (tru==true)
+                if (tru==true){
                     javax.swing.JOptionPane.showMessageDialog(null, "Favorito Ingresado Correctamente","Éxito", 1);
+                    this.modelo.setRowCount(0);
+                    this.modelodinamico.setRowCount(0);
+                    nick2.setText("Seleccionar en tabla...");
+                    favorito.setText("Seleccionar en tabla...");
+                }
                 if (tru==false)
                     javax.swing.JOptionPane.showMessageDialog(null, "Favorito ya presente en la colección del cliente","Error", 0);
             }
