@@ -34,7 +34,6 @@ import javax.swing.table.DefaultTableModel;
 public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
     
     private IcontArtista artista;
-    private IcontCliente cliente;
     ArrayList<ImageIcon> imagenesp = new ArrayList<>();
     ArrayList<ImageIcon> imagenespd = new ArrayList<>();
      
@@ -323,13 +322,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
  
                     for(int j=0;j<lista.size();j++){
                         DtListaP lp =(DtListaP) lista.get(j);
-                        
-                        Object[] datos={
-                            lp.getUsuario(),
-                            lp.getNombre(),
-                            lp.isPrivada()  
-                        };
-                
+                        String [] datos={lp.getUsuario(),lp.getNombre(),String.valueOf(lp.isPrivada())};
                         modelo.addRow(datos);
                     }
                 }
@@ -349,7 +342,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                     ArrayList<DtListaPD> listaPD=gen.get(i).getListaspordefecto();
                     for(int j=0;j<listaPD.size();j++){
                         DtListaPD lpd=(DtListaPD) listaPD.get(j);
-                        Object[] datos={lpd.getNombre(),lpd.getGenero()};
+                        String[] datos={lpd.getNombre(),lpd.getGenero()};
                         modelo.addRow(datos);
                     }
                 }
@@ -444,8 +437,8 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                 modelo.removeRow(0);
             }
            
-            for(DtListaP lp: lista){            
-                Object[] datos={lp.getUsuario(),lp.getNombre(),lp.isPrivada()};
+            for(DtListaP lp: lista){   
+                String[] datos={lp.getUsuario(),lp.getNombre(),String.valueOf(lp.isPrivada())};
                 modelo.addRow(datos);
                 imagenesp.add(lp.getImagen());
             }
