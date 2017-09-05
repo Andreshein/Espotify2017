@@ -297,7 +297,7 @@ public class ContCliente implements IcontCliente {
 
     public void crearListaP(String Nickname, String nombre, ImageIcon imagen) {
         this.cliente = this.clientes.get(Nickname);
-        this.lista = new Particular(0, "x", nombre, false);
+        this.lista = new Particular(0, "x", nombre, true);
     }
 
     public void crearListaPD(String Genero, String nombre, ImageIcon imagen) {
