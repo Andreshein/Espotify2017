@@ -49,10 +49,10 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
         tablagen.setModel(lista);
         //arbolgen.addTreeSelectionListener(this);
         
-        if (Art.GetDataGeneros()==null)
+        if (Art.GenerosVacio())
             javax.swing.JOptionPane.showMessageDialog(null,"No hay generos ingresados en el sistema","Error",3);
         else
-            LlenarArbol(1, null);
+            this.listargeneros();
     }
     public void centrar(){
         //este metodo devuelve el tamaÃ±o de la pantalla
@@ -68,29 +68,20 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
         c = (c-d)/2;
         this.setLocation(a, c);
     }
-    public void LlenarArbol(int padre, DefaultMutableTreeNode nodo){
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Géneros");
-        //Map<String, Genero> ListaGeneros = new HashMap();
-        //ListaGeneros = Art.GetGeneros();
-        Set set = ListaGeneros.entrySet();
-        Iterator it = set.iterator();
-        DefaultTreeModel modeloarbol = new DefaultTreeModel(root);
-        this.arbolgen.setModel(modeloarbol);
-        while (it.hasNext()){
-            Map.Entry mentry = (Map.Entry)it.next();
-            DtGenero g = (DtGenero) mentry.getValue();
-            if(g.getIdpadre()== padre){
-                DefaultMutableTreeNode nuevonodo = new DefaultMutableTreeNode(g.getNombre());
-                if(padre == 1)
-                    root.add(nuevonodo);
-                else
-                    nodo.add(nuevonodo);
-                
-                LlenarArbol(g.getId(), nuevonodo);
-            }
+    private void listargeneros() {
+        DtGenero g = this.Art.listarGArbol();
+        DefaultMutableTreeNode principal = new DefaultMutableTreeNode(g.getNombre());
+        DefaultTreeModel model = new DefaultTreeModel(principal);
+        lgh(model, principal, g.getHijos());
+        this.arbolgen.setModel(model);
+    }
+
+    private void lgh(DefaultTreeModel modelo, DefaultMutableTreeNode padre, ArrayList<DtGenero> g) {
+        for (int i = 0; i < g.size(); i++) {
+            DefaultMutableTreeNode hijo = new DefaultMutableTreeNode(g.get(i).getNombre());
+            modelo.insertNodeInto(hijo, padre, i);
+            lgh(modelo, hijo, g.get(i).getHijos());
         }
-        this.arbolgen.setModel(modeloarbol);
-        
     }
 
     /**

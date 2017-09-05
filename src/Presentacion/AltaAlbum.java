@@ -214,6 +214,11 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Nombre:");
 
+        anio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                anioFocusLost(evt);
+            }
+        });
         anio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 anioActionPerformed(evt);
@@ -427,7 +432,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BusquedaArtistaActionPerformed
 
     private void BusquedaArtistaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BusquedaArtistaKeyReleased
-        if (Art.GetArtistas().isEmpty())
+        if (Art.ArtistasVacio())
             javax.swing.JOptionPane.showMessageDialog(null,"No hay artistas ingresados", "Aviso", 2);
         else{
             this.NombreAlbum.setEditable(false);
@@ -538,7 +543,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
                 if (x<1500 || x>2017)
                     javax.swing.JOptionPane.showMessageDialog(null, "Año inválido", "Error",0);
                 else
-                    if (Art.ControlDeAlbum(cadenaart, cadenanom)==false) {
+                    if (Art.estaAlbum(cadenaart, cadenanom)) {
                         javax.swing.JOptionPane.showMessageDialog(null, "Este Artista ya tiene un album con ese nombre", "Error",0);
                     }
                     else{
@@ -554,6 +559,21 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
         this.temas.clear();
         this.modelotemas.setRowCount(0);
     }//GEN-LAST:event_eliminarActionPerformed
+
+    private void anioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_anioFocusLost
+        if(anio.getText().equals("") == false){
+            try{
+                int anio= Integer.parseInt(this.anio.getText());
+                if((anio>2017 || anio<1800) ){
+                    javax.swing.JOptionPane.showMessageDialog(this,"El formato de la fecha es incorrecto \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    this.anio.setText("");
+                }
+            }catch(NumberFormatException ex ) {
+                javax.swing.JOptionPane.showMessageDialog(null,"Debe ingresar solo numeros");
+                anio.setText("");
+            }
+        }
+    }//GEN-LAST:event_anioFocusLost
 
     String ConvertirString(String cad){
         cad = cad.toLowerCase();

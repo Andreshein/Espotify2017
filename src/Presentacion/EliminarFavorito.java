@@ -21,8 +21,7 @@ public class EliminarFavorito extends javax.swing.JInternalFrame {
     /**
      * Creates new form EliminarFavorito
      */
-    private ArrayList<DtListaP> favlistasp;
-    private ArrayList<DtListaPD> favlistaspd;
+    private ArrayList<DtLista> favlistas;
     private ArrayList<DtTema> favtemas;
     private ArrayList<DtAlbum> favalbum;
     private IcontArtista Art;
@@ -262,7 +261,7 @@ public class EliminarFavorito extends javax.swing.JInternalFrame {
 
     private void nickKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nickKeyReleased
         nick2.setText("Seleccionar en tabla...");
-        if (Cli.GetClientes()==null)
+        if (Cli.ClientesVacio())
         javax.swing.JOptionPane.showMessageDialog(null,"No hay clientes ingresados", "Aviso", 2);
         else{
             List<DtCliente> clientes = Cli.BuscarClientesFav(nick.getText());
@@ -299,6 +298,7 @@ public class EliminarFavorito extends javax.swing.JInternalFrame {
 
     private void LlenarTabla(){
         favorito1.setText("Seleccionar en tabla...");
+        DtCliente dtc = Cli.verPerfilCliente(nick2.getText());
             if (this.tipo.getSelectedIndex() == 1){
                 tabla1.setModel(new javax.swing.table.DefaultTableModel(
                     new Object [][] { },
@@ -309,7 +309,7 @@ public class EliminarFavorito extends javax.swing.JInternalFrame {
                         return types [columnIndex];
                     }});
                     modelodinamico = (DefaultTableModel) tabla1.getModel();
-                    this.favalbum = Cli.GetClientes().get(nick2.getText()).getFavDtAlbumes();
+                    this.favalbum = dtc.getFavAlbumes();
                     modelodinamico.setRowCount(0);
                     for (int i=0;i<favalbum.size();i++){
                         DtAlbum dt = (DtAlbum)favalbum.get(i);
@@ -328,7 +328,7 @@ public class EliminarFavorito extends javax.swing.JInternalFrame {
                         }});
                         modelodinamico = (DefaultTableModel) tabla1.getModel();
                         modelodinamico.setRowCount(0);
-                        this.favtemas = Cli.GetClientes().get(nick2.getText()).getFavDtTemas();
+                        this.favtemas = dtc.getFavTemas();
                         for (int i=0;i<favtemas.size();i++){
                                 DtTema dt = favtemas.get(i);
                                 Object[] dat={dt.getNombre(),dt.getNomalbum(),dt.getNomartista()};
@@ -346,18 +346,16 @@ public class EliminarFavorito extends javax.swing.JInternalFrame {
                             }});
                             modelodinamico = (DefaultTableModel) tabla1.getModel();
                             modelodinamico.setRowCount(0);
-                            this.favlistasp = Cli.GetClientes().get(nick2.getText()).getFavDtListasP();
-                            this.favlistaspd = Cli.GetClientes().get(nick2.getText()).getFavDtListasPD();
-                            for (int i=0;i<favlistasp.size();i++){
-                                DtListaP dtp = (DtListaP)favlistasp.get(i);
-                                Object[] dat={dtp.getNombre(),"Particular",dtp.getUsuario()};
+                            this.favlistas=dtc.getFavListas();
+                            for (int i=0;i<favlistas.size();i++){
+                                DtLista dtp = this.favlistas.get(i);
+                                if(dtp instanceof DtListaP){
+                                Object[] dat={dtp.getNombre(),"Particular",((DtListaP)dtp).getUsuario()};
+                                modelodinamico.addRow(dat);}
+                                else{
+                                Object[] dat={dtp.getNombre(),"Por Defecto",((DtListaPD)dtp).getGenero()};
                                 modelodinamico.addRow(dat);
-                            }
-                            for (int i=0;i<favlistaspd.size();i++){
-                                DtListaPD dtp = (DtListaPD)favlistaspd.get(i);
-                                Object[] dat={dtp.getNombre(),"Por Defecto",dtp.getGenero()};
-                                modelodinamico.addRow(dat);
-                            }
+                            }}
                         }
     }
     private void tabla1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla1MouseClicked

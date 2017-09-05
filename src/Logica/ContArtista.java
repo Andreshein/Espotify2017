@@ -19,10 +19,9 @@ public class ContArtista implements IcontArtista {
 
     private static ContArtista instancia;
 
-    private Map<String, Artista> artistas = null;
-    private Map<String, Genero> generos = null;
-    private Map<String, PorDefecto> ListasPorDef = null;
-    private DBUsuario dbUsuario = null;
+    private Map<String, Artista> artistas;
+    private Map<String, Genero> generos;
+    private DBUsuario dbUsuario;
     private IcontCliente Cli;
 
     public static ContArtista getInstance() {
@@ -36,10 +35,8 @@ public class ContArtista implements IcontArtista {
 
         this.artistas = new HashMap<>();
         this.dbUsuario = new DBUsuario();
-        this.ListasPorDef = new HashMap<>();
     }
-    
-    @Override
+
     public Map<String, DtGenero> GetDataGeneros(){
         Map<String, DtGenero> datageneros = new HashMap();
         Set set = this.generos.entrySet();
@@ -52,25 +49,12 @@ public class ContArtista implements IcontArtista {
         }
         return datageneros;
     }
-
-    @Override
-    public Map<String, Genero> GetGeneros(){
-        return this.generos;
-    }
-
+    
     @Override
     public void SetContCliente(IcontCliente cli) {
         this.Cli = cli;
     }
 
-    @Override
-    public Map<String, Artista> GetArtistas() {
-        return this.artistas;
-    }
-    public Map<String, PorDefecto> GetListasPD(){
-        return this.ListasPorDef;
-    }
-    
     @Override
     public boolean SelectArtista(String nick) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -116,34 +100,35 @@ public class ContArtista implements IcontArtista {
     }
 
     @Override
-    public ArrayList<DtAlbum> listarTodosAlbumes(){
+    public ArrayList<DtAlbum> listarTodosAlbumes() {
         ArrayList<DtAlbum> albumes = new ArrayList();
         Set set = this.artistas.entrySet();
         Iterator it = set.iterator();
-        while (it.hasNext()){
-            Map.Entry m = (Map.Entry)it.next();
+        while (it.hasNext()) {
+            Map.Entry m = (Map.Entry) it.next();
             Artista aux = (Artista) m.getValue();
             Iterator it2 = aux.getDtAlbumes().iterator();
-            while (it2.hasNext()){
+            while (it2.hasNext()) {
                 DtAlbum dt = (DtAlbum) it2.next();
                 albumes.add(dt);
             }
         }
         return albumes;
     }
+
     @Override
-    public ArrayList<DtTema> listarTodosTemas(){
+    public ArrayList<DtTema> listarTodosTemas() {
         ArrayList<DtTema> temas = new ArrayList();
         Set set = this.artistas.entrySet();
         Iterator it = set.iterator();
-        while (it.hasNext()){
-            Map.Entry m = (Map.Entry)it.next();
+        while (it.hasNext()) {
+            Map.Entry m = (Map.Entry) it.next();
             Artista aux = (Artista) m.getValue();
             Iterator it2 = aux.getDtAlbumes().iterator();
-            while (it2.hasNext()){
+            while (it2.hasNext()) {
                 DtAlbum dt = (DtAlbum) it2.next();
                 ArrayList<DtTema> temas1 = dt.getTemas();
-                for (int i=0;i<temas1.size();i++){
+                for (int i = 0; i < temas1.size(); i++) {
                     DtTema dtt = temas1.get(i);
                     temas.add(dtt);
                 }
@@ -151,6 +136,7 @@ public class ContArtista implements IcontArtista {
         }
         return temas;
     }
+
     @Override
     public ArrayList<DtCliente> listarSeguidores(String nick) {
         return this.Cli.getSeguidores(nick);
@@ -177,70 +163,68 @@ public class ContArtista implements IcontArtista {
 ////            retornar.add(aux.getDtArtista());}       
 ////        return retornar;
 //    }
-
-    public ArrayList<DtAlbum> listarAlbumGenero(String genero){
+    public ArrayList<DtAlbum> listarAlbumGenero(String genero) {
         ArrayList<DtAlbum> albumes = new ArrayList<>();
-        
+
         Genero generoPadre = this.generos.get(genero);
         albumes.addAll(generoPadre.getDtAlbumes());
-        
+
         ArrayList<DtGenero> generosHijos = generoPadre.getDatos(this.buscaHijos(generoPadre.getNombre())).getHijos();
-        
+
         for (DtGenero generoHijo : generosHijos) {
             albumes.addAll(generoHijo.getAlbumes());
-        }        
-        
+        }
+
         //Eliminar albumes repetidos
-        for(int i= 0; i < albumes.size(); i++){
+        for (int i = 0; i < albumes.size(); i++) {
             DtAlbum album = albumes.get(i);
-            if( albumRepetido(album.getNombre(), albumes) == true ){
+            if (albumRepetido(album.getNombre(), albumes) == true) {
                 albumes.remove(album);
                 i--; // resta uno al indice porque se acaba de eliminar un album, sino se saltea el siguiente
             }
         }
-        
-        
+
         return albumes;
 //        return albumesAux;
-   }
-    
-    public boolean albumRepetido(String nomAlbum, ArrayList<DtAlbum> albumes){
+    }
+
+    public boolean albumRepetido(String nomAlbum, ArrayList<DtAlbum> albumes) {
         int ocurrencias = 0;
-        for(DtAlbum album: albumes){
-            if(album.getNombre().equals(nomAlbum)){
+        for (DtAlbum album : albumes) {
+            if (album.getNombre().equals(nomAlbum)) {
                 ocurrencias++;
             }
         }
 
-        if(ocurrencias > 1){
+        if (ocurrencias > 1) {
             return true;
-        }else{
+        } else {
             return false;
-        }        
+        }
     }
-    
-    public ArrayList<String> BuscarGenero(String palabra){
-        ArrayList<String> retornar=new ArrayList<>();
 
-       Iterator iterator = this.generos.values().iterator();
+    public ArrayList<String> BuscarGenero(String palabra) {
+        ArrayList<String> retornar = new ArrayList<>();
+
+        Iterator iterator = this.generos.values().iterator();
         while (iterator.hasNext()) {
             Genero aux = (Genero) iterator.next();
 
             //Pasa los strings a mayusculas para comparar mejor
             String genero = aux.getNombre().toUpperCase();
             palabra = palabra.toUpperCase();
-            
-            if(genero.startsWith(palabra)){
+
+            if (genero.startsWith(palabra)) {
                 retornar.add(aux.getNombre());
 
             }
         }
         return retornar;
 
-   }
-   
-    public ArrayList <DtArtista> BuscarArtista(String palabra) {
-        ArrayList<DtArtista> retornar=new ArrayList<>();
+    }
+
+    public ArrayList<DtArtista> BuscarArtista(String palabra) {
+        ArrayList<DtArtista> retornar = new ArrayList<>();
         Iterator iterator = this.artistas.values().iterator();
         while (iterator.hasNext()) {
             Artista aux = (Artista) iterator.next();
@@ -252,29 +236,29 @@ public class ContArtista implements IcontArtista {
             String apellido = aux.getApellido().toUpperCase();
             String nombrecompleto = aux.getNombre() + " " + aux.getApellido();
             nombrecompleto = nombrecompleto.toUpperCase();
-            
-            if(nickname.startsWith(palabra) || nombre.startsWith(palabra) || apellido.contains(palabra) || nombrecompleto.startsWith(palabra)){
-                retornar.add(aux.getDatosResumidos());   
+
+            if (nickname.startsWith(palabra) || nombre.startsWith(palabra) || apellido.contains(palabra) || nombrecompleto.startsWith(palabra)) {
+                retornar.add(aux.getDatosResumidos());
             }
         }
         return retornar;
     }
 
-   public ArrayList<DtAlbum> listarAlbumArtista(String nickname){
+    public ArrayList<DtAlbum> listarAlbumArtista(String nickname) {
         return this.artistas.get(nickname).getDtAlbumes();
-   }
-    
-    public ArrayList <DtTema> obtenerTema (String artista, String album){
-       Artista art = this.artistas.get(artista);
-       return art.getAlbumes().get(album).getDtTemas();
     }
-    
-    public boolean descargarArchivo(String rutaArchivo, String carpetaDestino, String nickArtista, String nombreTema){
+
+    public ArrayList<DtTema> obtenerTema(String artista, String album) {
+        Artista art = this.artistas.get(artista);
+        return art.getAlbumes().get(album).getDtTemas();
+    }
+
+    public boolean descargarArchivo(String rutaArchivo, String carpetaDestino, String nickArtista, String nombreTema) {
         Artista artista = this.artistas.get(nickArtista);
-        
+
         //El archivo descargado quedaria con el nombre "NombreArt ApellidoArt - nombreTema.mp3"
-        String rutaDestino = carpetaDestino+"/"+artista.getNombre()+" "+artista.getApellido()+" - "+nombreTema+".mp3";
-        
+        String rutaDestino = carpetaDestino + "/" + artista.getNombre() + " " + artista.getApellido() + " - " + nombreTema + ".mp3";
+
         return Fabrica.getCliente().copiarArchivo(rutaArchivo, rutaDestino);
     }
 
@@ -322,7 +306,7 @@ public class ContArtista implements IcontArtista {
 
             //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
             //la funcion ya esta definida en el controlador de cliente porque ahi se usa, entocnces no hay que declararla otra vez en este controlador
-            if(Fabrica.getCliente().copiarArchivo(Img, rutaDestino) == true){
+            if (Fabrica.getCliente().copiarArchivo(Img, rutaDestino) == true) {
                 Img = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
             } else {
                 Img = null; // no se pudo copiar la imagen, queda en null
@@ -337,16 +321,17 @@ public class ContArtista implements IcontArtista {
 
         return ok;
     }
+
     @Override
-    public void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String,DtGenero> generos){
+    public void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
         int anio2 = Integer.parseInt(anio);
-        HashMap<String,Tema> temasfinal = new HashMap();
+        HashMap<String, Tema> temasfinal = new HashMap();
         Set set3 = temas.entrySet();
         Iterator it0 = set3.iterator();
-        while (it0.hasNext()){
+        while (it0.hasNext()) {
             Map.Entry x = (Map.Entry) it0.next();
-            DtTema dtte = (DtTema)x.getValue();
-            Tema t = new Tema(dtte.getDuracion(),dtte.getNombre(),dtte.getOrden(),dtte.getArchivo(),dtte.getDireccion());
+            DtTema dtte = (DtTema) x.getValue();
+            Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), dtte.getArchivo(), dtte.getDireccion());
             temasfinal.put(t.getNombre(), t);
         }
         ArrayList<Genero> l = new ArrayList();
@@ -354,7 +339,7 @@ public class ContArtista implements IcontArtista {
         Iterator iter = set2.iterator();
         while (iter.hasNext()) {
             Map.Entry x = (Map.Entry) iter.next();
-            DtGenero dtgen = (DtGenero)x.getValue();
+            DtGenero dtgen = (DtGenero) x.getValue();
             Genero g = this.generos.get(dtgen.getNombre());
             l.add(g);
         }
@@ -484,10 +469,6 @@ public class ContArtista implements IcontArtista {
     public void setArtista(HashMap<String, Artista> artistas) {
         this.artistas = artistas;
     }
-    
-    public void setListasPD(HashMap<String, PorDefecto> lpd) {
-        this.ListasPorDef = lpd;
-    }
 
     public void setGenero(HashMap<String, Genero> generos) {
         this.generos = generos;
@@ -507,7 +488,6 @@ public class ContArtista implements IcontArtista {
         }
         return retornar;
     }
-    
 
     @Override
     public ArrayList<DtListaPD> ListarListaPD() {
@@ -594,11 +574,48 @@ public class ContArtista implements IcontArtista {
 
     @Override
     public boolean ExisteListaPD(String lista) {
-        for(Genero g: this.generos.values()){
-            if(g.getListas().containsKey(lista))
+        for (Genero g : this.generos.values()) {
+            if (g.getListas().containsKey(lista)) {
                 return true;
+            }
         }
         return false;
+    }
+
+    @Override
+    public Album getAlbum(String Artista, String Album) {
+        Artista a = this.artistas.get(Artista);
+        return a.getAlbumes().get(Album);
+    }
+
+    @Override
+    public Tema getTema(String Artista, String Album, String Tema) {
+        Artista a = this.artistas.get(Artista);
+        return a.getAlbumes().get(Album).getTema(Tema);
+    }
+
+    @Override
+    public PorDefecto getListaPD(String Nombre) {
+        for (Genero g : this.generos.values()) {
+            if (g.getListas().containsKey(Nombre)) {
+                return g.getListas().get(Nombre);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean ArtistasVacio() {
+        return this.artistas.isEmpty();
+    }
+
+    public boolean GenerosVacio() {
+        return this.generos.isEmpty();
+    }
+    
+    @Override
+    public boolean estaAlbum(String Nickname, String Album) {
+        return artistas.get(Nickname).getAlbumes().containsKey(Album);
     }
 
 }

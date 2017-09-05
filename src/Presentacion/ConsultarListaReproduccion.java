@@ -372,17 +372,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                 modelo.removeRow(0);
             }
            
-            for(DtListaP lp: lista){
-                //Imagen es opcional
-                if(lp.getImagen() != null){
-                Icon icono= new ImageIcon(lp.getImagen().getImage().getScaledInstance(Imagen.getWidth(),Imagen.getHeight(),Image.SCALE_DEFAULT));
-
-                Imagen.setIcon(icono); // coloca la imagen en el label
-
-                }else{
-                    Imagen.setIcon(null); 
-                }
-                
+            for(DtListaP lp: lista){            
                 Object[] datos={lp.getUsuario(),lp.getNombre(),lp.isPrivada()};
                 modelo.addRow(datos);
             }

@@ -401,6 +401,15 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 modelo.addRow(dat);
             }
         }
+        
+        DefaultTableModel modelo = (DefaultTableModel) tablap.getModel();
+        while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla albumes
+        
+        listaGenerosAlbum.setModel(new DefaultListModel<>()); //limpiar generos del album
+        Imagen.setIcon(null); //limpiar imagen
+        
+        modelo = (DefaultTableModel) tablap1.getModel();
+        while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla temas
     }//GEN-LAST:event_btBuscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -515,6 +524,10 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         }
 
         listaGenerosAlbum.setModel(new DefaultListModel<>());
+        Imagen.setIcon(null);
+        
+        modelo = (DefaultTableModel) tablap1.getModel();
+        while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla temas
     }//GEN-LAST:event_tablaArtistaMouseClicked
 
     private void txnombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txnombreActionPerformed

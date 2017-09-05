@@ -88,42 +88,6 @@ public class DBUsuario {
         }
     }
 
-    /*public Map<String, Artista> cargarArtistas() {
-        try {
-            Map<String, Artista> lista = new HashMap<String, Artista>();
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");
-            ResultSet rs = st.executeQuery();
-            while(rs.next()){
-                dtart=new DtArtista(rs.getString("Nickname"),rs.getString("Nombre"),rs.getString("Apellido"),rs.getString("Correo"),rs.getDate("FechaNac"),null,rs.getString("Biografia"),rs.getString("PagWeb"),0,null,null);               
-                listaArtista.add(dtart);
-            }
-            st.close();
-            
-            return listaArtista; // Devolver Lista Artista
-
-	}catch(SQLException ex){
-            ex.printStackTrace();
-            return null;
-	}
-    }*/
-    public DtArtista obtenerInfoArtista(String clave) {
-        try {
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE Nickname = '" + clave + "'");
-            ResultSet rs = st.executeQuery();
-            DtArtista art;
-            while (rs.next()) {
-                art = new DtArtista(rs.getString("Nickname"), rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), null, rs.getString("Biografia"), rs.getString("PagWeb"), 0, null, null);
-                return art;
-            }
-            return null;
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-
-    }
-
     public int InsertarAlbum(Album a) {
         int idalbum = -1;
         try {
@@ -198,7 +162,7 @@ public class DBUsuario {
                     PreparedStatement st3 = conexion.prepareStatement("SELECT * FROM tema WHERE IdAlbum='" + String.valueOf(rs2.getInt(1)) + "'");
                     ResultSet rs3 = st3.executeQuery();
                     while (rs3.next()) {
-                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), "Archivo", rs3.getString("Dirección"), nickname, rs2.getString("Nombre"));
+                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), rs3.getString("Archivo"), rs3.getString("Dirección"), nickname, rs2.getString("Nombre"));
                         al.AddTema(t);
                     }
                     rs3.close();
@@ -224,14 +188,13 @@ public class DBUsuario {
             while (rs.next()) {
                 String nickname = rs.getString("Nickname");
                 java.util.Date fechaN = new java.util.Date(rs.getDate("FechaNac").getTime()); // convertir el Date de sql al Date utilizado en java
-                System.out.println("-----> fecha util.Date: " + fechaN);
                 Cliente c = new Cliente(nickname, rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), fechaN, rs.getString("Imagen"));
                 lista.put(nickname, c);
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM listaparticular WHERE Usuario='" + nickname + "'");
                 ResultSet rs2 = st2.executeQuery();
                 while (rs2.next()) {
                     boolean privada;
-                    if (rs2.getInt("Privada") == 0) {
+                    if (rs2.getInt("Privada") == 1) {
                         privada = true;
                     } else {
                         privada = false;
@@ -1088,7 +1051,7 @@ public class DBUsuario {
             statement3.setInt(1, 1);
             statement3.setString(2, "el_padrino");
             statement3.setString(3, "Música Inspiradora");
-            statement3.setInt(4, 1);
+            statement3.setBoolean(4, false);
             statement3.setString(5, rutaArchivo);
             statement3.executeUpdate();
             statement3.close();
@@ -1099,7 +1062,7 @@ public class DBUsuario {
             statement4.setInt(1, 2);
             statement4.setString(2, "scarlettO");
             statement4.setString(3, "De Todo Un Poco");
-            statement4.setInt(4, 1);
+            statement4.setBoolean(4, false);
             statement4.setString(5, null);
             statement4.executeUpdate();
             statement4.close();
@@ -1120,7 +1083,7 @@ public class DBUsuario {
             statement5.setInt(1, 3);
             statement5.setString(2, "Heisenberg");
             statement5.setString(3, "Para Cocinar");
-            statement5.setInt(4, 0);
+            statement5.setBoolean(4, true);
             statement5.setString(5, rutaArchivo);
             statement5.executeUpdate();
             statement5.close();
@@ -1131,7 +1094,7 @@ public class DBUsuario {
             statement6.setInt(1, 4);
             statement6.setString(2, "lachiqui");
             statement6.setString(3, "Para Las Chicas");
-            statement6.setInt(4, 1);
+            statement6.setBoolean(4, false);
             statement6.setString(5, null);
             statement6.executeUpdate();
             statement6.close();
@@ -1152,7 +1115,7 @@ public class DBUsuario {
             statement7.setInt(1, 5);
             statement7.setString(2, "cbochinche");
             statement7.setString(3, "Fiesteras");
-            statement7.setInt(4, 1);
+            statement7.setBoolean(4, false);
             statement7.setString(5, rutaArchivo);
             statement7.executeUpdate();
             statement7.close();
@@ -1163,7 +1126,7 @@ public class DBUsuario {
             statement8.setInt(1, 6);
             statement8.setString(2, "cbochinche");
             statement8.setString(3, "Mis Favoritas");
-            statement8.setInt(4, 0);
+            statement8.setBoolean(4, true);
             statement8.setString(5, null);
             statement8.executeUpdate();
             statement8.close();
@@ -1583,6 +1546,10 @@ public class DBUsuario {
             while (rs.next()) {
                 id = rs.getInt("id");
             }
+            if(p.getImagen()!=null){
+                st = conexion.prepareStatement("UPDATE listaparticular SET Imagen='"+p.getImagen()+"' WHERE Id="+id);
+                st.executeUpdate();
+            }
             return id;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -1602,6 +1569,12 @@ public class DBUsuario {
             while (rs.next()) {
                 id = rs.getInt("id");
             }
+            rs.close();
+            if(pd.getImagen()!=null){
+                st = conexion.prepareStatement("UPDATE listapordefecto SET Imagen='"+pd.getImagen()+"' WHERE Id="+id);
+                st.executeUpdate();
+            }
+            st.close();
             return id;
         } catch (SQLException ex) {
             ex.printStackTrace();

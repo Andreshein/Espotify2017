@@ -126,23 +126,23 @@ public class Fabrica {
             }
             
         }
-        HashMap<String, PorDefecto> listaspordef = new HashMap();
-        Set set = generos.entrySet();
-        Iterator it = set.iterator();
-        while (it.hasNext()){
-            Map.Entry m = (Map.Entry) it.next();
-            Genero g = (Genero)m.getValue();
-                if (g.getListas().size()>0){
-                    Set set2 = g.getListas().entrySet();
-                    Iterator it2 = set2.iterator();
-                    while (it2.hasNext()){
-                        Map.Entry m2 = (Map.Entry) it2.next();
-                        PorDefecto lpd = (PorDefecto)m2.getValue();
-                        listaspordef.put(lpd.getNombre(), lpd);
-                    }
-                }
-        }
-        Artista.setListasPD(listaspordef);
+//        HashMap<String, PorDefecto> listaspordef = new HashMap();
+//        Set set = generos.entrySet();
+//        Iterator it = set.iterator();
+//        while (it.hasNext()){
+//            Map.Entry m = (Map.Entry) it.next();
+//            Genero g = (Genero)m.getValue();
+//                if (g.getListas().size()>0){
+//                    Set set2 = g.getListas().entrySet();
+//                    Iterator it2 = set2.iterator();
+//                    while (it2.hasNext()){
+//                        Map.Entry m2 = (Map.Entry) it2.next();
+//                        PorDefecto lpd = (PorDefecto)m2.getValue();
+//                        listaspordef.put(lpd.getNombre(), lpd);
+//                    }
+//                }
+//        }
+//        Artista.setListasPD(listaspordef);
         Artista.setArtista((HashMap)artistas);
         Artista.setGenero((HashMap)generos);
         Cliente.setClientes((HashMap)clientes);

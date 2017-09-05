@@ -226,7 +226,7 @@ public class AgregarFavorito extends javax.swing.JInternalFrame {
 
     private void nickKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nickKeyReleased
         nick2.setText("Seleccionar en tabla...");
-        if (Cli.GetClientes().isEmpty())
+        if (Cli.ClientesVacio())
             javax.swing.JOptionPane.showMessageDialog(null,"No hay clientes ingresados", "Aviso", 2);
         else{
             List<DtCliente> clientes = Cli.BuscarClientesFav(nick.getText());
