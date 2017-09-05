@@ -40,6 +40,8 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         setTitle("Consulta Álbum"); // nombre de la ventana
         setResizable(false);
         buscarTipo("Género");
+        this.botonDescargar.setEnabled(false);
+        this.botonurl.setEnabled(false);
     }
 
     /**
@@ -569,13 +571,13 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txnombreActionPerformed
 
     private void tablap1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablap1MouseClicked
-        String aux = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 4);
-        String aux2 = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 3);
-        if (aux==null){
+        String archivo = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 4);
+        String url = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 3);
+        if (archivo==null){
             this.botonDescargar.setEnabled(false);
             this.botonurl.setEnabled(true);
         }
-        if (aux2==null){
+        if (url==null){
             this.botonDescargar.setEnabled(true);
             this.botonurl.setEnabled(false);
         }
