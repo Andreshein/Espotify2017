@@ -24,7 +24,7 @@ public class AltaGenero extends javax.swing.JInternalFrame {
         Art= Fabrica.getArtista();
         this.listargeneros();
     }
-private void listargeneros() {
+    private void listargeneros() {
         DtGenero g = this.Art.listarGArbol();
         DefaultMutableTreeNode principal = new DefaultMutableTreeNode(g.getNombre());
         DefaultTreeModel model = new DefaultTreeModel(principal);
