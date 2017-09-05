@@ -323,7 +323,7 @@ public class ContArtista implements IcontArtista {
     }
 
     @Override
-    public void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
+    public void IngresarAlbum(String nicknameArt, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
         int anio2 = Integer.parseInt(anio);
         HashMap<String, Tema> temasfinal = new HashMap();
         Set set3 = temas.entrySet();
@@ -331,7 +331,24 @@ public class ContArtista implements IcontArtista {
         while (it0.hasNext()) {
             Map.Entry x = (Map.Entry) it0.next();
             DtTema dtte = (DtTema) x.getValue();
-            Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), dtte.getArchivo(), dtte.getDireccion());
+            
+            String rutaDestino = null; //ruta de destino del archivo
+            
+            //Si el tema tiene un archivo
+            if(dtte.getArchivo() != null){
+                //ruta del archivo seleccionado para el tema
+                String rutaOrigen = dtte.getArchivo(); 
+
+                //Se crea la ruta del archivo del tema dentro del servidor -> "Temas/nickArtista/nomAlbum/tema.mp3"
+                rutaDestino = "Temas/"+nicknameArt+"/"+nombre+"/"+dtte.getNombre()+".mp3";
+
+                //Si NO pudo copiar el archivo correctamente deja a ruta en null
+                if(Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false){
+                    rutaDestino = null; 
+                }
+            }
+            
+            Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion());
             temasfinal.put(t.getNombre(), t);
         }
         ArrayList<Genero> l = new ArrayList();
@@ -343,12 +360,36 @@ public class ContArtista implements IcontArtista {
             Genero g = this.generos.get(dtgen.getNombre());
             l.add(g);
         }
-        Album a = new Album(nomartista, nombre, anio2, imagen, temasfinal, l);
+        
+        String rutaDestino = null; //ruta de destino del archivo
+            
+        //Si el album tiene una imagen
+        if(imagen != null){
+            //ruta del archivo seleccionado para el tema
+            String rutaOrigen = imagen; 
+            
+            //Divide el string por el punto, tambien elimina el punto
+            String[] aux = imagen.split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
+            
+            //toma la segunda parte porque es la extension
+            //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
+            String extension = aux[1];
+
+            //Se crea la ruta del archivo del tema dentro del servidor -> "Imagenes/nickArtista/nomAlbum/tema.mp3"
+            rutaDestino = "Imagenes/"+nicknameArt+"/Albumes/"+nombre+"." +extension;
+
+            //Si NO pudo copiar el archivo correctamente deja a ruta en null
+            if(Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false){
+                rutaDestino = null; 
+            }
+        }
+        
+        Album a = new Album(nicknameArt, nombre, anio2, rutaDestino, temasfinal, l);
         int idalbum = this.dbUsuario.InsertarAlbum(a);
         for (int i = 0; i < l.size(); i++) {
             l.get(i).AddAlbum(a);
         }
-        Artista ar = artistas.get(nomartista);
+        Artista ar = artistas.get(nicknameArt);
         ar.getAlbumes().put(a.getNombre(), a);
         for (int i = 0; i < a.getGeneros().size(); i++) {
             int idg = a.getGeneros().get(i).getid();
