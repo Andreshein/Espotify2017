@@ -420,7 +420,7 @@ public class ContCliente implements IcontCliente {
         Cliente c = this.clientes.get(cliente);
         boolean x = false;
         if (tipo==0){
-            Tema t = this.art.GetArtistas().get(elementos[2]).getAlbumes().get(elementos[1]).getTemas().get(elementos[0]);
+            Tema t = this.art.getTema(elementos[2],elementos[1],elementos[0]);
             if (c.getFavTemas().contains(t))
                 x=false;
             else{
@@ -430,7 +430,7 @@ public class ContCliente implements IcontCliente {
             }
         }
         if (tipo==1){
-            Album a = this.art.GetArtistas().get(elementos[1]).getAlbumes().get(elementos[0]);
+            Album a = this.art.getAlbum(elementos[1],elementos[0]);
             if (c.getFavAlbumes().contains(a))
                 x=false;
             else{
@@ -450,7 +450,7 @@ public class ContCliente implements IcontCliente {
             }
         }
         if (tipo==3){
-            PorDefecto pd = this.art.GetListasPD().get(elementos[0]);
+            PorDefecto pd = this.art.getListaPD(elementos[0]);
             if (c.getFavListas().contains(pd))
                 x=false;
             else{
@@ -519,5 +519,8 @@ public class ContCliente implements IcontCliente {
             }
         }
         return null;
+    }
+    public boolean ClientesVacio() {
+        return this.clientes.isEmpty();
     }
 }

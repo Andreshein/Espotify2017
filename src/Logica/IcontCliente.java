@@ -30,7 +30,6 @@ public interface IcontCliente{
     public abstract void seguir(String nickCli, String nickUsu) throws Exception;
     public abstract void confirmar() throws Exception;
     public abstract void DejarSeguir(String NickCli, String NickUsu);
-    public abstract Map<String, Cliente> GetClientes();
     public abstract ArrayList<DtCliente> BuscarClientes(String palabra);
     public abstract List<DtCliente> BuscarClientesFav(String palabra);
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
@@ -49,11 +48,10 @@ public interface IcontCliente{
     public abstract ArrayList<DtListaP> listarTodasListasP();
     public abstract boolean InsertarFavorito(String cliente, String[] elementos, int tipo);
     public abstract void EliminarFavorito(String cliente, String[] elemento, int tipo);
-    
     public abstract ArrayList<DtListaP> listarListasPrivadas(String nickname);
     public abstract boolean verificarDatos(String nickname, String correo);
     public abstract Cliente BuscarUsuariosC(String nickname);
-    ///
     public abstract boolean copiarArchivo(String rutaOrigenArchivo, String rutaDestino);
+    public abstract boolean ClientesVacio();
 }
 //hellou papaguena
