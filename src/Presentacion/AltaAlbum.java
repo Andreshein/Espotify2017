@@ -5,14 +5,8 @@
  */
 package Presentacion;
 
-import Logica.DtArtista;
-import Logica.Fabrica;
-import Logica.IcontArtista;
-import Logica.IcontCliente;
-import Logica.Genero;
-import Logica.Tema;
-import Logica.Artista;
-import Logica.Album;
+;
+import Logica.*;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
@@ -34,8 +28,8 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
     private DefaultTableModel modelotemas;
     private JDesktopPane escritorio;
     private String x;
-    private HashMap<String, Genero> gendealbum = new HashMap();
-    private HashMap<String, Tema> temas = new HashMap();
+    private HashMap<String, DtGenero> gendealbum = new HashMap();
+    private HashMap<String, DtTema> temas = new HashMap();
     private DefaultListModel lista = new DefaultListModel();
     private int contador=0;
     /**
@@ -54,9 +48,12 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
         this.jButton1.setEnabled(false);
         this.jButton2.setEnabled(false);
         this.jButton3.setEnabled(false);
+        this.eliminar.setEnabled(false);
+        this.jButton4.setEnabled(false);
         this.escritorio = escritorio;
         this.modelotemas = (DefaultTableModel) tablart1.getModel();
         this.modelotemas.setRowCount(0);
+        tablart.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     public int getContador(){
@@ -74,10 +71,10 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
     public DefaultListModel getModelo(){
         return lista;
     }
-    public Map<String, Genero> getGeneros(){
+    public Map<String, DtGenero> getGeneros(){
         return this.gendealbum;
     }
-    public Map<String, Tema> getTemas(){
+    public Map<String, DtTema> getTemas(){
         return this.temas;
     }
     public JList<String> getLista(){
@@ -137,7 +134,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tablart1 = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        eliminar = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -293,10 +290,10 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton5.setText("Eliminar Temas");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        eliminar.setText("Eliminar Temas");
+        eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                eliminarActionPerformed(evt);
             }
         });
 
@@ -353,7 +350,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(eliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(5, 5, 5)
                                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -406,7 +403,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton3)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton5))
+                                .addComponent(eliminar))
                             .addComponent(foto, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
@@ -430,7 +427,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BusquedaArtistaActionPerformed
 
     private void BusquedaArtistaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BusquedaArtistaKeyReleased
-        if (Art.GetGeneros()==null)
+        if (Art.GetArtistas()==null)
             javax.swing.JOptionPane.showMessageDialog(null,"No hay artistas ingresados", "Aviso", 2);
         else{
             this.NombreAlbum.setEditable(false);
@@ -438,6 +435,9 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
             this.jButton1.setEnabled(false);
             jButton2.setEnabled(false);
             jButton3.setEnabled(false);
+            this.eliminar.setEnabled(false);
+            this.jButton4.setEnabled(false);
+            NombreArtista.setText("Seleccionar en tabla...");
             List<DtArtista> artistas = Art.BuscarArtistas(BusquedaArtista.getText());
             modelo=(DefaultTableModel) tablart.getModel();
             modelo.setRowCount(0);
@@ -457,6 +457,8 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
         this.jButton1.setEnabled(true);
         jButton2.setEnabled(true);
         jButton3.setEnabled(true);
+        this.eliminar.setEnabled(true);
+        this.jButton4.setEnabled(true);
     }//GEN-LAST:event_tablartMouseClicked
 
     private void NombreArtistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NombreArtistaActionPerformed
@@ -531,6 +533,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
                 NombreAlbum.requestFocus();
             }
             else{
+                cadenanom = ConvertirString(cadenanom);
                 int x = Integer.parseInt(anio.getText());
                 if (x<1500 || x>2017)
                     javax.swing.JOptionPane.showMessageDialog(null, "Año inválido", "Error",0);
@@ -547,23 +550,37 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
         this.temas.clear();
         this.modelotemas.setRowCount(0);
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_eliminarActionPerformed
 
+    String ConvertirString(String cad){
+        cad = cad.toLowerCase();
+        String[] palabras = cad.split("\\s+");
+        cad = "";
+        for (int i=0;i<palabras.length;i++){
+            palabras[i].toLowerCase();
+            palabras[i] = palabras[i].substring(0, 1).toUpperCase() + palabras[i].substring(1);
+            if (i==0)
+                cad = cad + palabras[i];           
+            else
+                cad = cad + " " + palabras[i];
+        }
+        return cad;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField BusquedaArtista;
     private javax.swing.JTextField NombreAlbum;
     private javax.swing.JTextField NombreArtista;
     private javax.swing.JTextField anio;
+    private javax.swing.JButton eliminar;
     private javax.swing.JLabel foto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

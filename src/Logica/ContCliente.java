@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -48,6 +49,9 @@ public class ContCliente implements IcontCliente {
         this.cliente = null;
     }
 
+    public Map<String, Cliente> GetClientes(){
+        return this.clientes;
+    }
     public void SetContArtista(IcontArtista art) {
         this.art = art;
     }
@@ -377,6 +381,130 @@ public class ContCliente implements IcontCliente {
             return false; // Error, no se pudo copiar la imagen
         }
     }
+    @Override
+    public List<DtCliente> BuscarClientesFav(String nombre){
+        List<DtCliente> retornar=new ArrayList<DtCliente>();
+        Set set = clientes.entrySet();
+        Iterator iterator = set.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry mentry = (Map.Entry)iterator.next();
+            Cliente aux=(Cliente) mentry.getValue();   
+            if (aux.getNickname().contains(nombre)){
+                retornar.add(aux.getDatosResumidos());
+            }
+        }       
+        return retornar;
+    }
+    public ArrayList<DtListaP> listarTodasListasP(){
+        ArrayList<DtListaP> lp = new ArrayList();
+        Set set = clientes.entrySet();
+        Iterator iterator = set.iterator();
+        while(iterator.hasNext()) {
+            Map.Entry mentry = (Map.Entry)iterator.next();
+            Cliente aux=(Cliente) mentry.getValue();   
+            Set set1 = aux.getListas().entrySet();
+            Iterator iterator1 = set1.iterator();
+            while(iterator1.hasNext()) {
+                Map.Entry m = (Map.Entry)iterator1.next();
+                Particular p=(Particular) m.getValue();
+                if (!p.isEsPrivado()){
+                    DtListaP dtp = p.getDtListaP();
+                    lp.add(dtp);
+                }
+            }
+        }
+        return lp;
+    }
+    @Override
+    public boolean InsertarFavorito(String cliente, String[] elementos, int tipo){
+        Cliente c = this.clientes.get(cliente);
+        boolean x = false;
+        if (tipo==0){
+            Tema t = this.art.GetArtistas().get(elementos[2]).getAlbumes().get(elementos[1]).getTemas().get(elementos[0]);
+            if (c.getFavTemas().contains(t))
+                x=false;
+            else{
+                c.getFavTemas().add(t);
+                dbUsuario.InsertarFavorito(tipo, cliente, t.getId());
+                x=true;
+            }
+        }
+        if (tipo==1){
+            Album a = this.art.GetArtistas().get(elementos[1]).getAlbumes().get(elementos[0]);
+            if (c.getFavAlbumes().contains(a))
+                x=false;
+            else{
+                c.getFavAlbumes().add(a);
+                dbUsuario.InsertarFavorito(tipo, cliente, a.getId());
+                x=true;
+            }
+        }
+        if (tipo==2){
+            Particular p = this.clientes.get(elementos[1]).getListas().get(elementos[0]);
+            if (c.getFavListas().contains(p))
+                x=false;
+            else{
+                c.getFavListas().add(p);
+                dbUsuario.InsertarFavorito(tipo, cliente, p.getId());
+                x=true;
+            }
+        }
+        if (tipo==3){
+            PorDefecto pd = this.art.GetListasPD().get(elementos[0]);
+            if (c.getFavListas().contains(pd))
+                x=false;
+            else{
+                c.getFavListas().add(pd);
+                dbUsuario.InsertarFavorito(tipo, cliente, pd.getId());
+                x=true;
+            }
+        }
+        return x;
+    }
+    @Override
+    public void EliminarFavorito(String cliente, String[] elementos, int tipo){
+        Cliente c = this.clientes.get(cliente);
+        if (tipo==0){
+            for (int i=0; i<c.getFavTemas().size();i++){
+                Tema t = c.getFavTemas().get(i);
+                if (t.getNombre().equals(elementos[0])){
+                    if (t.getNombrealbum().equals(elementos[1]) && t.getNombreartista().equals(elementos[2])){
+                        c.getFavTemas().remove(i);
+                        dbUsuario.EliminarFavorito(tipo,t.getId(),cliente);
+                    }
+                }
+            }
+        }
+        if (tipo==1){
+            for (int i=0; i<c.getFavAlbumes().size();i++){
+                Album a = c.getFavAlbumes().get(i);
+                if (a.getNombre().equals(elementos[0]) && a.getArtista().equals(elementos[1])){
+                    c.getFavAlbumes().remove(i);
+                    dbUsuario.EliminarFavorito(tipo, a.getId(), cliente);
+                }
+            }
+        }
+        if (tipo==2){
+            for (int i=0; i<c.getFavListas().size();i++){
+                Lista l = c.getFavListas().get(i);
+                if (elementos[1].equals("Particular") && (l instanceof Particular)){
+                    Particular p = (Particular)l;
+                    if (p.getUsuario().equals(elementos[2]) && p.getNombre().equals(elementos[0])){
+                        c.getFavListas().remove(i);
+                        dbUsuario.EliminarFavorito(2, p.getId(), cliente);
+                    }
+                }
+                if (elementos[1].equals("Por Defecto") && (l instanceof PorDefecto)){
+                    PorDefecto p = (PorDefecto)l;
+                    if (p.getGenero().getNombre().equals(elementos[2]) && p.getNombre().equals(elementos[0])){
+                        c.getFavListas().remove(i);
+                        dbUsuario.EliminarFavorito(3, p.getId(), cliente);
+                    }
+                }
+            }
+        }
+    }    
+    
     public Cliente BuscarUsuariosC(String nickname) {
         Iterator iterador = this.clientes.values().iterator();
         while (iterador.hasNext()) {

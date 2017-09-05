@@ -59,16 +59,19 @@ public interface IcontArtista {
     public abstract void SetContCliente(IcontCliente cli);
 
     public abstract List<DtArtista> BuscarArtistas(String nombre);
+    public abstract void setArtista(HashMap<String,Artista> artistas);
+    public abstract void setGenero(HashMap<String,Genero> generos);
+    public abstract void setListasPD(HashMap<String, PorDefecto> lpd);
+    public abstract Map<String, DtGenero> GetDataGeneros();
 
-    public abstract void setArtista(HashMap<String, Artista> artistas);
-
-    public abstract void setGenero(HashMap<String, Genero> generos);
 
     public abstract Map<String, Genero> GetGeneros();
 
     public abstract Map<String, Artista> GetArtistas();
-
-    public abstract void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, Tema> temas, HashMap<String, Genero> generos);
+    public abstract Map<String, PorDefecto> GetListasPD();
+    public abstract void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos);
+    public abstract ArrayList<DtAlbum> listarTodosAlbumes();
+    public abstract ArrayList<DtTema> listarTodosTemas();
 
     public abstract ArrayList<DtAlbum> ListarAlbum();
 

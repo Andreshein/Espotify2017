@@ -17,6 +17,12 @@ public class DtListaPD extends DtLista {
         this.imagen= imagen;
         this.temas = temas;
     }
+    public DtListaPD(String Nombre, String Genero) {
+        this.Genero = Genero;
+        this.nombre = Nombre;
+        this.imagen= null;
+        this.temas = null;
+    }
 
     public String getGenero() {
         return Genero;

@@ -92,7 +92,7 @@ public class Particular extends Lista{
     
     
     public DtListaP getDtListaP(){
-        return new DtListaP(nombre,this.getDtTemas());
+        return new DtListaP(nombre,this.getDtTemas(),nombreusuario);
     }
     
 }

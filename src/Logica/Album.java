@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
  * @author ninoh
  */
 public class Album {
+    private int id;
     private String artista;
     private String nombre;
     private int anio;
@@ -37,6 +38,15 @@ public class Album {
         this.temas = new HashMap<>();
         this.Imagen = img;
     }
+    public Album(int id, String artista,String nombre, int anio, String img) {
+        this.id = id;
+        this.artista = artista;
+        this.nombre = nombre;
+        this.anio = anio;
+        this.generos = new ArrayList();
+        this.temas = new HashMap<>();
+        this.Imagen = img;
+    }
     public Album(String artista,String nombre, int anio, String img, HashMap<String, Tema> temas, ArrayList<Genero> generos) {
         this.artista = artista;
         this.nombre = nombre;
@@ -44,6 +54,10 @@ public class Album {
         this.generos = generos;
         this.temas = temas;
         this.Imagen = img;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public HashMap<String, Tema> getTemas(){
@@ -83,6 +97,18 @@ public class Album {
     
     public void setTema(Tema tema){
         this.temas.put(tema.getNombre(), tema);
+    }
+    
+    public DtAlbum getDatos(String art){
+        //La imagen es opcinonal, verificar si tiene
+        ImageIcon imagen = null;
+        if(Imagen != null){
+            File archivo = new File(Imagen);
+            String Rutaimagen = archivo.getPath();
+
+            imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
+        }
+        return new DtAlbum(nombre, art, anio, this.getDtTemas(), imagen, null); 
     }
     
     public DtAlbum getDatos(){

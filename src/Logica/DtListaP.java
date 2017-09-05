@@ -20,6 +20,13 @@ public class DtListaP extends DtLista{
         this.nombre = Nombre;
         this.temas = temas;
     }
+    public DtListaP(String Nombre, String Usuario) {
+        this.Usuario = Usuario;
+        this.Privada = false;
+        this.imagen = null;
+        this.nombre = Nombre;
+        this.temas = null;
+    }
 
     public String getUsuario() {
         return Usuario;
@@ -29,9 +36,10 @@ public class DtListaP extends DtLista{
         return Privada;
     }
     
-    public DtListaP(String nombre, ArrayList<DtTema> temas) {
+    public DtListaP(String nombre, ArrayList<DtTema> temas, String cli) {
         this.nombre = nombre;
         this.temas = temas;
+        this.Usuario = cli;
     }
     
     

@@ -12,17 +12,28 @@ import java.util.Collection;
  * @author ninoh
  */
 public class Tema {
-    private String artista;
-    private String album;
+    private int id;
     private String duracion;
     private String nombre;
     private int orden;
     private String archivo;
     private String direccion;
+    private String nombrealbum;
+    private String nombreartista;
 
-    public Tema(String artista, String album, String nombre, String duracion, int orden, String archivo, String direccion) {
-        this.artista = artista;
-        this.album = album;
+    public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion, String art, String alb) {
+        this.id = id;
+        this.duracion = duracion;
+        this.nombre = nombre;
+        this.orden = orden;
+        this.archivo = archivo;
+        this.direccion = direccion;
+        this.nombrealbum = alb;
+        this.nombreartista = art;
+    }
+    
+    public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion) {
+        this.id = id;
         this.duracion = duracion;
         this.nombre = nombre;
         this.orden = orden;
@@ -37,6 +48,18 @@ public class Tema {
         this.direccion = direccion;
     }
 
+    public String getNombrealbum() {
+        return nombrealbum;
+    }
+
+    public String getNombreartista() {
+        return nombreartista;
+    }
+
+    public int getId() {
+        return id;
+    }
+    
     public String getNombre() {
         return nombre;
     }
@@ -78,7 +101,7 @@ public class Tema {
     }
     
     public DtTema getDatos(){
-        return new DtTema(artista, album, nombre, duracion, orden, direccion, archivo);
+        return new DtTema(nombreartista, nombrealbum, nombre, duracion, orden, direccion, archivo);
     }
 
     

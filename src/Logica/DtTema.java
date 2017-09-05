@@ -10,30 +10,58 @@ package Logica;
  * @author Kevin
  */
 public class DtTema {
-    private final String artista;
-    private final String album;
     private final String nombre;
     private final String duracion;
     private final int orden;
     private final String direccion;
     private final String archivo;
-
-    public DtTema(String artista, String album, String nombre, String duracion, int orden, String direccion, String archivo) {
-        this.artista = artista;
-        this.album = album;
+    private final String nomartista;
+    private final String nomalbum;
+    
+    public DtTema(String nombre, String duracion, int orden, String direccion, String archivo) {
         this.nombre = nombre;
         this.duracion = duracion;
         this.orden = orden;
         this.direccion = direccion;
         this.archivo = archivo;
+        this.nomartista = null;
+        this.nomalbum = null;
+    }
+
+    public DtTema(String artista, String album, String nombre, String duracion, int orden, String direccion, String archivo) {
+        this.nombre = nombre;
+        this.duracion = duracion;
+        this.orden = orden;
+        this.direccion = direccion;
+        this.archivo = archivo;
+        this.nomartista = artista;
+        this.nomalbum = album;
+    }
+    
+    public DtTema(String nombre, String alb, String art) {
+        this.nombre = nombre;
+        this.nomartista = art;
+        this.nomalbum = alb;
+        this.duracion = null;
+        this.orden = 0;
+        this.direccion = null;
+        this.archivo = null;
+    }
+
+    public String getNomartista() {
+        return nomartista;
+    }
+
+    public String getNomalbum() {
+        return nomalbum;
     }
 
     public String getArtista() {
-        return artista;
+        return nomartista;
     }
 
     public String getAlbum() {
-        return album;
+        return nomalbum;
     }
 
     public String getNombre() {

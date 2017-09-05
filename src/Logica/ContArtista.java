@@ -38,19 +38,39 @@ public class ContArtista implements IcontArtista {
         this.dbUsuario = new DBUsuario();
         this.ListasPorDef = new HashMap<>();
     }
+    
+    @Override
+    public Map<String, DtGenero> GetDataGeneros(){
+        Map<String, DtGenero> datageneros = new HashMap();
+        Set set = this.generos.entrySet();
+        Iterator it = set.iterator();
+        while (it.hasNext()){
+            Map.Entry m = (Map.Entry) it.next();
+            Genero g = (Genero) m.getValue();
+            DtGenero dt = new DtGenero(g.getNombre(),g.getidpadre(),g.getid(),g.getPadre());
+            datageneros.put(dt.getNombre(), dt);
+        }
+        return datageneros;
+    }
 
-    public Map<String, Genero> GetGeneros() {
+    @Override
+    public Map<String, Genero> GetGeneros(){
         return this.generos;
     }
 
+    @Override
     public void SetContCliente(IcontCliente cli) {
         this.Cli = cli;
     }
 
+    @Override
     public Map<String, Artista> GetArtistas() {
         return this.artistas;
     }
-
+    public Map<String, PorDefecto> GetListasPD(){
+        return this.ListasPorDef;
+    }
+    
     @Override
     public boolean SelectArtista(String nick) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -95,6 +115,42 @@ public class ContArtista implements IcontArtista {
         return art.getDtAlbumes();
     }
 
+    @Override
+    public ArrayList<DtAlbum> listarTodosAlbumes(){
+        ArrayList<DtAlbum> albumes = new ArrayList();
+        Set set = this.artistas.entrySet();
+        Iterator it = set.iterator();
+        while (it.hasNext()){
+            Map.Entry m = (Map.Entry)it.next();
+            Artista aux = (Artista) m.getValue();
+            Iterator it2 = aux.getDtAlbumes().iterator();
+            while (it2.hasNext()){
+                DtAlbum dt = (DtAlbum) it2.next();
+                albumes.add(dt);
+            }
+        }
+        return albumes;
+    }
+    @Override
+    public ArrayList<DtTema> listarTodosTemas(){
+        ArrayList<DtTema> temas = new ArrayList();
+        Set set = this.artistas.entrySet();
+        Iterator it = set.iterator();
+        while (it.hasNext()){
+            Map.Entry m = (Map.Entry)it.next();
+            Artista aux = (Artista) m.getValue();
+            Iterator it2 = aux.getDtAlbumes().iterator();
+            while (it2.hasNext()){
+                DtAlbum dt = (DtAlbum) it2.next();
+                ArrayList<DtTema> temas1 = dt.getTemas();
+                for (int i=0;i<temas1.size();i++){
+                    DtTema dtt = temas1.get(i);
+                    temas.add(dtt);
+                }
+            }
+        }
+        return temas;
+    }
     @Override
     public ArrayList<DtCliente> listarSeguidores(String nick) {
         return this.Cli.getSeguidores(nick);
@@ -281,18 +337,28 @@ public class ContArtista implements IcontArtista {
 
         return ok;
     }
-
-    public void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, Tema> temas, HashMap<String, Genero> generos) {
+    @Override
+    public void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String,DtGenero> generos){
         int anio2 = Integer.parseInt(anio);
+        HashMap<String,Tema> temasfinal = new HashMap();
+        Set set3 = temas.entrySet();
+        Iterator it0 = set3.iterator();
+        while (it0.hasNext()){
+            Map.Entry x = (Map.Entry) it0.next();
+            DtTema dtte = (DtTema)x.getValue();
+            Tema t = new Tema(dtte.getDuracion(),dtte.getNombre(),dtte.getOrden(),dtte.getArchivo(),dtte.getDireccion());
+            temasfinal.put(t.getNombre(), t);
+        }
         ArrayList<Genero> l = new ArrayList();
         Set set2 = generos.entrySet();
         Iterator iter = set2.iterator();
         while (iter.hasNext()) {
             Map.Entry x = (Map.Entry) iter.next();
-            Genero gen = (Genero) x.getValue();
-            l.add(gen);
+            DtGenero dtgen = (DtGenero)x.getValue();
+            Genero g = this.generos.get(dtgen.getNombre());
+            l.add(g);
         }
-        Album a = new Album(nomartista, nombre, anio2, imagen, temas, l);
+        Album a = new Album(nomartista, nombre, anio2, imagen, temasfinal, l);
         int idalbum = this.dbUsuario.InsertarAlbum(a);
         for (int i = 0; i < l.size(); i++) {
             l.get(i).AddAlbum(a);
@@ -418,6 +484,10 @@ public class ContArtista implements IcontArtista {
     public void setArtista(HashMap<String, Artista> artistas) {
         this.artistas = artistas;
     }
+    
+    public void setListasPD(HashMap<String, PorDefecto> lpd) {
+        this.ListasPorDef = lpd;
+    }
 
     public void setGenero(HashMap<String, Genero> generos) {
         this.generos = generos;
@@ -437,6 +507,7 @@ public class ContArtista implements IcontArtista {
         }
         return retornar;
     }
+    
 
     @Override
     public ArrayList<DtListaPD> ListarListaPD() {

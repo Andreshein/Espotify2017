@@ -28,6 +28,14 @@ public class DtAlbum {
         this.imagen = imagen;
         this.generos=generos;
     }
+    public DtAlbum(String nombre, String nombreArtista, int anio) {
+        this.nombre = nombre;
+        this.nombreArtista = nombreArtista;
+        this.anio = anio;
+        this.temas = null;
+        this.imagen = null;
+        this.generos = null;
+    }
 
     
 

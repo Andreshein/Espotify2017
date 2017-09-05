@@ -5,10 +5,8 @@
  */
 package Presentacion;
 
-import Logica.Genero;
-import Logica.Fabrica;
-import Logica.IcontArtista;
-import Logica.IcontCliente;
+
+import Logica.*;
 import java.awt.Dimension;
 import javax.swing.tree.*;
 import javax.swing.DefaultListModel;
@@ -31,7 +29,7 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
     private DefaultListModel lista;
     private AltaAlbum Ventana;
     
-    private Map<String, Genero> ListaGeneros = new HashMap();
+    private Map<String, DtGenero> ListaGeneros = new HashMap();
     /**
      * Creates new form AltaAlbum_SelectGenero
      */
@@ -44,14 +42,14 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
         this.Ventana = ventana;
         this.Ventana.getGeneros().clear();
         this.Ventana.getModelo().clear();
-        ListaGeneros = Art.GetGeneros();
+        ListaGeneros = Art.GetDataGeneros();
         arbolgen.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         tablagen.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         lista = new DefaultListModel();
         tablagen.setModel(lista);
         //arbolgen.addTreeSelectionListener(this);
         
-        if (Art.GetGeneros()==null)
+        if (Art.GetDataGeneros()==null)
             javax.swing.JOptionPane.showMessageDialog(null,"No hay generos ingresados en el sistema","Error",3);
         else
             LlenarArbol(1, null);
@@ -80,15 +78,15 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
         this.arbolgen.setModel(modeloarbol);
         while (it.hasNext()){
             Map.Entry mentry = (Map.Entry)it.next();
-            Genero g = (Genero) mentry.getValue();
-            if(g.getidpadre()== padre){
+            DtGenero g = (DtGenero) mentry.getValue();
+            if(g.getIdpadre()== padre){
                 DefaultMutableTreeNode nuevonodo = new DefaultMutableTreeNode(g.getNombre());
                 if(padre == 1)
                     root.add(nuevonodo);
                 else
                     nodo.add(nuevonodo);
                 
-                LlenarArbol(g.getid(), nuevonodo);
+                LlenarArbol(g.getId(), nuevonodo);
             }
         }
         this.arbolgen.setModel(modeloarbol);
@@ -247,9 +245,13 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
         if (this.Ventana.getGeneros().get(nomgenero.getText())!=null)
             javax.swing.JOptionPane.showMessageDialog(this, "Género ya seleccionado");
         else{
-            Genero g = this.ListaGeneros.get(nomgenero.getText());
-            lista.addElement(g.getNombre());
-            this.Ventana.getGeneros().put(g.getNombre(),g);
+            DtGenero dtg = this.ListaGeneros.get(nomgenero.getText());
+            if (dtg==null)
+                javax.swing.JOptionPane.showMessageDialog(this, "No hay ningún género seleccionado");
+            else {
+                lista.addElement(dtg.getNombre());
+                this.Ventana.getGeneros().put(dtg.getNombre(),dtg);
+            }
         }
     }//GEN-LAST:event_AgregarActionPerformed
 
@@ -271,7 +273,7 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
         Iterator iterator = set.iterator();
         while(iterator.hasNext()) {
             Map.Entry mentry = (Map.Entry)iterator.next();
-            Genero aux=(Genero) mentry.getValue();
+            DtGenero aux=(DtGenero) mentry.getValue();
             Ventana.getModelo().addElement(aux.getNombre());
         }
         this.dispose();
