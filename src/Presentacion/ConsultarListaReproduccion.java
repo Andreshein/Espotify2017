@@ -16,10 +16,16 @@ import Logica.Fabrica;
 import Logica.IcontArtista;
 import Logica.IcontCliente;
 import java.awt.CardLayout;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -46,6 +52,8 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         this.artista=Fabrica.getArtista(); 
         this.mostrarListaP();
         this.mostrarListaPD();
+        this.btnDescargar.setEnabled(false);
+        this.btnURL.setEnabled(false);
     }
 
     /**
@@ -76,6 +84,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         tblDefecto = new javax.swing.JTable();
         btnSalir = new javax.swing.JButton();
         btnDescargar = new javax.swing.JButton();
+        btnURL = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Consultar Lista de reproducción");
@@ -117,6 +126,11 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblTemas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTemasMouseClicked(evt);
             }
         });
         jScrollPane3.setViewportView(tblTemas);
@@ -228,6 +242,13 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             }
         });
 
+        btnURL.setText("Abrir URL");
+        btnURL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnURLActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -261,6 +282,8 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnDescargar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnURL)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnSalir)))
                 .addContainerGap())
@@ -292,7 +315,8 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
-                    .addComponent(btnDescargar))
+                    .addComponent(btnDescargar)
+                    .addComponent(btnURL))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -419,6 +443,34 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
            }
         }
     }//GEN-LAST:event_btnDescargarActionPerformed
+
+    private void btnURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnURLActionPerformed
+        String url = (String) tblTemas.getValueAt(tblTemas.getSelectedRow(), 5);
+        url = "http://" + url;
+        try{
+        if(Desktop.isDesktopSupported())
+            {
+            Desktop.getDesktop().browse(new URI(url));
+            }
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(ConsultaAlbum.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ConsultaAlbum.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnURLActionPerformed
+
+    private void tblTemasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTemasMouseClicked
+        String archivo = (String) tblTemas.getValueAt(tblTemas.getSelectedRow(), 6);
+        String url = (String) tblTemas.getValueAt(tblTemas.getSelectedRow(), 5);
+        if (archivo==null){
+            this.btnDescargar.setEnabled(false);
+            this.btnURL.setEnabled(true);
+        }
+        if (url==null){
+            this.btnDescargar.setEnabled(true);
+            this.btnURL.setEnabled(false);
+        }
+    }//GEN-LAST:event_tblTemasMouseClicked
  
     public void mostrarListas(String tipo){
         CardLayout cl = (CardLayout)(ListasPanel.getLayout());
@@ -527,6 +579,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnDescargar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnURL;
     private javax.swing.JComboBox<String> cboxBuscar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
