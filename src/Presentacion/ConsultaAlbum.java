@@ -487,6 +487,8 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
 
     private void botonDescargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDescargarActionPerformed
         if(tablap1.getSelectedRow()>-1){
+            String ruta = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 4);
+            if(ruta != null){
             JFileChooser elegirArchivo = new JFileChooser();
             elegirArchivo.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             elegirArchivo.setAcceptAllFileFilterUsed(false);
@@ -499,7 +501,7 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
 //            String RutaArchivo = archivo.getPath();
                 String carpetaDestino = elegirArchivo.getSelectedFile().toString();
             
-                String ruta = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 4);
+                
                 String nickArtista = (String) tablap.getValueAt(tablap.getSelectedRow(), 0);
                 String nombreTema = (String) tablap1.getValueAt(tablap1.getSelectedRow(), 0);
 
@@ -508,6 +510,9 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 }else{
                     JOptionPane.showMessageDialog(this,"Ha ocurrido un error al decargar el tema, la descarga ha sido cancelada","Descarga cancelada",javax.swing.JOptionPane.ERROR_MESSAGE);
                 }
+            }
+            }else{
+                 JOptionPane.showMessageDialog(this,"El tema seleccionado no tiene archivo","Aviso",javax.swing.JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_botonDescargarActionPerformed
