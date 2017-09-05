@@ -132,27 +132,36 @@ public class ContArtista implements IcontArtista {
         
         for (DtGenero generoHijo : generosHijos) {
             albumes.addAll(generoHijo.getAlbumes());
-        }
+        }        
         
-//        ArrayList<DtAlbum> albumesAux = albumes;
-//        
-//        for(DtAlbum album: albumes){
-//            int ocurrencias = 0;
-//            for(DtAlbum album2: albumes){
-//                if(album.getNombre().equals(album2.getNombre())){
-//                    ocurrencias++;
-//                }
-//            }
-//            
-//            if(ocurrencias > 1){
-//                albumesAux.remove();
-//            }
-//        }
+        //Eliminar albumes repetidos
+        for(int i= 0; i < albumes.size(); i++){
+            DtAlbum album = albumes.get(i);
+            if( albumRepetido(album.getNombre(), albumes) == true ){
+                albumes.remove(album);
+                i--; // resta uno al indice porque se acaba de eliminar un album, sino se saltea el siguiente
+            }
+        }
         
         
         return albumes;
 //        return albumesAux;
    }
+    
+    public boolean albumRepetido(String nomAlbum, ArrayList<DtAlbum> albumes){
+        int ocurrencias = 0;
+        for(DtAlbum album: albumes){
+            if(album.getNombre().equals(nomAlbum)){
+                ocurrencias++;
+            }
+        }
+
+        if(ocurrencias > 1){
+            return true;
+        }else{
+            return false;
+        }        
+    }
     
     public ArrayList<String> BuscarGenero(String palabra){
         ArrayList<String> retornar=new ArrayList<>();
@@ -204,8 +213,13 @@ public class ContArtista implements IcontArtista {
        return art.getAlbumes().get(album).getDtTemas();
     }
     
-    public void descargarArchivo(String rutaArchivo, String rutaDestino){
-        Fabrica.getCliente().copiarArchivo(rutaArchivo, rutaDestino);
+    public boolean descargarArchivo(String rutaArchivo, String carpetaDestino, String nickArtista, String nombreTema){
+        Artista artista = this.artistas.get(nickArtista);
+        
+        //El archivo descargado quedaria con el nombre "NombreArt ApellidoArt - nombreTema.mp3"
+        String rutaDestino = carpetaDestino+"/"+artista.getNombre()+" "+artista.getApellido()+" - "+nombreTema+".mp3";
+        
+        return Fabrica.getCliente().copiarArchivo(rutaArchivo, rutaDestino);
     }
 
     @Override
