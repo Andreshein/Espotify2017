@@ -121,6 +121,11 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
             }
         });
 
+        jList2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList2MouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(jList2);
 
         jLabel2.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -430,6 +435,11 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
             modelo.addRow(dat);
         }
     }//GEN-LAST:event_TablaAlbumMouseClicked
+
+    private void jList2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jList2MouseClicked
+
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         dispose();

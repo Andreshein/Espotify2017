@@ -120,7 +120,12 @@ public class Album {
 
             imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
         }
-        return new DtAlbum(nombre, artista, anio, this.getDtTemas(), imagen); 
+        
+        ArrayList <String> listaGeneros = new ArrayList<>();
+        for (Genero genero : generos) {
+            listaGeneros.add(genero.getNombre());
+        }
+        return new DtAlbum(nombre, artista, anio, this.getDtTemas(), imagen, listaGeneros); 
     }
     
     public ArrayList<DtTema> getDtTemas(){

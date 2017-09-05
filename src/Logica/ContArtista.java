@@ -177,25 +177,70 @@ public class ContArtista implements IcontArtista {
 ////            retornar.add(aux.getDtArtista());}       
 ////        return retornar;
 //    }
-    public ArrayList<DtAlbum> BuscarGenero(String palabra) {
-        ArrayList<DtAlbum> retornar = new ArrayList<>();
-        Iterator iterator = this.generos.values().iterator();
+
+    public ArrayList<DtAlbum> listarAlbumGenero(String genero){
+        ArrayList<DtAlbum> albumes = new ArrayList<>();
+        
+        Genero generoPadre = this.generos.get(genero);
+        albumes.addAll(generoPadre.getDtAlbumes());
+        
+        ArrayList<DtGenero> generosHijos = generoPadre.getDatos(this.buscaHijos(generoPadre.getNombre())).getHijos();
+        
+        for (DtGenero generoHijo : generosHijos) {
+            albumes.addAll(generoHijo.getAlbumes());
+        }        
+        
+        //Eliminar albumes repetidos
+        for(int i= 0; i < albumes.size(); i++){
+            DtAlbum album = albumes.get(i);
+            if( albumRepetido(album.getNombre(), albumes) == true ){
+                albumes.remove(album);
+                i--; // resta uno al indice porque se acaba de eliminar un album, sino se saltea el siguiente
+            }
+        }
+        
+        
+        return albumes;
+//        return albumesAux;
+   }
+    
+    public boolean albumRepetido(String nomAlbum, ArrayList<DtAlbum> albumes){
+        int ocurrencias = 0;
+        for(DtAlbum album: albumes){
+            if(album.getNombre().equals(nomAlbum)){
+                ocurrencias++;
+            }
+        }
+
+        if(ocurrencias > 1){
+            return true;
+        }else{
+            return false;
+        }        
+    }
+    
+    public ArrayList<String> BuscarGenero(String palabra){
+        ArrayList<String> retornar=new ArrayList<>();
+
+       Iterator iterator = this.generos.values().iterator();
         while (iterator.hasNext()) {
             Genero aux = (Genero) iterator.next();
 
             //Pasa los strings a mayusculas para comparar mejor
             String genero = aux.getNombre().toUpperCase();
             palabra = palabra.toUpperCase();
+            
+            if(genero.startsWith(palabra)){
+                retornar.add(aux.getNombre());
 
-            if (genero.startsWith(palabra)) {
-                retornar.addAll(aux.getAlbumesGenero());
             }
         }
         return retornar;
-    }
 
-    public ArrayList<DtAlbum> BuscarArtista(String palabra) {
-        ArrayList<DtAlbum> retornar = new ArrayList<>();
+   }
+   
+    public ArrayList <DtArtista> BuscarArtista(String palabra) {
+        ArrayList<DtArtista> retornar=new ArrayList<>();
         Iterator iterator = this.artistas.values().iterator();
         while (iterator.hasNext()) {
             Artista aux = (Artista) iterator.next();
@@ -207,17 +252,30 @@ public class ContArtista implements IcontArtista {
             String apellido = aux.getApellido().toUpperCase();
             String nombrecompleto = aux.getNombre() + " " + aux.getApellido();
             nombrecompleto = nombrecompleto.toUpperCase();
-
-            if (nickname.startsWith(palabra) || nombre.startsWith(palabra) || apellido.contains(palabra) || nombrecompleto.startsWith(palabra)) {
-                retornar.addAll(aux.ListarAlbumes());
+            
+            if(nickname.startsWith(palabra) || nombre.startsWith(palabra) || apellido.contains(palabra) || nombrecompleto.startsWith(palabra)){
+                retornar.add(aux.getDatosResumidos());   
             }
         }
         return retornar;
     }
 
-    public ArrayList<DtTema> obtenerTema(String artista, String album) {
-        Artista art = this.artistas.get(artista);
-        return art.getAlbumes().get(album).getDtTemas();
+   public ArrayList<DtAlbum> listarAlbumArtista(String nickname){
+        return this.artistas.get(nickname).getDtAlbumes();
+   }
+    
+    public ArrayList <DtTema> obtenerTema (String artista, String album){
+       Artista art = this.artistas.get(artista);
+       return art.getAlbumes().get(album).getDtTemas();
+    }
+    
+    public boolean descargarArchivo(String rutaArchivo, String carpetaDestino, String nickArtista, String nombreTema){
+        Artista artista = this.artistas.get(nickArtista);
+        
+        //El archivo descargado quedaria con el nombre "NombreArt ApellidoArt - nombreTema.mp3"
+        String rutaDestino = carpetaDestino+"/"+artista.getNombre()+" "+artista.getApellido()+" - "+nombreTema+".mp3";
+        
+        return Fabrica.getCliente().copiarArchivo(rutaArchivo, rutaDestino);
     }
 
     @Override
@@ -264,7 +322,7 @@ public class ContArtista implements IcontArtista {
 
             //esa funcion retorna un booleano que indica si la imagen se pudo crear correctamente
             //la funcion ya esta definida en el controlador de cliente porque ahi se usa, entocnces no hay que declararla otra vez en este controlador
-            if (Fabrica.getCliente().copiarImagenAlServidor(Img, rutaDestino) == true) {
+            if(Fabrica.getCliente().copiarArchivo(Img, rutaDestino) == true){
                 Img = rutaDestino; //la ruta que hay que guardar es la del archivo nuevo que fue copiado dentro del servidor
             } else {
                 Img = null; // no se pudo copiar la imagen, queda en null

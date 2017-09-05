@@ -54,6 +54,6 @@ public interface IcontCliente{
     public abstract boolean verificarDatos(String nickname, String correo);
     public abstract Cliente BuscarUsuariosC(String nickname);
     ///
-    public abstract boolean copiarImagenAlServidor(String rutaOrigenArchivo, String rutaDestino);
+    public abstract boolean copiarArchivo(String rutaOrigenArchivo, String rutaDestino);
 }
 //hellou papaguena
