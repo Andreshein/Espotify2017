@@ -23,6 +23,7 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
 
     private IcontArtista Art;
     ArrayList<DtAlbum> al = new ArrayList<>();
+    ArrayList<ImageIcon> imagenes = new ArrayList<>();
     /**
      * Creates new form ConsultaAlbum
      */
@@ -51,7 +52,7 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablap1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        Img = new javax.swing.JLabel();
+        Imagen = new javax.swing.JLabel();
         botonDescargar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablap = new javax.swing.JTable();
@@ -131,7 +132,7 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText("Imágen");
 
-        Img.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        Imagen.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         botonDescargar.setText("Descargar Archivo");
         botonDescargar.addActionListener(new java.awt.event.ActionListener() {
@@ -307,10 +308,12 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Img, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                                    .addComponent(Imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(136, 136, 136))
+                                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -353,10 +356,10 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Img, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonDescargar)
@@ -408,16 +411,23 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
     private void listaGenerosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaGenerosMouseClicked
         String generoSelec = listaGeneros.getSelectedValue();
         al = Art.listarAlbumGenero(generoSelec);
-           DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
-            modelo.setRowCount(0);
-            for (int i=0;i<al.size();i++) {
-                DtAlbum p=(DtAlbum)al.get(i);
-                Object[] dat={
-                    p.getNombreArtista(),
-                    p.getNombre(),
-                    p.getAnio(),
-                };
-                modelo.addRow(dat);}
+        
+        imagenes.clear(); //limpiar las imagenes de los albumes mostrados antes
+        Imagen.setIcon(null); //limpiar imagen mostrada
+        
+        DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
+         modelo.setRowCount(0);
+         for (int i=0;i<al.size();i++) {
+             DtAlbum p=(DtAlbum)al.get(i);
+             Object[] dat={
+                 p.getNombreArtista(),
+                 p.getNombre(),
+                 p.getAnio(),
+             };
+             modelo.addRow(dat);
+
+             imagenes.add(p.getImagen()); // si no tiene imagen, guarda el null para limpiar la imagen al seleccionar el album
+         }
     }//GEN-LAST:event_listaGenerosMouseClicked
 
     private void listaGenerosAlbumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaGenerosAlbumMouseClicked
@@ -446,6 +456,17 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 tema.getArchivo(),
             };
             modeloTemas.addRow(dat);
+        }
+        
+        int indice = tablap.getSelectedRow(); //el indice es la fila del album seleccionado
+        if(imagenes.get(indice) != null){
+            Icon icono= new ImageIcon(imagenes.get(indice).getImage().getScaledInstance(Imagen.getWidth(),Imagen.getHeight(),Image.SCALE_DEFAULT));
+
+            Imagen.setIcon(icono); // coloca la imagen en el label
+
+            this.pack();
+        }else{
+            Imagen.setIcon(null); // se limpia la imagen del label
         }
     }//GEN-LAST:event_tablapMouseClicked
 
@@ -488,7 +509,10 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 p.getNombre(),
                 p.getAnio(),
             };
-            modelo.addRow(dat);}
+            modelo.addRow(dat);
+        
+            imagenes.add(p.getImagen()); // si no tiene imagen, guarda el null para limpiar la imagen al seleccionar el album
+        }
 
         listaGenerosAlbum.setModel(new DefaultListModel<>());
     }//GEN-LAST:event_tablaArtistaMouseClicked
@@ -527,7 +551,7 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Img;
+    private javax.swing.JLabel Imagen;
     private javax.swing.JPanel PanelArtistas;
     private javax.swing.JPanel PanelGeneros;
     private javax.swing.JButton botonDescargar;
