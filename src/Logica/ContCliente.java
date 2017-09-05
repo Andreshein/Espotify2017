@@ -57,31 +57,6 @@ public class ContCliente implements IcontCliente {
     }
 
     @Override
-    public boolean AltaDePerfil(String nickname, String nombre, String apellido, String correo, Date fechaNac, ImageIcon imagen) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void AgregarArtista(String biografia, String link) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void Corregir(String nick, String nombre, String apellido, String correo, Date fecha) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void CorregirArt(String biografia, String link) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void Cancelar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public ArrayList<String> listarNickClientes() {
         ArrayList<String> listaNicknames = new ArrayList<>();
 
@@ -98,26 +73,12 @@ public class ContCliente implements IcontCliente {
     }
 
     @Override
-    public ArrayList<String> MostrarUsuariosSeguidos(String Nickname) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void DejarSeguir(String NickCli, String NickUsu) {
         Cliente cli = (Cliente) this.clientes.get(NickCli);
         cli.dejarSeguir(NickUsu);
         this.dbUsuario.DejarSeguirUsu(NickCli, this.seleccionarUsuario(NickUsu));
     }
-
-    @Override
-    public void SeleccionarCliente(String nickname) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public ArrayList<DtUsuario> listarUsuarios() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     public void confirmar() throws Exception {
         if (this.lista instanceof Particular) {
