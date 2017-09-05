@@ -108,7 +108,7 @@ public class Album {
 
             imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
         }
-        return new DtAlbum(nombre, art, anio, this.getDtTemas(), imagen); 
+        return new DtAlbum(nombre, art, anio, this.getDtTemas(), imagen, null); 
     }
     
     public DtAlbum getDatos(){

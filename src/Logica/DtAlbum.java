@@ -34,6 +34,7 @@ public class DtAlbum {
         this.anio = anio;
         this.temas = null;
         this.imagen = null;
+        this.generos = null;
     }
 
     
