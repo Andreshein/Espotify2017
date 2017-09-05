@@ -34,12 +34,7 @@ public class Artista extends Usuario {
         this.Imagen= Imag;
     }
 
-    public Artista() {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    
-    
 
     public void setNickname(String nickname) {
         this.nickname = nickname;

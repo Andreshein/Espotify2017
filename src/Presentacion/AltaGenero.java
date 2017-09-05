@@ -29,7 +29,7 @@ public class AltaGenero extends javax.swing.JInternalFrame {
         DefaultMutableTreeNode principal = new DefaultMutableTreeNode(g.getNombre());
         DefaultTreeModel model = new DefaultTreeModel(principal);
         lgh(model, principal, g.getHijos());
-        this.arbol.setModel(model);
+        this.arbol.setModel(model); 
     }
 
     private void lgh(DefaultTreeModel modelo, DefaultMutableTreeNode padre, ArrayList<DtGenero> g) {

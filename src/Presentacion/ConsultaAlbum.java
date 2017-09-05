@@ -448,18 +448,24 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         Imagen.setIcon(null); //limpiar imagen mostrada
         
         DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
-         modelo.setRowCount(0);
-         for (int i=0;i<al.size();i++) {
-             DtAlbum p=(DtAlbum)al.get(i);
-             Object[] dat={
-                 p.getNombreArtista(),
-                 p.getNombre(),
-                 p.getAnio(),
-             };
-             modelo.addRow(dat);
+        modelo.setRowCount(0);
+        for (int i=0;i<al.size();i++) {
+            DtAlbum p=(DtAlbum)al.get(i);
+            Object[] dat={
+                p.getNombreArtista(),
+                p.getNombre(),
+                p.getAnio(),
+            };
+            modelo.addRow(dat);
 
-             imagenes.add(p.getImagen()); // si no tiene imagen, guarda el null para limpiar la imagen al seleccionar el album
-         }
+            imagenes.add(p.getImagen()); // si no tiene imagen, guarda el null para limpiar la imagen al seleccionar el album
+        }
+         
+        listaGenerosAlbum.setModel(new DefaultListModel<>());
+        Imagen.setIcon(null);
+        
+        modelo = (DefaultTableModel) tablap1.getModel();
+        while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla temas
     }//GEN-LAST:event_listaGenerosMouseClicked
 
     private void listaGenerosAlbumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaGenerosAlbumMouseClicked

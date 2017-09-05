@@ -20,11 +20,6 @@ public interface IcontArtista {
 
     public abstract ArrayList<DtListaPD> ListarListaPD();
     public abstract boolean IngresarArtista(String nickname, String nombre, String apellido, String correo, Date fechaNac, String biografia, String paginaWeb, String img);
-    public abstract boolean SelectArtista(String nick);
-    public abstract void CrearAlbum(String nombre, int anio);
-    public abstract void ElegirGenero(String nombre);
-    public abstract void AgregarTema(String nombre, String duracion, int ubicacion, String url_mp3);
-    public abstract void ConfirmarAlbum();
     public abstract DtArtista ElegirArtista(String nomArtista);
     public abstract ArrayList<DtArtista> ListarArtistas();
     public abstract ArrayList<String> BuscarGenero(String palabra);
@@ -32,11 +27,6 @@ public interface IcontArtista {
     public abstract ArrayList<DtArtista> BuscarArtista(String palabra);
     public abstract boolean descargarArchivo(String rutaArchivo, String carpetaDestino, String nickArtista, String nomTema);
     public abstract ArrayList <DtTema> obtenerTema (String artista, String album);
-    public abstract void seleccionarAlbum(String nick,String nombre);
-    public abstract DtAlbum mostrarAlbum(); //DtAlbum
-    public abstract Artista buscarArtista(String nickname);
-    public abstract void LiberarMemoria();
-    public abstract void corregir(String nickname, String nombre, String apellido, String correo, Date fechaNac, ImageIcon imagen);
     public abstract ArrayList<DtUsuario> BuscarUsuarios(String palabra);
     public abstract Usuario seleccionarUsuario(String Nickname);
     public abstract void SetContCliente(IcontCliente cli);

@@ -54,27 +54,7 @@ public class ContArtista implements IcontArtista {
     public void SetContCliente(IcontCliente cli) {
         this.Cli = cli;
     }
-
-    @Override
-    public boolean SelectArtista(String nick) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void CrearAlbum(String nombre, int anio) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void ElegirGenero(String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void ConfirmarAlbum() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     public DtArtista ElegirArtista(String nomArtista) {
         Artista a = (Artista) this.artistas.get(nomArtista);
@@ -142,27 +122,6 @@ public class ContArtista implements IcontArtista {
         return this.Cli.getSeguidores(nick);
     }
 
-//    @Override
-//    public ArrayList <DtGenero> obtenerGenero() {
-////        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-////        ArrayList<DtGenero> retornar=new ArrayList<DtGenero>();
-////        Iterator iterator = this.generos.values().iterator();
-////            while(iterator.hasNext()) {
-////                Genero aux = (Genero)iterator.next();
-////               retornar.add(aux.getDtGenero());}       
-////        return retornar;
-//        
-//    }
-//    @Override
-//    public ArrayList <DtArtista> obtenerArtista() {
-////        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-////        ArrayList<DtArtista> retornar=new ArrayList<DtArtista>();
-////        Iterator iterator = this.artistas.values().iterator();
-////        while(iterator.hasNext()) {
-////            Artista aux = (Artista)iterator.next();
-////            retornar.add(aux.getDtArtista());}       
-////        return retornar;
-//    }
     public ArrayList<DtAlbum> listarAlbumGenero(String genero) {
         ArrayList<DtAlbum> albumes = new ArrayList<>();
 
@@ -261,27 +220,7 @@ public class ContArtista implements IcontArtista {
 
         return Fabrica.getCliente().copiarArchivo(rutaArchivo, rutaDestino);
     }
-
-    @Override
-    public void seleccionarAlbum(String nick, String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public DtAlbum mostrarAlbum() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void LiberarMemoria() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void corregir(String nickname, String nombre, String apellido, String correo, Date fechaNac, ImageIcon imagen) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
     @Override
     public boolean IngresarArtista(String nickname, String nombre, String apellido, String correo, Date fechaNac, String biografia, String paginaWeb, String Img) {
         if (Fabrica.getCliente().verificarDatos(nickname, correo) == false) { // si ya existe un cliente con ese nickname o correo
@@ -323,7 +262,7 @@ public class ContArtista implements IcontArtista {
     }
 
     @Override
-    public void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
+    public void IngresarAlbum(String nicknameArt, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
         int anio2 = Integer.parseInt(anio);
         HashMap<String, Tema> temasfinal = new HashMap();
         Set set3 = temas.entrySet();
@@ -331,7 +270,24 @@ public class ContArtista implements IcontArtista {
         while (it0.hasNext()) {
             Map.Entry x = (Map.Entry) it0.next();
             DtTema dtte = (DtTema) x.getValue();
-            Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), dtte.getArchivo(), dtte.getDireccion());
+            
+            String rutaDestino = null; //ruta de destino del archivo
+            
+            //Si el tema tiene un archivo
+            if(dtte.getArchivo() != null){
+                //ruta del archivo seleccionado para el tema
+                String rutaOrigen = dtte.getArchivo(); 
+
+                //Se crea la ruta del archivo del tema dentro del servidor -> "Temas/nickArtista/nomAlbum/tema.mp3"
+                rutaDestino = "Temas/"+nicknameArt+"/"+nombre+"/"+dtte.getNombre()+".mp3";
+
+                //Si NO pudo copiar el archivo correctamente deja a ruta en null
+                if(Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false){
+                    rutaDestino = null; 
+                }
+            }
+            
+            Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion());
             temasfinal.put(t.getNombre(), t);
         }
         ArrayList<Genero> l = new ArrayList();
@@ -343,12 +299,36 @@ public class ContArtista implements IcontArtista {
             Genero g = this.generos.get(dtgen.getNombre());
             l.add(g);
         }
-        Album a = new Album(nomartista, nombre, anio2, imagen, temasfinal, l);
+        
+        String rutaDestino = null; //ruta de destino del archivo
+            
+        //Si el album tiene una imagen
+        if(imagen != null){
+            //ruta del archivo seleccionado para el tema
+            String rutaOrigen = imagen; 
+            
+            //Divide el string por el punto, tambien elimina el punto
+            String[] aux = imagen.split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
+            
+            //toma la segunda parte porque es la extension
+            //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
+            String extension = aux[1];
+
+            //Se crea la ruta del archivo del tema dentro del servidor -> "Imagenes/nickArtista/nomAlbum/tema.mp3"
+            rutaDestino = "Imagenes/"+nicknameArt+"/Albumes/"+nombre+"." +extension;
+
+            //Si NO pudo copiar el archivo correctamente deja a ruta en null
+            if(Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false){
+                rutaDestino = null; 
+            }
+        }
+        
+        Album a = new Album(nicknameArt, nombre, anio2, rutaDestino, temasfinal, l);
         int idalbum = this.dbUsuario.InsertarAlbum(a);
         for (int i = 0; i < l.size(); i++) {
             l.get(i).AddAlbum(a);
         }
-        Artista ar = artistas.get(nomartista);
+        Artista ar = artistas.get(nicknameArt);
         ar.getAlbumes().put(a.getNombre(), a);
         for (int i = 0; i < a.getGeneros().size(); i++) {
             int idg = a.getGeneros().get(i).getid();
@@ -362,17 +342,7 @@ public class ContArtista implements IcontArtista {
             this.dbUsuario.InsertarTema(idalbum, t);
         }
     }
-
-    @Override
-    public void AgregarTema(String nombre, String duracion, int ubicacion, String url_mp3) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Artista buscarArtista(String nickname) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.    
-    }
-
+    
     public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
         ArrayList<DtUsuario> retornar = new ArrayList<>();
         Iterator iterador = this.artistas.values().iterator();
