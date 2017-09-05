@@ -10,6 +10,7 @@ import Logica.IcontArtista;
 import Logica.IcontCliente;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -26,6 +27,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        
         Cli = Fabrica.getCliente();
         Art = Fabrica.getArtista();
         Fabrica.SetControladores();
@@ -65,13 +67,14 @@ public class Principal extends javax.swing.JFrame {
         jMenu13 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         escritorio = new javax.swing.JDesktopPane();
+        fondoLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         ConsultarPerfilCliMenuItem = new javax.swing.JMenuItem();
-        pubListMenuItem = new javax.swing.JMenuItem();
         seguir = new javax.swing.JMenuItem();
         dseguir = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -84,6 +87,7 @@ public class Principal extends javax.swing.JFrame {
         CrearLista = new javax.swing.JMenuItem();
         agregarTemaListaMenuItem = new javax.swing.JMenuItem();
         verListaRep = new javax.swing.JMenuItem();
+        pubListMenuItem = new javax.swing.JMenuItem();
         Datos = new javax.swing.JMenu();
         CargaDatos = new javax.swing.JMenuItem();
 
@@ -131,15 +135,17 @@ public class Principal extends javax.swing.JFrame {
         escritorio.setBackground(new java.awt.Color(255, 255, 255));
         escritorio.setPreferredSize(new java.awt.Dimension(645, 421));
 
+        escritorio.setLayer(fondoLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 645, Short.MAX_VALUE)
+            .addComponent(fondoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 417, Short.MAX_VALUE)
+            .addComponent(fondoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
         );
 
         jMenuBar1.setPreferredSize(new java.awt.Dimension(445, 21));
@@ -168,6 +174,14 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem3);
 
+        jMenuItem2.setText("Genero");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem2);
+
         jMenuBar1.add(jMenu3);
 
         jMenu1.setText("Clientes");
@@ -184,14 +198,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(ConsultarPerfilCliMenuItem);
-
-        pubListMenuItem.setText("Publicar Lista");
-        pubListMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pubListMenuItemActionPerformed(evt);
-            }
-        });
-        jMenu1.add(pubListMenuItem);
 
         seguir.setText("Seguir Usuario");
         seguir.addActionListener(new java.awt.event.ActionListener() {
@@ -266,7 +272,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu4.add(CrearLista);
 
-        agregarTemaListaMenuItem.setText("Agregar Tema");
+        agregarTemaListaMenuItem.setText("Agregar o Quitar Tema");
         agregarTemaListaMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agregarTemaListaMenuItemActionPerformed(evt);
@@ -281,6 +287,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu4.add(verListaRep);
+
+        pubListMenuItem.setText("Publicar Lista");
+        pubListMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pubListMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu4.add(pubListMenuItem);
 
         jMenuBar1.add(jMenu4);
 
@@ -337,20 +351,19 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void agregarTemaListaMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarTemaListaMenuItemActionPerformed
-        AgregarTemaaLista agregarTL = new AgregarTemaaLista();
+        AgregarQuitarTemaaLista agregarTL = new AgregarQuitarTemaaLista();
         escritorio.add(agregarTL);
         agregarTL.centrar();
         agregarTL.show();
     }//GEN-LAST:event_agregarTemaListaMenuItemActionPerformed
 
     private void CargaDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaDatosActionPerformed
-        int x = javax.swing.JOptionPane.showConfirmDialog(null, "Esta a punto de cargar los datos de prueba del sistema. Confirmar?", "Carga de datos", 1);
+        int x = javax.swing.JOptionPane.showConfirmDialog(null, "Esta a punto de cargar los datos de prueba del sistema. Confirmar?", "Carga de datos de prueba", JOptionPane.YES_NO_OPTION);
         if (x==0){
             Cli.CargadeDatos();
-            javax.swing.JOptionPane.showMessageDialog(null,"Carga de datos completada","Carga de datos",1);
-        }
-        if (x==1){
-            javax.swing.JOptionPane.showMessageDialog(null,"Operación cancelada","Carga de datos",0);    
+            javax.swing.JOptionPane.showMessageDialog(null,"Carga de datos de prueba completada","Carga de datos de prueba",1);
+        }else{
+            javax.swing.JOptionPane.showMessageDialog(null,"Operación cancelada","Carga de datos de prueba",0);    
         }
     }//GEN-LAST:event_CargaDatosActionPerformed
 
@@ -428,6 +441,13 @@ public class Principal extends javax.swing.JFrame {
         ef.centrar();
         ef.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        AltaGenero g= new AltaGenero();
+        escritorio.add(g);
+        g.centrar();
+        g.show();
+                 
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     
     /**
@@ -471,6 +491,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem agregarTemaListaMenuItem;
     private javax.swing.JMenuItem dseguir;
     private javax.swing.JDesktopPane escritorio;
+    private javax.swing.JLabel fondoLabel;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;

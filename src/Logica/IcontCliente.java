@@ -50,6 +50,9 @@ public interface IcontCliente{
     public abstract boolean InsertarFavorito(String cliente, String[] elementos, int tipo);
     public abstract void EliminarFavorito(String cliente, String[] elemento, int tipo);
     
+    public abstract ArrayList<DtListaP> listarListasPrivadas(String nickname);
+    public abstract boolean verificarDatos(String nickname, String correo);
+    public abstract Cliente BuscarUsuariosC(String nickname);
     ///
     public abstract boolean copiarImagenAlServidor(String rutaOrigenArchivo, String rutaDestino);
 }

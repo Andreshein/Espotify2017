@@ -192,13 +192,17 @@ public class PublicarLista extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void clientesTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientesTableMouseClicked
-        DefaultTableModel modelo = (DefaultTableModel) listasTable.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) clientesTable.getModel();
+        String nickname = (String) modelo.getValueAt(clientesTable.getSelectedRow(), 0);
         
-        ArrayList<DtListaP> listas = new ArrayList<>();
+        modelo = (DefaultTableModel) listasTable.getModel();
+        while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla
+        
+        ArrayList<DtListaP> listas = Fabrica.getCliente().listarListasPrivadas(nickname);
         
         for (DtListaP lista : listas) {
             if(lista.isPrivada()){
-                String[] datos = {lista.getUsuario()};
+                String[] datos = {lista.getNombre()};
                 modelo.addRow(datos);
             }
         }
@@ -225,6 +229,7 @@ public class PublicarLista extends javax.swing.JInternalFrame {
 
                 //Se necesita castear el modelo para poder eliminar una fila en especifico
                 DefaultTableModel modelo = (DefaultTableModel) listasTable.getModel();
+                
                 //Se elimina la lista de la tabla porque ya no es provada
                 modelo.removeRow(filaL);
 

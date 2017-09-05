@@ -18,14 +18,14 @@ public class DtTema {
     private final String nomartista;
     private final String nomalbum;
 
-    public DtTema(String nombre, String duracion, int orden, String direccion, String archivo) {
+    public DtTema(String artista, String album, String nombre, String duracion, int orden, String direccion, String archivo) {
         this.nombre = nombre;
         this.duracion = duracion;
         this.orden = orden;
         this.direccion = direccion;
         this.archivo = archivo;
-        this.nomartista = null;
-        this.nomalbum = null;
+        this.nomartista = artista;
+        this.nomalbum = album;
     }
     
     public DtTema(String nombre, String alb, String art) {
@@ -43,6 +43,14 @@ public class DtTema {
     }
 
     public String getNomalbum() {
+        return nomalbum;
+    }
+
+    public String getArtista() {
+        return nomartista;
+    }
+
+    public String getAlbum() {
         return nomalbum;
     }
 

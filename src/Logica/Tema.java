@@ -101,7 +101,7 @@ public class Tema {
     }
     
     public DtTema getDatos(){
-        return new DtTema(nombre, duracion, orden, direccion, archivo);
+        return new DtTema(nombreartista, nombrealbum, nombre, duracion, orden, direccion, archivo);
     }
 
     

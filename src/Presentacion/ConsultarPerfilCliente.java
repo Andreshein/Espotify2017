@@ -45,7 +45,7 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         
         Fabrica f = Fabrica.getInstance();
         this.contClientes=f.getCliente();
-        
+                
         //lista todos
         listarClientes("");
         
@@ -96,6 +96,10 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         imagenLabel = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        fechaNLabel = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        correoLabel = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -110,11 +114,11 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nickname", "Nombre", "Apellido", "Fecha de nacimiento", "Email"
+                "Nickname", "Nombre", "Apellido"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -283,6 +287,9 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         });
         temasTable.setGridColor(new java.awt.Color(204, 204, 204));
         jScrollPane3.setViewportView(temasTable);
+        if (temasTable.getColumnModel().getColumnCount() > 0) {
+            temasTable.getColumnModel().getColumn(3).setPreferredWidth(20);
+        }
 
         javax.swing.GroupLayout temasPanelLayout = new javax.swing.GroupLayout(temasPanel);
         temasPanel.setLayout(temasPanelLayout);
@@ -443,6 +450,18 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setText("Fecha de Nacimineto:");
+
+        fechaNLabel.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        fechaNLabel.setText("Fecha de Nacimineto:");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel8.setText("Correo:");
+
+        correoLabel.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        correoLabel.setText("Correo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -458,7 +477,16 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel3)
                                     .addComponent(favoritosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane2))
+                            .addComponent(jScrollPane2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(correoLabel)
+                                    .addComponent(fechaNLabel))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -491,17 +519,26 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(buscarCliTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jLabel7)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(imagenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(imagenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(fechaNLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(correoLabel))))
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
@@ -522,7 +559,7 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton2)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(27, Short.MAX_VALUE))))
+                        .addContainerGap(31, Short.MAX_VALUE))))
         );
 
         pack();
@@ -568,7 +605,12 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
             imagenLabel.setIcon(icono); // coloca la imagen en el label
 
             this.pack();
+        }else{
+            imagenLabel.setIcon(null); // se limpia la imagen del label
         }
+        
+        fechaNLabel.setText(cliente.getFechaNac());
+        correoLabel.setText(cliente.getCorreo());
         
         // limpiar las variables arraylist
         listasCreadas.clear();
@@ -626,13 +668,16 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
     }
     
     public void listarClientes(String palabra){
+        fechaNLabel.setText("");
+        correoLabel.setText("");
+        
         DefaultTableModel modelo = (DefaultTableModel) clientesTable.getModel();
         while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla
          
         ArrayList<DtCliente> clientes = contClientes.BuscarClientes(palabra);
         
         for (DtCliente cliente : clientes) {
-            String[] datos = {cliente.getNickname(), cliente.getNombre(), cliente.getApellido(), cliente.getFechaNac(), cliente.getCorreo()}; 
+            String[] datos = {cliente.getNickname(), cliente.getNombre(), cliente.getApellido()}; 
             modelo.addRow(datos);
         }
     }
@@ -656,7 +701,7 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         while(modelo.getRowCount()>0)modelo.removeRow(0);//limpiar la tabla
         if(temasFavCli != null){
             for (DtTema tema : temasFavCli) {
-                String[] datos ={"nomArtista", "nomAlbum", tema.getNombre(), String.valueOf(tema.getOrden()), tema.getDuracion()};
+                String[] datos ={tema.getArtista(), tema.getAlbum(), tema.getNombre(), String.valueOf(tema.getOrden()), tema.getDuracion()};
                 modelo.addRow(datos);
             }
         }
@@ -742,15 +787,19 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTable albumesTable;
     private javax.swing.JTextField buscarCliTextField;
     private javax.swing.JTable clientesTable;
+    private javax.swing.JLabel correoLabel;
     private javax.swing.JComboBox<String> favoritosComboBox;
     private javax.swing.JPanel favoritosPanel;
+    private javax.swing.JLabel fechaNLabel;
     private javax.swing.JLabel imagenLabel;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

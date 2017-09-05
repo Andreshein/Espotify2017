@@ -339,12 +339,11 @@ public class ConsultarPerfilArtista extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblArtistasMouseClicked
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        if(txtBuscar.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "No se puede dejar el campo de búsqueda en blanco", "Error al buscar", JOptionPane.ERROR_MESSAGE);
+        List<DtArtista> artistas = artista.BuscarArtistas(txtBuscar.getText());
+        DefaultTableModel modelo = (DefaultTableModel) tblArtistas.getModel();
+        if(artistas.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No se encontraron coincidencias", "Error al buscar", JOptionPane.ERROR_MESSAGE);
         }else{
-            List<DtArtista> artistas = artista.BuscarArtistas(txtBuscar.getText());
-            DefaultTableModel modelo = (DefaultTableModel) tblArtistas.getModel();
-        
             while(modelo.getRowCount()>0){
                 modelo.removeRow(0);
             }
@@ -355,6 +354,7 @@ public class ConsultarPerfilArtista extends javax.swing.JInternalFrame {
                 modelo.addRow(datos);
             }
         }
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

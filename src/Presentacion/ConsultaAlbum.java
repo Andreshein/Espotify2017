@@ -268,10 +268,12 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btBuscar1MouseClicked
 
     private void btBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscar1ActionPerformed
-        // TODO add your handling code here:
-        String nickname = (String) tablap.getValueAt(tablap.getSelectedRow(), 0);
-        String nomalb = (String) tablap.getValueAt(tablap.getSelectedRow(), 1);
-        ArrayList<DtTema> al = this.Art.obtenerTema(nickname, nomalb);
+        if(tablap.getSelectedRow()==-1){
+            JOptionPane.showMessageDialog(null, "Fila no seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            String nickname = (String) tablap.getValueAt(tablap.getSelectedRow(), 0);
+            String nomalb = (String) tablap.getValueAt(tablap.getSelectedRow(), 1);
+            ArrayList<DtTema> al = this.Art.obtenerTema(nickname, nomalb);
             DefaultTableModel modelo=(DefaultTableModel) tablap1.getModel();
             modelo.setRowCount(0);
             for (int i=0;i<al.size();i++) {
@@ -285,7 +287,8 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 };
                 modelo.addRow(dat);
     }//GEN-LAST:event_btBuscar1ActionPerformed
-    }
+        }
+        }
     public void centrar(){
         //este metodo devuelve el tamaÃ±o de la pantalla
         Dimension pantalla = this.getParent().getSize();

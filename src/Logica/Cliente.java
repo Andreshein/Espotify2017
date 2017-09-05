@@ -300,6 +300,17 @@ public class Cliente extends Usuario {
         return retorno;
     }
     
+    public ArrayList<DtListaP> listarListasPrivadas(){
+        ArrayList<DtListaP> listasPrivadas = new ArrayList<>();
+        
+        for (Particular lista : this.Listas.values()) {
+            if(lista.isEsPrivado()){
+                listasPrivadas.add(lista.getDatos(this.nickname));
+            }
+        }
+        return listasPrivadas;
+    }
+    
     public void publicarLista(String nomLista){
         this.Listas.get(nomLista).setEsPrivado(false);
     }

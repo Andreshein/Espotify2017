@@ -53,7 +53,7 @@ public class Particular extends Lista{
     }
     
     public DtListaP getDatosResumidos(){
-        return new DtListaP(nombreusuario, null, null, nombre, esPrivado);
+        return new DtListaP(nombre, null, null, nombreusuario, esPrivado);
     }
     
     public void AddTema(Tema t){
