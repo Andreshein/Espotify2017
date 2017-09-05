@@ -8,8 +8,13 @@ package Presentacion;
 import Logica.Fabrica;
 import Logica.IcontArtista;
 import Logica.IcontCliente;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -22,6 +27,7 @@ public class Principal extends javax.swing.JFrame {
 
     private IcontCliente Cli; 
     private IcontArtista Art;
+    public static Panel escritorio = new Panel();
     /**
      * Creates new form Principal
      */
@@ -40,6 +46,7 @@ public class Principal extends javax.swing.JFrame {
         
         this.setExtendedState(this.MAXIMIZED_BOTH);
         Fabrica  f = Fabrica.getInstance();
+        setContentPane(escritorio);
         //f.cargarDatos();
     }
 
@@ -66,13 +73,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu12 = new javax.swing.JMenu();
         jMenu13 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
-        escritorio = new javax.swing.JDesktopPane();
-        fondoLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         ConsultarPerfilCliMenuItem = new javax.swing.JMenuItem();
         seguir = new javax.swing.JMenuItem();
@@ -132,22 +137,6 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        escritorio.setBackground(new java.awt.Color(255, 255, 255));
-        escritorio.setPreferredSize(new java.awt.Dimension(645, 421));
-
-        escritorio.setLayer(fondoLabel, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
-        escritorio.setLayout(escritorioLayout);
-        escritorioLayout.setHorizontalGroup(
-            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(fondoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE)
-        );
-        escritorioLayout.setVerticalGroup(
-            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(fondoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
-        );
-
         jMenuBar1.setPreferredSize(new java.awt.Dimension(445, 21));
 
         jMenu3.setText("Nuevo");
@@ -174,13 +163,13 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem3);
 
-        jMenuItem2.setText("Genero");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem6.setText("Genero");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem2ActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem2);
+        jMenu3.add(jMenuItem6);
 
         jMenuBar1.add(jMenu3);
 
@@ -316,11 +305,11 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGap(0, 645, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(escritorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+            .addGap(0, 417, Short.MAX_VALUE)
         );
 
         pack();
@@ -490,8 +479,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu Datos;
     private javax.swing.JMenuItem agregarTemaListaMenuItem;
     private javax.swing.JMenuItem dseguir;
-    private javax.swing.JDesktopPane escritorio;
-    private javax.swing.JLabel fondoLabel;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
@@ -516,9 +503,31 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem pubListMenuItem;
     private javax.swing.JMenuItem seguir;
     private javax.swing.JMenuItem verListaRep;
     private javax.swing.JMenuItem verperfArt;
     // End of variables declaration//GEN-END:variables
+}
+
+class Panel extends JDesktopPane{
+    
+    public Panel(){
+              
+    }
+    
+    @Override
+    public void paintComponent(Graphics g){
+        Toolkit miPantalla = Toolkit.getDefaultToolkit();
+        Dimension tamanio = getSize();
+        
+        ImageIcon imagen = new ImageIcon("Imagenes\\espotifyFondo.png");
+        
+        g.drawImage(imagen.getImage(), 0, 0, tamanio.width, tamanio.height, null);
+        
+        setOpaque(false);
+       
+        super.paintComponent(g);
+    }
 }

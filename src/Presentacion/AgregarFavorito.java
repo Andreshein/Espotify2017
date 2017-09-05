@@ -111,6 +111,11 @@ public class AgregarFavorito extends javax.swing.JInternalFrame {
 
         jLabel1.setText("1. Buscar cliente por Nickname:");
 
+        nick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nickActionPerformed(evt);
+            }
+        });
         nick.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 nickKeyReleased(evt);
@@ -332,6 +337,10 @@ public class AgregarFavorito extends javax.swing.JInternalFrame {
             javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(),"Error", 0);
         }
     }//GEN-LAST:event_aceptarActionPerformed
+
+    private void nickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nickActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nickActionPerformed
 
     private void confirmarfavorito() throws java.lang.Exception{
         if (favorito.getText().equals("Seleccionar en tabla...")){
