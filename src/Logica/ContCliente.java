@@ -297,7 +297,7 @@ public class ContCliente implements IcontCliente {
 
     public void crearListaP(String Nickname, String nombre, String Img) {
         this.cliente = this.clientes.get(Nickname);
-        this.lista = new Particular(0, "x", nombre, false);
+        this.lista = new Particular(0, "x", nombre, true);
         if (Img != null) {
             String[] aux = Img.split("\\."); 
             String extension = aux[1];

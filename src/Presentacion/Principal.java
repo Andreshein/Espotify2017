@@ -136,6 +136,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Espotify");
 
         jMenuBar1.setPreferredSize(new java.awt.Dimension(445, 21));
 
