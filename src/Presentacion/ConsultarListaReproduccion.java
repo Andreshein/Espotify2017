@@ -23,6 +23,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -34,6 +35,9 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
     
     private IcontArtista artista;
     private IcontCliente cliente;
+    ArrayList<ImageIcon> imagenesp = new ArrayList<>();
+    ArrayList<ImageIcon> imagenespd = new ArrayList<>();
+     
     /**
      * Creates new form ConsultarListaReproduccion
      */
@@ -70,6 +74,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tblDefecto = new javax.swing.JTable();
         btnSalir = new javax.swing.JButton();
+        btnDescargar = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Consultar Lista de reproducción");
@@ -215,38 +220,48 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             }
         });
 
+        btnDescargar.setText("Descargar archivo");
+        btnDescargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDescargarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ListasPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ListasPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(cboxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnBuscar))
-                                    .addComponent(jLabel3))))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(Imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel4)
-                    .addComponent(jScrollPane3))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSalir)
+                                        .addGap(9, 9, 9)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel1)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(cboxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnBuscar))
+                                            .addComponent(jLabel3))))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(Imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel4)
+                            .addComponent(jScrollPane3))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnDescargar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalir)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -274,7 +289,9 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSalir)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalir)
+                    .addComponent(btnDescargar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -336,10 +353,32 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
     private void tblParticularMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblParticularMouseClicked
         this.mostrarTemasListaP();
+        
+        int indice = tblParticular.getSelectedRow(); //el indice es la fila del album seleccionado
+        if(imagenesp.get(indice) != null){
+            Icon icono= new ImageIcon(imagenesp.get(indice).getImage().getScaledInstance(Imagen.getWidth(),Imagen.getHeight(),Image.SCALE_DEFAULT));
+
+            Imagen.setIcon(icono); // coloca la imagen en el label
+
+            this.pack();
+        }else{
+            Imagen.setIcon(null); // se limpia la imagen del label
+        }
     }//GEN-LAST:event_tblParticularMouseClicked
 
     private void tblDefectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDefectoMouseClicked
         this.mostrarTemasListaPD();
+        
+        int indice = tblDefecto.getSelectedRow(); //el indice es la fila del album seleccionado
+        if(imagenespd.get(indice) != null){
+            Icon icono= new ImageIcon(imagenespd.get(indice).getImage().getScaledInstance(Imagen.getWidth(),Imagen.getHeight(),Image.SCALE_DEFAULT));
+
+            Imagen.setIcon(icono); // coloca la imagen en el label
+
+            this.pack();
+        }else{
+            Imagen.setIcon(null); // se limpia la imagen del label
+        }
     }//GEN-LAST:event_tblDefectoMouseClicked
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -349,6 +388,33 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             this.dispose();
         }     
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnDescargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescargarActionPerformed
+       if(tblTemas.getSelectedRow()>-1){
+            JFileChooser elegirArchivo = new JFileChooser();
+            elegirArchivo.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            elegirArchivo.setAcceptAllFileFilterUsed(false);
+            elegirArchivo.setDialogTitle("Seleccionar carpeta");
+
+            int a= elegirArchivo.showDialog(this, "Seleccionar"); // guarda la accion que se realiza en el filechooser
+
+            if(a == JFileChooser.APPROVE_OPTION){ // la accion si se le da a abrir
+//            File archivo = elegirarchivo.getSelectedFile(); // capturar el nombre y ruta
+//            String RutaArchivo = archivo.getPath();
+                String carpetaDestino = elegirArchivo.getSelectedFile().toString();
+            
+                String ruta = (String) tblTemas.getValueAt(tblTemas.getSelectedRow(), 4);
+                String nomLista= (String) tblParticular.getValueAt(tblParticular.getSelectedRow(), 0);
+                String nombreTema = (String) tblTemas.getValueAt(tblTemas.getSelectedRow(), 0);
+
+                if(artista.descargarArchivo(ruta, carpetaDestino, nomLista, nombreTema) == true){
+                    JOptionPane.showMessageDialog(this,"Se ha descargado el archivo correctamente","Descarga completa",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(this,"Ha ocurrido un error al decargar el tema, la descarga ha sido cancelada","Descarga cancelada",javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnDescargarActionPerformed
  
     public void mostrarListas(String tipo){
         CardLayout cl = (CardLayout)(ListasPanel.getLayout());
@@ -375,6 +441,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             for(DtListaP lp: lista){            
                 Object[] datos={lp.getUsuario(),lp.getNombre(),lp.isPrivada()};
                 modelo.addRow(datos);
+                imagenesp.add(lp.getImagen());
             }
         }
     }
@@ -391,6 +458,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             for(DtListaPD lpd: lista){
                 Object[] datos={lpd.getNombre(),lpd.getGenero()};
                 modelo.addRow(datos);
+                imagenespd.add(lpd.getImagen());
             }
         }
     }
@@ -453,6 +521,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
     private javax.swing.JPanel ListasPanel;
     private javax.swing.JPanel ParticularesPanel;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnDescargar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cboxBuscar;
     private javax.swing.JLabel jLabel1;

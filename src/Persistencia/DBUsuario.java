@@ -199,7 +199,7 @@ public class DBUsuario {
                     } else {
                         privada = false;
                     }
-                    Particular p = new Particular(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), privada);
+                    Particular p = new Particular(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), privada,rs.getString("Imagen"));
                     c.AddLista(p);
                 }
                 rs2.close();
