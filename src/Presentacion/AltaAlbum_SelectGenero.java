@@ -74,6 +74,7 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
         DefaultTreeModel model = new DefaultTreeModel(principal);
         lgh(model, principal, g.getHijos());
         this.arbolgen.setModel(model);
+        this.arbolgen.setRootVisible(false);
     }
 
     private void lgh(DefaultTreeModel modelo, DefaultMutableTreeNode padre, ArrayList<DtGenero> g) {
