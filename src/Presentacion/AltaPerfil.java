@@ -32,7 +32,10 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         this.Cli=f.getCliente();
         setTitle("Alta Perfil"); // nombre de la ventana
         setResizable(false); // no se puede modificar el tamaño de la ventana      
-        jPanel1.setVisible(false);
+        
+        //Al principio mostrar panel vacio, oculta biografia y pagina web para el artista
+        CardLayout cl = (CardLayout) contenedor.getLayout();
+        cl.show(contenedor, "panelVacio");        
     }
 
     /**
@@ -63,17 +66,20 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         Img = new javax.swing.JLabel();
         rutaImg = new javax.swing.JLabel();
         Anio = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        txt_Biografia = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        txt_PaginaWeb = new javax.swing.JTextField();
         Dia = new javax.swing.JComboBox<>();
         Mes = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         CargarImg = new javax.swing.JButton();
         CargarImg1 = new javax.swing.JButton();
+        contenedor = new javax.swing.JPanel();
+        panelArtista = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jLabel8 = new javax.swing.JLabel();
+        txt_PaginaWeb = new javax.swing.JTextField();
+        panelVacio = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -122,7 +128,6 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setResizable(true);
-        setPreferredSize(new java.awt.Dimension(650, 430));
 
         jLabel1.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jLabel1.setText("Nickname: ");
@@ -169,62 +174,6 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
             }
         });
 
-        txt_Biografia.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        txt_Biografia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_BiografiaActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        jLabel7.setText("Biografia: ");
-
-        jLabel8.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        jLabel8.setText("Pagina Web: ");
-
-        txt_PaginaWeb.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txt_PaginaWebFocusLost(evt);
-            }
-        });
-        txt_PaginaWeb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_PaginaWebActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_Biografia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_PaginaWeb, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(74, 74, 74))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txt_Biografia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txt_PaginaWeb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(21, Short.MAX_VALUE))
-        );
-
-        txt_Biografia.getAccessibleContext().setAccessibleName("");
-        txt_Biografia.getAccessibleContext().setAccessibleDescription("");
-
         Dia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
         Dia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -267,6 +216,76 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
             }
         });
 
+        contenedor.setLayout(new java.awt.CardLayout());
+
+        jLabel7.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel7.setText("Biografia: ");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jLabel8.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel8.setText("Pagina Web: ");
+
+        txt_PaginaWeb.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_PaginaWebFocusLost(evt);
+            }
+        });
+        txt_PaginaWeb.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_PaginaWebActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelArtistaLayout = new javax.swing.GroupLayout(panelArtista);
+        panelArtista.setLayout(panelArtistaLayout);
+        panelArtistaLayout.setHorizontalGroup(
+            panelArtistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelArtistaLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(panelArtistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelArtistaLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(108, 108, 108)
+                        .addComponent(txt_PaginaWeb, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(73, Short.MAX_VALUE))
+                    .addGroup(panelArtistaLayout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38))))
+        );
+        panelArtistaLayout.setVerticalGroup(
+            panelArtistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelArtistaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelArtistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(panelArtistaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txt_PaginaWeb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        contenedor.add(panelArtista, "panelArtista");
+
+        javax.swing.GroupLayout panelVacioLayout = new javax.swing.GroupLayout(panelVacio);
+        panelVacio.setLayout(panelVacioLayout);
+        panelVacioLayout.setHorizontalGroup(
+            panelVacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 419, Short.MAX_VALUE)
+        );
+        panelVacioLayout.setVerticalGroup(
+            panelVacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 156, Short.MAX_VALUE)
+        );
+
+        contenedor.add(panelVacio, "panelVacio");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -306,13 +325,13 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
                                     .addComponent(rutaImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(Img, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addComponent(jButton1)
+                        .addGap(131, 131, 131)
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(131, 131, 131)
-                                .addComponent(jButton2))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -355,8 +374,9 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(CargarImg)
                                 .addComponent(CargarImg1)))))
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -367,76 +387,88 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       try{
-           boolean formatOk=true;
+        boolean formatOk=true;
      
-        int anio= Integer.parseInt(Anio.getText());
-        if(anio<2016 && anio>1900 ){
-        String nickname,nombre,apellido,correo,comboTipo,biografia,paginaWeb;
-        String fecha = Dia.getSelectedItem().toString()+"/"+Mes.getSelectedItem().toString()+"/"+Anio.getText();
-        SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
-        
-        nickname = txt_Nick.getText();
-        nombre = txt_Nombre.getText();
-        apellido = txt_Apellido.getText();
-        correo = txt_Correo.getText();
-        biografia = txt_Biografia.getText();
-        paginaWeb = txt_PaginaWeb.getText();
-        comboTipo = cmb_Tipo.getSelectedItem().toString();
-        
-        //Si hay algun campo vacio muestra un mensaje
-        if ((txt_Nick.getText().equals("")) || (txt_Nombre.getText().equals("")) || (txt_Apellido.getText().equals("")) || (txt_Correo.getText().equals("")) || (Dia.getSelectedItem().toString().equals(""))
-            || (Mes.getSelectedItem().toString().equals("")) || (Anio.getText().equals("")) || ((cmb_Tipo.getSelectedItem() == null))) {
+        try{
+            int anio= Integer.parseInt(Anio.getText());
+            if(anio<2016 && anio>1900 ){
+                String nickname,nombre,apellido,correo,comboTipo,biografia,paginaWeb;
+                String fecha = Dia.getSelectedItem().toString()+"/"+Mes.getSelectedItem().toString()+"/"+Anio.getText();
+                SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
 
-            javax.swing.JOptionPane.showMessageDialog(this,"Debe llenar todos los campos \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            txt_Nick.requestFocus();
-        }else{   
-            //Si los campos no estan vacios, se fija el formato del mail
-            if (!correo.matches(".+@.+\\..+")) {
-                javax.swing.JOptionPane.showMessageDialog(null,"El formato de mail es incorrecto");
-                formatOk=false;
-            }
-        
-            if(formatOk){
+                nickname = txt_Nick.getText();
+                nombre = txt_Nombre.getText();
+                apellido = txt_Apellido.getText();
+                correo = txt_Correo.getText();
+                biografia = jTextArea1.getText();
+                paginaWeb = txt_PaginaWeb.getText();
+                comboTipo = cmb_Tipo.getSelectedItem().toString();
 
-                boolean Ok;
-                System.out.println("comboTipo = "+comboTipo);
-                if(comboTipo.equals("Artista")){
+                //Si hay algun campo vacio muestra un mensaje
+                if ((txt_Nick.getText().equals("")) || (txt_Nombre.getText().equals("")) || (txt_Apellido.getText().equals("")) || (txt_Correo.getText().equals("")) || (Dia.getSelectedItem().toString().equals(""))
+                    || (Mes.getSelectedItem().toString().equals("")) || (Anio.getText().equals("")) || ((cmb_Tipo.getSelectedItem() == null))) {
 
-                   try {
-                       Ok = Art.IngresarArtista(nickname,nombre,apellido,correo,formato.parse(fecha),biografia,paginaWeb,RutaImagen);
-                       if(Ok){
-                           javax.swing.JOptionPane.showMessageDialog(null,"El artista ha sido dado de alta");
-                           this.dispose();
-                       }
-                       else{
-                           javax.swing.JOptionPane.showMessageDialog(null,"El artista no ha podido ser dado de alta, nickname y/o correo en uso", "Datos incorrectos", JOptionPane.WARNING_MESSAGE);
-                       }
-                   } catch (ParseException ex) {
-                       Logger.getLogger(AltaPerfil.class.getName()).log(Level.SEVERE, null, ex);
-                       javax.swing.JOptionPane.showMessageDialog(null,"El formato de la Fecha es incorrecto, debe ser tipo: 'dd/MM/yyyy'");
-                   }
+                    javax.swing.JOptionPane.showMessageDialog(this,"Debe llenar todos los campos \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    txt_Nick.requestFocus();
+                }else{   
+                    //Si los campos no estan vacios, se fija el formato del mail
+                    if (!correo.matches(".+@.+\\..+")) {
+                        javax.swing.JOptionPane.showMessageDialog(null,"El formato de mail es incorrecto");
+                        formatOk=false;
+                    }else{
+                        //Solo se fija el formato si se ingreso una página, porque es opcional
+                        if(txt_PaginaWeb.getText().equals("") == false && txt_PaginaWeb.getText().matches("(www\\.)(.+)(\\.)(.+)") == false){
+                            javax.swing.JOptionPane.showMessageDialog(null,"El formato de la paginaWeb es incorrecto");
+                            txt_PaginaWeb.setText(null);
+                            formatOk=false;
+                        }
+                    }
+
+                    if(formatOk){
+
+                        boolean Ok;
+                        System.out.println("comboTipo = "+comboTipo);
+                        if(comboTipo.equals("Artista")){
+
+                           try {
+                               Ok = Art.IngresarArtista(nickname,nombre,apellido,correo,formato.parse(fecha),biografia,paginaWeb,RutaImagen);
+                               if(Ok){
+                                   javax.swing.JOptionPane.showMessageDialog(null,"El artista ha sido dado de alta");
+                                   this.dispose();
+                               }
+                               else{
+                                   javax.swing.JOptionPane.showMessageDialog(null,"El artista no ha podido ser dado de alta, nickname y/o correo en uso", "Datos incorrectos", JOptionPane.WARNING_MESSAGE);
+                               }
+                           } catch (ParseException ex) {
+                               Logger.getLogger(AltaPerfil.class.getName()).log(Level.SEVERE, null, ex);
+                               javax.swing.JOptionPane.showMessageDialog(null,"El formato de la Fecha es incorrecto, debe ser tipo: 'dd/MM/yyyy'");
+                           }
+                        }
+
+                        if(comboTipo.equals("Cliente")){
+
+                           try {
+                               Ok = Cli.IngresarCliente(nickname,nombre,apellido,correo,formato.parse(fecha),RutaImagen);
+                               if(Ok){
+                                   javax.swing.JOptionPane.showMessageDialog(null,"El cliente ha sido dado de alta");
+                                   this.dispose();
+                               }
+                               else{
+                                   javax.swing.JOptionPane.showMessageDialog(null,"El cliente no ha podido ser dado de alta, nickname y/o correo en uso", "Datos incorrectos", JOptionPane.WARNING_MESSAGE);
+                               }
+                            }  catch (ParseException ex) {
+                               Logger.getLogger(AltaPerfil.class.getName()).log(Level.SEVERE, null, ex);
+                               javax.swing.JOptionPane.showMessageDialog(null,"El formato de la Fecha es incorrecto, debe ser tipo: 'dd/MM/yyyy'");
+                            }
+
+                        }                                        
+
+                    }
                 }
-
-                if(comboTipo.equals("Cliente")){
-
-                   try {
-                       Ok = Cli.IngresarCliente(nickname,nombre,apellido,correo,formato.parse(fecha),RutaImagen);
-                       if(Ok){
-                           javax.swing.JOptionPane.showMessageDialog(null,"El cliente ha sido dado de alta");
-                           this.dispose();
-                       }
-                       else{
-                           javax.swing.JOptionPane.showMessageDialog(null,"El cliente no ha podido ser dado de alta, nickname y/o correo en uso", "Datos incorrectos", JOptionPane.WARNING_MESSAGE);
-                       }
-                    }  catch (ParseException ex) {
-                       Logger.getLogger(AltaPerfil.class.getName()).log(Level.SEVERE, null, ex);
-                       javax.swing.JOptionPane.showMessageDialog(null,"El formato de la Fecha es incorrecto, debe ser tipo: 'dd/MM/yyyy'");}
-
-                }                                        
-
             }
-        }}}catch(NumberFormatException ex ) {
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null,"Debe ingresar un número válido para el año", "Año incorrecto", JOptionPane.WARNING_MESSAGE);
+            Anio.setText("");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -474,28 +506,26 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_CargarImgActionPerformed
     
     private void cmb_TipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_TipoActionPerformed
-        
+        CardLayout cl = (CardLayout) contenedor.getLayout();
         
         String texto=cmb_Tipo.getSelectedItem().toString();
         if("Cliente".equals(texto))
         {            
-            jPanel1.setVisible(false);
-            txt_Biografia.setText(null);
+            cl.show(contenedor, "panelVacio");
+            panelArtista.setVisible(false);
+            jTextArea1.setText(null);
             txt_PaginaWeb.setText(null);
         }
         else if("Artista".equals(texto))
         {
-            jPanel1.setVisible(true);
-            txt_Biografia.setText(null);
+            cl.show(contenedor, "panelArtista");
+            panelArtista.setVisible(true);
+            jTextArea1.setText(null);
             txt_PaginaWeb.setText(null);
         }        
     }//GEN-LAST:event_cmb_TipoActionPerformed
     
         
-    private void txt_BiografiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_BiografiaActionPerformed
-        //
-    }//GEN-LAST:event_txt_BiografiaActionPerformed
-
     private void txt_PaginaWebActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_PaginaWebActionPerformed
         //
     }//GEN-LAST:event_txt_PaginaWebActionPerformed
@@ -542,19 +572,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_AnioActionPerformed
 
     private void AnioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_AnioFocusLost
-        //solo se fija si el usuario ingreso algo, si no esta vacio
-        if(Anio.getText().equals("") == false){
-            try{
-                int anio= Integer.parseInt(Anio.getText());
-                if((anio>2016 || anio<1900) ){
-                    javax.swing.JOptionPane.showMessageDialog(this,"El formato de la fecha es incorrecto \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                    Anio.setText("");
-                }
-            }catch(NumberFormatException ex ) {
-                javax.swing.JOptionPane.showMessageDialog(null,"Debe ingresar solo numeros");
-                Anio.setText("");
-            }
-        }
+        
     }//GEN-LAST:event_AnioFocusLost
 
     private void txt_CorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CorreoActionPerformed
@@ -562,11 +580,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txt_CorreoActionPerformed
 
     private void txt_PaginaWebFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_PaginaWebFocusLost
-        if(txt_PaginaWeb.getText().endsWith(".com")==false){
-            javax.swing.JOptionPane.showMessageDialog(null,"El formato de la paginaWeb es incorrecto");
-            txt_PaginaWeb.setText(null);
-        }
-    
+        
     }//GEN-LAST:event_txt_PaginaWebFocusLost
 
     private void CargarImg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargarImg1ActionPerformed
@@ -599,6 +613,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     private javax.swing.JLabel Img;
     private javax.swing.JComboBox<String> Mes;
     private javax.swing.JComboBox<String> cmb_Tipo;
+    private javax.swing.JPanel contenedor;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JDialog jDialog1;
@@ -613,10 +628,12 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JPanel panelArtista;
+    private javax.swing.JPanel panelVacio;
     private javax.swing.JLabel rutaImg;
     private javax.swing.JTextField txt_Apellido;
-    private javax.swing.JTextField txt_Biografia;
     private javax.swing.JTextField txt_Correo;
     private javax.swing.JTextField txt_Nick;
     private javax.swing.JTextField txt_Nombre;
