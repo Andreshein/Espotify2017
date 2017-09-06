@@ -494,8 +494,13 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                 modelo.removeRow(0);
             }
            
-            for(DtListaP lp: lista){   
-                String[] datos={lp.getUsuario(),lp.getNombre(),String.valueOf(lp.isPrivada())};
+            for(DtListaP lp: lista){
+                String pub ="";
+                if (lp.isPrivada())
+                    pub = "Si";
+                if (!lp.isPrivada())
+                    pub = "No";           
+                String[] datos={lp.getUsuario(),lp.getNombre(),pub};
                 modelo.addRow(datos);
                 imagenesp.add(lp.getImagen());
             }
@@ -549,6 +554,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             }
             
             for(DtTema tema:temaLPD){
+                
                 String [] datos={tema.getArtista(),tema.getNombre(),tema.getAlbum(),tema.getDuracion(),String.valueOf(tema.getOrden()),tema.getDireccion(),tema.getArchivo()};
                 modelo.addRow(datos);
             }

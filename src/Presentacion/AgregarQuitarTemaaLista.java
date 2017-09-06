@@ -357,8 +357,10 @@ public class AgregarQuitarTemaaLista extends javax.swing.JInternalFrame {
             modelo.setRowCount(0);
             for (int i = 0; i < listap.size(); i++) {
                 DtListaP lp = (DtListaP) listap.get(i);
-                Object[] dat = {lp.getUsuario(), lp.getNombre()};
-                modelo.addRow(dat);
+                if (!lp.isPrivada()){
+                    Object[] dat = {lp.getUsuario(), lp.getNombre()};
+                    modelo.addRow(dat);
+                }
             }
         }
 
