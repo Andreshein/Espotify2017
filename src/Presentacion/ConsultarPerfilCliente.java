@@ -451,7 +451,7 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("Fecha de Nacimineto:");
+        jLabel2.setText("Fecha de Nacimiento:");
 
         fechaNLabel.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         fechaNLabel.setText("Fecha de Nacimineto:");

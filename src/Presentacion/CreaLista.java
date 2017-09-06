@@ -401,10 +401,11 @@ public class CreaLista extends javax.swing.JInternalFrame {
             case 0: {
                 String genero = this.campo1.getText();
                 if(genero.equals("")) 
-                throw new Exception("No selecciono genero");
+                    throw new Exception("No selecciono genero");
                 String nombre = this.txNombre.getText();
                 if(nombre.equals("")) 
-                throw new Exception("Debe nombrar la lista de reproducción");
+                    throw new Exception("Debe nombrar la lista de reproducción");
+                nombre = this.ConvertirString(nombre);
                 this.icc.crearListaPD(genero, nombre, ruta);
                 this.icc.confirmar();
                 javax.swing.JOptionPane.showMessageDialog(null,"Operación realizada");
@@ -417,7 +418,8 @@ public class CreaLista extends javax.swing.JInternalFrame {
                 throw new Exception("No selecciono cliente");
                 String nombre = this.txNombre.getText();
                 if(nombre.equals("")) 
-                throw new Exception("Debe nombrar la lista de reproducción");
+                    throw new Exception("Debe nombrar la lista de reproducción");
+                nombre = this.ConvertirString(nombre);
                 this.icc.crearListaP(nickname, nombre, ruta);
                 this.icc.confirmar();
                 javax.swing.JOptionPane.showMessageDialog(null,"Operación realizada");
@@ -434,7 +436,21 @@ public class CreaLista extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_cancelarActionPerformed
 
-
+    String ConvertirString(String cad){
+        cad = cad.toLowerCase();
+        String[] palabras = cad.split("\\s+");
+        cad = "";
+        for (int i=0;i<palabras.length;i++){
+            palabras[i].toLowerCase();
+            palabras[i] = palabras[i].substring(0, 1).toUpperCase() + palabras[i].substring(1);
+            if (i==0)
+                cad = cad + palabras[i];           
+            else
+                cad = cad + " " + palabras[i];
+        }
+        return cad;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser Buscar;
     private javax.swing.JButton CargarImg;

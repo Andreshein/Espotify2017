@@ -397,6 +397,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
                 SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
 
                 nickname = txt_Nick.getText();
+                nickname = nickname.toLowerCase();
                 nombre = txt_Nombre.getText();
                 apellido = txt_Apellido.getText();
                 correo = txt_Correo.getText();
@@ -572,7 +573,18 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_AnioActionPerformed
 
     private void AnioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_AnioFocusLost
-        
+        if(Anio.getText().equals("") == false){
+            try{
+                int anio = Integer.parseInt(Anio.getText());
+                if((anio>2016 || anio<1900) ){
+                    javax.swing.JOptionPane.showMessageDialog(this,"El formato de la fecha es incorrecto \n","AVISO!",javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    Anio.setText("");
+                }
+            }catch(NumberFormatException ex ) {
+                javax.swing.JOptionPane.showMessageDialog(null,"Debe ingresar solo numeros");
+                Anio.setText("");
+            }
+        }
     }//GEN-LAST:event_AnioFocusLost
 
     private void txt_CorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_CorreoActionPerformed

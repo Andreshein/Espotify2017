@@ -558,6 +558,7 @@ public class AltaAlbum extends javax.swing.JInternalFrame {
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
         this.temas.clear();
         this.modelotemas.setRowCount(0);
+        this.contador=0;
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void anioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_anioFocusLost

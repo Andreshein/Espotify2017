@@ -1718,7 +1718,7 @@ public class DBUsuario {
 
     public void agregarTemaListaP(int lista, String tema, String album, String nickname) {
         try {
-            PreparedStatement st = conexion.prepareStatement("INSERT INTO temalistapd VALUES (" + lista + "," + this.getIdTema(tema, album, nickname) + ")");
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO temalistap VALUES (" + lista + "," + this.getIdTema(tema, album, nickname) + ")");
             st.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("error tema lista bd");

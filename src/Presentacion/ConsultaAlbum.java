@@ -30,7 +30,7 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
 
     private IcontArtista Art;
     ArrayList<DtAlbum> al = new ArrayList<>();
-    ArrayList<ImageIcon> imagenes = new ArrayList<>();
+    private ArrayList<ImageIcon> imagenes = new ArrayList<>();
     /**
      * Creates new form ConsultaAlbum
      */
@@ -545,6 +545,10 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
     private void tablaArtistaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaArtistaMouseClicked
         String nickname = (String) tablaArtista.getValueAt(tablaArtista.getSelectedRow(), 0);
         al = Art.listarAlbumesArtista(nickname);
+        
+        imagenes.clear(); //limpiar las imagenes de los albumes mostrados antes
+        Imagen.setIcon(null); //limpiar imagen mostrada
+        
         DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
         modelo.setRowCount(0);
         for (int i=0;i<al.size();i++) {
