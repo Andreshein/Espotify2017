@@ -29,7 +29,8 @@ public class AltaGenero extends javax.swing.JInternalFrame {
         DefaultMutableTreeNode principal = new DefaultMutableTreeNode(g.getNombre());
         DefaultTreeModel model = new DefaultTreeModel(principal);
         lgh(model, principal, g.getHijos());
-        this.arbol.setModel(model); 
+        this.arbol.setModel(model);
+        this.arbol.setRootVisible(false);
     }
 
     private void lgh(DefaultTreeModel modelo, DefaultMutableTreeNode padre, ArrayList<DtGenero> g) {
@@ -158,14 +159,22 @@ public class AltaGenero extends javax.swing.JInternalFrame {
         DefaultMutableTreeNode nodoSeleccionado;
         nodoSeleccionado = (DefaultMutableTreeNode) arbol.getLastSelectedPathComponent();
         if(nodoSeleccionado != null && !txt_Nombre.getText().equals("")){
-        String padre = (String) nodoSeleccionado.getUserObject();
-        String nombre =  txt_Nombre.getText();
-        this.Art.CrearGenero(nombre, padre);
-        javax.swing.JOptionPane.showMessageDialog(null,"Genero agregado");
-        dispose();
+            String padre = (String) nodoSeleccionado.getUserObject();
+            String nombre =  txt_Nombre.getText();
+            this.Art.CrearGenero(nombre, padre);
+            javax.swing.JOptionPane.showMessageDialog(null,"Genero agregado");
+            dispose();
         }else{
-        if(nodoSeleccionado == null) throw new Exception("Seleccione genero padre");
-        if(txt_Nombre.getText().equals("")) throw new Exception("Escriba el nombre del genero");
+            if(nodoSeleccionado == null){
+                String padre = ("Género");
+                String nombre =  txt_Nombre.getText();
+                this.Art.CrearGenero(nombre, padre);
+                javax.swing.JOptionPane.showMessageDialog(null,"Genero agregado");
+                dispose();
+                //throw new Exception("Seleccione genero padre");
+            }
+            if(txt_Nombre.getText().equals("")) 
+                throw new Exception("Escriba el nombre del genero");
         }}catch(Exception e){
             javax.swing.JOptionPane.showMessageDialog(null,e.getMessage());
         }

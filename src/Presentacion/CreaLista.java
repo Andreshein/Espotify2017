@@ -81,6 +81,7 @@ public class CreaLista extends javax.swing.JInternalFrame {
         DefaultTreeModel model = new DefaultTreeModel(principal);
         lgh(model, principal, g.getHijos());
         this.arbol.setModel(model);
+        this.arbol.setRootVisible(false);
     }
 
     private void lgh(DefaultTreeModel modelo, DefaultMutableTreeNode padre, ArrayList<DtGenero> g) {

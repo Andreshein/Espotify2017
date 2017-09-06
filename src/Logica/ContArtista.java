@@ -164,7 +164,6 @@ public class ContArtista implements IcontArtista {
 
     public ArrayList<String> BuscarGenero(String palabra) {
         ArrayList<String> retornar = new ArrayList<>();
-
         Iterator iterator = this.generos.values().iterator();
         while (iterator.hasNext()) {
             Genero aux = (Genero) iterator.next();
@@ -174,8 +173,8 @@ public class ContArtista implements IcontArtista {
             palabra = palabra.toUpperCase();
 
             if (genero.startsWith(palabra)) {
-                retornar.add(aux.getNombre());
-
+                if (!genero.equals("GÉNERO"))
+                    retornar.add(aux.getNombre());
             }
         }
         return retornar;
@@ -531,6 +530,17 @@ public class ContArtista implements IcontArtista {
 
     @Override
     public void CrearGenero(String nombre, String padre) throws Exception {
+        nombre = nombre.toLowerCase();
+        String[] palabras = nombre.split("\\s+");
+        nombre = "";
+        for (int i=0;i<palabras.length;i++){
+            palabras[i].toLowerCase();
+            palabras[i] = palabras[i].substring(0, 1).toUpperCase() + palabras[i].substring(1);
+            if (i==0)
+                nombre = nombre + palabras[i];           
+            else
+                nombre = nombre + " " + palabras[i];
+        }
         if (!this.generos.containsKey(nombre)) {
             Genero gpadre = this.generos.get(padre);
             Genero g = new Genero(0, nombre, gpadre.getid());
