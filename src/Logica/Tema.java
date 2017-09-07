@@ -47,7 +47,21 @@ public class Tema {
         this.archivo = archivo;
         this.direccion = direccion;
     }
+    
+    public Tema(String duracion, String nombre, int orden, String archivo, String direccion , String alb, String art) {
+        this.duracion = duracion;
+        this.nombre = nombre;
+        this.orden = orden;
+        this.archivo = archivo;
+        this.direccion = direccion;
+        this.nombrealbum = alb;
+        this.nombreartista = art;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getNombrealbum() {
         return nombrealbum;
     }

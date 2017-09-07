@@ -56,6 +56,10 @@ public class Album {
         this.Imagen = img;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

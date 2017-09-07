@@ -246,7 +246,7 @@ public class AltaAlbum_AltaTema extends javax.swing.JInternalFrame {
                     url.requestFocus();
                 }
                 else
-                    if ((!cadenaurl.isEmpty()) && (!cadenaurl.contains(".com") || !cadenaurl.contains("www."))){
+                    if ((!cadenaurl.isEmpty()) && (!cadenaurl.contains(".com"))){
                         javax.swing.JOptionPane.showMessageDialog(this,"Formato de URL incorrecto \n","AVISO!",javax.swing.JOptionPane.ERROR_MESSAGE);
                         url.requestFocus();
                     }

@@ -129,6 +129,7 @@ public class DBUsuario {
     }
 
     public void InsertarTema(int idalbum, Tema t) {
+        int idtema = -1;
         try {
             PreparedStatement st = conexion.prepareStatement("INSERT INTO tema (IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?)");
             st.setInt(1, idalbum);
@@ -139,6 +140,18 @@ public class DBUsuario {
             st.setString(6, t.getDireccion());
             st.executeUpdate();
             st.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            PreparedStatement st = conexion.prepareStatement("SELECT max(Id) as id FROM espotify.tema ;");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                idtema = rs.getInt("id");
+            }
+            rs.close();
+            st.close();
+            t.setId(idtema);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

@@ -397,7 +397,7 @@ public class AltaPerfil extends javax.swing.JInternalFrame {
                 SimpleDateFormat formato= new SimpleDateFormat("dd/MM/yyyy");
 
                 nickname = txt_Nick.getText();
-                nickname = nickname.toLowerCase();
+                //nickname = nickname.toLowerCase();
                 nombre = txt_Nombre.getText();
                 apellido = txt_Apellido.getText();
                 correo = txt_Correo.getText();

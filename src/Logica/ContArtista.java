@@ -286,7 +286,7 @@ public class ContArtista implements IcontArtista {
                 }
             }
             
-            Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion());
+            Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion(), nombre, nicknameArt);
             temasfinal.put(t.getNombre(), t);
         }
         ArrayList<Genero> l = new ArrayList();
@@ -324,6 +324,7 @@ public class ContArtista implements IcontArtista {
         
         Album a = new Album(nicknameArt, nombre, anio2, rutaDestino, temasfinal, l);
         int idalbum = this.dbUsuario.InsertarAlbum(a);
+        a.setId(idalbum);
         for (int i = 0; i < l.size(); i++) {
             l.get(i).AddAlbum(a);
         }

@@ -240,10 +240,10 @@ public class AltaAlbum_SelectGenero extends javax.swing.JInternalFrame {
             DtGenero dtg = this.ListaGeneros.get(nomgenero.getText());
             if (dtg==null)
                 javax.swing.JOptionPane.showMessageDialog(this, "No hay ningún género seleccionado");
-            else {
-                lista.addElement(dtg.getNombre());
-                this.Ventana.getGeneros().put(dtg.getNombre(),dtg);
-            }
+            else{
+                    lista.addElement(dtg.getNombre());
+                    this.Ventana.getGeneros().put(dtg.getNombre(),dtg);
+                }
         }
     }//GEN-LAST:event_AgregarActionPerformed
 
