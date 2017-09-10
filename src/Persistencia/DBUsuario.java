@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -321,6 +323,8 @@ public class DBUsuario {
         String[] ImagenArtistas = {"DatosDePrueba/Imagenes/VillagePeople.jpg", "DatosDePrueba/Imagenes/DepecheMode.jpg", "DatosDePrueba/Imagenes/CyndiLauper.png", "DatosDePrueba/Imagenes/BruceSpringsteen.jpg", "DatosDePrueba/Imagenes/TripleNelson.jpg", null, null, null, "DatosDePrueba/Imagenes/NicoleNeumann.jpg", "DatosDePrueba/Imagenes/LosPimpinela.jpg", null, null};
         String[] BiografiaArtistas = {"Village People es una innovadora formación musical de estilo disco de finales de los años 70. Fue famosa tanto por sus peculiares disfraces, como por sus canciones pegadizas, con letras sugerentes y llenas de dobles sentidos.", null, "Cynthia Ann Stephanie Lauper, conocida simplemente como Cyndi Lauper, es una cantautora, actriz y empresaria estadounidense. Después de participar en el grupo musical, Blue Angel, en 1983 firmó con Portrait Records (filial de Epic Records) y lanzó su exitoso álbum debut She's So Unusual a finales de ese mismo año. Siguió lanzando una serie de álbumes en los que encontró una inmensa popularidad, superando los límites de contenido de las letras de sus canciones.", null, "La Triple Nelson es un grupo de rock uruguayo formado en enero de 1998 e integrado inicialmente por Christian Cary (guitarra y voz), Fernando \"Paco\" Pintos (bajo y coros) y Rubén Otonello (actualmente su nuevo baterista es Rafael Ugo).", null, "Sir Thomas John, conocido por su nombre artístico de Tom Jones, es un cantante británico. Ha vendido más de 100 millones de discos en todo el mundo.", "Piotr Ilich Chaikovski fue un compositor ruso del período del Romanticismo", null, null, "José Gómez Romero, conocido artísticamente como Dyango es un cantante español de música romántica.", "Su carrera comienza en 1976 cuando forma la banda Los Playeros junto a su hermano Víctor. Al poco tiempo se mudan a San Luis donde comienzan a hacerse conocidos en la escena musical. Su éxito a nivel nacional llega a comienzos de los años 1990 cuando desembarca en Buenos Aires y graba el éxito \"Violeta\", originalmente compuesta e interpretada en 1985 por el músico brasileño Luiz Caldas bajo el título «Fricote»."};
         String[] Pagina = {"www.officialvillagepeople.com", "www.depechemode.com", "cyndilauper.com", "brucespringsteen.net", null, null, "www.tomjones.com", null, null, "www.pimpinela.net", null, null};
+        String[] PasswordArtistas = {"vpeople", "dmode", "clauper", "bruceTheBoss", "tripleNelson", "la_ley", "tiger", "chaiko", "nicoleneu", "lospimpi", "dyango", "alcides"};
+        
         try {
             for (int i = 0; i < 12; i++) {
                 //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
@@ -349,9 +353,16 @@ public class DBUsuario {
                     }
 
                 }
+                
+                String passEncriptada = "";
+                try {
+                    passEncriptada = sha1(PasswordArtistas[i]);
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
-                        + "(Nickname, Nombre, Apellido, Correo, FechaNac, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?)");
+                        + "(Nickname, Nombre, Apellido, Correo, FechaNac, Biografia, Pagweb, Imagen, Password) values(?,?,?,?,?,?,?,?,?)");
                 statement.setString(1, NickArtistas0[i]);
                 statement.setString(2, NombreArtistas[i]);
                 statement.setString(3, ApellidoArtistas[i]);
@@ -360,6 +371,7 @@ public class DBUsuario {
                 statement.setString(6, BiografiaArtistas[i]);
                 statement.setString(7, Pagina[i]);
                 statement.setString(8, rutaImagen);
+                statement.setString(9, passEncriptada);
                 statement.executeUpdate();
                 statement.close();
             }
@@ -372,6 +384,8 @@ public class DBUsuario {
         String[] ApellidoClientes = {"Corleone", "O’Hara", "Argento", "White", "Kenobi", "Legrand", "Bochinche", " "};
         String[] NacimientoClientes = {"1972-03-08", "1984-11-27", "1955-02-14", "1956-03-07", "1914-04-02", "1927-02-23", "1937-05-08", "1971-12-31"};
         String[] ImagenClientes = {"DatosDePrueba/Imagenes/VitoCorleone.jpg", "DatosDePrueba/Imagenes/ScarlettO’Hara.jpg", "DatosDePrueba/Imagenes/PepeArgento.png", "DatosDePrueba/Imagenes/Heisenberg.jpg", "DatosDePrueba/Imagenes/BenKenobi.png", "DatosDePrueba/Imagenes/MirthaLegrand.jpg", "DatosDePrueba/Imagenes/CachoBochinche.jpg", "DatosDePrueba/Imagenes/Eleven.jpg"};
+        String[] PasswordClientes = {"elpadrino", "scarletto", "ppargento", "heisenberg", "benkenobi", "lachiqui", "cbochinche", "eleven11"};
+                
         try {
             for (int i = 0; i < 8; i++) {
                 //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
@@ -391,15 +405,23 @@ public class DBUsuario {
                 if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
                     rutaDestino = null; // no se pudo copiar la imagen, queda en null
                 }
+                
+                String passEncriptada = "";
+                try {
+                    passEncriptada = sha1(PasswordClientes[i]);
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
-                        + "(Nickname, Nombre, Apellido, Correo, FechaNac, Imagen) values(?,?,?,?,?,?)");
+                        + "(Nickname, Nombre, Apellido, Correo, FechaNac, Imagen, Password) values(?,?,?,?,?,?,?)");
                 statement.setString(1, NickClientes[i]);
                 statement.setString(2, NombreClientes[i]);
                 statement.setString(3, ApellidoClientes[i]);
                 statement.setString(4, CorreoClientes[i]);
                 statement.setString(5, NacimientoClientes[i]);
                 statement.setString(6, rutaDestino);
+                statement.setString(7, passEncriptada);
                 statement.executeUpdate();
                 statement.close();
             }
@@ -1812,6 +1834,18 @@ public class DBUsuario {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    //Encriptar contraseñas
+    String sha1(String pass) throws NoSuchAlgorithmException {
+        MessageDigest mDigest = MessageDigest.getInstance("SHA1");
+        byte[] result = mDigest.digest(pass.getBytes());
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
+         
+        return sb.toString();
     }
 
 }

@@ -5,8 +5,6 @@
  */
 package Presentacion;
 
-import Logica.DtAlbum;
-import Logica.DtArtista;
 import Logica.DtCliente;
 import Logica.DtGenero;
 import Logica.DtListaP;
@@ -14,7 +12,6 @@ import Logica.DtListaPD;
 import Logica.DtTema;
 import Logica.Fabrica;
 import Logica.IcontArtista;
-import Logica.IcontCliente;
 import java.awt.CardLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -26,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -117,7 +113,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Archivo", "Nombre del tema", "Albúm", "Duración", "Orden", "Dirección", "Archivo"
+                "Artista", "Nombre del tema", "Albúm", "Duración", "Orden", "Dirección", "Archivo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
