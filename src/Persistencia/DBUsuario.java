@@ -364,16 +364,16 @@ public class DBUsuario {
                 }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
-                        + "(Nickname, Nombre, Apellido, Correo, FechaNac, Biografia, Pagweb, Imagen, Password) values(?,?,?,?,?,?,?,?,?)");
+                        + "(Nickname,Contrasenia, Nombre, Apellido, Correo, FechaNac, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?,?)");
                 statement.setString(1, NickArtistas0[i]);
-                statement.setString(2, NombreArtistas[i]);
-                statement.setString(3, ApellidoArtistas[i]);
-                statement.setString(4, CorreoArtistas[i]);
-                statement.setString(5, NacimientoArtistas[i]);
-                statement.setString(6, BiografiaArtistas[i]);
-                statement.setString(7, Pagina[i]);
-                statement.setString(8, rutaImagen);
-                statement.setString(9, passEncriptada);
+                statement.setString(2, passEncriptada);
+                statement.setString(3, NombreArtistas[i]);
+                statement.setString(4, ApellidoArtistas[i]);
+                statement.setString(5, CorreoArtistas[i]);
+                statement.setString(6, NacimientoArtistas[i]);
+                statement.setString(7, BiografiaArtistas[i]);
+                statement.setString(8, Pagina[i]);
+                statement.setString(9, rutaImagen);
                 statement.executeUpdate();
                 statement.close();
             }
@@ -416,14 +416,14 @@ public class DBUsuario {
                 }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
-                        + "(Nickname, Nombre, Apellido, Correo, FechaNac, Imagen, Password) values(?,?,?,?,?,?,?)");
+                        + "(Nickname,Contrasenia, Nombre, Apellido, Correo, FechaNac, Imagen) values(?,?,?,?,?,?,?)");
                 statement.setString(1, NickClientes[i]);
-                statement.setString(2, NombreClientes[i]);
-                statement.setString(3, ApellidoClientes[i]);
-                statement.setString(4, CorreoClientes[i]);
-                statement.setString(5, NacimientoClientes[i]);
-                statement.setString(6, rutaDestino);
-                statement.setString(7, passEncriptada);
+                statement.setString(2, passEncriptada);
+                statement.setString(3, NombreClientes[i]);
+                statement.setString(4, ApellidoClientes[i]);
+                statement.setString(5, CorreoClientes[i]);
+                statement.setString(6, NacimientoClientes[i]);
+                statement.setString(7, rutaDestino);
                 statement.executeUpdate();
                 statement.close();
             }
