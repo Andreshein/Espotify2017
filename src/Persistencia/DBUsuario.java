@@ -32,11 +32,17 @@ public class DBUsuario {
     public boolean agregarArtista(Artista a) {
         try {
             java.sql.Date fechaN = new java.sql.Date(a.getFechaNac().getTime());
-
+            
+            String passEncriptada = "";
+                try {
+                    passEncriptada = sha1(a.getContrasenia());
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
                     + "(Nickname, Contrasenia, Nombre, Apellido, FechaNac,Correo, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?,?)");
             statement.setString(1, a.getNickname());
-            statement.setString(2, a.getContrasenia());
+            statement.setString(2, passEncriptada);
             statement.setString(3, a.getNombre());
             statement.setString(4, a.getApellido());
             statement.setDate(5, fechaN);
@@ -364,7 +370,8 @@ public class DBUsuario {
                 }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
-                        + "(Nickname,Contrasenia, Nombre, Apellido, Correo, FechaNac, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?,?)");
+
+                        + "(Nickname, Contrasenia, Nombre, Apellido, Correo, FechaNac, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?,?)");
                 statement.setString(1, NickArtistas0[i]);
                 statement.setString(2, passEncriptada);
                 statement.setString(3, NombreArtistas[i]);
@@ -416,8 +423,8 @@ public class DBUsuario {
                 }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
-                        + "(Nickname,Contrasenia, Nombre, Apellido, Correo, FechaNac, Imagen) values(?,?,?,?,?,?,?)");
-                statement.setString(1, NickClientes[i]);
+                        + "(Nickname, Contrasenia, Nombre, Apellido, Correo, FechaNac, Imagen) values(?,?,?,?,?,?,?)");
+                statement.setString(1, NickClientes[i]);                
                 statement.setString(2, passEncriptada);
                 statement.setString(3, NombreClientes[i]);
                 statement.setString(4, ApellidoClientes[i]);
