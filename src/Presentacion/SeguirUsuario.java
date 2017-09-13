@@ -325,6 +325,7 @@ public class SeguirUsuario extends javax.swing.JInternalFrame {
                 if(this.lblcampo1.getText().equals(this.lblcampo4.getText()))
                     throw new Exception("Un usuario no puede seguirse a sí mismo");
                 this.icc.seguir((String)this.lblcampo1.getText(), (String)this.lblcampo4.getText());
+                this.icc.seguirR((String)this.lblcampo1.getText(), (String)this.getName() );
                 javax.swing.JOptionPane.showMessageDialog(null,"Operacion exitosa");
                 this.dispose();
             } catch (Exception ex) {

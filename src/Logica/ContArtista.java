@@ -221,7 +221,7 @@ public class ContArtista implements IcontArtista {
     }
     
     @Override
-    public boolean IngresarArtista(String nickname, String nombre, String apellido, String correo, Date fechaNac, String biografia, String paginaWeb, String Img) {
+    public boolean IngresarArtista(String nickname,String contrasenia, String nombre, String apellido, String correo, Date fechaNac, String biografia, String paginaWeb, String Img) {
         if (Fabrica.getCliente().verificarDatos(nickname, correo) == false) { // si ya existe un cliente con ese nickname o correo
             return false;
         } else {
@@ -251,7 +251,7 @@ public class ContArtista implements IcontArtista {
             }
         }
 
-        Artista a = new Artista(nickname, nombre, apellido, correo, fechaNac, biografia, paginaWeb, Img);
+        Artista a = new Artista(nickname, contrasenia, nombre, apellido, correo, fechaNac, biografia, paginaWeb, Img);
         boolean ok = this.dbUsuario.agregarArtista(a);
         if (ok) {
             this.artistas.put(nickname, a);
@@ -597,6 +597,11 @@ public class ContArtista implements IcontArtista {
     @Override
     public boolean estaAlbum(String Nickname, String Album) {
         return artistas.get(Nickname).getAlbumes().containsKey(Album);
+    }
+
+    @Override
+    public boolean Pagweb(String pagweb) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -34,15 +34,16 @@ public class DBUsuario {
             java.sql.Date fechaN = new java.sql.Date(a.getFechaNac().getTime());
 
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
-                    + "(Nickname, Nombre, Apellido, FechaNac,Correo, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?)");
+                    + "(Nickname, Contrasenia, Nombre, Apellido, FechaNac,Correo, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?,?)");
             statement.setString(1, a.getNickname());
-            statement.setString(2, a.getNombre());
-            statement.setString(3, a.getApellido());
-            statement.setDate(4, fechaN);
-            statement.setString(5, a.getCorreo());
-            statement.setString(6, a.getBiografia());
-            statement.setString(7, a.getPaginaWeb());
-            statement.setString(8, a.getImagen());
+            statement.setString(2, a.getContrasenia());
+            statement.setString(3, a.getNombre());
+            statement.setString(4, a.getApellido());
+            statement.setDate(5, fechaN);
+            statement.setString(6, a.getCorreo());
+            statement.setString(7, a.getBiografia());
+            statement.setString(8, a.getPaginaWeb());
+            statement.setString(9, a.getImagen());
             statement.executeUpdate();
             statement.close();
 
@@ -58,13 +59,14 @@ public class DBUsuario {
             java.sql.Date fechaN = new java.sql.Date(c.getFechaNac().getTime());
 
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
-                    + "(Nickname, Nombre, Apellido, FechaNac, Correo, Imagen) values(?,?,?,?,?,?)");
+                    + "(Nickname, Contrasenia,Nombre, Apellido, FechaNac, Correo, Imagen) values(?,?,?,?,?,?,?)");
             statement.setString(1, c.getNickname());
-            statement.setString(2, c.getNombre());
-            statement.setString(3, c.getApellido());
-            statement.setDate(4, fechaN);
-            statement.setString(5, c.getCorreo());
-            statement.setString(6, c.getImage());
+            statement.setString(2, c.getContrasenia());
+            statement.setString(3, c.getNombre());
+            statement.setString(4, c.getApellido());
+            statement.setDate(5, fechaN);
+            statement.setString(6, c.getCorreo());
+            statement.setString(7, c.getImage());
             statement.executeUpdate();
             statement.close();
 
@@ -166,7 +168,7 @@ public class DBUsuario {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 String nickname = rs.getString("Nickname");
-                Artista a = new Artista(nickname, rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), rs.getString("Biografia"), rs.getString("Pagweb"), rs.getString("Imagen"));
+                Artista a = new Artista(nickname, rs.getString("Contrasenia"),rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), rs.getString("Biografia"), rs.getString("Pagweb"), rs.getString("Imagen"));
                 lista.put(nickname, a);
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM album WHERE Artista='" + nickname + "'");
                 ResultSet rs2 = st2.executeQuery();
@@ -203,7 +205,7 @@ public class DBUsuario {
             while (rs.next()) {
                 String nickname = rs.getString("Nickname");
                 java.util.Date fechaN = new java.util.Date(rs.getDate("FechaNac").getTime()); // convertir el Date de sql al Date utilizado en java
-                Cliente c = new Cliente(nickname, rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), fechaN, rs.getString("Imagen"));
+                Cliente c = new Cliente(nickname, rs.getString("Contrasenia"),rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), fechaN, rs.getString("Imagen"));
                 lista.put(nickname, c);
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM listaparticular WHERE Usuario='" + nickname + "'");
                 ResultSet rs2 = st2.executeQuery();

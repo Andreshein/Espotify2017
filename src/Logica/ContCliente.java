@@ -103,7 +103,7 @@ public class ContCliente implements IcontCliente {
     }
 
     @Override
-    public boolean IngresarCliente(String nickname, String nombre, String apellido, String correo, Date fechaNac, String Img) {
+    public boolean IngresarCliente(String nickname, String contrasenia,String nombre, String apellido, String correo, Date fechaNac, String Img) {
         if(Fabrica.getArtista().verificarDatos(nickname, correo) == false){ // si ya existe un artista con ese nickname o correo
             return false;
         }else{
@@ -134,7 +134,7 @@ public class ContCliente implements IcontCliente {
             }
         }
 
-        Cliente c = new Cliente(nickname, nombre, apellido, correo, fechaNac, Img);
+        Cliente c = new Cliente(nickname, contrasenia, nombre, apellido, correo, fechaNac, Img);
 
         boolean tru = this.dbUsuario.agregarCliente(c);
         if (tru) {
@@ -190,6 +190,16 @@ public class ContCliente implements IcontCliente {
         }
     }
 
+    public void seguirR(String nickCli, String nickUsu) throws Exception {
+        Cliente cli = (Cliente) this.clientes.get(nickCli);
+        boolean control = cli.setSiguiendo(this.seleccionarUsuario("dmode"));
+        if (control) {
+            this.dbUsuario.SeguirUsu(nickCli, this.seleccionarUsuario("dmode"));
+        }else{
+        throw new Exception("El cliente ya esta siendo seguido");
+        }
+    }
+    
     public Usuario seleccionarUsuario(String Nickname) {
         Usuario u = this.art.seleccionarUsuario(Nickname);
         if (u == null) {

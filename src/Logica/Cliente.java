@@ -26,8 +26,9 @@ public class Cliente extends Usuario {
     
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
-    public Cliente(String nickname, String nombre, String apellido, String correo, Date fechaNac, String Imagen) {
+    public Cliente(String nickname, String contrasenia,String nombre, String apellido, String correo, Date fechaNac, String Imagen) {
         this.nickname = nickname;
+        this.contrasenia = contrasenia;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNac = fechaNac;

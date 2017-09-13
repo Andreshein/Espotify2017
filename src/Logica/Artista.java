@@ -22,8 +22,9 @@ public class Artista extends Usuario {
     private String paginaWeb;
     private HashMap<String, Album> albumes;
 
-    public Artista(String nickname, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb, String Imag) {
+    public Artista(String nickname,String contrasenia, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb, String Imag) {
         this.nickname = nickname;
+        this.contrasenia = contrasenia;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
@@ -34,7 +35,13 @@ public class Artista extends Usuario {
         this.Imagen= Imag;
     }
 
+    public String getContrasenia() {
+        return contrasenia;
+    }
 
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
 
     public void setNickname(String nickname) {
         this.nickname = nickname;

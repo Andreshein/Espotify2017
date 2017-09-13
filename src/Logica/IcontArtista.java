@@ -19,7 +19,7 @@ import javax.swing.ImageIcon;
 public interface IcontArtista {
 
     public abstract ArrayList<DtListaPD> ListarListaPD();
-    public abstract boolean IngresarArtista(String nickname, String nombre, String apellido, String correo, Date fechaNac, String biografia, String paginaWeb, String img);
+    public abstract boolean IngresarArtista(String nickname, String contrasenia,String nombre, String apellido, String correo, Date fechaNac, String biografia, String paginaWeb, String img);
     public abstract DtArtista ElegirArtista(String nomArtista);
     public abstract ArrayList<DtArtista> ListarArtistas();
     public abstract ArrayList<String> BuscarGenero(String palabra);
@@ -65,4 +65,5 @@ public interface IcontArtista {
     public abstract boolean ArtistasVacio();
     public abstract boolean GenerosVacio();
     public abstract boolean estaAlbum(String Nickname, String Album);
+    public abstract boolean Pagweb(String pagweb); 
 }

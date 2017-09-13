@@ -10,6 +10,15 @@ import java.util.Date;
 
 public abstract class Usuario {
     protected String nickname;
+    protected String contrasenia;
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
     protected String nombre;
     protected String apellido;
     protected String correo;
