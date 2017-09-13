@@ -80,7 +80,6 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         ConsultarPerfilCliMenuItem = new javax.swing.JMenuItem();
@@ -159,14 +158,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem1);
-
-        jMenuItem3.setText("Album");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem3);
 
         jMenuItem6.setText("Genero");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -361,25 +352,6 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CargaDatosActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        AltaAlbum ab = new AltaAlbum(escritorio);
-        escritorio.add(ab);
-        ab.setVisible(true);
-        ab.centrar();
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void ConsultaAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultaAlbumActionPerformed
-        // TODO add your handling code here:
-        ConsultaAlbum album = new ConsultaAlbum();
-        escritorio.add(album);
-        album.centrar();
-        album.show();
-    }//GEN-LAST:event_ConsultaAlbumActionPerformed
-
-    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
-        
-    }//GEN-LAST:event_jMenu5ActionPerformed
-
     private void verperfArtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verperfArtActionPerformed
         ConsultarPerfilArtista cpa = new ConsultarPerfilArtista();
         escritorio.add(cpa);
@@ -443,6 +415,18 @@ public class Principal extends javax.swing.JFrame {
                  
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+
+    }//GEN-LAST:event_jMenu5ActionPerformed
+
+    private void ConsultaAlbumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConsultaAlbumActionPerformed
+        // TODO add your handling code here:
+        ConsultaAlbum album = new ConsultaAlbum();
+        escritorio.add(album);
+        album.centrar();
+        album.show();
+    }//GEN-LAST:event_ConsultaAlbumActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -505,7 +489,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar5;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
