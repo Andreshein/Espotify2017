@@ -603,5 +603,19 @@ public class ContArtista implements IcontArtista {
     public boolean Pagweb(String pagweb) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    @Override
+    public boolean verificarLoginArtista(String nickname, String correo,String contrasenia) {
+        for (Artista art : this.artistas.values()) {
+            if(((!art.getNickname().equals(nickname))||(!art.getCorreo().equals(correo)))&&(art.getContrasenia().equals(contrasenia))){
+                return false; // nickname o correo incorrecto
+            }
 
+            if (((art.getNickname().equals(nickname))||(art.getCorreo().equals(correo)))&&(!art.getContrasenia().equals(contrasenia))){
+                return false; // contraseña incorrecta
+            }
+        }
+        
+        return true;
+    }
 }
