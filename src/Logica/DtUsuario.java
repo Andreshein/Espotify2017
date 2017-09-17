@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
  */
 public abstract class DtUsuario {
     protected String nickname;
+    protected String contrasenia;
     protected String nombre;
     protected String apellido;
     protected String correo;
@@ -22,6 +23,10 @@ public abstract class DtUsuario {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
     }
 
     public String getNombre() {
