@@ -23,8 +23,9 @@ public class DtCliente extends DtUsuario{
     
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     
-    public DtCliente(String nickname, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes) {
+    public DtCliente(String nickname, String contrasenia, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes) {
         this.nickname = nickname;
+        this.contrasenia=contrasenia;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNac = formato.format(fechaNac);
@@ -57,7 +58,11 @@ public class DtCliente extends DtUsuario{
         return favAlbumes;
     }
     
-    
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
 
-    
+    public String getContrasenia() {
+        return contrasenia;
+    }
 }

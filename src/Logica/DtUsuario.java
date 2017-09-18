@@ -19,7 +19,8 @@ public abstract class DtUsuario {
     protected String correo;
     protected String fechaNac;
     protected ImageIcon imagen;
-
+    protected String contrasenia;
+    
     public String getNickname() {
         return nickname;
     }
@@ -44,6 +45,12 @@ public abstract class DtUsuario {
         return imagen;
     }
     
-    
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
     
 }
