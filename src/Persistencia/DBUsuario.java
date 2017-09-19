@@ -141,7 +141,7 @@ public class DBUsuario {
     public void InsertarTema(int idalbum, Tema t) {
         int idtema = -1;
         try {
-            PreparedStatement st = conexion.prepareStatement("INSERT INTO tema (IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?)");
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO tema (IdAlbum, Duracion, Nombre, Orden, Archivo, Direccion) values(?,?,?,?,?,?)");
             st.setInt(1, idalbum);
             st.setString(2, t.getDuracion());
             st.setString(3, t.getNombre());
@@ -185,7 +185,7 @@ public class DBUsuario {
                     PreparedStatement st3 = conexion.prepareStatement("SELECT * FROM tema WHERE IdAlbum='" + String.valueOf(rs2.getInt(1)) + "'");
                     ResultSet rs3 = st3.executeQuery();
                     while (rs3.next()) {
-                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), rs3.getString("Archivo"), rs3.getString("Dirección"), nickname, rs2.getString("Nombre"));
+                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), rs3.getString("Archivo"), rs3.getString("Direccion"), nickname, rs2.getString("Nombre"));
                         al.AddTema(t);
                     }
                     rs3.close();
@@ -1037,7 +1037,7 @@ public class DBUsuario {
                 }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO tema "
-                        + "(Id, IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?,?)");
+                        + "(Id, IdAlbum, Duracion, Nombre, Orden, Archivo, Direccion) values(?,?,?,?,?,?,?)");
                 statement.setInt(1, x);
                 statement.setInt(2, j);
                 statement.setString(3, Duraciontema[i]);
