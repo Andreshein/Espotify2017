@@ -8,11 +8,15 @@ package Logica;
 import java.util.HashMap;
 import java.util.Map;
 import Persistencia.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 public class ContArtista implements IcontArtista {
@@ -268,7 +272,22 @@ public class ContArtista implements IcontArtista {
                 return false;
             }
         }
-        return true;
+        try{
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaN = formato.parse(art.getFechaNac());
+        
+          Artista a = new Artista(art.getNickname(),art.getContrasenia(),art.getNombre(),art.getApellido(),art.getCorreo(),fechaN,art.getBiografia(),art.getPagWeb(),null);
+          boolean tru = this.dbUsuario.agregarArtista(a);
+        if (tru) {
+
+            this.artistas.put(art.getNickname(), a);
+        }
+        return tru;
+        } catch (ParseException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
     }
 
     @Override
