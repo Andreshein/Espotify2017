@@ -259,6 +259,17 @@ public class ContArtista implements IcontArtista {
 
         return ok;
     }
+    @Override
+    public boolean IngresarArtista(DtArtista art) {
+        if (Fabrica.getCliente().verificarDatos(art.getNickname(), art.getCorreo()) == false) { // si ya existe un cliente con ese nickname o correo
+            return false;
+        } else {
+            if (this.verificarDatos(art.getNickname(), art.getCorreo()) == false) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public void IngresarAlbum(String nicknameArt, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {

@@ -111,7 +111,8 @@ public class ContCliente implements IcontCliente {
                 return false;
             }
         }
-        
+    
+    
         
         //Si no retorno false antes, entonces los datos están bien
         
@@ -144,6 +145,17 @@ public class ContCliente implements IcontCliente {
         return tru;
 
         
+    }
+@Override
+    public boolean IngresarCliente(DtCliente cli) {
+        if(Fabrica.getArtista().verificarDatos(cli.getNickname() , cli.getCorreo()) == false){ // si ya existe un artista con ese nickname o correo
+            return false;
+        }else{
+            if(this.verificarDatos(cli.getNickname() , cli.getCorreo()) == false){
+                return false;
+            }
+        }
+        return true;
     }
 
     public ArrayList<DtCliente> BuscarClientes(String palabra) {
