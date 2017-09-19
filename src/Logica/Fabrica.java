@@ -47,7 +47,9 @@ public class Fabrica {
     private Fabrica() {
         this.getArtista();
         this.getCliente();
-        this.Cliente.setCA(Artista);
+        Cliente.SetContArtista(Artista);
+        Artista.SetContCliente(Cliente);
+        this.cargarDatos();
     }
 
     public static void cargarDatos() {

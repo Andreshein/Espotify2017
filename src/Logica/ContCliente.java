@@ -506,4 +506,15 @@ public class ContCliente implements IcontCliente {
     public boolean ClientesVacio() {
         return this.clientes.isEmpty();
     }
+    
+    @Override
+    public DtUsuario verificarLoginCliente(String nickname, String contrasenia) {
+        for (Cliente cli : this.clientes.values()) {
+            if(((!cli.getNickname().equals(nickname))||(!cli.getCorreo().equals(nickname)))&&(cli.getContrasenia().equals(contrasenia))){
+                return cli.getDatos(); // nickname o correo incorrecto
+            }
+        }
+        
+        return null;
+    }
 }

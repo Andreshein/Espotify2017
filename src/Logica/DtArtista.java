@@ -67,6 +67,14 @@ public class DtArtista extends DtUsuario{
 
     public ArrayList<DtAlbum> getAlbumes() {
         return albumes;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
     }    
     
 }

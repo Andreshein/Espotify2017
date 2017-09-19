@@ -47,5 +47,6 @@ public interface IcontCliente{
     public abstract boolean copiarArchivo(String rutaOrigenArchivo, String rutaDestino);
     public abstract boolean ClientesVacio();
     public abstract void seguirR(String nickCli, String nickUsu) throws Exception;
+    public abstract DtUsuario verificarLoginCliente(String nickname,String contrasenia);
 }
 //hellou papaguena

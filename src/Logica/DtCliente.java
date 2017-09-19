@@ -58,7 +58,11 @@ public class DtCliente extends DtUsuario{
         return favAlbumes;
     }
     
-    
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
 
-    
+    public String getContrasenia() {
+        return contrasenia;
+    }
 }

@@ -66,5 +66,6 @@ public interface IcontArtista {
     public abstract boolean ArtistasVacio();
     public abstract boolean GenerosVacio();
     public abstract boolean estaAlbum(String Nickname, String Album);
-    public abstract boolean Pagweb(String pagweb); 
+    public abstract boolean Pagweb(String pagweb);
+    public abstract DtUsuario verificarLoginArtista(String nickname,String contrasenia);
 }
