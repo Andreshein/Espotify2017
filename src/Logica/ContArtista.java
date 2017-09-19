@@ -277,7 +277,7 @@ public class ContArtista implements IcontArtista {
         Date fechaN = formato.parse(art.getFechaNac());
         
           Artista a = new Artista(art.getNickname(),art.getContrasenia(),art.getNombre(),art.getApellido(),art.getCorreo(),fechaN,art.getBiografia(),art.getPagWeb(),null);
-          boolean tru = this.dbUsuario.agregarArtista(a);
+          boolean tru = this.dbUsuario.agregarArtistaWeb(a);
         if (tru) {
 
             this.artistas.put(art.getNickname(), a);

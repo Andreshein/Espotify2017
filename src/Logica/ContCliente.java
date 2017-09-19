@@ -167,7 +167,7 @@ public class ContCliente implements IcontCliente {
 
         Cliente c = new Cliente(cli.getNickname(),cli.getContrasenia(),cli.getNombre(),cli.getApellido(),cli.getCorreo(),cli.getFechaNac(),null);
 
-        boolean tru = this.dbUsuario.agregarCliente(c);
+        boolean tru = this.dbUsuario.agregarClienteWeb(c);
         if (tru) {
 
             this.clientes.put(cli.getNickname(), c);

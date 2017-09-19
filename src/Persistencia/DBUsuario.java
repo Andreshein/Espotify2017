@@ -59,11 +59,66 @@ public class DBUsuario {
             return false;
         }
     }
+    public boolean agregarArtistaWeb(Artista a) {
+        try {
+            java.sql.Date fechaN = new java.sql.Date(a.getFechaNac().getTime());
+            
+            
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
+                    + "(Nickname, Contrasenia, Nombre, Apellido, FechaNac,Correo, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?,?)");
+            statement.setString(1, a.getNickname());
+            statement.setString(2, a.getContrasenia());
+            statement.setString(3, a.getNombre());
+            statement.setString(4, a.getApellido());
+            statement.setDate(5, fechaN);
+            statement.setString(6, a.getCorreo());
+            statement.setString(7, a.getBiografia());
+            statement.setString(8, a.getPaginaWeb());
+            statement.setString(9, a.getImagen());
+            statement.executeUpdate();
+            statement.close();
+
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
 
     public boolean agregarCliente(Cliente c) {
         try {
             java.sql.Date fechaN = new java.sql.Date(c.getFechaNac().getTime());
 
+            String passEncriptada = "";
+                try {
+                    passEncriptada = sha1(c.getContrasenia());
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
+                    + "(Nickname, Contrasenia,Nombre, Apellido, FechaNac, Correo, Imagen) values(?,?,?,?,?,?,?)");
+            statement.setString(1, c.getNickname());
+            statement.setString(2, passEncriptada);
+            statement.setString(3, c.getNombre());
+            statement.setString(4, c.getApellido());
+            statement.setDate(5, fechaN);
+            statement.setString(6, c.getCorreo());
+            statement.setString(7, c.getImage());
+            statement.executeUpdate();
+            statement.close();
+
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean agregarClienteWeb(Cliente c) {
+        try {
+            java.sql.Date fechaN = new java.sql.Date(c.getFechaNac().getTime());
+
+            
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                     + "(Nickname, Contrasenia,Nombre, Apellido, FechaNac, Correo, Imagen) values(?,?,?,?,?,?,?)");
             statement.setString(1, c.getNickname());
