@@ -47,5 +47,6 @@ public interface IcontCliente{
     public abstract boolean ClientesVacio();
     public abstract void seguirR(String nickCli, String nickUsu) throws Exception;
     public abstract boolean verificarLoginCliente(String nickname, String correo,String contrasenia);
+    public abstract void addSuscripcion (TipoSuscripcion ts);
 }
 //hellou papaguena

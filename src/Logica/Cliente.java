@@ -23,6 +23,7 @@ public class Cliente extends Usuario {
     private ArrayList<Album> favAlbumes;
     private ArrayList<Tema> favTemas;
     private HashMap<String, Usuario> Siguiendo;
+    private ArrayList<Suscripcion> Suscripciones;
     
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -39,6 +40,7 @@ public class Cliente extends Usuario {
         this.favAlbumes = new ArrayList<>();
         this.favTemas = new ArrayList<>();
         this.Siguiendo = new HashMap<>();
+        this.Suscripciones = new ArrayList();
     }
     
     //Se usa para la carga de datos de prueba
@@ -56,12 +58,17 @@ public class Cliente extends Usuario {
             this.favListas = new ArrayList<>();
             this.favAlbumes = new ArrayList<>();
             this.favTemas = new ArrayList<>();
+            this.Suscripciones = new ArrayList();
             this.Siguiendo = new HashMap<>();
         } catch (ParseException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    public void addSuscripcion(Suscripcion s){
+        this.Suscripciones.add(s);
+    }
+    
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
