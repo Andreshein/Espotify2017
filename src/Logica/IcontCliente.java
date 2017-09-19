@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 public interface IcontCliente{
     public abstract ArrayList<DtListaPD> ListarListaPD(); 
     public abstract boolean IngresarCliente(String nickname, String contrasenia, String nombre, String apellido,String correo, Date fechaNac, String img);
+    public abstract boolean IngresarCliente(DtCliente cli);
     public abstract ArrayList<DtListaP> ListarListaP();
     public abstract ArrayList<String> listarNickClientes();
     public abstract DtCliente verPerfilCliente( String nickname); //Dtcliente
@@ -48,5 +49,6 @@ public interface IcontCliente{
     public abstract void seguirR(String nickCli, String nickUsu) throws Exception;
     public abstract boolean verificarLoginCliente(String nickname, String correo,String contrasenia);
     public abstract void addSuscripcion (TipoSuscripcion ts);
+    public abstract DtUsuario verificarLoginCliente(String nickname,String contrasenia);
 }
 //hellou papaguena

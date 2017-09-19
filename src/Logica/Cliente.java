@@ -44,11 +44,12 @@ public class Cliente extends Usuario {
     }
     
     //Se usa para la carga de datos de prueba
-    public Cliente(String nickname, String nombre, String apellido, String correo, String fechaNac, String Imagen) {
+    public Cliente(String nickname, String contrasenia, String nombre, String apellido, String correo, String fechaNac, String Imagen) {
         try {
             Date fechaN = formato.parse(fechaNac);
             
             this.nickname = nickname;
+            this.contrasenia = contrasenia;
             this.nombre = nombre;
             this.apellido = apellido;
             this.fechaNac = fechaN;
@@ -71,6 +72,14 @@ public class Cliente extends Usuario {
     
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
     }
 
     public void setNombre(String nombre) {
@@ -267,11 +276,11 @@ public class Cliente extends Usuario {
             imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
         }
 
-        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, imagen, siguiendo, listasCreadas, listas, temas, albumes);
+        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, imagen, siguiendo, listasCreadas, listas, temas, albumes);
     }
 
     public DtCliente getDatosResumidos() {
-        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, null, null, null, null, null);
+        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, null, null, null, null, null, null);
     }
 
     public ArrayList<DtUsuario> buscarEnUsuarios(String palabra) {

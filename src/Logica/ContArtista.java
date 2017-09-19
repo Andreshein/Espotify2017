@@ -259,6 +259,17 @@ public class ContArtista implements IcontArtista {
 
         return ok;
     }
+    @Override
+    public boolean IngresarArtista(DtArtista art) {
+        if (Fabrica.getCliente().verificarDatos(art.getNickname(), art.getCorreo()) == false) { // si ya existe un cliente con ese nickname o correo
+            return false;
+        } else {
+            if (this.verificarDatos(art.getNickname(), art.getCorreo()) == false) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public void IngresarAlbum(String nicknameArt, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
@@ -605,17 +616,12 @@ public class ContArtista implements IcontArtista {
     }
     
     @Override
-    public boolean verificarLoginArtista(String nickname, String correo,String contrasenia) {
+    public DtUsuario verificarLoginArtista(String nickname, String contrasenia) {
         for (Artista art : this.artistas.values()) {
-            if(((!art.getNickname().equals(nickname))||(!art.getCorreo().equals(correo)))&&(art.getContrasenia().equals(contrasenia))){
-                return false; // nickname o correo incorrecto
-            }
-
-            if (((art.getNickname().equals(nickname))||(art.getCorreo().equals(correo)))&&(!art.getContrasenia().equals(contrasenia))){
-                return false; // contraseña incorrecta
+            if(((art.getNickname().equals(nickname))||(art.getCorreo().equals(nickname)))&&(art.getContrasenia().equals(contrasenia))){
+                return art.GetDtArtista(); // nickname o correo incorrecto
             }
         }
-        
-        return true;
+        return this.Cli.verificarLoginCliente(nickname, contrasenia);
     }
 }

@@ -117,7 +117,8 @@ public class ContCliente implements IcontCliente {
                 return false;
             }
         }
-        
+    
+    
         
         //Si no retorno false antes, entonces los datos están bien
         
@@ -150,6 +151,17 @@ public class ContCliente implements IcontCliente {
         return tru;
 
         
+    }
+@Override
+    public boolean IngresarCliente(DtCliente cli) {
+        if(Fabrica.getArtista().verificarDatos(cli.getNickname() , cli.getCorreo()) == false){ // si ya existe un artista con ese nickname o correo
+            return false;
+        }else{
+            if(this.verificarDatos(cli.getNickname() , cli.getCorreo()) == false){
+                return false;
+            }
+        }
+        return true;
     }
 
     public ArrayList<DtCliente> BuscarClientes(String palabra) {
@@ -502,17 +514,13 @@ public class ContCliente implements IcontCliente {
     }
     
     @Override
-    public boolean verificarLoginCliente(String nickname, String correo,String contrasenia) {
+    public DtUsuario verificarLoginCliente(String nickname, String contrasenia) {
         for (Cliente cli : this.clientes.values()) {
-            if(((!cli.getNickname().equals(nickname))||(!cli.getCorreo().equals(correo)))&&(cli.getContrasenia().equals(contrasenia))){
-                return false; // nickname o correo incorrecto
-            }
-
-            if (((cli.getNickname().equals(nickname))||(cli.getCorreo().equals(correo)))&&(!cli.getContrasenia().equals(contrasenia))){
-                return false; // contraseña incorrecta
+            if(((!cli.getNickname().equals(nickname))||(!cli.getCorreo().equals(nickname)))&&(cli.getContrasenia().equals(contrasenia))){
+                return cli.getDatos(); // nickname o correo incorrecto
             }
         }
         
-        return true;
+        return null;
     }
 }
