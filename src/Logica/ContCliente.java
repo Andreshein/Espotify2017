@@ -26,6 +26,7 @@ public class ContCliente implements IcontCliente {
     private static ContCliente instancia;
 
     private Map<String, Cliente> clientes;
+    private Map<Integer, TipoSuscripcion> suscripcion;
     private DBUsuario dbUsuario = null;
     private IcontArtista art;
     private Lista lista;
@@ -43,12 +44,17 @@ public class ContCliente implements IcontCliente {
 
         this.clientes = new HashMap<>();
         this.dbUsuario = new DBUsuario();
+        this.suscripcion = new HashMap();
         //this.art = Fabrica.getArtista()
         this.lista = null;
         this.genero = null;
         this.cliente = null;
     }
 
+    public void addSuscripcion (TipoSuscripcion ts){
+        this.suscripcion.put(ts.getId(), ts);
+    }
+    
     public Map<String, Cliente> GetClientes(){
         return this.clientes;
     }
@@ -111,7 +117,8 @@ public class ContCliente implements IcontCliente {
                 return false;
             }
         }
-        
+    
+    
         
         //Si no retorno false antes, entonces los datos están bien
         
@@ -144,6 +151,30 @@ public class ContCliente implements IcontCliente {
         return tru;
 
         
+    }
+@Override
+    public boolean IngresarCliente(DtCliente cli) {
+        if(Fabrica.getArtista().verificarDatos(cli.getNickname() , cli.getCorreo()) == false){ // si ya existe un artista con ese nickname o correo
+            return false;
+        }else{
+            if(this.verificarDatos(cli.getNickname() , cli.getCorreo()) == false){
+                return false;
+            }
+        }
+        
+   
+        
+
+        Cliente c = new Cliente(cli.getNickname(),cli.getContrasenia(),cli.getNombre(),cli.getApellido(),cli.getCorreo(),cli.getFechaNac(),null);
+
+        boolean tru = this.dbUsuario.agregarClienteWeb(c);
+        if (tru) {
+
+            this.clientes.put(cli.getNickname(), c);
+        }
+        return tru;
+  
+    
     }
 
     public ArrayList<DtCliente> BuscarClientes(String palabra) {
@@ -493,5 +524,16 @@ public class ContCliente implements IcontCliente {
     }
     public boolean ClientesVacio() {
         return this.clientes.isEmpty();
+    }
+    
+    @Override
+    public DtUsuario verificarLoginCliente(String nickname, String contrasenia) {
+        for (Cliente cli : this.clientes.values()) {
+            if(((!cli.getNickname().equals(nickname))||(!cli.getCorreo().equals(nickname)))&&(cli.getContrasenia().equals(contrasenia))){
+                return cli.getDatos(); // nickname o correo incorrecto
+            }
+        }
+        
+        return null;
     }
 }

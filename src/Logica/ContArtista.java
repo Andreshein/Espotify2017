@@ -8,11 +8,15 @@ package Logica;
 import java.util.HashMap;
 import java.util.Map;
 import Persistencia.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 public class ContArtista implements IcontArtista {
@@ -263,6 +267,32 @@ public class ContArtista implements IcontArtista {
         }
 
         return ok;
+    }
+    @Override
+    public boolean IngresarArtista(DtArtista art) {
+        if (Fabrica.getCliente().verificarDatos(art.getNickname(), art.getCorreo()) == false) { // si ya existe un cliente con ese nickname o correo
+            return false;
+        } else {
+            if (this.verificarDatos(art.getNickname(), art.getCorreo()) == false) {
+                return false;
+            }
+        }
+        try{
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaN = formato.parse(art.getFechaNac());
+        
+          Artista a = new Artista(art.getNickname(),art.getContrasenia(),art.getNombre(),art.getApellido(),art.getCorreo(),fechaN,art.getBiografia(),art.getPagWeb(),null);
+          boolean tru = this.dbUsuario.agregarArtistaWeb(a);
+        if (tru) {
+
+            this.artistas.put(art.getNickname(), a);
+        }
+        return tru;
+        } catch (ParseException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
     }
 
     @Override
@@ -608,5 +638,14 @@ public class ContArtista implements IcontArtista {
     public boolean Pagweb(String pagweb) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    @Override
+    public DtUsuario verificarLoginArtista(String nickname, String contrasenia) {
+        for (Artista art : this.artistas.values()) {
+            if(((art.getNickname().equals(nickname))||(art.getCorreo().equals(nickname)))&&(art.getContrasenia().equals(contrasenia))){
+                return art.GetDtArtista(); // nickname o correo incorrecto
+            }
+        }
+        return this.Cli.verificarLoginCliente(nickname, contrasenia);
+    }
 }

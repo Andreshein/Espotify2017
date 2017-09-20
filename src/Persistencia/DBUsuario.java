@@ -59,11 +59,66 @@ public class DBUsuario {
             return false;
         }
     }
+    public boolean agregarArtistaWeb(Artista a) {
+        try {
+            java.sql.Date fechaN = new java.sql.Date(a.getFechaNac().getTime());
+            
+            
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
+                    + "(Nickname, Contrasenia, Nombre, Apellido, FechaNac,Correo, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?,?)");
+            statement.setString(1, a.getNickname());
+            statement.setString(2, a.getContrasenia());
+            statement.setString(3, a.getNombre());
+            statement.setString(4, a.getApellido());
+            statement.setDate(5, fechaN);
+            statement.setString(6, a.getCorreo());
+            statement.setString(7, a.getBiografia());
+            statement.setString(8, a.getPaginaWeb());
+            statement.setString(9, a.getImagen());
+            statement.executeUpdate();
+            statement.close();
+
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
 
     public boolean agregarCliente(Cliente c) {
         try {
             java.sql.Date fechaN = new java.sql.Date(c.getFechaNac().getTime());
 
+            String passEncriptada = "";
+                try {
+                    passEncriptada = sha1(c.getContrasenia());
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
+                    + "(Nickname, Contrasenia,Nombre, Apellido, FechaNac, Correo, Imagen) values(?,?,?,?,?,?,?)");
+            statement.setString(1, c.getNickname());
+            statement.setString(2, passEncriptada);
+            statement.setString(3, c.getNombre());
+            statement.setString(4, c.getApellido());
+            statement.setDate(5, fechaN);
+            statement.setString(6, c.getCorreo());
+            statement.setString(7, c.getImage());
+            statement.executeUpdate();
+            statement.close();
+
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean agregarClienteWeb(Cliente c) {
+        try {
+            java.sql.Date fechaN = new java.sql.Date(c.getFechaNac().getTime());
+
+            
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                     + "(Nickname, Contrasenia,Nombre, Apellido, FechaNac, Correo, Imagen) values(?,?,?,?,?,?,?)");
             statement.setString(1, c.getNickname());
@@ -141,7 +196,7 @@ public class DBUsuario {
     public void InsertarTema(int idalbum, Tema t) {
         int idtema = -1;
         try {
-            PreparedStatement st = conexion.prepareStatement("INSERT INTO tema (IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?)");
+            PreparedStatement st = conexion.prepareStatement("INSERT INTO tema (IdAlbum, Duracion, Nombre, Orden, Archivo, Direccion) values(?,?,?,?,?,?)");
             st.setInt(1, idalbum);
             st.setString(2, t.getDuracion());
             st.setString(3, t.getNombre());
@@ -185,7 +240,7 @@ public class DBUsuario {
                     PreparedStatement st3 = conexion.prepareStatement("SELECT * FROM tema WHERE IdAlbum='" + String.valueOf(rs2.getInt(1)) + "'");
                     ResultSet rs3 = st3.executeQuery();
                     while (rs3.next()) {
-                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), rs3.getString("Archivo"), rs3.getString("Dirección"), nickname, rs2.getString("Nombre"));
+                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), rs3.getString("Archivo"), rs3.getString("Direccion"), nickname, rs2.getString("Nombre"));
                         al.AddTema(t);
                     }
                     rs3.close();
@@ -237,6 +292,25 @@ public class DBUsuario {
         }
     }
 
+    public ArrayList<Suscripcion> cargarSuscripciones(){
+        try{
+            ArrayList<Suscripcion> lista = new ArrayList();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM suscripciones as s, tiposuscripcion as t " +
+                "where s.IdTipo = t.Id;");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                java.util.Date Fecha = new java.util.Date(rs.getDate("Fecha").getTime());
+                Suscripcion s = new Suscripcion(Fecha,rs.getString("Estado"),rs.getInt("IdTipo"),rs.getString("Cliente"));
+                lista.add(s);
+            }
+            return lista;
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
     public Map<String, Genero> cargarGenero() {
         try {
             Map<String, Genero> lista = new HashMap<String, Genero>();
@@ -320,6 +394,12 @@ public class DBUsuario {
             PreparedStatement st15 = conexion.prepareStatement("Delete FROM temalistapd");
             st15.executeUpdate();
             st15.close();
+            PreparedStatement st16 = conexion.prepareStatement("Delete FROM suscripciones");
+            st16.executeUpdate();
+            st16.close();
+            PreparedStatement st17 = conexion.prepareStatement("Delete FROM tiposuscripcion");
+            st17.executeUpdate();
+            st17.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -1012,7 +1092,7 @@ public class DBUsuario {
                 }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO tema "
-                        + "(Id, IdAlbum, Duracion, Nombre, Orden, Archivo, Dirección) values(?,?,?,?,?,?,?)");
+                        + "(Id, IdAlbum, Duracion, Nombre, Orden, Archivo, Direccion) values(?,?,?,?,?,?,?)");
                 statement.setInt(1, x);
                 statement.setInt(2, j);
                 statement.setString(3, Duraciontema[i]);
@@ -1302,6 +1382,192 @@ public class DBUsuario {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+        }
+        String[] cuotas = {"","Semanal","Mensual","Anual"};
+        int[] montos = {0,2,7,65};
+        try{
+            for (int i=1;i<4;i++){
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO tiposuscripcion "
+                            + "(Id, Cuota, Monto) values(?,?,?)");
+                statement.setInt(1, i);
+                statement.setString(2, cuotas[i]);
+                statement.setInt(3, montos[i]);
+                statement.executeUpdate();
+                statement.close();
+            }
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "el_padrino");
+                statement.setInt(2, 1);
+                statement.setString(3, "Vencida");
+                statement.setString(4, "2016-09-02");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "el_padrino");
+                statement.setInt(2, 3);
+                statement.setString(3, "Vigente");
+                statement.setString(4, "2016-09-03");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "scarlettO");
+                statement.setInt(2, 2);
+                statement.setString(3, "Pendiente");
+                statement.setString(4, "2016-10-01");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "ppArgento");
+                statement.setInt(2, 3);
+                statement.setString(3, "Vencida");
+                statement.setString(4, "2016-03-01");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "ppArgento");
+                statement.setInt(2, 2);
+                statement.setString(3, "Cancelada");
+                statement.setString(4, "2016-05-03");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "ppArgento");
+                statement.setInt(2, 1);
+                statement.setString(3, "Vigente");
+                statement.setString(4, "2016-10-16");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "Heisenberg");
+                statement.setInt(2, 3);
+                statement.setString(3, "Vencida");
+                statement.setString(4, "2015-06-10");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "benKenobi");
+                statement.setInt(2, 2);
+                statement.setString(3, "Pendiente");
+                statement.setString(4, "2015-10-15");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "lachiqui");
+                statement.setInt(2, 3);
+                statement.setString(3, "Cancelada");
+                statement.setString(4, "2016-09-02");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "lachiqui");
+                statement.setInt(2, 2);
+                statement.setString(3, "Vigente");
+                statement.setString(4, "2016-09-25");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "cbochinche");
+                statement.setInt(2, 1);
+                statement.setString(3, "Vencida");
+                statement.setString(4, "2016-05-01");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "cbochinche");
+                statement.setInt(2, 3);
+                statement.setString(3, "Cancelada");
+                statement.setString(4, "2016-10-02");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
+        }
+        try{
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+                statement.setString(1, "Eleven11");
+                statement.setInt(2, 3);
+                statement.setString(3, "Pendiente");
+                statement.setString(4, "2016-10-15");
+                statement.executeUpdate();
+                statement.close();
+        }
+        catch(SQLException ex) {
+            ex.printStackTrace(); 
         }
     }
 

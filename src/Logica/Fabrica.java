@@ -47,7 +47,9 @@ public class Fabrica {
     private Fabrica() {
         this.getArtista();
         this.getCliente();
-        this.Cliente.setCA(Artista);
+        Cliente.SetContArtista(Artista);
+        Artista.SetContCliente(Cliente);
+        this.cargarDatos();
     }
 
     public static void cargarDatos() {
@@ -120,23 +122,25 @@ public class Fabrica {
             }
             
         }
-//        HashMap<String, PorDefecto> listaspordef = new HashMap();
-//        Set set = generos.entrySet();
-//        Iterator it = set.iterator();
-//        while (it.hasNext()){
-//            Map.Entry m = (Map.Entry) it.next();
-//            Genero g = (Genero)m.getValue();
-//                if (g.getListas().size()>0){
-//                    Set set2 = g.getListas().entrySet();
-//                    Iterator it2 = set2.iterator();
-//                    while (it2.hasNext()){
-//                        Map.Entry m2 = (Map.Entry) it2.next();
-//                        PorDefecto lpd = (PorDefecto)m2.getValue();
-//                        listaspordef.put(lpd.getNombre(), lpd);
-//                    }
-//                }
-//        }
-//        Artista.setListasPD(listaspordef);
+        TipoSuscripcion ts = new TipoSuscripcion("Semanal",1,2);
+        TipoSuscripcion ts1 = new TipoSuscripcion("Mensual",2,7);
+        TipoSuscripcion ts2 = new TipoSuscripcion("Anual",3,65);
+        Cliente.addSuscripcion(ts);
+        Cliente.addSuscripcion(ts1);
+        Cliente.addSuscripcion(ts2);
+        ArrayList<Suscripcion> susc = db.cargarSuscripciones();
+        for (int i=0; i<susc.size();i++){
+            if (susc.get(i).getIdTipo() == 1)
+                susc.get(i).setTp(ts);
+            if (susc.get(i).getIdTipo() == 2)
+                susc.get(i).setTp(ts1);
+            if (susc.get(i).getIdTipo() == 3)
+                susc.get(i).setTp(ts2);
+            Cliente c = clientes.get(susc.get(i).getNickcliente());
+            c.addSuscripcion(susc.get(i));
+            
+        }
+        
         Artista.setArtista((HashMap)artistas);
         Artista.setGenero((HashMap)generos);
         Cliente.setClientes((HashMap)clientes);

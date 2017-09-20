@@ -23,6 +23,7 @@ public class Cliente extends Usuario {
     private ArrayList<Album> favAlbumes;
     private ArrayList<Tema> favTemas;
     private HashMap<String, Usuario> Siguiendo;
+    private ArrayList<Suscripcion> Suscripciones;
     
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -39,14 +40,16 @@ public class Cliente extends Usuario {
         this.favAlbumes = new ArrayList<>();
         this.favTemas = new ArrayList<>();
         this.Siguiendo = new HashMap<>();
+        this.Suscripciones = new ArrayList();
     }
     
     //Se usa para la carga de datos de prueba
-    public Cliente(String nickname, String nombre, String apellido, String correo, String fechaNac, String Imagen) {
+    public Cliente(String nickname, String contrasenia, String nombre, String apellido, String correo, String fechaNac, String Imagen) {
         try {
             Date fechaN = formato.parse(fechaNac);
             
             this.nickname = nickname;
+            this.contrasenia = contrasenia;
             this.nombre = nombre;
             this.apellido = apellido;
             this.fechaNac = fechaN;
@@ -56,14 +59,27 @@ public class Cliente extends Usuario {
             this.favListas = new ArrayList<>();
             this.favAlbumes = new ArrayList<>();
             this.favTemas = new ArrayList<>();
+            this.Suscripciones = new ArrayList();
             this.Siguiendo = new HashMap<>();
         } catch (ParseException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    public void addSuscripcion(Suscripcion s){
+        this.Suscripciones.add(s);
+    }
+    
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
     }
 
     public void setNombre(String nombre) {
@@ -260,11 +276,11 @@ public class Cliente extends Usuario {
             imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
         }
 
-        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, imagen, siguiendo, listasCreadas, listas, temas, albumes);
+        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, imagen, siguiendo, listasCreadas, listas, temas, albumes);
     }
 
     public DtCliente getDatosResumidos() {
-        return new DtCliente(nickname, nombre, apellido, fechaNac, correo, null, null, null, null, null, null);
+        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, null, null, null, null, null, null);
     }
 
     public ArrayList<DtUsuario> buscarEnUsuarios(String palabra) {
