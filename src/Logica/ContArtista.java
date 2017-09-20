@@ -60,6 +60,11 @@ public class ContArtista implements IcontArtista {
         Artista a = (Artista) this.artistas.get(nomArtista);
         return a.getDatos();
     }
+    
+    public DtAlbum ElegirAlbum(String nomArtista, String nomAlb) {
+        Artista art = this.artistas.get(nomArtista);
+        return art.getAlbumes().get(nomAlb).getDatos();
+    }
 
     @Override
     public ArrayList<DtArtista> ListarArtistas() {
