@@ -25,8 +25,6 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Principal extends javax.swing.JFrame {
 
-    private IcontCliente Cli; 
-    private IcontArtista Art;
     public static Panel escritorio = new Panel();
     /**
      * Creates new form Principal
@@ -341,7 +339,7 @@ public class Principal extends javax.swing.JFrame {
     private void CargaDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaDatosActionPerformed
         int x = javax.swing.JOptionPane.showConfirmDialog(null, "Esta a punto de cargar los datos de prueba del sistema. Confirmar?", "Carga de datos de prueba", JOptionPane.YES_NO_OPTION);
         if (x==0){
-            Cli.CargadeDatos();
+            Fabrica.getCliente().CargadeDatos();
             javax.swing.JOptionPane.showMessageDialog(null,"Carga de datos de prueba completada","Carga de datos de prueba",1);
         }else{
             javax.swing.JOptionPane.showMessageDialog(null,"Operación cancelada","Carga de datos de prueba",0);    
