@@ -19,14 +19,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 
 public class ContCliente implements IcontCliente {
 
     private static ContCliente instancia;
 
     private Map<String, Cliente> clientes;
-    private Map<Integer, TipoSuscripcion> suscripcion;
+    private Map<Integer, TipoSuscripcion> tiposDeSuscripcion;
     private DBUsuario dbUsuario = null;
     private IcontArtista art;
     private Lista lista;
@@ -44,7 +43,7 @@ public class ContCliente implements IcontCliente {
 
         this.clientes = new HashMap<>();
         this.dbUsuario = new DBUsuario();
-        this.suscripcion = new HashMap();
+        this.tiposDeSuscripcion = new HashMap();
         //this.art = Fabrica.getArtista()
         this.lista = null;
         this.genero = null;
@@ -52,7 +51,7 @@ public class ContCliente implements IcontCliente {
     }
 
     public void addSuscripcion (TipoSuscripcion ts){
-        this.suscripcion.put(ts.getId(), ts);
+        this.tiposDeSuscripcion.put(ts.getId(), ts);
     }
     
     public Map<String, Cliente> GetClientes(){
@@ -535,5 +534,20 @@ public class ContCliente implements IcontCliente {
         }
         
         return null;
+    }
+    
+    @Override
+    public ArrayList<DtTipoSuscripcion> listarTipoDeSus(){
+        ArrayList<DtTipoSuscripcion> listaTS = new ArrayList<>();
+        
+        for (TipoSuscripcion tipoS : this.tiposDeSuscripcion.values()) {
+            listaTS.add(tipoS.getDatos());
+        }
+        
+        return listaTS;
+    }
+    
+    public ArrayList<DtSuscripcion> getSuscripCliente(String nickname){
+        return this.clientes.get(nickname).getSuscripCliente();
     }
 }

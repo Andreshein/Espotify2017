@@ -295,8 +295,7 @@ public class DBUsuario {
     public ArrayList<Suscripcion> cargarSuscripciones(){
         try{
             ArrayList<Suscripcion> lista = new ArrayList();
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM suscripciones as s, tiposuscripcion as t " +
-                "where s.IdTipo = t.Id;");
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM suscripciones ");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 java.util.Date Fecha = new java.util.Date(rs.getDate("Fecha").getTime());
@@ -2108,6 +2107,24 @@ public class DBUsuario {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    public Map<Integer, TipoSuscripcion> cargarTiposDeSuscripcion() {
+        try {
+            Map<Integer, TipoSuscripcion> lista = new HashMap<>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM tiposuscripcion");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                TipoSuscripcion tipoS = new TipoSuscripcion(rs.getString("Cuota"), rs.getInt("Id"), rs.getInt("Monto"));
+                lista.put(tipoS.getId(), tipoS);
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
         }
     }
     

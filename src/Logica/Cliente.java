@@ -331,4 +331,18 @@ public class Cliente extends Usuario {
     public void publicarLista(String nomLista){
         this.Listas.get(nomLista).setEsPrivado(false);
     }
+
+    public ArrayList<Suscripcion> getSuscripciones() {
+        return Suscripciones;
+    }
+    
+    public ArrayList<DtSuscripcion> getSuscripCliente(){
+        ArrayList<DtSuscripcion> listaSuscripciones = new ArrayList<>();
+        
+        for (Suscripcion sus : this.Suscripciones) {
+            listaSuscripciones.add(sus.getDatos());
+        }
+        
+        return listaSuscripciones;
+    }
 }

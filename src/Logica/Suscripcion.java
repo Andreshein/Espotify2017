@@ -65,5 +65,8 @@ public class Suscripcion {
         this.Estado = Estado;
     }
 
+    public DtSuscripcion getDatos(){
+        return new DtSuscripcion(nickcliente, fecha, Estado, tp.getCuota(), tp.getMonto());
+    }
     
 }
