@@ -49,6 +49,8 @@ public interface IcontCliente{
     public abstract void seguirR(String nickCli, String nickUsu) throws Exception;
     public abstract void addSuscripcion (TipoSuscripcion ts);
     public abstract DtUsuario verificarLoginCliente(String nickname,String contrasenia);
+    public abstract boolean agregarTemaFavorito (String nickname, String artista, String album, String tema);
+    public abstract boolean agregarAlbumFavorito (String nickname, String artista, String album);
     public abstract ArrayList<DtTipoSuscripcion> listarTipoDeSus();
     public abstract ArrayList<DtSuscripcion> getSuscripCliente(String nickname);
 }

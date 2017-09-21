@@ -536,17 +536,46 @@ public class ContCliente implements IcontCliente {
         return null;
     }
     
+    public boolean agregarTemaFavorito (String nickname, String artista, String album, String tema){
+        Cliente c = this.clientes.get(nickname);
+        Tema t = this.art.getTema(artista, album, tema);
+        boolean agregadoOk = false;
+        if (c.getFavTemas().contains(t))
+            agregadoOk=false;
+        else{
+            c.getFavTemas().add(t);
+            dbUsuario.InsertarFavorito(0, nickname, t.getId());
+            agregadoOk=true;
+        } 
+        return agregadoOk;
+    }
+    
+    public boolean agregarAlbumFavorito (String nickname, String artista, String album){
+        Cliente c = this.clientes.get(nickname);
+        Album a = this.art.getAlbum(artista, album);
+        boolean agregadoOk = false;
+        if (c.getFavAlbumes().contains(a))
+            agregadoOk=false;
+        else{
+            c.getFavAlbumes().add(a);
+            dbUsuario.InsertarFavorito(1, nickname, a.getId());
+            agregadoOk=true;
+        } 
+        return agregadoOk;
+    }
+
     @Override
     public ArrayList<DtTipoSuscripcion> listarTipoDeSus(){
         ArrayList<DtTipoSuscripcion> listaTS = new ArrayList<>();
-        
+
         for (TipoSuscripcion tipoS : this.tiposDeSuscripcion.values()) {
             listaTS.add(tipoS.getDatos());
         }
-        
+
         return listaTS;
     }
-    
+
+    @Override
     public ArrayList<DtSuscripcion> getSuscripCliente(String nickname){
         return this.clientes.get(nickname).getSuscripCliente();
     }
