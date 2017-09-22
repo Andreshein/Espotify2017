@@ -14,16 +14,19 @@ import javax.swing.ImageIcon;
  *
  * @author stephiRM
  */
-public class DtCliente extends DtUsuario{
+public class DtCliente extends DtUsuario {
+
     private final ArrayList<DtUsuario> usuariosSeguidos;
     private final ArrayList<DtListaP> listas;
     private final ArrayList<DtLista> favListas;
     private final ArrayList<DtTema> favTemas;
     private final ArrayList<DtAlbum> favAlbumes;
-    
+    private final ArrayList<DtSuscripcion> suscripciones;
+    private final boolean vigente;
+
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-    
-    public DtCliente(String nickname, String contrasenia, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes) {
+
+    public DtCliente(String nickname, String contrasenia, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes, ArrayList<DtSuscripcion> suscripciones) {
         this.nickname = nickname;
         this.contrasenia = contrasenia;
         this.nombre = nombre;
@@ -36,8 +39,19 @@ public class DtCliente extends DtUsuario{
         this.favListas = favListas;
         this.favTemas = favTemas;
         this.favAlbumes = favAlbumes;
+        if(suscripciones != null){
+        this.suscripciones = suscripciones;
+        boolean control = false;
+        for (int i = 0; i < suscripciones.size(); i++) {
+            control = suscripciones.get(i).getEstado().equals("Vigente");
+        }
+        this.vigente = control;
+        }else{
+        this.suscripciones = suscripciones;  
+        this.vigente = false;
+        }
     }
-    
+
     public ArrayList<DtUsuario> getUsuariosSeguidos() {
         return this.usuariosSeguidos;
     }
@@ -57,7 +71,7 @@ public class DtCliente extends DtUsuario{
     public ArrayList<DtAlbum> getFavAlbumes() {
         return favAlbumes;
     }
-    
+
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
@@ -65,4 +79,14 @@ public class DtCliente extends DtUsuario{
     public String getContrasenia() {
         return contrasenia;
     }
+
+    public ArrayList<DtSuscripcion> getSuscripciones() {
+        return suscripciones;
+    }
+
+    public boolean isVigente() {
+        return vigente;
+    }
+    
+    
 }
