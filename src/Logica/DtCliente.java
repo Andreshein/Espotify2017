@@ -22,7 +22,6 @@ public class DtCliente extends DtUsuario {
     private final ArrayList<DtTema> favTemas;
     private final ArrayList<DtAlbum> favAlbumes;
     private final ArrayList<DtSuscripcion> suscripciones;
-    private final boolean vigente;
 
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -39,17 +38,7 @@ public class DtCliente extends DtUsuario {
         this.favListas = favListas;
         this.favTemas = favTemas;
         this.favAlbumes = favAlbumes;
-        if(suscripciones != null){
         this.suscripciones = suscripciones;
-        boolean control = false;
-        for (int i = 0; i < suscripciones.size(); i++) {
-            control = suscripciones.get(i).getEstado().equals("Vigente");
-        }
-        this.vigente = control;
-        }else{
-        this.suscripciones = suscripciones;  
-        this.vigente = false;
-        }
     }
 
     public ArrayList<DtUsuario> getUsuariosSeguidos() {
@@ -84,9 +73,5 @@ public class DtCliente extends DtUsuario {
         return suscripciones;
     }
 
-    public boolean isVigente() {
-        return vigente;
-    }
-    
     
 }

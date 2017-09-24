@@ -345,4 +345,11 @@ public class Cliente extends Usuario {
         
         return listaSuscripciones;
     }
+    
+    public boolean Vigencia(){
+        for (Suscripcion sus : this.Suscripciones) {
+            if(sus.getEstado().equals("Vigente")) return true;
+        }
+        return false;
+    }
 }

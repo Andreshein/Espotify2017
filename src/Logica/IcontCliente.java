@@ -53,5 +53,6 @@ public interface IcontCliente{
     public abstract boolean agregarAlbumFavorito (String nickname, String artista, String album);
     public abstract ArrayList<DtTipoSuscripcion> listarTipoDeSus();
     public abstract ArrayList<DtSuscripcion> getSuscripCliente(String nickname);
+    public abstract boolean SuscripcionVigente(String nickname);
 }
 //hellou papaguena
