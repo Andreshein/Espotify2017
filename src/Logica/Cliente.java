@@ -367,4 +367,11 @@ public class Cliente extends Usuario {
             return false;
         }
     }
+    
+    public boolean Vigencia(){
+        for (Suscripcion sus : this.Suscripciones) {
+            if(sus.getEstado().equals("Vigente")) return true;
+        }
+        return false;
+    }
 }
