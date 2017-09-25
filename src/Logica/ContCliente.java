@@ -579,4 +579,9 @@ public class ContCliente implements IcontCliente {
     public ArrayList<DtSuscripcion> getSuscripCliente(String nickname){
         return this.clientes.get(nickname).getSuscripCliente();
     }
+    
+    @Override
+    public boolean contratarSuscripcion(String nickname, int idTipoSus){
+        return this.clientes.get(nickname).contratarSuscripcion(this.tiposDeSuscripcion.get(idTipoSus));
+    }
 }

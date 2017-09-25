@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import Persistencia.DBUsuario;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -344,5 +345,26 @@ public class Cliente extends Usuario {
         }
         
         return listaSuscripciones;
+    }
+    
+    public boolean contratarSuscripcion(TipoSuscripcion tipoS){
+        for (Suscripcion sus : this.Suscripciones) {
+            if(sus.getEstado().equals("Vigente")){
+                return false; //ya tiene una suscripcion vigente, no puede contratar otra
+            }
+        }
+        
+        //Si no retornó false, entonces puede contratar suscripcion
+        Suscripcion nuevaSus = new Suscripcion(new Date(), "Pendiente", tipoS.getId(), this.nickname);
+        nuevaSus.setTp(tipoS);
+        
+        DBUsuario db = new DBUsuario();
+        
+        if(db.insertarSuscripcion(nuevaSus)){
+            this.Suscripciones.add(nuevaSus);
+            return true;
+        }else{
+            return false;
+        }
     }
 }

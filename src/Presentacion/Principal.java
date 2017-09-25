@@ -34,7 +34,7 @@ public class Principal extends javax.swing.JFrame {
         
         //setear los controladores y levantar datos de la BD
         Fabrica.getInstance();
-        
+        Fabrica.getCliente().contratarSuscripcion("cbochinche", 1);
         // Es para que la ventana se centre
         this.setLocationRelativeTo(null);
         

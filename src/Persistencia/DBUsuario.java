@@ -27,8 +27,7 @@ import java.util.logging.Logger;
 public class DBUsuario {
 
     private final Connection conexion = new ConexionDB().getConexion();
-    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-
+    
     public boolean agregarArtista(Artista a) {
         try {
             java.sql.Date fechaN = new java.sql.Date(a.getFechaNac().getTime());
@@ -2125,6 +2124,26 @@ public class DBUsuario {
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
+        }
+    }
+    
+    public boolean insertarSuscripcion(Suscripcion sus){
+        try {
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, sus.getNickcliente());
+            statement.setInt(2, sus.getIdTipo());
+            statement.setString(3, sus.getEstado());
+            statement.setString(4, formato.format(sus.getFecha()));
+            statement.executeUpdate();
+            statement.close();
+            
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
     
