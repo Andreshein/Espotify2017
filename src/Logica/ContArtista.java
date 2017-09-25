@@ -388,7 +388,7 @@ public class ContArtista implements IcontArtista {
             String nombre = aux.getNombre().toUpperCase();
             String apellido = aux.getApellido().toUpperCase();
             String nomAp = aux.getNombre().toUpperCase() + aux.getApellido().toUpperCase();
-            if (nick.contains(palabra) == true || nombre.contains(palabra) == true || apellido.contains(palabra) == true || nomAp.contains(palabra) == true) {
+            if (nick.startsWith(palabra) == true || nombre.startsWith(palabra) == true || apellido.startsWith(palabra) == true || nomAp.startsWith(palabra) == true) {
                 retornar.add(aux.getDatos());
             }
         }
