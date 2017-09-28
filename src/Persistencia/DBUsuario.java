@@ -8,7 +8,10 @@ package Persistencia;
 
 import Logica.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
@@ -21,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -343,6 +347,20 @@ public class DBUsuario {
     }
 
     public void CargarDatosdePrueba() {
+        Properties p = new Properties();
+        InputStream is;
+        String rutaP = null;
+        try {
+            is = new FileInputStream("rutaProyecto.properties");
+            p.load(is);        
+            rutaP = p.getProperty("ruta");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         try {
             PreparedStatement st = conexion.prepareStatement("Delete FROM album");
             st.executeUpdate();
@@ -419,25 +437,27 @@ public class DBUsuario {
                 String rutaImagen = null;
 
                 if (ImagenArtistas[i] != null) {
-                    //Divide el string por el punto, tambien elimina el punto
-                    String[] aux = ImagenArtistas[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
+                    if(rutaP != null) {
+                        
+                        //Divide el string por el punto, tambien elimina el punto
+                        String[] aux = ImagenArtistas[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
 
-                    //toma la segunda parte porque es la extension
-                    //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
-                    String extension = aux[1];
+                        //toma la segunda parte porque es la extension
+                        //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
+                        String extension = aux[1];
 
-                    //Ruta del archvio de origen(en la capeta DatosDePrueba)
-                    String rutaOrigen = ImagenArtistas[i];
+                        //Ruta del archvio de origen(en la capeta DatosDePrueba)
+                        String rutaOrigen = rutaP+ImagenArtistas[i];
 
-                    //Ruta donde se va a copiar el archivo de imagen
-                    String rutaDestino = "Imagenes/Artistas/" + NickArtistas0[i] + "/" + NickArtistas0[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+                        //Ruta donde se va a copiar el archivo de imagen
+                        String rutaDestino = rutaP+"Imagenes/Artistas/" + NickArtistas0[i] + "/" + NickArtistas0[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
-                    if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
-                        rutaImagen = null; // no se pudo copiar la imagen, queda en null
-                    } else {
-                        rutaImagen = rutaDestino;
+                        if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
+                            rutaImagen = null; // no se pudo copiar la imagen, queda en null
+                        } else {
+                            rutaImagen = rutaDestino;
+                        }
                     }
-
                 }
                 
                 String passEncriptada = "";
@@ -477,20 +497,24 @@ public class DBUsuario {
             for (int i = 0; i < 8; i++) {
                 //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
 
-                //Divide el string por el punto, tambien elimina el punto
-                String[] aux = ImagenClientes[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
+                String rutaDestino = null;
+                
+                if(rutaP != null) {                
+                    //Divide el string por el punto, tambien elimina el punto
+                    String[] aux = ImagenClientes[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
 
-                //toma la segunda parte porque es la extension
-                //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
-                String extension = aux[1];
+                    //toma la segunda parte porque es la extension
+                    //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
+                    String extension = aux[1];
 
-                String rutaOrigen = (ImagenClientes[i]);
+                    String rutaOrigen = rutaP+ImagenClientes[i];
 
-                //Ruta donde se va a copiar el archivo de imagen
-                String rutaDestino = "Imagenes/Clientes/" + NickClientes[i] + "/" + NickClientes[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+                    //Ruta donde se va a copiar el archivo de imagen
+                    rutaDestino = rutaP+"Imagenes/Clientes/" + NickClientes[i] + "/" + NickClientes[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
-                if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
-                    rutaDestino = null; // no se pudo copiar la imagen, queda en null
+                    if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
+                        rutaDestino = null; // no se pudo copiar la imagen, queda en null
+                    }
                 }
                 
                 String passEncriptada = "";
@@ -852,23 +876,25 @@ public class DBUsuario {
                 String rutaImagen = null;
 
                 if (ImagenAlbum[i] != null) {
-                    //Divide el string por el punto, tambien elimina el punto
-                    String[] aux = ImagenAlbum[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
+                    if(rutaP != null) {
+                        //Divide el string por el punto, tambien elimina el punto
+                        String[] aux = ImagenAlbum[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
 
-                    //toma la segunda parte porque es la extension
-                    //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
-                    String extension = aux[1];
+                        //toma la segunda parte porque es la extension
+                        //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
+                        String extension = aux[1];
 
-                    //Ruta del archvio de origen(en la capeta DatosDePrueba)
-                    String rutaOrigen = ImagenAlbum[i];
+                        //Ruta del archvio de origen(en la capeta DatosDePrueba)
+                        String rutaOrigen = rutaP+ImagenAlbum[i];
 
-                    //Ruta donde se va a copiar el archivo de imagen
-                    String rutaDestino = "Imagenes/Artistas/" + NickArtistas0[j] + "/Albumes/" + NombreAlbum[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split se borra
+                        //Ruta donde se va a copiar el archivo de imagen
+                        String rutaDestino = rutaP+"Imagenes/Artistas/" + NickArtistas0[j] + "/Albumes/" + NombreAlbum[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split se borra
 
-                    if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
-                        rutaImagen = null; // no se pudo copiar la imagen, queda en null
-                    } else {
-                        rutaImagen = rutaDestino;
+                        if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
+                            rutaImagen = null; // no se pudo copiar la imagen, queda en null
+                        } else {
+                            rutaImagen = rutaDestino;
+                        }
                     }
 
                 }
@@ -1079,14 +1105,15 @@ public class DBUsuario {
 
                 //Si el tema tiene archivo
                 if (Archivotema[i] != null) {
-                    String rutaOrigen = "DatosDePrueba/" + Archivotema[i];
-                    String rutaDestino = Archivotema[i];
+                    if(rutaP != null){
+                        String rutaOrigen = rutaP+"DatosDePrueba/" + Archivotema[i];
+                        String rutaDestino = rutaP+Archivotema[i];
 
-                    //Si se pudo copiar la imagen correctamente
-                    if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
-                        rutaArchivo = rutaDestino;
+                        //Si se pudo copiar la imagen correctamente
+                        if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
+                            rutaArchivo = rutaDestino;
+                        }
                     }
-
                 }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO tema "
@@ -1110,12 +1137,14 @@ public class DBUsuario {
 
             String rutaArchivo = null;
 
-            String rutaOrigen = "DatosDePrueba/Imagenes/laNocheNostalgia.jpg";
-            String rutaDestino = "Imagenes/ListasPorDef/laNocheNostalgia.jpg";
+            String rutaOrigen = rutaP+"DatosDePrueba/Imagenes/laNocheNostalgia.jpg";
+            String rutaDestino = rutaP+"Imagenes/ListasPorDef/laNocheNostalgia.jpg";
 
-            //Si se pudo copiar la imagen correctamente
-            if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
-                rutaArchivo = rutaDestino;
+            if(rutaP != null) {
+                //Si se pudo copiar la imagen correctamente
+                if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
+                    rutaArchivo = rutaDestino;
+                }
             }
 
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO listapordefecto "
@@ -1139,13 +1168,14 @@ public class DBUsuario {
 
             /////
             rutaArchivo = null;
+            rutaOrigen = rutaP+"DatosDePrueba/Imagenes/musicaClasica.jpg";
+            rutaDestino = rutaP+"Imagenes/ListasPorDef/musicaClasica.jpg";
 
-            rutaOrigen = "DatosDePrueba/Imagenes/musicaClasica.jpg";
-            rutaDestino = "Imagenes/ListasPorDef/musicaClasica.jpg";
-
-            //Si se pudo copiar la imagen correctamente
-            if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
-                rutaArchivo = rutaDestino;
+            if(rutaP != null) {
+                //Si se pudo copiar la imagen correctamente
+                if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
+                    rutaArchivo = rutaDestino;
+                }
             }
 
             PreparedStatement statement2 = conexion.prepareStatement("INSERT INTO listapordefecto "
@@ -1159,13 +1189,14 @@ public class DBUsuario {
 
             ///// Listas Particulares /////
             rutaArchivo = null;
+            rutaOrigen = rutaP+"DatosDePrueba/Imagenes/musicInspiradora.jpg";
+            rutaDestino = rutaP+"Imagenes/Clientes/el_padrino/Listas/Música Inspiradora.jpg";
 
-            rutaOrigen = "DatosDePrueba/Imagenes/musicInspiradora.jpg";
-            rutaDestino = "Imagenes/Clientes/el_padrino/Listas/Música Inspiradora.jpg";
-
-            //Si se pudo copiar la imagen correctamente
-            if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
-                rutaArchivo = rutaDestino;
+            if(rutaP != null) {
+                //Si se pudo copiar la imagen correctamente
+                if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
+                    rutaArchivo = rutaDestino;
+                }
             }
 
             PreparedStatement statement3 = conexion.prepareStatement("INSERT INTO listaparticular "
@@ -1191,13 +1222,14 @@ public class DBUsuario {
 
             /////
             rutaArchivo = null;
+            rutaOrigen = rutaP+"DatosDePrueba/Imagenes/ParaCocinar.jpg";
+            rutaDestino = rutaP+"Imagenes/Clientes/Heisenberg/Listas/Para Cocinar.jpg";
 
-            rutaOrigen = "DatosDePrueba/Imagenes/ParaCocinar.jpg";
-            rutaDestino = "Imagenes/Clientes/Heisenberg/Listas/Para Cocinar.jpg";
-
-            //Si se pudo copiar la imagen correctamente
-            if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
-                rutaArchivo = rutaDestino;
+            if(rutaP != null) {
+                //Si se pudo copiar la imagen correctamente
+                if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
+                    rutaArchivo = rutaDestino;
+                }
             }
 
             PreparedStatement statement5 = conexion.prepareStatement("INSERT INTO listaparticular "
@@ -1223,13 +1255,14 @@ public class DBUsuario {
 
             /////
             rutaArchivo = null;
+            rutaOrigen = rutaP+"DatosDePrueba/Imagenes/Fiesteras.jpg";
+            rutaDestino = rutaP+"Imagenes/Clientes/cbochinche/Listas/Fiesteras.jpg";
 
-            rutaOrigen = "DatosDePrueba/Imagenes/Fiesteras.jpg";
-            rutaDestino = "Imagenes/Clientes/cbochinche/Listas/Fiesteras.jpg";
-
-            //Si se pudo copiar la imagen correctamente
-            if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
-                rutaArchivo = rutaDestino;
+            if(rutaP != null) {
+                //Si se pudo copiar la imagen correctamente
+                if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
+                    rutaArchivo = rutaDestino;
+                }
             }
 
             PreparedStatement statement7 = conexion.prepareStatement("INSERT INTO listaparticular "

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import Persistencia.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 public class ContCliente implements IcontCliente {
 
@@ -588,5 +590,17 @@ public class ContCliente implements IcontCliente {
     @Override
     public boolean contratarSuscripcion(String nickname, int idTipoSus){
         return this.clientes.get(nickname).contratarSuscripcion(this.tiposDeSuscripcion.get(idTipoSus));
+    }
+    
+    @Override
+    public BufferedImage cargarImagen(String rutaImagen){
+        try {
+            File archivo = new File(rutaImagen);
+            BufferedImage bi = ImageIO.read(archivo);            
+            return bi;
+        } catch (IOException ex) {
+            Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);            
+            return null;
+        }
     }
 }

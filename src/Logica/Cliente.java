@@ -277,11 +277,11 @@ public class Cliente extends Usuario {
             imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
         }
 
-        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, imagen, siguiendo, listasCreadas, listas, temas, albumes, this.getSuscripCliente());
+        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, imagen, siguiendo, listasCreadas, listas, temas, albumes, this.getSuscripCliente(), Imagen);
     }
 
     public DtCliente getDatosResumidos() {
-        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, null, null, null, null, null, null, null);
+        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, null, null, null, null, null, null, null, Imagen);
     }
 
     public ArrayList<DtUsuario> buscarEnUsuarios(String palabra) {

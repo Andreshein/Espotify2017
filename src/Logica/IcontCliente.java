@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,5 +56,6 @@ public interface IcontCliente{
     public abstract ArrayList<DtSuscripcion> getSuscripCliente(String nickname);
     public abstract boolean SuscripcionVigente(String nickname);
     public abstract boolean contratarSuscripcion(String nickname, int idTipoSus);
+    public BufferedImage cargarImagen(String rutaImagen);
 }
 //hellou papaguena

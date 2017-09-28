@@ -55,7 +55,7 @@ public class Particular extends Lista{
     }
     
     public DtListaP getDatosResumidos(){
-        return new DtListaP(nombre, null, null, nombreusuario, esPrivado);
+        return new DtListaP(nombre, null, null, nombreusuario, esPrivado, imagen);
     }
     
     public void AddTema(Tema t){
@@ -77,7 +77,7 @@ public class Particular extends Lista{
             image = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
         }
         
-        return new DtListaP(nombre, image, this.getDtTemas(), Pertenece, this.esPrivado);
+        return new DtListaP(nombre, image, this.getDtTemas(), Pertenece, this.esPrivado, imagen);
     }
     
     public ArrayList<DtTema> getDtTemas(){

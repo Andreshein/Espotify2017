@@ -23,7 +23,7 @@ public class DtArtista extends DtUsuario{
 
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     
-    public DtArtista(String nickname, String contrasenia, String nombre, String apellido, String correo, Date fechaNac, ImageIcon imagen, String biografia, String pagWeb, int cantSeguidores, ArrayList<String> nickSeguidores, ArrayList<DtAlbum> albumes) {
+    public DtArtista(String nickname, String contrasenia, String nombre, String apellido, String correo, Date fechaNac, ImageIcon imagen, String biografia, String pagWeb, int cantSeguidores, ArrayList<String> nickSeguidores, ArrayList<DtAlbum> albumes, String rutaImg) {
         this.nickname = nickname;
         this.contrasenia = contrasenia;
         this.nombre = nombre;
@@ -36,6 +36,7 @@ public class DtArtista extends DtUsuario{
         this.cantSeguidores = cantSeguidores;
         this.nickSeguidores = nickSeguidores;
         this.albumes = albumes;
+        this.rutaImagen = rutaImg;
     }    
     
     public DtArtista(String nick, String nombre, String ape){
@@ -47,6 +48,7 @@ public class DtArtista extends DtUsuario{
         this.cantSeguidores = 0;
         this.nickSeguidores = null;
         this.albumes = null;
+        this.rutaImagen = null;
     }
         
     public String getBiografia() {
@@ -67,10 +69,6 @@ public class DtArtista extends DtUsuario{
 
     public ArrayList<DtAlbum> getAlbumes() {
         return albumes;
-    }
-
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
     }
 
     public String getContrasenia() {

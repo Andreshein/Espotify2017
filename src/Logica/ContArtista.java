@@ -8,6 +8,10 @@ package Logica;
 import java.util.HashMap;
 import java.util.Map;
 import Persistencia.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -643,9 +647,22 @@ public class ContArtista implements IcontArtista {
     public DtUsuario verificarLoginArtista(String nickname, String contrasenia) {
         for (Artista art : this.artistas.values()) {
             if(((art.getNickname().equals(nickname))||(art.getCorreo().equals(nickname)))&&(art.getContrasenia().equals(contrasenia))){
-                return art.GetDtArtista(); // nickname o correo incorrecto
+                return art.getDatosResumidos(); // nickname o correo incorrecto
             }
         }
         return this.Cli.verificarLoginCliente(nickname, contrasenia);
+    }
+    
+    @Override
+    public BufferedInputStream cargarTema(String rutaTema){
+        try {
+            File archivo = new File(rutaTema);
+            FileInputStream input = new FileInputStream(archivo);
+            BufferedInputStream buf = new BufferedInputStream(input);            
+            return buf;
+        } catch (IOException ex) {
+            Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);            
+            return null;
+        }
     }
 }
