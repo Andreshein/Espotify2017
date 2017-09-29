@@ -355,12 +355,11 @@ public class Cliente extends Usuario {
         }
         
         //Si no retornó false, entonces puede contratar suscripcion
-        Suscripcion nuevaSus = new Suscripcion(new Date(), "Pendiente", tipoS.getId(), this.nickname);
-        nuevaSus.setTp(tipoS);
-        
         DBUsuario db = new DBUsuario();
         
-        if(db.insertarSuscripcion(nuevaSus)){
+        Suscripcion nuevaSus = db.insertarSuscripcion(new Date(), "Pendiente", tipoS.getId(), this.nickname);
+        if(nuevaSus != null){
+            nuevaSus.setTp(tipoS);
             this.Suscripciones.add(nuevaSus);
             return true;
         }else{
@@ -373,5 +372,12 @@ public class Cliente extends Usuario {
             if(sus.getEstado().equals("Vigente")) return true;
         }
         return false;
+    }
+    
+    public void actualizarVigenciaSuscripciones(){
+        //Para cada suscripcion vigente va verificando si la fecha actual es mayor a la de vencimiento
+        for (Suscripcion sus : this.Suscripciones) {
+            sus.actualizarVigencia();
+        }
     }
 }

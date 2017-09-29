@@ -593,4 +593,9 @@ public class ContCliente implements IcontCliente {
             return null;
         }
     }
+    
+    @Override
+    public void actualizarVigenciaSuscripciones(String nickname){
+        this.clientes.get(nickname).actualizarVigenciaSuscripciones();
+    }
 }

@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -302,7 +303,7 @@ public class DBUsuario {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 java.util.Date Fecha = new java.util.Date(rs.getDate("Fecha").getTime());
-                Suscripcion s = new Suscripcion(Fecha,rs.getString("Estado"),rs.getInt("IdTipo"),rs.getString("Cliente"));
+                Suscripcion s = new Suscripcion(rs.getInt("Id"), Fecha,rs.getString("Estado"),rs.getInt("IdTipo"),rs.getString("Cliente"));
                 lista.add(s);
             }
             return lista;
@@ -2164,23 +2165,42 @@ public class DBUsuario {
         }
     }
     
-    public boolean insertarSuscripcion(Suscripcion sus){
+    public Suscripcion insertarSuscripcion(Date fecha, String estado, int idTipoS, String nick){
         try {
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
             
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
                     + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-            statement.setString(1, sus.getNickcliente());
-            statement.setInt(2, sus.getIdTipo());
-            statement.setString(3, sus.getEstado());
-            statement.setString(4, formato.format(sus.getFecha()));
+            statement.setString(1, nick);
+            statement.setInt(2, idTipoS);
+            statement.setString(3, estado);
+            statement.setString(4, formato.format(fecha));
             statement.executeUpdate();
             statement.close();
+            // Es para obtener el id que se le asigno al horario, ya que es autoincremental
+            PreparedStatement sentencia = conexion.prepareStatement("SELECT LAST_INSERT_ID()");
+            ResultSet rs = sentencia.executeQuery();
+            rs.next(); // avanza el puntero
+            int idS = rs.getInt(1);
             
-            return true;
+            Suscripcion sus = new Suscripcion(idS, fecha, estado, idTipoS, nick);
+            return sus;
         } catch (SQLException ex) {
             Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            return null;
+        }
+    }
+    
+    public void actualizarEstadoSuscripcion(int id, String fecha, String estado) {
+        try {
+//            PreparedStatement sentencia = conexion.prepareStatement("UPDATE listaparticular " + "SET privada = ?" + "WHERE Usuario = '" + nickname + "'");
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE suscripciones " + "SET Estado = ?, Fecha = ? WHERE Id = ?");
+            sentencia.setString(1, estado); // el 1 indica el numero de "?" en la sentencia
+            sentencia.setString(2, fecha);
+            sentencia.setInt(3, id);
+            sentencia.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
