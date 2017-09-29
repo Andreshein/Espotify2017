@@ -221,16 +221,6 @@ public class ContCliente implements IcontCliente {
         throw new Exception("El cliente ya esta siendo seguido");
         }
     }
-
-    public void seguirR(String nickCli, String nickUsu) throws Exception {
-        Cliente cli = (Cliente) this.clientes.get(nickCli);
-        boolean control = cli.setSiguiendo(this.seleccionarUsuario("dmode"));
-        if (control) {
-            this.dbUsuario.SeguirUsu(nickCli, this.seleccionarUsuario("dmode"));
-        }else{
-        throw new Exception("El cliente ya esta siendo seguido");
-        }
-    }
     
     public Usuario seleccionarUsuario(String Nickname) {
         Usuario u = this.art.seleccionarUsuario(Nickname);

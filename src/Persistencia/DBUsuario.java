@@ -1606,15 +1606,17 @@ public class DBUsuario {
         PreparedStatement st;
         if (u instanceof Artista) {
             try {
-                st = conexion.prepareStatement("INSERT INTO seguidoart VALUES ('" + cli + "','" + u.getNickname() + "')");
+                st = conexion.prepareStatement("INSERT INTO seguidoart (Seguido, Seguidor) VALUES ('" + u.getNickname() + "','" + cli + "');");
                 st.executeUpdate();
+                st.close();
             } catch (SQLException ex) {
                 System.out.println("error seguidor bd");
             }
         } else {
             try {
-                st = conexion.prepareStatement("INSERT INTO seguidorcli VALUES ('" + cli + "','" + u.getNickname() + "')");
+                st = conexion.prepareStatement("INSERT INTO seguidorcli (Seguido, Seguidor) VALUES ('"+ u.getNickname() +  "','" + cli + "');");
                 st.executeUpdate();
+                st.close();
             } catch (SQLException ex) {
                 System.out.println("error seguidor bd");
             }
@@ -1625,15 +1627,17 @@ public class DBUsuario {
         PreparedStatement st;
         if (u instanceof Artista) {
             try {
-                st = conexion.prepareStatement("DELETE FROM seguidoart WHERE seguidor='" + cli + "' and seguido='" + u.getNickname() + "'");
+                st = conexion.prepareStatement("DELETE FROM seguidoart WHERE Seguidor='" + cli + "' and Seguido='" + u.getNickname() + "';");
                 st.executeUpdate();
+                st.close();
             } catch (SQLException ex) {
                 System.out.println("error seguidor bd");
             }
         } else {
             try {
-                st = conexion.prepareStatement("DELETE FROM seguidorcli WHERE seguidor='" + cli + "' and seguido='" + u.getNickname() + "'");
+                st = conexion.prepareStatement("DELETE FROM seguidorcli WHERE Seguidor='" + cli + "' and Seguido='" + u.getNickname() + "';");
                 st.executeUpdate();
+                st.close();
             } catch (SQLException ex) {
                 System.out.println("error seguidor bd");
             }

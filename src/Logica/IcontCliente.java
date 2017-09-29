@@ -47,7 +47,6 @@ public interface IcontCliente{
     public abstract Cliente BuscarUsuariosC(String nickname);
     public abstract boolean copiarArchivo(String rutaOrigenArchivo, String rutaDestino);
     public abstract boolean ClientesVacio();
-    public abstract void seguirR(String nickCli, String nickUsu) throws Exception;
     public abstract void addSuscripcion (TipoSuscripcion ts);
     public abstract DtUsuario verificarLoginCliente(String nickname,String contrasenia);
     public abstract boolean agregarTemaFavorito (String nickname, String artista, String album, String tema);
