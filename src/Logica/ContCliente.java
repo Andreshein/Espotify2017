@@ -602,13 +602,14 @@ public class ContCliente implements IcontCliente {
     
      @Override
     public boolean estaCliente(String nickname, String correo) {
-        List<DtCliente> artista = BuscarCliente2(nickname,correo);
-        if(artista.isEmpty())
+        List<DtCliente> cliente = BuscarCliente2(nickname,correo);
+        if(cliente.isEmpty())
             return false;
         
         return true;
     }
     
+    @Override
     public ArrayList<DtCliente> BuscarCliente2(String nickname,String correo) {
         ArrayList<DtCliente> retornar = new ArrayList<>();
         Iterator iterador = this.clientes.values().iterator();
@@ -625,8 +626,9 @@ public class ContCliente implements IcontCliente {
                 String correO = aux.getCorreo().toUpperCase();
                 String nomAp = aux.getNombre().toUpperCase() + aux.getApellido().toUpperCase() + aux.getCorreo().toUpperCase();
 
-                if ((nick.startsWith(nickname) == true || nombre.startsWith(nickname) == true || apellido.startsWith(nickname) == true || nomAp.startsWith(nickname) == true) && (nick.startsWith(correo) == true || nombre.startsWith(correo) == true || apellido.startsWith(correo) == true || nomAp.startsWith(correo) == true)) {
-                    retornar.add(aux.getDatos());
+                if (nick.startsWith(nickname) == true || nombre.startsWith(nickname) == true || apellido.startsWith(nickname) == true || nomAp.startsWith(nickname) == true) {
+                   if((nick.startsWith(correo) == true || nombre.startsWith(correo) == true || apellido.startsWith(correo) == true || nomAp.startsWith(correo) == true))
+                        { retornar.add(aux.getDatos());}
                 }
             }
         } else {
