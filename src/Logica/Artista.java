@@ -164,6 +164,6 @@ public class Artista extends Usuario {
     }
     
     public DtArtista GetDtArtista(){
-        return new DtArtista(nickname,nombre,apellido);
+        return new DtArtista(nickname,nombre,apellido,correo);
     } 
 }

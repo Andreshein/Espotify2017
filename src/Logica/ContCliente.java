@@ -589,4 +589,5 @@ public class ContCliente implements IcontCliente {
     public boolean contratarSuscripcion(String nickname, int idTipoSus){
         return this.clientes.get(nickname).contratarSuscripcion(this.tiposDeSuscripcion.get(idTipoSus));
     }
+    
 }
