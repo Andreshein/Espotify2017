@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import Persistencia.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 public class ContCliente implements IcontCliente {
 
@@ -190,7 +192,7 @@ public class ContCliente implements IcontCliente {
                 String apellido = aux.getApellido().toUpperCase();
                 String nomAp = aux.getNombre().toUpperCase() + aux.getApellido().toUpperCase();
 
-                if (nick.contains(palabra) == true || nombre.contains(palabra) == true || apellido.contains(palabra) == true || nomAp.contains(palabra) == true) {
+                if (nick.startsWith(palabra) == true || nombre.startsWith(palabra) == true || apellido.startsWith(palabra) == true || nomAp.startsWith(palabra) == true) {
                     retornar.add(aux.getDatos());
                 }
             }
@@ -215,16 +217,6 @@ public class ContCliente implements IcontCliente {
         boolean control = cli.setSiguiendo(this.seleccionarUsuario(nickUsu));
         if (control) {
             this.dbUsuario.SeguirUsu(nickCli, this.seleccionarUsuario(nickUsu));
-        }else{
-        throw new Exception("El cliente ya esta siendo seguido");
-        }
-    }
-
-    public void seguirR(String nickCli, String nickUsu) throws Exception {
-        Cliente cli = (Cliente) this.clientes.get(nickCli);
-        boolean control = cli.setSiguiendo(this.seleccionarUsuario("dmode"));
-        if (control) {
-            this.dbUsuario.SeguirUsu(nickCli, this.seleccionarUsuario("dmode"));
         }else{
         throw new Exception("El cliente ya esta siendo seguido");
         }
@@ -590,4 +582,20 @@ public class ContCliente implements IcontCliente {
         return this.clientes.get(nickname).contratarSuscripcion(this.tiposDeSuscripcion.get(idTipoSus));
     }
     
+    @Override
+    public BufferedImage cargarImagen(String rutaImagen){
+        try {
+            File archivo = new File(rutaImagen);
+            BufferedImage bi = ImageIO.read(archivo);            
+            return bi;
+        } catch (IOException ex) {
+            Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);            
+            return null;
+        }
+    }
+    
+    @Override
+    public void actualizarVigenciaSuscripciones(String nickname){
+        this.clientes.get(nickname).actualizarVigenciaSuscripciones();
+    }
 }

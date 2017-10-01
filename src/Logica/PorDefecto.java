@@ -61,7 +61,7 @@ public class PorDefecto extends Lista{
     }
     
     public DtListaPD getDatosResumidos(){
-        return new DtListaPD(nombre, null, null, genero.getNombre());
+        return new DtListaPD(nombre, null, null, genero.getNombre(), imagen);
     }
     public Genero getGenero(){
         return this.genero;
@@ -92,7 +92,7 @@ public class PorDefecto extends Lista{
             image = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
         }
         
-        return new DtListaPD(nombre, image, this.getDtTemas(), Pertenece);
+        return new DtListaPD(nombre, image, this.getDtTemas(), Pertenece, imagen);
     }
     
     public ArrayList<DtTema> getDtTemas(){

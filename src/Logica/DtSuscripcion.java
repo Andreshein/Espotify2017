@@ -5,32 +5,40 @@
  */
 package Logica;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  *
  * @author Kevin
  */
-public class DtSuscripcion {
+public class DtSuscripcion { 
+    private int id;
     private String cliente;
-    private Date fecha;
+    private String fecha;
     private String Estado;
     private String Tipo;
     private int Monto;
 
-    public DtSuscripcion(String cliente, Date fecha, String Estado, String Tipo, int Monto) {
+    public DtSuscripcion(int id, String cliente, Date fecha, String Estado, String Tipo, int Monto) {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        
         this.cliente = cliente;
-        this.fecha = fecha;
+        this.fecha = formato.format(fecha);
         this.Estado = Estado;
         this.Tipo = Tipo;
         this.Monto = Monto;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getCliente() {
         return cliente;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 

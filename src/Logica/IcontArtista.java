@@ -5,12 +5,12 @@
  */
 package Logica;
 
+import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -71,4 +71,5 @@ public interface IcontArtista {
     public abstract boolean Pagweb(String pagweb);
     public abstract DtUsuario verificarLoginArtista(String nickname,String contrasenia);
     public abstract boolean estaArtista(String nickname,String correo); 
+    public abstract BufferedInputStream cargarTema(String rutaTema);
 }

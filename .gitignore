@@ -1,9 +1,4 @@
 /nbproject/private/
-<<<<<<< HEAD
-/build/
 /dist/
-=======
-
 /build/
-/dist/
->>>>>>> origin/Desarrollo
+rutaProyecto.properties

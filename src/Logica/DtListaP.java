@@ -13,12 +13,13 @@ public class DtListaP extends DtLista{
     private String Usuario;
     private boolean Privada;
 
-    public DtListaP(String Nombre, ImageIcon imagen, ArrayList<DtTema> temas, String Usuario,  Boolean Privada) {
+    public DtListaP(String Nombre, ImageIcon imagen, ArrayList<DtTema> temas, String Usuario,  Boolean Privada, String rutaImg) {
         this.Usuario = Usuario;
         this.Privada = Privada;
         this.imagen = imagen;
         this.nombre = Nombre;
         this.temas = temas;
+        this.rutaImagen = rutaImg;
     }
     public DtListaP(String Nombre, String Usuario) {
         this.Usuario = Usuario;
@@ -26,6 +27,7 @@ public class DtListaP extends DtLista{
         this.imagen = null;
         this.nombre = Nombre;
         this.temas = null;
+        this.rutaImagen = null;
     }
 
     public String getUsuario() {

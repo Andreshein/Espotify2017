@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,7 +47,6 @@ public interface IcontCliente{
     public abstract Cliente BuscarUsuariosC(String nickname);
     public abstract boolean copiarArchivo(String rutaOrigenArchivo, String rutaDestino);
     public abstract boolean ClientesVacio();
-    public abstract void seguirR(String nickCli, String nickUsu) throws Exception;
     public abstract void addSuscripcion (TipoSuscripcion ts);
     public abstract DtUsuario verificarLoginCliente(String nickname,String contrasenia);
     public abstract boolean agregarTemaFavorito (String nickname, String artista, String album, String tema);
@@ -55,5 +55,7 @@ public interface IcontCliente{
     public abstract ArrayList<DtSuscripcion> getSuscripCliente(String nickname);
     public abstract boolean SuscripcionVigente(String nickname);
     public abstract boolean contratarSuscripcion(String nickname, int idTipoSus);
+    public abstract BufferedImage cargarImagen(String rutaImagen);
+    public abstract void actualizarVigenciaSuscripciones(String nickname);
 }
 //hellou papaguena

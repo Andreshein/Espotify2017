@@ -25,7 +25,7 @@ public class DtCliente extends DtUsuario {
 
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
-    public DtCliente(String nickname, String contrasenia, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes, ArrayList<DtSuscripcion> suscripciones) {
+    public DtCliente(String nickname, String contrasenia, String nombre, String apellido, Date fechaNac, String correo, ImageIcon imagen, ArrayList<DtUsuario> usuariosSeguidos, ArrayList<DtListaP> listas, ArrayList<DtLista> favListas, ArrayList<DtTema> favTemas, ArrayList<DtAlbum> favAlbumes, ArrayList<DtSuscripcion> suscripciones, String rutaImg) {
         this.nickname = nickname;
         this.contrasenia = contrasenia;
         this.nombre = nombre;
@@ -39,6 +39,7 @@ public class DtCliente extends DtUsuario {
         this.favTemas = favTemas;
         this.favAlbumes = favAlbumes;
         this.suscripciones = suscripciones;
+        this.rutaImagen = rutaImg;
     }
 
     public ArrayList<DtUsuario> getUsuariosSeguidos() {
