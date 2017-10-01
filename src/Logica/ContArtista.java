@@ -507,7 +507,7 @@ public class ContArtista implements IcontArtista {
         while (iterator.hasNext()) {
             Map.Entry mentry = (Map.Entry) iterator.next();
             Artista aux = (Artista) mentry.getValue();
-            if (aux.getCorreo().toUpperCase().startsWith(correo.toUpperCase()) || aux.getNickname().toUpperCase().startsWith(nickname.toUpperCase())) {
+            if (aux.getCorreo().toUpperCase().equals(correo.toUpperCase()) || aux.getNickname().toUpperCase().equals(nickname.toUpperCase())) {
                 retornar.add(aux.GetDtArtista());
             }
         }

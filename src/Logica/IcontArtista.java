@@ -33,7 +33,6 @@ public interface IcontArtista {
     public abstract Usuario seleccionarUsuario(String Nickname);
     public abstract void SetContCliente(IcontCliente cli);
     public abstract List<DtArtista> BuscarArtistas(String nombre);
-    public abstract List<DtArtista> BuscarArtista2(String nickname,String correo);
     public abstract void setArtista(HashMap<String,Artista> artistas);
     public abstract void setGenero(HashMap<String,Genero> generos);
     //public abstract void setListasPD(HashMap<String, PorDefecto> lpd);
@@ -71,5 +70,6 @@ public interface IcontArtista {
     public abstract boolean Pagweb(String pagweb);
     public abstract DtUsuario verificarLoginArtista(String nickname,String contrasenia);
     public abstract boolean estaArtista(String nickname,String correo); 
+    public abstract List<DtArtista> BuscarArtista2(String nickname,String correo);
     public abstract BufferedInputStream cargarTema(String rutaTema);
 }

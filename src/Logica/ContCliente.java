@@ -617,22 +617,17 @@ public class ContCliente implements IcontCliente {
             while (iterador.hasNext()) {
                 Cliente aux = (Cliente) iterador.next();
 
-                // toUpperCase convierte todas las letras del string en mayusculas para buscar mejor
                 nickname = nickname.toUpperCase();
                 correo = correo.toUpperCase();
                 String nick = aux.getNickname().toUpperCase();
-                String nombre = aux.getNombre().toUpperCase();
-                String apellido = aux.getApellido().toUpperCase();
-                String correO = aux.getCorreo().toUpperCase();
-                String nomAp = aux.getNombre().toUpperCase() + aux.getApellido().toUpperCase() + aux.getCorreo().toUpperCase();
+                String corre = aux.getCorreo().toUpperCase();
 
-                if (nick.startsWith(nickname) == true || nombre.startsWith(nickname) == true || apellido.startsWith(nickname) == true || nomAp.startsWith(nickname) == true) {
-                   if((nick.startsWith(correo) == true || nombre.startsWith(correo) == true || apellido.startsWith(correo) == true || nomAp.startsWith(correo) == true))
-                        { retornar.add(aux.getDatos());}
+                if (nick.equals(nickname) == true ||corre.equals(correo) == true) {
+                    retornar.add(aux.getDatos());
                 }
             }
         } else {
-            System.out.println("Logica.ContCliente.BuscarClientes() -> palabra vacia");
+            System.out.println("Logica.ContCliente.BuscarCliente2() -> nickname,correo vacio");
             for (Cliente cliente : this.clientes.values()) {
                 retornar.add(cliente.getDatosResumidos());
             }
