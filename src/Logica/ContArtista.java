@@ -499,20 +499,7 @@ public class ContArtista implements IcontArtista {
     }
     
     
-    @Override
-    public List<DtArtista> BuscarArtista2(String nickname,String correo) {
-        List<DtArtista> retornar = new ArrayList<>();
-        Set set = artistas.entrySet();
-        Iterator iterator = set.iterator();
-        while (iterator.hasNext()) {
-            Map.Entry mentry = (Map.Entry) iterator.next();
-            Artista aux = (Artista) mentry.getValue();
-            if (aux.getCorreo().toUpperCase().equals(correo.toUpperCase()) || aux.getNickname().toUpperCase().equals(nickname.toUpperCase())) {
-                retornar.add(aux.GetDtArtista());
-            }
-        }
-        return retornar;
-    }
+
 
     @Override
     public ArrayList<DtListaPD> ListarListaPD() {
@@ -653,18 +640,6 @@ public class ContArtista implements IcontArtista {
     public boolean estaAlbum(String Nickname, String Album) {
         return artistas.get(Nickname).getAlbumes().containsKey(Album);
     }
-    
-    
-    @Override
-    public boolean estaArtista(String nickname, String correo) {
-        List<DtArtista> artista = BuscarArtista2(nickname,correo);
-        if(artista.isEmpty())
-            return false;
-        
-        return true;
-    }
-
-    
     
     @Override
     public boolean Pagweb(String pagweb) {

@@ -57,8 +57,12 @@ public interface IcontCliente{
     public abstract boolean contratarSuscripcion(String nickname, int idTipoSus);
     public abstract BufferedImage cargarImagen(String rutaImagen);
     public abstract void actualizarVigenciaSuscripciones(String nickname);
+<<<<<<< HEAD
     public abstract boolean estaCliente(String nickname,String correo); 
     public abstract List<DtCliente> BuscarCliente2(String nickname,String correo);
     public abstract void CambiarEstadoSuscripcion(DtSuscripcion suscripcion);
+=======
+
+>>>>>>> 04e067aa81c61c9dbefceb903a7aa4787b7b86c7
 }
 //hellou papaguena
