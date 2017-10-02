@@ -635,4 +635,9 @@ public class ContCliente implements IcontCliente {
 
         return retornar;
     }
+
+    @Override
+    public void CambiarEstadoSuscripcion(DtSuscripcion suscripcion) {
+        this.clientes.get(suscripcion.getCliente()).cambiarEstadoS(suscripcion);
+    }
 }

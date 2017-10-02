@@ -2225,5 +2225,4 @@ public class DBUsuario {
          
         return sb.toString();
     }
-
 }

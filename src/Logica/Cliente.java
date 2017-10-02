@@ -380,4 +380,15 @@ public class Cliente extends Usuario {
             sus.actualizarVigencia();
         }
     }
+    
+    public void cambiarEstadoS(DtSuscripcion s){
+        for(Suscripcion aux: this.Suscripciones){
+        if(aux.getTp().getCuota().equals(s.getTipo()) && aux.getEstado().equals("Pendiente") && aux.getDatos().getFecha().equals(s.getFecha())){
+        aux.setEstado(s.getEstado());
+        aux.setFecha(new Date());
+        DBUsuario bd = new DBUsuario();
+        bd.actualizarEstadoSuscripcion(aux.getId(), aux.getFechaString(), aux.getEstado());
+        }
+        }
+    }
 }
