@@ -599,40 +599,7 @@ public class ContCliente implements IcontCliente {
         this.clientes.get(nickname).actualizarVigenciaSuscripciones();
     }
     
+  
     
-     @Override
-    public boolean estaCliente(String nickname, String correo) {
-        List<DtCliente> cliente = BuscarCliente2(nickname,correo);
-        if(cliente.isEmpty())
-            return false;
-        
-        return true;
-    }
-    
-    @Override
-    public ArrayList<DtCliente> BuscarCliente2(String nickname,String correo) {
-        ArrayList<DtCliente> retornar = new ArrayList<>();
-        Iterator iterador = this.clientes.values().iterator();
-        if (nickname.equals("") == false || correo.equals("") == false) {
-            while (iterador.hasNext()) {
-                Cliente aux = (Cliente) iterador.next();
-
-                nickname = nickname.toUpperCase();
-                correo = correo.toUpperCase();
-                String nick = aux.getNickname().toUpperCase();
-                String corre = aux.getCorreo().toUpperCase();
-
-                if (nick.equals(nickname) == true ||corre.equals(correo) == true) {
-                    retornar.add(aux.getDatos());
-                }
-            }
-        } else {
-            System.out.println("Logica.ContCliente.BuscarCliente2() -> nickname,correo vacio");
-            for (Cliente cliente : this.clientes.values()) {
-                retornar.add(cliente.getDatosResumidos());
-            }
-        }
-
-        return retornar;
-    }
+   
 }
