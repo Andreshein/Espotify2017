@@ -112,7 +112,7 @@ public class Album {
 
             imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
         }
-        return new DtAlbum(nombre, art, anio, this.getDtTemas(), imagen, null); 
+        return new DtAlbum(nombre, art, anio, this.getDtTemas(), imagen, null, Imagen); 
     }
     
     public DtAlbum getDatos(){
@@ -129,7 +129,7 @@ public class Album {
         for (Genero genero : generos) {
             listaGeneros.add(genero.getNombre());
         }
-        return new DtAlbum(nombre, artista, anio, this.getDtTemas(), imagen, listaGeneros); 
+        return new DtAlbum(nombre, artista, anio, this.getDtTemas(), imagen, listaGeneros, Imagen); 
     }
     
     public ArrayList<DtTema> getDtTemas(){

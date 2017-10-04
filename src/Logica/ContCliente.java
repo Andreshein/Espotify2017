@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import Persistencia.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,14 +20,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 
 public class ContCliente implements IcontCliente {
 
     private static ContCliente instancia;
 
     private Map<String, Cliente> clientes;
-    private Map<Integer, TipoSuscripcion> suscripcion;
+    private Map<Integer, TipoSuscripcion> tiposDeSuscripcion;
     private DBUsuario dbUsuario = null;
     private IcontArtista art;
     private Lista lista;
@@ -44,7 +45,7 @@ public class ContCliente implements IcontCliente {
 
         this.clientes = new HashMap<>();
         this.dbUsuario = new DBUsuario();
-        this.suscripcion = new HashMap();
+        this.tiposDeSuscripcion = new HashMap();
         //this.art = Fabrica.getArtista()
         this.lista = null;
         this.genero = null;
@@ -52,7 +53,7 @@ public class ContCliente implements IcontCliente {
     }
 
     public void addSuscripcion (TipoSuscripcion ts){
-        this.suscripcion.put(ts.getId(), ts);
+        this.tiposDeSuscripcion.put(ts.getId(), ts);
     }
     
     public Map<String, Cliente> GetClientes(){
@@ -161,7 +162,20 @@ public class ContCliente implements IcontCliente {
                 return false;
             }
         }
-        return true;
+        
+   
+        
+
+        Cliente c = new Cliente(cli.getNickname(),cli.getContrasenia(),cli.getNombre(),cli.getApellido(),cli.getCorreo(),cli.getFechaNac(),null);
+
+        boolean tru = this.dbUsuario.agregarClienteWeb(c);
+        if (tru) {
+
+            this.clientes.put(cli.getNickname(), c);
+        }
+        return tru;
+  
+    
     }
 
     public ArrayList<DtCliente> BuscarClientes(String palabra) {
@@ -178,7 +192,7 @@ public class ContCliente implements IcontCliente {
                 String apellido = aux.getApellido().toUpperCase();
                 String nomAp = aux.getNombre().toUpperCase() + aux.getApellido().toUpperCase();
 
-                if (nick.contains(palabra) == true || nombre.contains(palabra) == true || apellido.contains(palabra) == true || nomAp.contains(palabra) == true) {
+                if (nick.startsWith(palabra) == true || nombre.startsWith(palabra) == true || apellido.startsWith(palabra) == true || nomAp.startsWith(palabra) == true) {
                     retornar.add(aux.getDatos());
                 }
             }
@@ -203,16 +217,6 @@ public class ContCliente implements IcontCliente {
         boolean control = cli.setSiguiendo(this.seleccionarUsuario(nickUsu));
         if (control) {
             this.dbUsuario.SeguirUsu(nickCli, this.seleccionarUsuario(nickUsu));
-        }else{
-        throw new Exception("El cliente ya esta siendo seguido");
-        }
-    }
-
-    public void seguirR(String nickCli, String nickUsu) throws Exception {
-        Cliente cli = (Cliente) this.clientes.get(nickCli);
-        boolean control = cli.setSiguiendo(this.seleccionarUsuario("dmode"));
-        if (control) {
-            this.dbUsuario.SeguirUsu(nickCli, this.seleccionarUsuario("dmode"));
         }else{
         throw new Exception("El cliente ya esta siendo seguido");
         }
@@ -522,5 +526,116 @@ public class ContCliente implements IcontCliente {
         }
         
         return null;
+    }
+    
+    public boolean agregarTemaFavorito (String nickname, String artista, String album, String tema){
+        Cliente c = this.clientes.get(nickname);
+        Tema t = this.art.getTema(artista, album, tema);
+        boolean agregadoOk = false;
+        if (c.getFavTemas().contains(t))
+            agregadoOk=false;
+        else{
+            c.getFavTemas().add(t);
+            dbUsuario.InsertarFavorito(0, nickname, t.getId());
+            agregadoOk=true;
+        } 
+        return agregadoOk;
+    }
+    
+    public boolean agregarAlbumFavorito (String nickname, String artista, String album){
+        Cliente c = this.clientes.get(nickname);
+        Album a = this.art.getAlbum(artista, album);
+        boolean agregadoOk = false;
+        if (c.getFavAlbumes().contains(a))
+            agregadoOk=false;
+        else{
+            c.getFavAlbumes().add(a);
+            dbUsuario.InsertarFavorito(1, nickname, a.getId());
+            agregadoOk=true;
+        } 
+        return agregadoOk;
+    }
+
+    @Override
+    public ArrayList<DtTipoSuscripcion> listarTipoDeSus(){
+        ArrayList<DtTipoSuscripcion> listaTS = new ArrayList<>();
+
+        for (TipoSuscripcion tipoS : this.tiposDeSuscripcion.values()) {
+            listaTS.add(tipoS.getDatos());
+        }
+
+        return listaTS;
+    }
+
+    @Override
+    public ArrayList<DtSuscripcion> getSuscripCliente(String nickname){
+        return this.clientes.get(nickname).getSuscripCliente();
+    }
+
+    @Override
+    public boolean SuscripcionVigente(String nickname) {
+        return this.clientes.get(nickname).Vigencia();
+    }
+    
+    @Override
+    public boolean contratarSuscripcion(String nickname, int idTipoSus){
+        return this.clientes.get(nickname).contratarSuscripcion(this.tiposDeSuscripcion.get(idTipoSus));
+    }
+    
+    @Override
+    public BufferedImage cargarImagen(String rutaImagen){
+        try {
+            File archivo = new File(rutaImagen);
+            BufferedImage bi = ImageIO.read(archivo);            
+            return bi;
+        } catch (IOException ex) {
+            Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);            
+            return null;
+        }
+    }
+    
+    @Override
+    public void actualizarVigenciaSuscripciones(String nickname){
+        this.clientes.get(nickname).actualizarVigenciaSuscripciones();
+    }
+     @Override
+    public boolean estaCliente(String nickname, String correo) {
+        List<DtCliente> cliente = BuscarCliente2(nickname,correo);
+        if(cliente.isEmpty())
+            return false;
+        
+        return true;
+    }
+    
+    @Override
+    public ArrayList<DtCliente> BuscarCliente2(String nickname,String correo) {
+        ArrayList<DtCliente> retornar = new ArrayList<>();
+        Iterator iterador = this.clientes.values().iterator();
+        if (nickname.equals("") == false || correo.equals("") == false) {
+            while (iterador.hasNext()) {
+                Cliente aux = (Cliente) iterador.next();
+
+                nickname = nickname.toUpperCase();
+                correo = correo.toUpperCase();
+                String nick = aux.getNickname().toUpperCase();
+                String corre = aux.getCorreo().toUpperCase();
+
+                if (nick.equals(nickname) == true ||corre.equals(correo) == true) {
+                    retornar.add(aux.getDatos());
+                }
+            }
+        } else {
+            System.out.println("Logica.ContCliente.BuscarCliente2() -> nickname,correo vacio");
+            for (Cliente cliente : this.clientes.values()) {
+                retornar.add(cliente.getDatosResumidos());
+            }
+        }
+
+        return retornar;
+    }
+
+    @Override
+    public void CambiarEstadoSuscripcion(DtSuscripcion suscripcion) {
+        this.clientes.get(suscripcion.getCliente()).cambiarEstadoS(suscripcion);
     }
 }

@@ -16,6 +16,7 @@ public abstract class DtLista {
     protected String nombre;
     protected ImageIcon imagen;
     protected ArrayList<DtTema> temas;  
+    protected String rutaImagen;  
 
     public String getNombre() {
         return nombre;
@@ -27,6 +28,10 @@ public abstract class DtLista {
 
     public ArrayList<DtTema> getTema() {
         return this.temas;
+    }
+
+    public String getRutaImagen() {
+        return rutaImagen;
     }
     
 }

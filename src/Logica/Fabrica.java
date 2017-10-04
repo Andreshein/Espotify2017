@@ -122,23 +122,19 @@ public class Fabrica {
             }
             
         }
-        TipoSuscripcion ts = new TipoSuscripcion("Semanal",1,2);
-        TipoSuscripcion ts1 = new TipoSuscripcion("Mensual",2,7);
-        TipoSuscripcion ts2 = new TipoSuscripcion("Anual",3,65);
-        Cliente.addSuscripcion(ts);
-        Cliente.addSuscripcion(ts1);
-        Cliente.addSuscripcion(ts2);
+        
+        Map<Integer, TipoSuscripcion> tiposDeSus = db.cargarTiposDeSuscripcion();
+        
+        for (TipoSuscripcion ts : tiposDeSus.values()) {
+            Cliente.addSuscripcion(ts);
+        }
+        
         ArrayList<Suscripcion> susc = db.cargarSuscripciones();
-        for (int i=0; i<susc.size();i++){
-            if (susc.get(i).getIdTipo() == 1)
-                susc.get(i).setTp(ts);
-            if (susc.get(i).getIdTipo() == 2)
-                susc.get(i).setTp(ts1);
-            if (susc.get(i).getIdTipo() == 3)
-                susc.get(i).setTp(ts2);
-            Cliente c = clientes.get(susc.get(i).getNickcliente());
-            c.addSuscripcion(susc.get(i));
-            
+        for (Suscripcion suscripcion : susc) {
+            TipoSuscripcion tipoS = tiposDeSus.get(suscripcion.getIdTipo());
+            suscripcion.setTp(tipoS);
+            Cliente c = clientes.get(suscripcion.getNickcliente());
+            c.addSuscripcion(suscripcion);
         }
         
         Artista.setArtista((HashMap)artistas);

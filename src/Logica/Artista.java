@@ -132,7 +132,7 @@ public class Artista extends Usuario {
             imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
         }
         
-        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, this.fechaNac, imagen, biografia, paginaWeb, 0, null, this.getDtAlbumes());
+        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, this.fechaNac, imagen, biografia, paginaWeb, 0, null, this.getDtAlbumes(), Imagen);
     }
     public String getImagen(){
         return Imagen;
@@ -157,13 +157,13 @@ public class Artista extends Usuario {
     }
     
     public DtArtista getDatosResumidos(){
-        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, this.fechaNac, null, null, null, 0, null, null);
+        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, this.fechaNac, null, null, null, 0, null, null, Imagen);
     }
     public void AddAlbum(Album a){
         this.albumes.put(a.getNombre(), a);
     }
     
     public DtArtista GetDtArtista(){
-        return new DtArtista(nickname,nombre,apellido);
+        return new DtArtista(nickname,nombre,apellido,correo);
     } 
 }

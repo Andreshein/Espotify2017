@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import Persistencia.DBUsuario;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -276,11 +277,11 @@ public class Cliente extends Usuario {
             imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
         }
 
-        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, imagen, siguiendo, listasCreadas, listas, temas, albumes);
+        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, imagen, siguiendo, listasCreadas, listas, temas, albumes, this.getSuscripCliente(), Imagen);
     }
 
     public DtCliente getDatosResumidos() {
-        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, null, null, null, null, null, null);
+        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, null, null, null, null, null, null, null, Imagen);
     }
 
     public ArrayList<DtUsuario> buscarEnUsuarios(String palabra) {
@@ -330,5 +331,64 @@ public class Cliente extends Usuario {
     
     public void publicarLista(String nomLista){
         this.Listas.get(nomLista).setEsPrivado(false);
+    }
+
+    public ArrayList<Suscripcion> getSuscripciones() {
+        return Suscripciones;
+    }
+    
+    public ArrayList<DtSuscripcion> getSuscripCliente(){
+        ArrayList<DtSuscripcion> listaSuscripciones = new ArrayList<>();
+        
+        for (Suscripcion sus : this.Suscripciones) {
+            listaSuscripciones.add(sus.getDatos());
+        }
+        
+        return listaSuscripciones;
+    }
+    
+    public boolean contratarSuscripcion(TipoSuscripcion tipoS){
+        for (Suscripcion sus : this.Suscripciones) {
+            if(sus.getEstado().equals("Vigente")){
+                return false; //ya tiene una suscripcion vigente, no puede contratar otra
+            }
+        }
+        
+        //Si no retornó false, entonces puede contratar suscripcion
+        DBUsuario db = new DBUsuario();
+        
+        Suscripcion nuevaSus = db.insertarSuscripcion(new Date(), "Pendiente", tipoS.getId(), this.nickname);
+        if(nuevaSus != null){
+            nuevaSus.setTp(tipoS);
+            this.Suscripciones.add(nuevaSus);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public boolean Vigencia(){
+        for (Suscripcion sus : this.Suscripciones) {
+            if(sus.getEstado().equals("Vigente")) return true;
+        }
+        return false;
+    }
+    
+    public void actualizarVigenciaSuscripciones(){
+        //Para cada suscripcion vigente va verificando si la fecha actual es mayor a la de vencimiento
+        for (Suscripcion sus : this.Suscripciones) {
+            sus.actualizarVigencia();
+        }
+    }
+    
+    public void cambiarEstadoS(DtSuscripcion s){
+        for(Suscripcion aux: this.Suscripciones){
+        if(aux.getTp().getCuota().equals(s.getTipo()) && aux.getEstado().equals("Pendiente") && aux.getDatos().getFecha().equals(s.getFecha())){
+        aux.setEstado(s.getEstado());
+        aux.setFecha(new Date());
+        DBUsuario bd = new DBUsuario();
+        bd.actualizarEstadoSuscripcion(aux.getId(), aux.getFechaString(), aux.getEstado());
+        }
+        }
     }
 }

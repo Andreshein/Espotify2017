@@ -5,12 +5,12 @@
  */
 package Logica;
 
+import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -22,6 +22,7 @@ public interface IcontArtista {
     public abstract boolean IngresarArtista(String nickname, String contrasenia,String nombre, String apellido, String correo, Date fechaNac, String biografia, String paginaWeb, String img);
     public abstract boolean IngresarArtista(DtArtista art);
     public abstract DtArtista ElegirArtista(String nomArtista);
+    public abstract DtAlbum ElegirAlbum(String nomArtista, String nomAlb);
     public abstract ArrayList<DtArtista> ListarArtistas();
     public abstract ArrayList<String> BuscarGenero(String palabra);
     public abstract ArrayList<DtAlbum> listarAlbumGenero(String genero);
@@ -69,4 +70,5 @@ public interface IcontArtista {
     public abstract boolean estaAlbum(String Nickname, String Album);
     public abstract boolean Pagweb(String pagweb);
     public abstract DtUsuario verificarLoginArtista(String nickname,String contrasenia);
+    public abstract BufferedInputStream cargarTema(String rutaTema);
 }

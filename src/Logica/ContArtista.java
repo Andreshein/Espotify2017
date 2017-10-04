@@ -2,18 +2,25 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ */ //helloupapaguenos
 package Logica;
 
 import java.util.HashMap;
 import java.util.Map;
 import Persistencia.*;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 public class ContArtista implements IcontArtista {
@@ -60,6 +67,11 @@ public class ContArtista implements IcontArtista {
     public DtArtista ElegirArtista(String nomArtista) {
         Artista a = (Artista) this.artistas.get(nomArtista);
         return a.getDatos();
+    }
+    
+    public DtAlbum ElegirAlbum(String nomArtista, String nomAlb) {
+        Artista art = this.artistas.get(nomArtista);
+        return art.getAlbumes().get(nomAlb).getDatos();
     }
 
     @Override
@@ -269,7 +281,22 @@ public class ContArtista implements IcontArtista {
                 return false;
             }
         }
-        return true;
+        try{
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaN = formato.parse(art.getFechaNac());
+        
+          Artista a = new Artista(art.getNickname(),art.getContrasenia(),art.getNombre(),art.getApellido(),art.getCorreo(),fechaN,art.getBiografia(),art.getPagWeb(),null);
+          boolean tru = this.dbUsuario.agregarArtistaWeb(a);
+        if (tru) {
+
+            this.artistas.put(art.getNickname(), a);
+        }
+        return tru;
+        } catch (ParseException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
     }
 
     @Override
@@ -452,7 +479,7 @@ public class ContArtista implements IcontArtista {
             String nombre = aux.getNombre().toUpperCase();
             String apellido = aux.getApellido().toUpperCase();
             String nomAp = aux.getNombre().toUpperCase() + aux.getApellido().toUpperCase();
-            if (nick.contains(palabra) == true || nombre.contains(palabra) == true || apellido.contains(palabra) == true || nomAp.contains(palabra) == true) {
+            if (nick.startsWith(palabra) == true || nombre.startsWith(palabra) == true || apellido.startsWith(palabra) == true || nomAp.startsWith(palabra) == true) {
                 retornar.add(aux.getDatos());
             }
         }
@@ -557,6 +584,9 @@ public class ContArtista implements IcontArtista {
         }
         return retornar;
     }
+    
+    
+
 
     @Override
     public ArrayList<DtListaPD> ListarListaPD() {
@@ -697,7 +727,7 @@ public class ContArtista implements IcontArtista {
     public boolean estaAlbum(String Nickname, String Album) {
         return artistas.get(Nickname).getAlbumes().containsKey(Album);
     }
-
+    
     @Override
     public boolean Pagweb(String pagweb) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -707,9 +737,22 @@ public class ContArtista implements IcontArtista {
     public DtUsuario verificarLoginArtista(String nickname, String contrasenia) {
         for (Artista art : this.artistas.values()) {
             if(((art.getNickname().equals(nickname))||(art.getCorreo().equals(nickname)))&&(art.getContrasenia().equals(contrasenia))){
-                return art.GetDtArtista(); // nickname o correo incorrecto
+                return art.getDatosResumidos(); // nickname o correo incorrecto
             }
         }
         return this.Cli.verificarLoginCliente(nickname, contrasenia);
+    }
+    
+    @Override
+    public BufferedInputStream cargarTema(String rutaTema){
+        try {
+            File archivo = new File(rutaTema);
+            FileInputStream input = new FileInputStream(archivo);
+            BufferedInputStream buf = new BufferedInputStream(input);            
+            return buf;
+        } catch (IOException ex) {
+            Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);            
+            return null;
+        }
     }
 }

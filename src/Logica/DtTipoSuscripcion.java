@@ -7,33 +7,29 @@ package Logica;
 
 /**
  *
- * @author Admin
+ * @author Kevin
  */
-public class TipoSuscripcion {
-    private String cuota;
+public class DtTipoSuscripcion {
     private int id;
+    private String cuota;
     private int monto;
 
-    public TipoSuscripcion(String cuota, int id, int monto) {
-        this.cuota = cuota;
+    public DtTipoSuscripcion(int id, String cuota, int monto) {
         this.id = id;
+        this.cuota = cuota;
         this.monto = monto;
-    }
-
-    public String getCuota() {
-        return cuota;
     }
 
     public int getId() {
         return id;
     }
+    
+    public String getCuota() {
+        return cuota;
+    }
 
     public int getMonto() {
         return monto;
-    }
-    
-    public DtTipoSuscripcion getDatos(){
-        return new DtTipoSuscripcion(id, cuota, monto);
-    }
+    }    
     
 }
