@@ -663,8 +663,6 @@ public class ContArtista implements IcontArtista {
         
         return true;
     }
-
-    
     
     @Override
     public boolean Pagweb(String pagweb) {
