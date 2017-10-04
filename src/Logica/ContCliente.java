@@ -598,8 +598,6 @@ public class ContCliente implements IcontCliente {
     public void actualizarVigenciaSuscripciones(String nickname){
         this.clientes.get(nickname).actualizarVigenciaSuscripciones();
     }
-    
-    
      @Override
     public boolean estaCliente(String nickname, String correo) {
         List<DtCliente> cliente = BuscarCliente2(nickname,correo);
@@ -634,5 +632,10 @@ public class ContCliente implements IcontCliente {
         }
 
         return retornar;
+    }
+
+    @Override
+    public void CambiarEstadoSuscripcion(DtSuscripcion suscripcion) {
+        this.clientes.get(suscripcion.getCliente()).cambiarEstadoS(suscripcion);
     }
 }

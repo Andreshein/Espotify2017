@@ -59,5 +59,6 @@ public interface IcontCliente{
     public abstract void actualizarVigenciaSuscripciones(String nickname);
     public abstract boolean estaCliente(String nickname,String correo); 
     public abstract List<DtCliente> BuscarCliente2(String nickname,String correo);
+    public abstract void CambiarEstadoSuscripcion(DtSuscripcion suscripcion);
 }
 //hellou papaguena
