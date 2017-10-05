@@ -17,6 +17,18 @@ public class DtTema {
     private final String archivo;
     private final String nomartista;
     private final String nomalbum;
+    private final byte[] archivobyte;
+    
+    public DtTema(String nombre, String duracion, int orden, String direccion, String archivo, byte[] arch) {
+        this.nombre = nombre;
+        this.duracion = duracion;
+        this.orden = orden;
+        this.direccion = direccion;
+        this.archivo = archivo;
+        this.nomartista = null;
+        this.nomalbum = null;
+        this.archivobyte = arch;
+    }
     
     public DtTema(String nombre, String duracion, int orden, String direccion, String archivo) {
         this.nombre = nombre;
@@ -26,6 +38,7 @@ public class DtTema {
         this.archivo = archivo;
         this.nomartista = null;
         this.nomalbum = null;
+        this.archivobyte = null;
     }
 
     public DtTema(String artista, String album, String nombre, String duracion, int orden, String direccion, String archivo) {
@@ -36,6 +49,7 @@ public class DtTema {
         this.archivo = archivo;
         this.nomartista = artista;
         this.nomalbum = album;
+        this.archivobyte = null;
     }
     
     public DtTema(String nombre, String alb, String art) {
@@ -46,6 +60,11 @@ public class DtTema {
         this.orden = 0;
         this.direccion = null;
         this.archivo = null;
+        this.archivobyte = null;
+    }
+
+    public byte[] getArchivobyte() {
+        return archivobyte;
     }
 
     public String getNomartista() {

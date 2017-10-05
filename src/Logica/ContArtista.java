@@ -300,6 +300,93 @@ public class ContArtista implements IcontArtista {
     }
 
     @Override
+    public void IngresarAlbumWeb(String nicknameArt, String anio, String nombre, byte[] imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
+        int anio2 = Integer.parseInt(anio);
+        HashMap<String, Tema> temasfinal = new HashMap();
+        Set set3 = temas.entrySet();
+        Iterator it0 = set3.iterator();
+        while (it0.hasNext()) {
+            Map.Entry x = (Map.Entry) it0.next();
+            DtTema dtte = (DtTema) x.getValue();
+            
+            String rutaDestino = null; //ruta de destino del archivo
+            
+            //Si el tema tiene un archivo
+            if(dtte.getArchivobyte() != null){
+                //ruta del archivo seleccionado para el tema
+                byte[] bytesOrigen = dtte.getArchivobyte(); 
+                
+                //Se crea la ruta del archivo del tema dentro del servidor -> "Temas/nickArtista/nomAlbum/tema.mp3"
+                String path = this.getClass().getClassLoader().getResource("").getPath();
+                path = path.replace("build/web/WEB-INF/classes/","/");
+                rutaDestino = path + "Temas/Artistas/"+nicknameArt+"/Albumes/"+"/"+nombre+"/"+dtte.getNombre()+".mp3";
+                //rutaDestino = "D:/"+dtte.getNombre()+".mp3";
+                try{
+                File f = new File(rutaDestino);
+                f.getParentFile().mkdirs();
+                org.apache.commons.io.FileUtils.writeByteArrayToFile(f, bytesOrigen);
+                }
+                catch (Exception e){e.getMessage();}
+                //Si NO pudo copiar el archivo correctamente deja a ruta en null
+//                if(Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false){
+//                    rutaDestino = null; 
+//                }
+            }
+            
+            Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion(), nombre, nicknameArt);
+            temasfinal.put(t.getNombre(), t);
+        }
+        ArrayList<Genero> l = new ArrayList();
+        Set set2 = generos.entrySet();
+        Iterator iter = set2.iterator();
+        while (iter.hasNext()) {
+            Map.Entry x = (Map.Entry) iter.next();
+            DtGenero dtgen = (DtGenero) x.getValue();
+            Genero g = this.generos.get(dtgen.getNombre());
+            l.add(g);
+        }
+        
+        String rutaDestino = null; //ruta de destino del archivo
+            
+        //Si el album tiene una imagen
+        if(imagen != null){
+                                    
+            //Se crea la ruta del archivo del tema dentro del servidor -> "Imagenes/nickArtista/nomAlbum/tema.mp3"
+            String path = this.getClass().getClassLoader().getResource("").getPath();
+            path = path.replace("build/web/WEB-INF/classes/","/");
+            rutaDestino = path + "Imagenes/Artistas/"+nicknameArt+"/Albumes/"+nombre+".jpg";
+            //rutaDestino = "D:/"+nombre+".jpg";
+            try{
+            File f = new File(rutaDestino);
+            f.getParentFile().mkdirs();
+            org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
+            }
+            catch (Exception e){e.getMessage();}
+            
+        }
+        
+        Album a = new Album(nicknameArt, nombre, anio2, rutaDestino, temasfinal, l);
+        int idalbum = this.dbUsuario.InsertarAlbum(a);
+        a.setId(idalbum);
+        for (int i = 0; i < l.size(); i++) {
+            l.get(i).AddAlbum(a);
+        }
+        Artista ar = artistas.get(nicknameArt);
+        ar.getAlbumes().put(a.getNombre(), a);
+        for (int i = 0; i < a.getGeneros().size(); i++) {
+            int idg = a.getGeneros().get(i).getid();
+            this.dbUsuario.InsertarGenero_Album(idalbum, idg);
+        }
+        Set set = a.getTemas().entrySet();
+        Iterator it = set.iterator();
+        while (it.hasNext()) {
+            Map.Entry x = (Map.Entry) it.next();
+            Tema t = (Tema) x.getValue();
+            this.dbUsuario.InsertarTema(idalbum, t);
+        }
+    }
+    
+    @Override
     public void IngresarAlbum(String nicknameArt, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
         int anio2 = Integer.parseInt(anio);
         HashMap<String, Tema> temasfinal = new HashMap();
