@@ -40,6 +40,7 @@ public class DBUsuario {
             String passEncriptada = "";
                 try {
                     passEncriptada = sha1(a.getContrasenia());
+                    a.setContrasenia(passEncriptada);
                 } catch (NoSuchAlgorithmException ex) {
                     Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -93,6 +94,7 @@ public class DBUsuario {
             String passEncriptada = "";
                 try {
                     passEncriptada = sha1(c.getContrasenia());
+                    c.setContrasenia(passEncriptada);
                 } catch (NoSuchAlgorithmException ex) {
                     Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
