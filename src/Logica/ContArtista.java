@@ -310,6 +310,18 @@ public class ContArtista implements IcontArtista {
         HashMap<String, Tema> temasfinal = new HashMap();
         Set set3 = temas.entrySet();
         Iterator it0 = set3.iterator();
+        Properties p = new Properties();
+            InputStream is;
+            String rutaP = null;
+            try {
+                is = new FileInputStream("rutaProyecto.properties");
+                p.load(is);
+                rutaP = p.getProperty("ruta");
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
         while (it0.hasNext()) {
             Map.Entry x = (Map.Entry) it0.next();
             DtTema dtte = (DtTema) x.getValue();
@@ -322,9 +334,7 @@ public class ContArtista implements IcontArtista {
                 byte[] bytesOrigen = dtte.getArchivobyte();
 
                 //Se crea la ruta del archivo del tema dentro del servidor -> "Temas/nickArtista/nomAlbum/tema.mp3"
-                String path = this.getClass().getClassLoader().getResource("").getPath();
-                path = path.replace("build/web/WEB-INF/classes/", "/");
-                rutaDestino = path + "Temas/Artistas/" + nicknameArt + "/Albumes/" + "/" + nombre + "/" + dtte.getNombre() + ".mp3";
+                rutaDestino = rutaP + "Temas/Artistas/" + nicknameArt + "/Albumes/" + "/" + nombre + "/" + dtte.getNombre() + ".mp3";
                 //rutaDestino = "D:/"+dtte.getNombre()+".mp3";
                 try {
                     File f = new File(rutaDestino);
@@ -358,18 +368,7 @@ public class ContArtista implements IcontArtista {
         if (imagen != null) {
 
             //Se crea la ruta del archivo del tema dentro del servidor -> "Imagenes/nickArtista/nomAlbum/tema.mp3"
-            Properties p = new Properties();
-            InputStream is;
-            String rutaP = null;
-            try {
-                is = new FileInputStream("rutaProyecto.properties");
-                p.load(is);
-                rutaP = p.getProperty("ruta");
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
             rutaDestino = rutaP + "Imagenes/Artistas/" + nicknameArt + "/Albumes/" + nombre + ".jpg";
             //rutaDestino = "D:/"+nombre+".jpg";
             try {
