@@ -135,6 +135,7 @@ public class Fabrica {
             suscripcion.setTp(tipoS);
             Cliente c = clientes.get(suscripcion.getNickcliente());
             c.addSuscripcion(suscripcion);
+            c.actualizarVigenciaSuscripciones();
         }
         
         Artista.setArtista((HashMap)artistas);
