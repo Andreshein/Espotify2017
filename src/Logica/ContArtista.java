@@ -334,8 +334,9 @@ public class ContArtista implements IcontArtista {
                 byte[] bytesOrigen = dtte.getArchivobyte();
 
                 //Se crea la ruta del archivo del tema dentro del servidor -> "Temas/nickArtista/nomAlbum/tema.mp3"
-                rutaDestino = rutaP + "Temas/Artistas/" + nicknameArt + "/Albumes/" + nombre + "/" + dtte.getNombre() + ".mp3";
+                rutaDestino = rutaP + "Temas/" + nicknameArt + "/" + nombre + "/" + dtte.getNombre() + ".mp3";
                 //rutaDestino = "D:/"+dtte.getNombre()+".mp3";
+                //Fabrica.getCliente().copiarArchivo(dtte.getArchivo(), rutaDestino);
                 try {
                     File f = new File(rutaDestino);
                     f.getParentFile().mkdirs();
