@@ -111,4 +111,14 @@ public class Particular extends Lista{
         return new DtListaP(nombre,this.getDtTemas(),nombreusuario);
     }
     
+    public ArrayList<DtTema> getTemasReproducir(){
+        ArrayList<DtTema> listaTemas = new ArrayList<>();
+        for (Tema tema : this.temas) {
+            if(tema.getArchivo() != null){
+                listaTemas.add(tema.getDatos());
+            }
+        }
+        
+        return listaTemas;
+    }
 }

@@ -116,4 +116,15 @@ public class PorDefecto extends Lista{
     public void setId(int id){
         this.id = id;
     }
+    
+    public ArrayList<DtTema> getTemasReproducir(){
+        ArrayList<DtTema> listaTemas = new ArrayList<>();
+        for (Tema tema : this.temas) {
+            if(tema.getArchivo() != null){
+                listaTemas.add(tema.getDatos());
+            }
+        }
+        
+        return listaTemas;
+    }
 }

@@ -391,4 +391,8 @@ public class Cliente extends Usuario {
         }
         }
     }
+    
+    public ArrayList<DtTema> reproducirListaP(String lista){
+        return this.Listas.get(lista).getTemasReproducir();
+    }
 }
