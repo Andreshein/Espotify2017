@@ -654,4 +654,9 @@ public class ContCliente implements IcontCliente {
     public void CambiarEstadoSuscripcion(DtSuscripcion suscripcion) {
         this.clientes.get(suscripcion.getCliente()).cambiarEstadoS(suscripcion);
     }
+    
+    @Override
+    public ArrayList<DtTema> reproducirListaP(String cliente, String lista){
+        return this.clientes.get(cliente).reproducirListaP(lista);
+    }
 }

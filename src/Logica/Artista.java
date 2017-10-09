@@ -165,5 +165,9 @@ public class Artista extends Usuario {
     
     public DtArtista GetDtArtista(){
         return new DtArtista(nickname,nombre,apellido,correo);
-    } 
+    }
+    
+    public ArrayList<DtTema> reproducirAlbum(String album){
+        return this.albumes.get(album).getTemasReproducir();
+    }
 }

@@ -60,5 +60,6 @@ public interface IcontCliente{
     public abstract boolean estaCliente(String nickname,String correo); 
     public abstract List<DtCliente> BuscarCliente2(String nickname,String correo);
     public abstract void CambiarEstadoSuscripcion(DtSuscripcion suscripcion);
+    public abstract ArrayList<DtTema> reproducirListaP(String cliente, String lista);
 }
 //hellou papaguena

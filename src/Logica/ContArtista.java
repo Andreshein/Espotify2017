@@ -772,4 +772,13 @@ public class ContArtista implements IcontArtista {
             return null;
         }
     }
+    
+    @Override
+    public ArrayList<DtTema> reproducirAlbum(String artista, String album){
+        return this.artistas.get(artista).reproducirAlbum(album);
+    }
+    @Override
+    public ArrayList<DtTema> reproducirListaPD(String genero, String lista){
+        return this.generos.get(genero).reproducirListaPD(lista);
+    }
 }
