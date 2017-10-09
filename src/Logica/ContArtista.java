@@ -163,6 +163,13 @@ public class ContArtista implements IcontArtista {
 //        return albumesAux;
     }
 
+     public ArrayList<DtListaPD> getListasGenero(String genero) {
+       Genero generoL = this.generos.get(genero);
+        
+        return generoL.getDtListas();
+
+    }
+    
     public boolean albumRepetido(String nomAlbum, ArrayList<DtAlbum> albumes) {
         int ocurrencias = 0;
         for (DtAlbum album : albumes) {

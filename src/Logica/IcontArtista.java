@@ -73,4 +73,5 @@ public interface IcontArtista {
     public abstract BufferedInputStream cargarTema(String rutaTema);
     public abstract ArrayList<DtTema> reproducirAlbum(String artista, String album);
     public abstract ArrayList<DtTema> reproducirListaPD(String genero, String lista);
+    public abstract ArrayList<DtListaPD> getListasGenero(String genero);
 }
