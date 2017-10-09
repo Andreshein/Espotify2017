@@ -166,6 +166,17 @@ public class Album {
         this.generos = generos;
     }
     
+    public ArrayList<DtTema> getTemasReproducir(){
+        ArrayList<DtTema> listaTemas = new ArrayList<>();
+        for (Tema tema : this.temas.values()) {
+            if(tema.getArchivo() != null){
+                listaTemas.add(tema.getDatos());
+            }
+        }
+        
+        return listaTemas;
+    }
+    
 }
 
 

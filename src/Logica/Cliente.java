@@ -349,8 +349,8 @@ public class Cliente extends Usuario {
     
     public boolean contratarSuscripcion(TipoSuscripcion tipoS){
         for (Suscripcion sus : this.Suscripciones) {
-            if(sus.getEstado().equals("Vigente")){
-                return false; //ya tiene una suscripcion vigente, no puede contratar otra
+            if(sus.getEstado().equals("Vigente") || sus.getEstado().equals("Pendiente")){
+                return false; //ya tiene una suscripcion vigente o pendiente, no puede contratar otra
             }
         }
         
@@ -390,5 +390,9 @@ public class Cliente extends Usuario {
         bd.actualizarEstadoSuscripcion(aux.getId(), aux.getFechaString(), aux.getEstado());
         }
         }
+    }
+    
+    public ArrayList<DtTema> reproducirListaP(String lista){
+        return this.Listas.get(lista).getTemasReproducir();
     }
 }

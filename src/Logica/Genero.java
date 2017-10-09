@@ -110,11 +110,15 @@ public class Genero {
         return a;
     }
     
-        public ArrayList<DtAlbum> getAlbumesGenero() {
-        ArrayList<DtAlbum> albumes = new ArrayList();
-        for (Album a : this.Albumes.values()) {
-            albumes.add(a.getDatos());
-        }
-        return albumes;
-        }
+    public ArrayList<DtAlbum> getAlbumesGenero() {
+    ArrayList<DtAlbum> albumes = new ArrayList();
+    for (Album a : this.Albumes.values()) {
+        albumes.add(a.getDatos());
+    }
+    return albumes;
+    }
+        
+    public ArrayList<DtTema> reproducirListaPD(String lista){
+        return this.Listas.get(lista).getTemasReproducir();
+    }    
 }

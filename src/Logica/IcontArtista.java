@@ -44,6 +44,7 @@ public interface IcontArtista {
     //public abstract Map<String, Artista> GetArtistas();
     //public abstract Map<String, PorDefecto> GetListasPD();
     public abstract void IngresarAlbum(String nomartista, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos);
+    public abstract void IngresarAlbumWeb(String nicknameArt, String anio, String nombre, byte[] imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos);
     public abstract ArrayList<DtAlbum> listarTodosAlbumes();
     public abstract ArrayList<DtTema> listarTodosTemas();
     public abstract ArrayList<DtAlbum> ListarAlbum();
@@ -70,4 +71,6 @@ public interface IcontArtista {
     public abstract boolean Pagweb(String pagweb);
     public abstract DtUsuario verificarLoginArtista(String nickname,String contrasenia);
     public abstract BufferedInputStream cargarTema(String rutaTema);
+    public abstract ArrayList<DtTema> reproducirAlbum(String artista, String album);
+    public abstract ArrayList<DtTema> reproducirListaPD(String genero, String lista);
 }
