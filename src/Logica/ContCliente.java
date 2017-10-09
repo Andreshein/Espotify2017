@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -156,7 +158,7 @@ public class ContCliente implements IcontCliente {
     }
 
     @Override
-    public boolean IngresarCliente(DtCliente cli) {
+    public boolean IngresarCliente(DtCliente cli, byte[] imagen) {
         if (Fabrica.getArtista().verificarDatos(cli.getNickname(), cli.getCorreo()) == false) { // si ya existe un artista con ese nickname o correo
             return false;
         } else {
@@ -164,8 +166,35 @@ public class ContCliente implements IcontCliente {
                 return false;
             }
         }
+        try{
+        String rutaDestino = null;
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date fechaN = formato.parse(cli.getFechaNac());
+        if (imagen!=null){
+                Properties p = new Properties();
+                InputStream is;
+                String rutaP = null;
+                try {
+                    is = new FileInputStream("rutaProyecto.properties");
+                    p.load(is);
+                    rutaP = p.getProperty("ruta");
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    rutaDestino = rutaP + "Imagenes/Clientes/" + cli.getNickname() + "/" + cli.getNickname() + ".jpg";
+                //rutaDestino = "D:/"+nombre+".jpg";
+                try {
+                    File f = new File(rutaDestino);
+                    f.getParentFile().mkdirs();
+                    org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
+                } catch (Exception e) {
+                    e.getMessage();
+                }  
+            }
 
-        Cliente c = new Cliente(cli.getNickname(), cli.getContrasenia(), cli.getNombre(), cli.getApellido(), cli.getCorreo(), cli.getFechaNac(), null);
+        Cliente c = new Cliente(cli.getNickname(), cli.getContrasenia(), cli.getNombre(), cli.getApellido(), cli.getCorreo(), fechaN, rutaDestino );
 
         boolean tru = this.dbUsuario.agregarClienteWeb(c);
         if (tru) {
@@ -173,6 +202,11 @@ public class ContCliente implements IcontCliente {
             this.clientes.put(cli.getNickname(), c);
         }
         return tru;
+
+        } catch (ParseException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
 
     }
 

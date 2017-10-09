@@ -285,7 +285,7 @@ public class ContArtista implements IcontArtista {
     }
 
     @Override
-    public boolean IngresarArtista(DtArtista art) {
+    public boolean IngresarArtista(DtArtista art, byte[] imagen) {
         if (Fabrica.getCliente().verificarDatos(art.getNickname(), art.getCorreo()) == false) { // si ya existe un cliente con ese nickname o correo
             return false;
         } else {
@@ -294,10 +294,34 @@ public class ContArtista implements IcontArtista {
             }
         }
         try {
+            String rutaDestino = null;
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             Date fechaN = formato.parse(art.getFechaNac());
-
-            Artista a = new Artista(art.getNickname(), art.getContrasenia(), art.getNombre(), art.getApellido(), art.getCorreo(), fechaN, art.getBiografia(), art.getPagWeb(), null);
+            if (imagen!=null){
+                Properties p = new Properties();
+                InputStream is;
+                String rutaP = null;
+                try {
+                    is = new FileInputStream("rutaProyecto.properties");
+                    p.load(is);
+                    rutaP = p.getProperty("ruta");
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    rutaDestino = rutaP + "Imagenes/Artistas/" + art.getNickname() + "/" + art.getNickname() + ".jpg";
+                //rutaDestino = "D:/"+nombre+".jpg";
+                try {
+                    File f = new File(rutaDestino);
+                    f.getParentFile().mkdirs();
+                    org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
+                } catch (Exception e) {
+                    e.getMessage();
+                }  
+            }
+            
+            Artista a = new Artista(art.getNickname(), art.getContrasenia(), art.getNombre(), art.getApellido(), art.getCorreo(), fechaN, art.getBiografia(), art.getPagWeb(), rutaDestino);
             boolean tru = this.dbUsuario.agregarArtistaWeb(a);
             if (tru) {
 
