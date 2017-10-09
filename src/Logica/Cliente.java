@@ -349,8 +349,8 @@ public class Cliente extends Usuario {
     
     public boolean contratarSuscripcion(TipoSuscripcion tipoS){
         for (Suscripcion sus : this.Suscripciones) {
-            if(sus.getEstado().equals("Vigente")){
-                return false; //ya tiene una suscripcion vigente, no puede contratar otra
+            if(sus.getEstado().equals("Vigente") || sus.getEstado().equals("Pendiente")){
+                return false; //ya tiene una suscripcion vigente o pendiente, no puede contratar otra
             }
         }
         

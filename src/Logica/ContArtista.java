@@ -11,13 +11,16 @@ import Persistencia.*;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,30 +48,30 @@ public class ContArtista implements IcontArtista {
         this.dbUsuario = new DBUsuario();
     }
 
-    public Map<String, DtGenero> GetDataGeneros(){
+    public Map<String, DtGenero> GetDataGeneros() {
         Map<String, DtGenero> datageneros = new HashMap();
         Set set = this.generos.entrySet();
         Iterator it = set.iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             Map.Entry m = (Map.Entry) it.next();
             Genero g = (Genero) m.getValue();
-            DtGenero dt = new DtGenero(g.getNombre(),g.getidpadre(),g.getid(),g.getPadre());
+            DtGenero dt = new DtGenero(g.getNombre(), g.getidpadre(), g.getid(), g.getPadre());
             datageneros.put(dt.getNombre(), dt);
         }
         return datageneros;
     }
-    
+
     @Override
     public void SetContCliente(IcontCliente cli) {
         this.Cli = cli;
     }
-    
+
     @Override
     public DtArtista ElegirArtista(String nomArtista) {
         Artista a = (Artista) this.artistas.get(nomArtista);
         return a.getDatos();
     }
-    
+
     public DtAlbum ElegirAlbum(String nomArtista, String nomAlb) {
         Artista art = this.artistas.get(nomArtista);
         return art.getAlbumes().get(nomAlb).getDatos();
@@ -186,8 +189,9 @@ public class ContArtista implements IcontArtista {
             palabra = palabra.toUpperCase();
 
             if (genero.startsWith(palabra)) {
-                if (!genero.equals("GÉNERO"))
+                if (!genero.equals("GÉNERO")) {
                     retornar.add(aux.getNombre());
+                }
             }
         }
         return retornar;
@@ -232,9 +236,9 @@ public class ContArtista implements IcontArtista {
 
         return Fabrica.getCliente().copiarArchivo(rutaArchivo, rutaDestino);
     }
-    
+
     @Override
-    public boolean IngresarArtista(String nickname,String contrasenia, String nombre, String apellido, String correo, Date fechaNac, String biografia, String paginaWeb, String Img) {
+    public boolean IngresarArtista(String nickname, String contrasenia, String nombre, String apellido, String correo, Date fechaNac, String biografia, String paginaWeb, String Img) {
         if (Fabrica.getCliente().verificarDatos(nickname, correo) == false) { // si ya existe un cliente con ese nickname o correo
             return false;
         } else {
@@ -272,8 +276,9 @@ public class ContArtista implements IcontArtista {
 
         return ok;
     }
+
     @Override
-    public boolean IngresarArtista(DtArtista art) {
+    public boolean IngresarArtista(DtArtista art, byte[] imagen) {
         if (Fabrica.getCliente().verificarDatos(art.getNickname(), art.getCorreo()) == false) { // si ya existe un cliente con ese nickname o correo
             return false;
         } else {
@@ -281,22 +286,46 @@ public class ContArtista implements IcontArtista {
                 return false;
             }
         }
-        try{
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        Date fechaN = formato.parse(art.getFechaNac());
-        
-          Artista a = new Artista(art.getNickname(),art.getContrasenia(),art.getNombre(),art.getApellido(),art.getCorreo(),fechaN,art.getBiografia(),art.getPagWeb(),null);
-          boolean tru = this.dbUsuario.agregarArtistaWeb(a);
-        if (tru) {
+        try {
+            String rutaDestino = null;
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            Date fechaN = formato.parse(art.getFechaNac());
+            if (imagen!=null){
+                Properties p = new Properties();
+                InputStream is;
+                String rutaP = null;
+                try {
+                    is = new FileInputStream("rutaProyecto.properties");
+                    p.load(is);
+                    rutaP = p.getProperty("ruta");
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    rutaDestino = rutaP + "Imagenes/Artistas/" + art.getNickname() + "/" + art.getNickname() + ".jpg";
+                //rutaDestino = "D:/"+nombre+".jpg";
+                try {
+                    File f = new File(rutaDestino);
+                    f.getParentFile().mkdirs();
+                    org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
+                } catch (Exception e) {
+                    e.getMessage();
+                }  
+            }
+            
+            Artista a = new Artista(art.getNickname(), art.getContrasenia(), art.getNombre(), art.getApellido(), art.getCorreo(), fechaN, art.getBiografia(), art.getPagWeb(), rutaDestino);
+            boolean tru = this.dbUsuario.agregarArtistaWeb(a);
+            if (tru) {
 
-            this.artistas.put(art.getNickname(), a);
-        }
-        return tru;
+                this.artistas.put(art.getNickname(), a);
+            }
+            return tru;
         } catch (ParseException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
+
     }
 
     @Override
@@ -305,34 +334,46 @@ public class ContArtista implements IcontArtista {
         HashMap<String, Tema> temasfinal = new HashMap();
         Set set3 = temas.entrySet();
         Iterator it0 = set3.iterator();
+        Properties p = new Properties();
+            InputStream is;
+            String rutaP = null;
+            try {
+                is = new FileInputStream("rutaProyecto.properties");
+                p.load(is);
+                rutaP = p.getProperty("ruta");
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
         while (it0.hasNext()) {
             Map.Entry x = (Map.Entry) it0.next();
             DtTema dtte = (DtTema) x.getValue();
-            
+
             String rutaDestino = null; //ruta de destino del archivo
-            
+
             //Si el tema tiene un archivo
-            if(dtte.getArchivobyte() != null){
+            if (dtte.getArchivobyte() != null) {
                 //ruta del archivo seleccionado para el tema
-                byte[] bytesOrigen = dtte.getArchivobyte(); 
-                
+                byte[] bytesOrigen = dtte.getArchivobyte();
+
                 //Se crea la ruta del archivo del tema dentro del servidor -> "Temas/nickArtista/nomAlbum/tema.mp3"
-                String path = this.getClass().getClassLoader().getResource("").getPath();
-                path = path.replace("build/web/WEB-INF/classes/","/");
-                rutaDestino = path + "Temas/Artistas/"+nicknameArt+"/Albumes/"+"/"+nombre+"/"+dtte.getNombre()+".mp3";
+                rutaDestino = rutaP + "Temas/" + nicknameArt + "/" + nombre + "/" + dtte.getNombre() + ".mp3";
                 //rutaDestino = "D:/"+dtte.getNombre()+".mp3";
-                try{
-                File f = new File(rutaDestino);
-                f.getParentFile().mkdirs();
-                org.apache.commons.io.FileUtils.writeByteArrayToFile(f, bytesOrigen);
+                //Fabrica.getCliente().copiarArchivo(dtte.getArchivo(), rutaDestino);
+                try {
+                    File f = new File(rutaDestino);
+                    f.getParentFile().mkdirs();
+                    org.apache.commons.io.FileUtils.writeByteArrayToFile(f, bytesOrigen);
+                } catch (Exception e) {
+                    e.getMessage();
                 }
-                catch (Exception e){e.getMessage();}
                 //Si NO pudo copiar el archivo correctamente deja a ruta en null
 //                if(Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false){
 //                    rutaDestino = null; 
 //                }
             }
-            
+
             Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion(), nombre, nicknameArt);
             temasfinal.put(t.getNombre(), t);
         }
@@ -345,26 +386,26 @@ public class ContArtista implements IcontArtista {
             Genero g = this.generos.get(dtgen.getNombre());
             l.add(g);
         }
-        
+
         String rutaDestino = null; //ruta de destino del archivo
-            
+
         //Si el album tiene una imagen
-        if(imagen != null){
-                                    
+        if (imagen != null) {
+
             //Se crea la ruta del archivo del tema dentro del servidor -> "Imagenes/nickArtista/nomAlbum/tema.mp3"
-            String path = this.getClass().getClassLoader().getResource("").getPath();
-            path = path.replace("build/web/WEB-INF/classes/","/");
-            rutaDestino = path + "Imagenes/Artistas/"+nicknameArt+"/Albumes/"+nombre+".jpg";
-            //rutaDestino = "D:/"+nombre+".jpg";
-            try{
-            File f = new File(rutaDestino);
-            f.getParentFile().mkdirs();
-            org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
-            }
-            catch (Exception e){e.getMessage();}
             
+            rutaDestino = rutaP + "Imagenes/Artistas/" + nicknameArt + "/Albumes/" + nombre + ".jpg";
+            //rutaDestino = "D:/"+nombre+".jpg";
+            try {
+                File f = new File(rutaDestino);
+                f.getParentFile().mkdirs();
+                org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
+            } catch (Exception e) {
+                e.getMessage();
+            }
+
         }
-        
+
         Album a = new Album(nicknameArt, nombre, anio2, rutaDestino, temasfinal, l);
         int idalbum = this.dbUsuario.InsertarAlbum(a);
         a.setId(idalbum);
@@ -385,7 +426,7 @@ public class ContArtista implements IcontArtista {
             this.dbUsuario.InsertarTema(idalbum, t);
         }
     }
-    
+
     @Override
     public void IngresarAlbum(String nicknameArt, String anio, String nombre, String imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
         int anio2 = Integer.parseInt(anio);
@@ -395,23 +436,23 @@ public class ContArtista implements IcontArtista {
         while (it0.hasNext()) {
             Map.Entry x = (Map.Entry) it0.next();
             DtTema dtte = (DtTema) x.getValue();
-            
+
             String rutaDestino = null; //ruta de destino del archivo
-            
+
             //Si el tema tiene un archivo
-            if(dtte.getArchivo() != null){
+            if (dtte.getArchivo() != null) {
                 //ruta del archivo seleccionado para el tema
-                String rutaOrigen = dtte.getArchivo(); 
+                String rutaOrigen = dtte.getArchivo();
 
                 //Se crea la ruta del archivo del tema dentro del servidor -> "Temas/nickArtista/nomAlbum/tema.mp3"
-                rutaDestino = "Temas/"+nicknameArt+"/"+nombre+"/"+dtte.getNombre()+".mp3";
+                rutaDestino = "Temas/" + nicknameArt + "/" + nombre + "/" + dtte.getNombre() + ".mp3";
 
                 //Si NO pudo copiar el archivo correctamente deja a ruta en null
-                if(Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false){
-                    rutaDestino = null; 
+                if (Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false) {
+                    rutaDestino = null;
                 }
             }
-            
+
             Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion(), nombre, nicknameArt);
             temasfinal.put(t.getNombre(), t);
         }
@@ -424,30 +465,30 @@ public class ContArtista implements IcontArtista {
             Genero g = this.generos.get(dtgen.getNombre());
             l.add(g);
         }
-        
+
         String rutaDestino = null; //ruta de destino del archivo
-            
+
         //Si el album tiene una imagen
-        if(imagen != null){
+        if (imagen != null) {
             //ruta del archivo seleccionado para el tema
-            String rutaOrigen = imagen; 
-            
+            String rutaOrigen = imagen;
+
             //Divide el string por el punto, tambien elimina el punto
             String[] aux = imagen.split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
-            
+
             //toma la segunda parte porque es la extension
             //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
             String extension = aux[1];
 
             //Se crea la ruta del archivo del tema dentro del servidor -> "Imagenes/nickArtista/nomAlbum/tema.mp3"
-            rutaDestino = "Imagenes/"+nicknameArt+"/Albumes/"+nombre+"." +extension;
+            rutaDestino = "Imagenes/" + nicknameArt + "/Albumes/" + nombre + "." + extension;
 
             //Si NO pudo copiar el archivo correctamente deja a ruta en null
-            if(Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false){
-                rutaDestino = null; 
+            if (Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false) {
+                rutaDestino = null;
             }
         }
-        
+
         Album a = new Album(nicknameArt, nombre, anio2, rutaDestino, temasfinal, l);
         int idalbum = this.dbUsuario.InsertarAlbum(a);
         a.setId(idalbum);
@@ -468,7 +509,7 @@ public class ContArtista implements IcontArtista {
             this.dbUsuario.InsertarTema(idalbum, t);
         }
     }
-    
+
     public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
         ArrayList<DtUsuario> retornar = new ArrayList<>();
         Iterator iterador = this.artistas.values().iterator();
@@ -584,9 +625,6 @@ public class ContArtista implements IcontArtista {
         }
         return retornar;
     }
-    
-    
-
 
     @Override
     public ArrayList<DtListaPD> ListarListaPD() {
@@ -605,13 +643,15 @@ public class ContArtista implements IcontArtista {
         }
         return al;
     }
-    public boolean ControlDeAlbum(String cadenaart, String cadenanom){
-    if (this.artistas.get(cadenaart).getAlbumes().get(cadenanom)!=null)
-        return false;
-    else
-        return true;
+
+    public boolean ControlDeAlbum(String cadenaart, String cadenanom) {
+        if (this.artistas.get(cadenaart).getAlbumes().get(cadenanom) != null) {
+            return false;
+        } else {
+            return true;
+        }
     }
-    
+
     public Genero getGenero(String nombre) {
         return this.generos.get(nombre);
     }
@@ -663,13 +703,14 @@ public class ContArtista implements IcontArtista {
         nombre = nombre.toLowerCase();
         String[] palabras = nombre.split("\\s+");
         nombre = "";
-        for (int i=0;i<palabras.length;i++){
+        for (int i = 0; i < palabras.length; i++) {
             palabras[i].toLowerCase();
             palabras[i] = palabras[i].substring(0, 1).toUpperCase() + palabras[i].substring(1);
-            if (i==0)
-                nombre = nombre + palabras[i];           
-            else
+            if (i == 0) {
+                nombre = nombre + palabras[i];
+            } else {
                 nombre = nombre + " " + palabras[i];
+            }
         }
         if (!this.generos.containsKey(nombre)) {
             Genero gpadre = this.generos.get(padre);
@@ -722,36 +763,36 @@ public class ContArtista implements IcontArtista {
     public boolean GenerosVacio() {
         return this.generos.isEmpty();
     }
-    
+
     @Override
     public boolean estaAlbum(String Nickname, String Album) {
         return artistas.get(Nickname).getAlbumes().containsKey(Album);
     }
-    
+
     @Override
     public boolean Pagweb(String pagweb) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public DtUsuario verificarLoginArtista(String nickname, String contrasenia) {
         for (Artista art : this.artistas.values()) {
-            if(((art.getNickname().equals(nickname))||(art.getCorreo().equals(nickname)))&&(art.getContrasenia().equals(contrasenia))){
+            if (((art.getNickname().equals(nickname)) || (art.getCorreo().equals(nickname))) && (art.getContrasenia().equals(contrasenia))) {
                 return art.getDatosResumidos(); // nickname o correo incorrecto
             }
         }
         return this.Cli.verificarLoginCliente(nickname, contrasenia);
     }
-    
+
     @Override
-    public BufferedInputStream cargarTema(String rutaTema){
+    public BufferedInputStream cargarTema(String rutaTema) {
         try {
             File archivo = new File(rutaTema);
             FileInputStream input = new FileInputStream(archivo);
-            BufferedInputStream buf = new BufferedInputStream(input);            
+            BufferedInputStream buf = new BufferedInputStream(input);
             return buf;
         } catch (IOException ex) {
-            Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);            
+            Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }

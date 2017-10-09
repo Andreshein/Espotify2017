@@ -20,7 +20,7 @@ public interface IcontArtista {
 
     public abstract ArrayList<DtListaPD> ListarListaPD();
     public abstract boolean IngresarArtista(String nickname, String contrasenia,String nombre, String apellido, String correo, Date fechaNac, String biografia, String paginaWeb, String img);
-    public abstract boolean IngresarArtista(DtArtista art);
+    public abstract boolean IngresarArtista(DtArtista art, byte[] imagen);
     public abstract DtArtista ElegirArtista(String nomArtista);
     public abstract DtAlbum ElegirAlbum(String nomArtista, String nomAlb);
     public abstract ArrayList<DtArtista> ListarArtistas();

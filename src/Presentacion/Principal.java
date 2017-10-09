@@ -40,6 +40,9 @@ public class Principal extends javax.swing.JFrame {
         this.setExtendedState(this.MAXIMIZED_BOTH);
         Fabrica  f = Fabrica.getInstance();
         setContentPane(escritorio);
+        
+        System.out.println("\"Eleven11\".equals(\"eleven11\")");
+        System.out.println("Eleven11".equals("eleven11"));
         //f.cargarDatos();
 //        ImageIcon imagen = new ImageIcon(RutaImagen); //genera la imagen que seleccionamos
 //        Icon icono= new ImageIcon(imagen.getImage().getScaledInstance(Img.getWidth(),Img.getHeight(),Image.SCALE_DEFAULT));
