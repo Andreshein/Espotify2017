@@ -693,4 +693,54 @@ public class ContCliente implements IcontCliente {
     public ArrayList<DtTema> reproducirListaP(String cliente, String lista){
         return this.clientes.get(cliente).reproducirListaP(lista);
     }
+    
+    public ArrayList<DtTema> resultadosT(String palabra){
+        return this.art.resultadosT(palabra);
+    }
+    
+    public ArrayList<DtAlbum> resultadosA(String palabra){
+        return this.art.resultadosA(palabra);
+    }
+    
+    public ArrayList<DtLista> resultadosL(String palabra){
+        ArrayList<DtLista> listas = new ArrayList<>();
+        String cadena = palabra.toUpperCase();
+        for(DtListaPD l : this.art.ListarListaPD()){
+        if(l.getNombre().toUpperCase().contains(cadena) || l.getGenero().toUpperCase().contains(cadena))
+            listas.add(l);
+        }
+        for(DtListaP l : this.ListarListaP()){
+        if(l.getNombre().toUpperCase().contains(cadena) || l.getUsuario().toUpperCase().contains(cadena))
+            listas.add(l);
+        }
+        return listas;
+    }
+
+    
+    public boolean agregarListaFavorito(String nickname, String cliente, String lista) {
+        Cliente cli = (Cliente)this.clientes.get(nickname), cli2=(Cliente)this.clientes.get(cliente);
+        if(!cli2.getListas().containsKey(lista))
+            return false;
+        for(DtListaP l : cli.getFavDtListasP()){
+            if(l.getNombre().equals(lista) && l.getUsuario().equals(cliente))
+                return false;
+        }
+        Particular p = cli2.getListas().get(lista);
+        cli.setFavLista(p);
+        dbUsuario.InsertarFavorito(2, cli.getNickname(), p.getId());
+        return true;
+    }
+
+    public boolean agregarListaFavorito(String nickname, String lista) {
+        Cliente cli = (Cliente)this.clientes.get(nickname);
+        if(!this.art.ExisteListaPD(lista))
+            return false;
+        for(DtListaPD l : cli.getFavDtListasPD()){
+            if(l.getNombre().equals(lista))
+                return false;
+        }
+        PorDefecto pd = this.art.getListaPD(lista);
+        cli.setFavLista(pd);
+        dbUsuario.InsertarFavorito(3, cli.getNickname(), pd.getId());
+        return true;}
 }

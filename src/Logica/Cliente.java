@@ -141,8 +141,7 @@ public class Cliente extends Usuario {
             Lista x = favListas.get(i);
             if (x instanceof PorDefecto){
                 PorDefecto p = (PorDefecto)x;
-                DtListaPD dt = new DtListaPD(p.getNombre(),p.getGenero().getNombre());
-                retorno.add(dt);
+                retorno.add(p.getDatos(p.getGenero().getNombre()));
             }        
         }
         return retorno;
@@ -154,8 +153,7 @@ public class Cliente extends Usuario {
             Lista x = favListas.get(i);
             if (x instanceof Particular){
                 Particular p = (Particular)x;
-                DtListaP dt = new DtListaP(p.getNombre(),p.getUsuario());
-                retorno.add(dt);
+                retorno.add(p.getDatos(p.getUsuario()));
             }        
         }
         return retorno;
