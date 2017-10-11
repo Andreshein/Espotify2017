@@ -170,4 +170,22 @@ public class Artista extends Usuario {
     public ArrayList<DtTema> reproducirAlbum(String album){
         return this.albumes.get(album).getTemasReproducir();
     }
+    
+    public ArrayList<DtTema> coincideciaT(String palabra){
+        ArrayList<DtTema> temas = new ArrayList<>();
+        for(Album alb: this.albumes.values()){
+            temas.addAll(alb.coincideciaT(palabra));
+        }
+        return temas;
+    }
+    
+    public ArrayList<DtAlbum> coincideciaA(String palabra){
+        ArrayList<DtAlbum> albumes = new ArrayList<>();
+        String cadena = palabra.toUpperCase();
+        for(Album alb: this.albumes.values()){
+        if(alb.getNombre().toUpperCase().contains(cadena) || alb.getArtista().toUpperCase().contains(cadena))
+            albumes.add(alb.getDatos());
+        }
+        return albumes;
+    }
 }

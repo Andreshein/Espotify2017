@@ -177,6 +177,16 @@ public class Album {
         return listaTemas;
     }
     
+        public ArrayList<DtTema> coincideciaT(String palabra){
+        ArrayList<DtTema> temas = new ArrayList<>();
+        String cadena = palabra.toUpperCase();
+        for(Tema tem: this.temas.values()){
+        if(tem.getNombre().toUpperCase().contains(cadena) || tem.getNombrealbum().toUpperCase().contains(cadena) || this.artista.toUpperCase().contains(cadena))
+            temas.add(tem.getDatos());
+        }
+        return temas;
+    }
+    
 }
 
 

@@ -51,6 +51,8 @@ public interface IcontCliente{
     public abstract DtUsuario verificarLoginCliente(String nickname,String contrasenia);
     public abstract boolean agregarTemaFavorito (String nickname, String artista, String album, String tema);
     public abstract boolean agregarAlbumFavorito (String nickname, String artista, String album);
+    public abstract boolean agregarListaFavorito (String nickname, String cliente, String lista);
+    public abstract boolean agregarListaFavorito (String nickname, String lista);
     public abstract ArrayList<DtTipoSuscripcion> listarTipoDeSus();
     public abstract ArrayList<DtSuscripcion> getSuscripCliente(String nickname);
     public abstract boolean SuscripcionVigente(String nickname);
@@ -61,5 +63,8 @@ public interface IcontCliente{
     public abstract List<DtCliente> BuscarCliente2(String nickname,String correo);
     public abstract void CambiarEstadoSuscripcion(DtSuscripcion suscripcion);
     public abstract ArrayList<DtTema> reproducirListaP(String cliente, String lista);
+    public abstract ArrayList<DtTema> resultadosT(String palabra);
+    public abstract ArrayList<DtAlbum> resultadosA(String palabra);
+    public abstract ArrayList<DtLista> resultadosL(String palabra);
 }
 //hellou papaguena
