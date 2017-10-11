@@ -516,7 +516,8 @@ public class ContArtista implements IcontArtista {
             this.dbUsuario.InsertarTema(idalbum, t);
         }
     }
-
+    
+        
     public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
         ArrayList<DtUsuario> retornar = new ArrayList<>();
         Iterator iterador = this.artistas.values().iterator();
@@ -532,6 +533,20 @@ public class ContArtista implements IcontArtista {
             }
         }
         return retornar;
+    }
+    
+    @Override
+    public boolean AgregarTemaListaWeb(String nomtema, String nomalbum, String nomartista, String listaelegida, String cliente){
+            Album al = this.artistas.get(nomartista).getAlbumes().get(nomalbum);
+            Tema t = al.getTema(nomtema);
+            Cliente c = this.Cli.BuscarUsuariosC(cliente);
+            Particular p = c.getListas().get(listaelegida);
+            if (p.getTemas().contains(t)) {
+                return false;
+            }
+            p.AddTema(t);
+            this.dbUsuario.agregarTemaListaP(p.getId(), t.getNombre(), al.getNombre(), al.getArtista());
+            return true;
     }
 
     public void AgregarTemaListaG(String nickname, String Album, String Tema, String Genero, String Lista) throws Exception {
@@ -807,6 +822,19 @@ public class ContArtista implements IcontArtista {
     @Override
     public ArrayList<DtTema> reproducirAlbum(String artista, String album){
         return this.artistas.get(artista).reproducirAlbum(album);
+    }
+    @Override
+    public byte[] getImagenAlbum(String artista, String album){
+        String aux = this.artistas.get(artista).getAlbumes().get(album).getImagen();
+        byte[] imagen = null;
+        try{
+        if (aux!=null){
+            File im = new File(aux);
+            imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+            }
+        }
+        catch (IOException e){e.getMessage();}
+        return imagen;
     }
     @Override
     public ArrayList<DtTema> reproducirListaPD(String genero, String lista){

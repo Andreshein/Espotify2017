@@ -56,6 +56,7 @@ public interface IcontArtista {
     public abstract ArrayList<DtTema> listarTemasListaA(String nickname, String nombre);
     public abstract ArrayList<DtGenero> listarGeneros(String nombreG);
     public abstract boolean verificarDatos(String nickname, String correo);
+    public abstract boolean AgregarTemaListaWeb(String nomtema, String nomalbum, String nomartista, String listaelegida, String cliente);
     public abstract void AgregarTemaListaG(String nickname, String Album, String Tema, String Genero, String Lista) throws Exception;
     public abstract void AgregarTemaListaC(String nickname, String Album, String Tema, String Cliente, String Lista) throws Exception;
     public abstract void BorrarTemaListaG(String nickname, String Album, String Tema, String Genero, String Lista) throws Exception;
@@ -72,6 +73,7 @@ public interface IcontArtista {
     public abstract DtUsuario verificarLoginArtista(String nickname,String contrasenia);
     public abstract BufferedInputStream cargarTema(String rutaTema);
     public abstract ArrayList<DtTema> reproducirAlbum(String artista, String album);
+    public abstract byte[] getImagenAlbum(String artista, String album);
     public abstract ArrayList<DtTema> reproducirListaPD(String genero, String lista);
     public abstract ArrayList<DtListaPD> getListasGenero(String genero);
 }
