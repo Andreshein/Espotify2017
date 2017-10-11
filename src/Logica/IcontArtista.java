@@ -74,4 +74,6 @@ public interface IcontArtista {
     public abstract ArrayList<DtTema> reproducirAlbum(String artista, String album);
     public abstract ArrayList<DtTema> reproducirListaPD(String genero, String lista);
     public abstract ArrayList<DtListaPD> getListasGenero(String genero);
+    public abstract ArrayList<DtTema> resultadosT(String palabra);
+    public abstract ArrayList<DtAlbum> resultadosA(String palabra);
 }

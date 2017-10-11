@@ -812,4 +812,23 @@ public class ContArtista implements IcontArtista {
     public ArrayList<DtTema> reproducirListaPD(String genero, String lista){
         return this.generos.get(genero).reproducirListaPD(lista);
     }
+
+    @Override
+    public ArrayList<DtTema> resultadosT(String palabra) {
+        ArrayList<DtTema> temas = new ArrayList<>();
+        for(Artista art: this.artistas.values()){
+            temas.addAll(art.coincideciaT(palabra));
+        }
+        return temas;
+    }
+
+    @Override
+    public ArrayList<DtAlbum> resultadosA(String palabra) {
+        ArrayList<DtAlbum> albumes = new ArrayList<>();
+        for(Artista art: this.artistas.values()){
+            albumes.addAll(art.coincideciaA(palabra));
+        }
+        return albumes;
+    }
+
 }
