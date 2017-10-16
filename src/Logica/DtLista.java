@@ -6,7 +6,6 @@
 package Logica;
 
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -14,17 +13,12 @@ import javax.swing.ImageIcon;
  */
 public abstract class DtLista {
     protected String nombre;
-    protected ImageIcon imagen;
     protected ArrayList<DtTema> temas;  
     protected String rutaImagen;  
 
     public String getNombre() {
         return nombre;
-    }
-
-    public ImageIcon getImagen() {
-        return imagen;
-    }    
+    } 
 
     public ArrayList<DtTema> getTema() {
         return this.temas;

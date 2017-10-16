@@ -23,14 +23,13 @@ public class DtArtista extends DtUsuario{
 
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     
-    public DtArtista(String nickname, String contrasenia, String nombre, String apellido, String correo, Date fechaNac, ImageIcon imagen, String biografia, String pagWeb, int cantSeguidores, ArrayList<String> nickSeguidores, ArrayList<DtAlbum> albumes, String rutaImg) {
+    public DtArtista(String nickname, String contrasenia, String nombre, String apellido, String correo, Date fechaNac, String biografia, String pagWeb, int cantSeguidores, ArrayList<String> nickSeguidores, ArrayList<DtAlbum> albumes, String rutaImg) {
         this.nickname = nickname;
         this.contrasenia = contrasenia;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         this.fechaNac = formato.format(fechaNac);
-        this.imagen = imagen;
         this.biografia = biografia;
         this.pagWeb = pagWeb;
         this.cantSeguidores = cantSeguidores;

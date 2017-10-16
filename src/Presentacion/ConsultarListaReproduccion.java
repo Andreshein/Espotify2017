@@ -16,6 +16,7 @@ import java.awt.CardLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -498,7 +499,14 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                     pub = "No";           
                 String[] datos={lp.getUsuario(),lp.getNombre(),pub};
                 modelo.addRow(datos);
-                imagenesp.add(lp.getImagen());
+                
+                ImageIcon imagen = null;
+                if(lp.getRutaImagen() != null){
+                    File archivo = new File(lp.getRutaImagen());
+                    String Rutaimagen = archivo.getPath();
+                    imagen = new ImageIcon(Rutaimagen);
+                }
+                imagenesp.add(imagen);
             }
         }
     }
@@ -515,7 +523,14 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             for(DtListaPD lpd: lista){
                 Object[] datos={lpd.getNombre(),lpd.getGenero()};
                 modelo.addRow(datos);
-                imagenespd.add(lpd.getImagen());
+                
+                ImageIcon imagen = null;
+                if(lpd.getRutaImagen() != null){
+                    File archivo = new File(lpd.getRutaImagen());
+                    String Rutaimagen = archivo.getPath();
+                    imagen = new ImageIcon(Rutaimagen);
+                }
+                imagenespd.add(imagen);
             }
         }
     }

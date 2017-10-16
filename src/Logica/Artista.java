@@ -5,13 +5,10 @@
  */
 package Logica;
 
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -121,18 +118,7 @@ public class Artista extends Usuario {
     
     @Override
     public DtArtista getDatos(){
-        ArrayList<DtAlbum> alb = this.getDtAlbumes();
-        
-        //La imagen es opcinonal, verificar si una
-        ImageIcon imagen = null;
-        if(Imagen != null){
-            File archivo = new File(Imagen);
-            String Rutaimagen = archivo.getPath();
-
-            imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
-        }
-        
-        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, this.fechaNac, imagen, biografia, paginaWeb, 0, null, this.getDtAlbumes(), Imagen);
+        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, this.fechaNac, biografia, paginaWeb, 0, null, this.getDtAlbumes(), Imagen);
     }
     public String getImagen(){
         return Imagen;
@@ -157,7 +143,7 @@ public class Artista extends Usuario {
     }
     
     public DtArtista getDatosResumidos(){
-        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, this.fechaNac, null, null, null, 0, null, null, Imagen);
+        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, this.fechaNac, null, null, 0, null, null, Imagen);
     }
     public void AddAlbum(Album a){
         this.albumes.put(a.getNombre(), a);

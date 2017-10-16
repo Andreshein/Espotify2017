@@ -265,21 +265,12 @@ public class Cliente extends Usuario {
                 siguiendo.add(((Artista) usuario).getDatosResumidos());
             }
         }
-        
-        //La imagen es opcinonal, verificar si una
-        ImageIcon imagen = null;
-        if(Imagen != null){
-            File archivo = new File(Imagen);
-            String Rutaimagen = archivo.getPath();
 
-            imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
-        }
-
-        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, imagen, siguiendo, listasCreadas, listas, temas, albumes, this.getSuscripCliente(), Imagen);
+        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, siguiendo, listasCreadas, listas, temas, albumes, this.getSuscripCliente(), Imagen);
     }
 
     public DtCliente getDatosResumidos() {
-        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, null, null, null, null, null, null, null, Imagen);
+        return new DtCliente(nickname, contrasenia, nombre, apellido, fechaNac, correo, null, null, null, null, null, null, Imagen);
     }
 
     public ArrayList<DtUsuario> buscarEnUsuarios(String palabra) {

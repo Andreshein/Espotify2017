@@ -12,6 +12,7 @@ import Logica.Fabrica;
 import Logica.IcontArtista;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Icon;
@@ -389,8 +390,14 @@ public class ConsultarPerfilArtista extends javax.swing.JInternalFrame {
 	this.lblPagWeb.setText(dtart.getPagWeb());
         
         //Imagen es opcional
-        if(dtart.getImagen() != null){
-            Icon icono= new ImageIcon(dtart.getImagen().getImage().getScaledInstance(Imagen.getWidth(),Imagen.getHeight(),Image.SCALE_DEFAULT));
+        if(dtart.getRutaImagen() != null){
+            File archivo = new File(dtart.getRutaImagen());
+            String Rutaimagen = archivo.getPath();
+            ImageIcon imagen = new ImageIcon(Rutaimagen);
+            System.out.println("dtart.getRutaImagen() = "+dtart.getRutaImagen());
+            System.out.println("archivo.getPath() = "+archivo.getPath());
+            
+            Icon icono= new ImageIcon(imagen.getImage().getScaledInstance(Imagen.getWidth(),Imagen.getHeight(),Image.SCALE_DEFAULT));
 
             Imagen.setIcon(icono); // coloca la imagen en el label
 

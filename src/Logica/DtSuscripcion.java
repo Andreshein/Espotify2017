@@ -14,11 +14,11 @@ import java.util.Date;
  */
 public class DtSuscripcion { 
     private int id;
-    private String cliente;
-    private String fecha;
-    private String Estado;
-    private String Tipo;
-    private int Monto;
+    private final String cliente;
+    private final String fecha;
+    private final String Estado;
+    private final String Tipo;
+    private final int Monto;
 
     public DtSuscripcion(int id, String cliente, Date fecha, String Estado, String Tipo, int Monto) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");

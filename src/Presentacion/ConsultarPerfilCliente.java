@@ -18,6 +18,7 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -599,8 +600,12 @@ public class ConsultarPerfilCliente extends javax.swing.JInternalFrame {
         DtCliente cliente = contClientes.verPerfilCliente(nickname);
 
         //Imagen es opcional
-        if(cliente.getImagen() != null){
-            Icon icono= new ImageIcon(cliente.getImagen().getImage().getScaledInstance(imagenLabel.getWidth(),imagenLabel.getHeight(),Image.SCALE_DEFAULT));
+        if(cliente.getRutaImagen() != null){
+            File archivo = new File(cliente.getRutaImagen());
+            String Rutaimagen = archivo.getPath();
+            ImageIcon imagen = new ImageIcon(Rutaimagen);
+            
+            Icon icono= new ImageIcon(imagen.getImage().getScaledInstance(imagenLabel.getWidth(),imagenLabel.getHeight(),Image.SCALE_DEFAULT));
 
             imagenLabel.setIcon(icono); // coloca la imagen en el label
 
