@@ -5,6 +5,7 @@
  */
 package Logica;
 
+import Persistencia.DBUsuario;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -167,7 +168,20 @@ public class Album {
         }
         return temas;
     }
+    public void nuevaDescargaTema (String tema){
+      Tema tem = this.temas.get(tema);
+      int cantidad = tem.getCantDescargas();
+      tem.setCantDescargas(cantidad + 1);
+      
+      DBUsuario dbUsuario = new DBUsuario();
+      dbUsuario.sumaDescarga(tem.getId());
+    }
     
+    public void nuevaReproduccionTema (String tema){
+      Tema tem = this.temas.get(tema);
+      int cantidad = tem.getCantReproduccion();
+      tem.setCantReproduccion(cantidad + 1);
+    }
 }
 
 

@@ -241,7 +241,7 @@ public class DBUsuario {
                     PreparedStatement st3 = conexion.prepareStatement("SELECT * FROM tema WHERE IdAlbum='" + String.valueOf(rs2.getInt(1)) + "'");
                     ResultSet rs3 = st3.executeQuery();
                     while (rs3.next()) {
-                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), rs3.getString("Archivo"), rs3.getString("Direccion"), nickname, rs2.getString("Nombre"));
+                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), rs3.getString("Archivo"), rs3.getString("Direccion"), nickname, rs2.getString("Nombre"), rs3.getInt("CantDescarga"), rs3.getInt("CantReproduccion"));
                         al.AddTema(t);
                     }
                     rs3.close();
@@ -1058,6 +1058,8 @@ public class DBUsuario {
         int[] Ordentema = {1, 2, 3, 1, 2, 1, 2, 1, 2, 3, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1};
         String[] Archivotema = {null, "Temas/vpeople/Village People Live and Sleazy/Macho Man.mp3", null, "Temas/dmode/Violator/Personal Jesus.mp3", "Temas/dmode/Violator/Enjoy The Silence.mp3", null, "Temas/clauper/She’s So Unusual/Time After Time.mp3", null, null, "Temas/bruceTheBoss/Born In The U.S.A/Dancing In The Park.mp3", "Temas/tigerOfWales/It’s Not Unusual/It’s Not Unusual.mp3", null, "Temas/la_ley/MTV Unplugged/El Duelo.mp3", "Temas/la_ley/MTV Unplugged/Mentira.mp3", null, null, "Temas/nicoleneu/Primer Amor/No Quiero Estudiar.mp3", "Temas/lospimpi/Hay Amores Que Matan/Por Ese Hombre.mp3", null, null};
         String[] URLtema = {"bit.ly/SCvpymca", null, "bit.ly/SCvpinthenavy", null, null, "bit.ly/SCclgirlsjustwant", null, "bit.ly/SCbsborninusa", "bit.ly/SCbsglorydays", null, null, "bit.ly/SCtnadagiopais", null, null, "bit.ly/SCptswanlake", "bit.ly/SCptpiano", null, null, "bit.ly/SCdyporesehombre", "bit.ly/SCvioleta"};
+        int[] CantDescarga = {0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 3, 1, 0, 0, 0, 1, 0, 0};
+        int[] CantReproduccion = {10, 0, 1, 3, 1, 1, 2, 5, 7, 1, 2, 5, 1, 1, 3, 6, 1, 1, 3, 1};
         try {
             int j = 1;
             int x = 1;
@@ -1115,7 +1117,7 @@ public class DBUsuario {
                 }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO tema "
-                        + "(Id, IdAlbum, Duracion, Nombre, Orden, Archivo, Direccion) values(?,?,?,?,?,?,?)");
+                        + "(Id, IdAlbum, Duracion, Nombre, Orden, Archivo, Direccion, CantDescarga, CantReproduccion) values(?,?,?,?,?,?,?,?,?)");
                 statement.setInt(1, x);
                 statement.setInt(2, j);
                 statement.setString(3, Duraciontema[i]);
@@ -1123,6 +1125,8 @@ public class DBUsuario {
                 statement.setInt(5, Ordentema[i]);
                 statement.setString(6, rutaArchivo);
                 statement.setString(7, URLtema[i]);
+                statement.setInt(8, CantDescarga[i]);
+                statement.setInt(9, CantReproduccion[i]);
                 statement.executeUpdate();
                 statement.close();
                 x++;
@@ -2211,5 +2215,17 @@ public class DBUsuario {
         }
          
         return sb.toString();
+    }
+    
+    public void sumaDescarga (int id) {
+        try {
+//            PreparedStatement sentencia = conexion.prepareStatement("UPDATE listaparticular " + "SET privada = ?" + "WHERE Usuario = '" + nickname + "'");
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE tema " + "SET CantDescarga = CantDescarga+1 WHERE Id = ?");
+            sentencia.setInt(1, id); // el 1 indica el numero de "?" en la sentencia
+            
+            sentencia.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

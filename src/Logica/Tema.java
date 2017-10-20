@@ -20,8 +20,10 @@ public class Tema {
     private String direccion;
     private String nombrealbum;
     private String nombreartista;
+    private int cantDescarga;
+    private int cantReproduccion;
 
-    public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion, String art, String alb) {
+    public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion, String art, String alb, int cantDescarga, int cantReproduccion) {
         this.id = id;
         this.duracion = duracion;
         this.nombre = nombre;
@@ -30,6 +32,8 @@ public class Tema {
         this.direccion = direccion;
         this.nombrealbum = alb;
         this.nombreartista = art;
+        this.cantDescarga = cantDescarga;
+        this.cantReproduccion = cantReproduccion;
     }
     
     public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion) {
@@ -94,6 +98,14 @@ public class Tema {
         return direccion;
     }
 
+    public int getCantDescargas() {
+        return cantDescarga;
+    }
+
+    public int getCantReproduccion() {
+        return cantReproduccion;
+    }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -113,12 +125,17 @@ public class Tema {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-    
-    public DtTema getDatos(){
-        return new DtTema(nombreartista, nombrealbum, nombre, duracion, orden, direccion, archivo);
+
+    public void setCantDescargas(int cantDescargas) {
+        this.cantDescarga = cantDescargas;
     }
 
+    public void setCantReproduccion(int cantReproduccion) {
+        this.cantReproduccion = cantReproduccion;
+    }
     
-    
-    
+    public DtTema getDatos(){
+        return new DtTema(nombreartista, nombrealbum, nombre, duracion, orden, direccion, archivo, cantDescarga, cantReproduccion);
+    }
+   
 }

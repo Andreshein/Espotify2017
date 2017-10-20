@@ -18,8 +18,10 @@ public class DtTema {
     private final String nomartista;
     private final String nomalbum;
     private final byte[] archivobyte;
+    private final int cantDescarga;
+    private final int cantReproduccion;
     
-    public DtTema(String nombre, String duracion, int orden, String direccion, String archivo, byte[] arch) {
+    public DtTema(String nombre, String duracion, int orden, String direccion, String archivo, byte[] arch, int cantDescarga,int cantReproduccion) {
         this.nombre = nombre;
         this.duracion = duracion;
         this.orden = orden;
@@ -28,6 +30,8 @@ public class DtTema {
         this.nomartista = null;
         this.nomalbum = null;
         this.archivobyte = arch;
+        this.cantDescarga = cantDescarga;
+        this.cantReproduccion = cantReproduccion;   
     }
     
     public DtTema(String nombre, String duracion, int orden, String direccion, String archivo) {
@@ -39,9 +43,11 @@ public class DtTema {
         this.nomartista = null;
         this.nomalbum = null;
         this.archivobyte = null;
+        this.cantDescarga = 0;
+        this.cantReproduccion = 0; 
     }
 
-    public DtTema(String artista, String album, String nombre, String duracion, int orden, String direccion, String archivo) {
+    public DtTema(String artista, String album, String nombre, String duracion, int orden, String direccion, String archivo, int cantDescarga,int cantReproduccion) {
         this.nombre = nombre;
         this.duracion = duracion;
         this.orden = orden;
@@ -50,6 +56,8 @@ public class DtTema {
         this.nomartista = artista;
         this.nomalbum = album;
         this.archivobyte = null;
+        this.cantDescarga = cantDescarga;
+        this.cantReproduccion = cantReproduccion; 
     }
     
     public DtTema(String nombre, String alb, String art) {
@@ -61,6 +69,8 @@ public class DtTema {
         this.direccion = null;
         this.archivo = null;
         this.archivobyte = null;
+        this.cantDescarga = 0;
+        this.cantReproduccion = 0; 
     }
 
     public byte[] getArchivobyte() {
@@ -101,5 +111,12 @@ public class DtTema {
     public String getArchivo() {
         return archivo;
     }
-    
+
+    public int getCantDescarga() {
+        return cantDescarga;
+    }
+
+    public int getCantReproduccion() {
+        return cantReproduccion;
+    }
 }

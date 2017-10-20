@@ -174,4 +174,10 @@ public class Artista extends Usuario {
         }
         return albumes;
     }
+    public void nuevaDescargaTema (String album, String tema){
+       this.albumes.get(album).nuevaDescargaTema(tema);
+    }
+    public void nuevaReproduccionTema (String album, String tema){
+       this.albumes.get(album).nuevaReproduccionTema(tema);
+    }
 }

@@ -502,7 +502,10 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 tema.getOrden(),
                 tema.getDireccion(),
                 tema.getArchivo(),
+                
             };
+            System.out.println("CantDescarga:"+tema.getCantDescarga());
+            System.out.println("CantRep:"+tema.getCantReproduccion());
             modeloTemas.addRow(dat);
         }
         

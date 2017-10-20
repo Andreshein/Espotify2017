@@ -858,5 +858,12 @@ public class ContArtista implements IcontArtista {
         }
         return albumes;
     }
-
+    
+    public void nuevaDescargaTema (String artista, String album, String tema){
+        this.artistas.get(artista).nuevaDescargaTema(album, tema);   
+        
+    }
+    public void nuevaReproduccionTema (String artista, String album, String tema){
+        this.artistas.get(artista).nuevaReproduccionTema(album, tema);     
+    }
 }
