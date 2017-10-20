@@ -40,7 +40,7 @@ public class ConexionDB {
         if (conexion == null) {
             try {
                 Properties p = new Properties();
-                InputStream is = new FileInputStream("configuraciones.properties");
+                InputStream is = new FileInputStream("Configuraciones/conexion.properties");
                 p.load(is);
                 
                 String host = p.getProperty("host");

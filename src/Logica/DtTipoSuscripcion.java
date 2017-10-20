@@ -5,10 +5,15 @@
  */
 package Logica;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 /**
  *
  * @author Kevin
  */
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtTipoSuscripcion {
     private final int id;
     private final String cuota;

@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -175,7 +176,7 @@ public class ContCliente implements IcontCliente {
                 InputStream is;
                 String rutaP = null;
                 try {
-                    is = new FileInputStream("rutaProyecto.properties");
+                    is = new FileInputStream("Configuraciones/rutaProyecto.properties");
                     p.load(is);
                     rutaP = p.getProperty("ruta");
                 } catch (FileNotFoundException ex) {
@@ -328,7 +329,7 @@ public class ContCliente implements IcontCliente {
             InputStream is;
             String rutaP = null;
             try {
-                is = new FileInputStream("rutaProyecto.properties");
+                is = new FileInputStream("Configuraciones/rutaProyecto.properties");
                 p.load(is);
                 rutaP = p.getProperty("ruta");
             } catch (FileNotFoundException ex) {
@@ -731,6 +732,7 @@ public class ContCliente implements IcontCliente {
         return true;
     }
 
+    @Override
     public boolean agregarListaFavorito(String nickname, String lista) {
         Cliente cli = (Cliente)this.clientes.get(nickname);
         if(!this.art.ExisteListaPD(lista))
@@ -742,5 +744,39 @@ public class ContCliente implements IcontCliente {
         PorDefecto pd = this.art.getListaPD(lista);
         cli.setFavLista(pd);
         dbUsuario.InsertarFavorito(3, cli.getNickname(), pd.getId());
-        return true;}
+        return true;
+    }
+    
+    public void crearListaPWeb(String nickname, String nombre, byte[] imagen, String extensionImg){
+        this.cliente = this.clientes.get(nickname);
+        this.lista = new Particular(0, "x", nombre, true, null);
+        if (imagen != null) {
+            try {
+                Properties p = new Properties();
+                InputStream is;
+                String rutaP = null;
+                try {
+                    is = new FileInputStream("Configuraciones/rutaProyecto.properties");
+                    p.load(is);
+                    rutaP = p.getProperty("ruta");
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                String rutaDestino = rutaP + "Imagenes/Clientes/" + nickname + "/Listas/" + nombre + "." + extensionImg;
+                
+                File f = new File(rutaDestino);
+                f.getParentFile().mkdirs();
+                org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
+                
+                this.lista.setImagen(rutaDestino);
+            } catch (IOException ex) {
+                Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            this.lista.setImagen(null);
+        }
+        
+    }
 }

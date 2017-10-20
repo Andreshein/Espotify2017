@@ -306,31 +306,27 @@ public class ActualizarESuscripcion extends javax.swing.JInternalFrame {
     private void btnCambiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarActionPerformed
         int index = this.listSuscripcion.getSelectedIndex();
         if (index != -1) {
-            try {
-                DtSuscripcion aux = (DtSuscripcion) this.suscripciones.get(index);
-                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-                DtSuscripcion dt = new DtSuscripcion(aux.getId(), aux.getCliente(), formato.parse(aux.getFecha()), (String) this.cmbEstado.getSelectedItem(), aux.getTipo(), aux.getMonto());
-                Fabrica.getCliente().CambiarEstadoSuscripcion(dt);
-                index = this.listCliente.getSelectedIndex();
-                if (index != -1) {
-                    DtCliente dtc = (DtCliente) this.clientes.get(index);
-                    this.suscripciones = Fabrica.getCliente().getSuscripCliente(dtc.getNickname());
-                    DefaultListModel modelo = new DefaultListModel();
-                    for (DtSuscripcion s : this.suscripciones) {
-                        modelo.addElement(s.getTipo() + "(" + s.getEstado() + ")");
-                    }
-                    this.listSuscripcion.setModel(modelo);
+            DtSuscripcion aux = (DtSuscripcion) this.suscripciones.get(index);
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            DtSuscripcion dt = new DtSuscripcion(aux.getId(), aux.getCliente(), aux.getFecha(), (String) this.cmbEstado.getSelectedItem(), aux.getTipo(), aux.getMonto());
+            Fabrica.getCliente().CambiarEstadoSuscripcion(dt);
+            index = this.listCliente.getSelectedIndex();
+            if (index != -1) {
+                DtCliente dtc = (DtCliente) this.clientes.get(index);
+                this.suscripciones = Fabrica.getCliente().getSuscripCliente(dtc.getNickname());
+                DefaultListModel modelo = new DefaultListModel();
+                for (DtSuscripcion s : this.suscripciones) {
+                    modelo.addElement(s.getTipo() + "(" + s.getEstado() + ")");
                 }
-
-                this.lblEstado.setText("");
-                this.lblTipo.setText("");
-                this.lblFecha.setText("");
-                this.cmbEstado.setEnabled(false);
-                this.btnCambiar.setEnabled(false);
-                javax.swing.JOptionPane.showMessageDialog(null, "Operación exitosa");
-            } catch (ParseException ex) {
-                Logger.getLogger(ActualizarESuscripcion.class.getName()).log(Level.SEVERE, null, ex);
+                this.listSuscripcion.setModel(modelo);
             }
+
+            this.lblEstado.setText("");
+            this.lblTipo.setText("");
+            this.lblFecha.setText("");
+            this.cmbEstado.setEnabled(false);
+            this.btnCambiar.setEnabled(false);
+            javax.swing.JOptionPane.showMessageDialog(null, "Operación exitosa");
         }
     }//GEN-LAST:event_btnCambiarActionPerformed
 

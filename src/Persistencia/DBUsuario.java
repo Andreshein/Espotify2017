@@ -349,7 +349,7 @@ public class DBUsuario {
         InputStream is;
         String rutaP = null;
         try {
-            is = new FileInputStream("rutaProyecto.properties");
+            is = new FileInputStream("Configuraciones/rutaProyecto.properties");
             p.load(is);        
             rutaP = p.getProperty("ruta");
         } catch (FileNotFoundException ex) {

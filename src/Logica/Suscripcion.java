@@ -80,7 +80,8 @@ public class Suscripcion {
     }
 
     public DtSuscripcion getDatos(){
-        return new DtSuscripcion(id, nickcliente, fecha, Estado, tp.getCuota(), tp.getMonto());
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        return new DtSuscripcion(id, nickcliente, formato.format(fecha), Estado, tp.getCuota(), tp.getMonto());
     }
     
     public String getFechaString() {

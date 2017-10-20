@@ -6,11 +6,15 @@
 package Logica;
 
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  *
  * @author Kevin
  */
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtAlbum {
     private final String nombre;
     private final String nombreArtista;

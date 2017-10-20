@@ -5,15 +5,16 @@
  */
 package Logica;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import javax.swing.ImageIcon;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  *
  * @author stephiRM
  */
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtArtista extends DtUsuario{
     private final String biografia;
     private final String pagWeb;
@@ -21,15 +22,29 @@ public class DtArtista extends DtUsuario{
     private final ArrayList<String> nickSeguidores;
     private final ArrayList<DtAlbum> albumes;
 
-    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    //Tuve que crearlo porque sino no se podia usar en web service
+    public DtArtista() {
+        this.nickname = null;
+        this.contrasenia = null;
+        this.nombre = null;
+        this.apellido = null;
+        this.fechaNac = null;
+        this.correo = null;
+        this.biografia = null;
+        this.pagWeb = null;
+        this.cantSeguidores = 0;
+        this.nickSeguidores = null;
+        this.albumes = null;
+        this.rutaImagen = null;
+    }
     
-    public DtArtista(String nickname, String contrasenia, String nombre, String apellido, String correo, Date fechaNac, String biografia, String pagWeb, int cantSeguidores, ArrayList<String> nickSeguidores, ArrayList<DtAlbum> albumes, String rutaImg) {
+    public DtArtista(String nickname, String contrasenia, String nombre, String apellido, String correo, String fechaNac, String biografia, String pagWeb, int cantSeguidores, ArrayList<String> nickSeguidores, ArrayList<DtAlbum> albumes, String rutaImg) {
         this.nickname = nickname;
         this.contrasenia = contrasenia;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
-        this.fechaNac = formato.format(fechaNac);
+        this.fechaNac = fechaNac;
         this.biografia = biografia;
         this.pagWeb = pagWeb;
         this.cantSeguidores = cantSeguidores;

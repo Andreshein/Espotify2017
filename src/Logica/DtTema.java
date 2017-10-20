@@ -5,10 +5,15 @@
  */
 package Logica;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 /**
  *
  * @author Kevin
  */
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtTema {
     private final String nombre;
     private final String duracion;

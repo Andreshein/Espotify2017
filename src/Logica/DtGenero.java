@@ -6,15 +6,18 @@
 package Logica;
 
 import java.util.ArrayList;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  *
  * @author stephiRM
  */
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtGenero {
     private final String nombre;
     private final int idpadre;
-    private final Genero padre;
     private final int id;
     private final ArrayList<DtAlbum> albumes;
     private final ArrayList<DtListaPD> listaspordefecto;
@@ -25,16 +28,14 @@ public class DtGenero {
         this.albumes = albumes;
         this.listaspordefecto = listas;
         this.hijos = hijos;
-        this.padre = null;
         this.idpadre = 0;
         this.id = 0;
     }
     
-    public DtGenero(String nombre, int idpa, int id, Genero g) {
+    public DtGenero(String nombre, int idpa, int id) {
         this.nombre = nombre;
         this.idpadre = idpa;
         this.id = id;
-        this.padre = g;
         this.albumes = null;
         this.listaspordefecto = null;
         this.hijos = null;
