@@ -26,6 +26,20 @@ public class DtTema {
     private final int cantDescarga;
     private final int cantReproduccion;
     
+    //Tuve que crearlo porque sino no se podia usar en web service
+    public DtTema() {
+        this.nombre = null;
+        this.duracion = null;
+        this.orden = 0;
+        this.direccion = null;
+        this.archivo = null;
+        this.nomartista = null;
+        this.nomalbum = null;
+        this.archivobyte = null;
+        this.cantDescarga = 0;
+        this.cantReproduccion = 0;   
+    }
+    
     public DtTema(String nombre, String duracion, int orden, String direccion, String archivo, byte[] arch, int cantDescarga,int cantReproduccion) {
         this.nombre = nombre;
         this.duracion = duracion;
