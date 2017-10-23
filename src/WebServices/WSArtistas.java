@@ -63,6 +63,7 @@ public class WSArtistas {
     public DataUsuarios verificarLoginArtista(String nickname, String contrasenia){
         ArrayList<DtUsuario> aux = new ArrayList<>();
         DtUsuario dt = Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+        aux.add(dt);
         return new DataUsuarios(aux);
     }
     

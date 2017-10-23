@@ -126,8 +126,8 @@ public class WSClientes {
     }
     
     @WebMethod
-    public void crearListaP(String nickname, String nombre, byte[] imagen, String extensionImg){
-        Fabrica.getCliente().crearListaPWeb(nickname, nombre, imagen, extensionImg);
+    public void crearListaP(String nickname, String nombre, byte[] imagen){
+        Fabrica.getCliente().crearListaPWeb(nickname, nombre, imagen);
     }
     
     @WebMethod

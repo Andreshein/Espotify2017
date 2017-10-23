@@ -68,6 +68,6 @@ public interface IcontCliente{
     public abstract ArrayList<DtLista> resultadosL(String palabra);
     
     //Funciones web
-    public abstract void crearListaPWeb(String nickname, String nombre, byte[] imagen, String extensionImg);
+    public abstract void crearListaPWeb(String nickname, String nombre, byte[] imagen);
 }
 //hellou papaguena

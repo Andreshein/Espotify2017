@@ -747,7 +747,7 @@ public class ContCliente implements IcontCliente {
         return true;
     }
     
-    public void crearListaPWeb(String nickname, String nombre, byte[] imagen, String extensionImg){
+    public void crearListaPWeb(String nickname, String nombre, byte[] imagen){
         this.cliente = this.clientes.get(nickname);
         this.lista = new Particular(0, "x", nombre, true, null);
         if (imagen != null) {
@@ -764,7 +764,7 @@ public class ContCliente implements IcontCliente {
                 } catch (IOException ex) {
                     Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                String rutaDestino = rutaP + "Imagenes/Clientes/" + nickname + "/Listas/" + nombre + "." + extensionImg;
+                String rutaDestino = rutaP + "Imagenes/Clientes/" + nickname + "/Listas/" + nombre + ".jpg";
                 
                 File f = new File(rutaDestino);
                 f.getParentFile().mkdirs();
