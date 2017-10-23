@@ -56,6 +56,11 @@ public class WSArtistas {
     
     @WebMethod
     public boolean IngresarArtista(DtArtista art, byte[] imagen){
+        //Daba error al enviar null por parametro desde el servidor web, se implemento tal que byte[0] = null
+        if(imagen!= null && imagen.length == 0){
+            System.out.println("imagen.length == 0");
+            imagen = null;
+        }
         return Fabrica.getArtista().IngresarArtista(art,imagen);
     }
     
