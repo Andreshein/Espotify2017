@@ -65,8 +65,11 @@ public class WSArtistas {
     }
     
     @WebMethod
-    public DtUsuario verificarLoginArtista(String nickname, String contrasenia){
-        return Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+    public DataUsuarios verificarLoginArtista(String nickname, String contrasenia){
+        ArrayList<DtUsuario> aux = new ArrayList<>();
+        DtUsuario dt = Fabrica.getArtista().verificarLoginArtista(nickname, contrasenia);
+        aux.add(dt);
+        return new DataUsuarios(aux);
     }
     
     @WebMethod
