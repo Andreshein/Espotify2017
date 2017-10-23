@@ -336,7 +336,7 @@ public class ContArtista implements IcontArtista {
     }
 
     @Override
-    public void IngresarAlbumWeb(String nicknameArt, String anio, String nombre, byte[] imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
+    public boolean IngresarAlbumWeb(String nicknameArt, String anio, String nombre, byte[] imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
         int anio2 = Integer.parseInt(anio);
         HashMap<String, Tema> temasfinal = new HashMap();
         Set set3 = temas.entrySet();
@@ -432,6 +432,7 @@ public class ContArtista implements IcontArtista {
             Tema t = (Tema) x.getValue();
             this.dbUsuario.InsertarTema(idalbum, t);
         }
+        return true;
     }
 
     @Override
