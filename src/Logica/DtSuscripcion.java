@@ -7,24 +7,27 @@ package Logica;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  *
  * @author Kevin
  */
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtSuscripcion { 
     private int id;
-    private String cliente;
-    private String fecha;
-    private String Estado;
-    private String Tipo;
-    private int Monto;
+    private final String cliente;
+    private final String fecha;
+    private final String Estado;
+    private final String Tipo;
+    private final int Monto;
 
-    public DtSuscripcion(int id, String cliente, Date fecha, String Estado, String Tipo, int Monto) {
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    public DtSuscripcion(int id, String cliente, String fecha, String Estado, String Tipo, int Monto) {
         
         this.cliente = cliente;
-        this.fecha = formato.format(fecha);
+        this.fecha = fecha;
         this.Estado = Estado;
         this.Tipo = Tipo;
         this.Monto = Monto;

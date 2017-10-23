@@ -5,11 +5,10 @@
  */
 package Logica;
 
-import java.io.File;
+import Persistencia.DBUsuario;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import javax.swing.ImageIcon;
 /**
  *
  * @author ninoh
@@ -104,32 +103,15 @@ public class Album {
     }
     
     public DtAlbum getDatos(String art){
-        //La imagen es opcinonal, verificar si tiene
-        ImageIcon imagen = null;
-        if(Imagen != null){
-            File archivo = new File(Imagen);
-            String Rutaimagen = archivo.getPath();
-
-            imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
-        }
-        return new DtAlbum(nombre, art, anio, this.getDtTemas(), imagen, null, Imagen); 
+        return new DtAlbum(nombre, art, anio, this.getDtTemas(), null, Imagen); 
     }
     
-    public DtAlbum getDatos(){
-        //La imagen es opcinonal, verificar si tiene
-        ImageIcon imagen = null;
-        if(Imagen != null){
-            File archivo = new File(Imagen);
-            String Rutaimagen = archivo.getPath();
-
-            imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
-        }
-        
+    public DtAlbum getDatos(){        
         ArrayList <String> listaGeneros = new ArrayList<>();
         for (Genero genero : generos) {
             listaGeneros.add(genero.getNombre());
         }
-        return new DtAlbum(nombre, artista, anio, this.getDtTemas(), imagen, listaGeneros, Imagen); 
+        return new DtAlbum(nombre, artista, anio, this.getDtTemas(), listaGeneros, Imagen); 
     }
     
     public ArrayList<DtTema> getDtTemas(){
@@ -186,7 +168,20 @@ public class Album {
         }
         return temas;
     }
+    public void nuevaDescargaTema (String tema){
+      Tema tem = this.temas.get(tema);
+      int cantidad = tem.getCantDescargas();
+      tem.setCantDescargas(cantidad + 1);
+      
+      DBUsuario dbUsuario = new DBUsuario();
+      dbUsuario.sumaDescarga(tem.getId());
+    }
     
+    public void nuevaReproduccionTema (String tema){
+      Tema tem = this.temas.get(tema);
+      int cantidad = tem.getCantReproduccion();
+      tem.setCantReproduccion(cantidad + 1);
+    }
 }
 
 

@@ -5,13 +5,11 @@
  */
 package Logica;
 
-
-import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -22,6 +20,8 @@ public class Artista extends Usuario {
     private String paginaWeb;
     private HashMap<String, Album> albumes;
 
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    
     public Artista(String nickname,String contrasenia, String nombre, String apellido,String correo, Date fechaNac, String biografia, String paginaWeb, String Imag) {
         this.nickname = nickname;
         this.contrasenia = contrasenia;
@@ -104,11 +104,11 @@ public class Artista extends Usuario {
     }
     
     public ArrayList<DtAlbum> ListarAlbumes() {
-        ArrayList<DtAlbum> albumes = new ArrayList();
+        ArrayList<DtAlbum> albumesAux = new ArrayList();
         for (Album a : this.albumes.values()) {
-            albumes.add(a.getDatos());
+            albumesAux.add(a.getDatos());
         }
-        return albumes;
+        return albumesAux;
         }
 
     public void setAlbumes(HashMap<String, Album> albumes) {
@@ -121,18 +121,7 @@ public class Artista extends Usuario {
     
     @Override
     public DtArtista getDatos(){
-        ArrayList<DtAlbum> alb = this.getDtAlbumes();
-        
-        //La imagen es opcinonal, verificar si una
-        ImageIcon imagen = null;
-        if(Imagen != null){
-            File archivo = new File(Imagen);
-            String Rutaimagen = archivo.getPath();
-
-            imagen = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
-        }
-        
-        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, this.fechaNac, imagen, biografia, paginaWeb, 0, null, this.getDtAlbumes(), Imagen);
+        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, formato.format(fechaNac), biografia, paginaWeb, 0, null, this.getDtAlbumes(), Imagen);
     }
     public String getImagen(){
         return Imagen;
@@ -157,7 +146,7 @@ public class Artista extends Usuario {
     }
     
     public DtArtista getDatosResumidos(){
-        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, this.fechaNac, null, null, null, 0, null, null, Imagen);
+        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, formato.format(fechaNac), null, null, 0, null, null, Imagen);
     }
     public void AddAlbum(Album a){
         this.albumes.put(a.getNombre(), a);
@@ -180,12 +169,18 @@ public class Artista extends Usuario {
     }
     
     public ArrayList<DtAlbum> coincideciaA(String palabra){
-        ArrayList<DtAlbum> albumes = new ArrayList<>();
+        ArrayList<DtAlbum> albumesAux = new ArrayList<>();
         String cadena = palabra.toUpperCase();
         for(Album alb: this.albumes.values()){
-        if(alb.getNombre().toUpperCase().contains(cadena) || alb.getArtista().toUpperCase().contains(cadena))
-            albumes.add(alb.getDatos());
+            if(alb.getNombre().toUpperCase().contains(cadena) || alb.getArtista().toUpperCase().contains(cadena))
+                albumesAux.add(alb.getDatos());
         }
-        return albumes;
+        return albumesAux;
+    }
+    public void nuevaDescargaTema (String album, String tema){
+       this.albumes.get(album).nuevaDescargaTema(tema);
+    }
+    public void nuevaReproduccionTema (String album, String tema){
+       this.albumes.get(album).nuevaReproduccionTema(tema);
     }
 }

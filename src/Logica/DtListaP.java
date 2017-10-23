@@ -6,17 +6,17 @@
 package Logica;     
 
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
-
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtListaP extends DtLista{
     private String Usuario;
     private boolean Privada;
 
-    public DtListaP(String Nombre, ImageIcon imagen, ArrayList<DtTema> temas, String Usuario,  Boolean Privada, String rutaImg) {
+    public DtListaP(String Nombre, ArrayList<DtTema> temas, String Usuario,  Boolean Privada, String rutaImg) {
         this.Usuario = Usuario;
         this.Privada = Privada;
-        this.imagen = imagen;
         this.nombre = Nombre;
         this.temas = temas;
         this.rutaImagen = rutaImg;
@@ -24,7 +24,6 @@ public class DtListaP extends DtLista{
     public DtListaP(String Nombre, String Usuario) {
         this.Usuario = Usuario;
         this.Privada = false;
-        this.imagen = null;
         this.nombre = Nombre;
         this.temas = null;
         this.rutaImagen = null;

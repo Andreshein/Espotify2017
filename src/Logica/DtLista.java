@@ -6,25 +6,25 @@
 package Logica;
 
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 /**
  *
  * @author stephiRM
  */
+
+@XmlSeeAlso({DtListaP.class, DtListaPD.class})//Se usa esta etiqueta para que las clases abstractas funcionen bien en web services
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class DtLista {
     protected String nombre;
-    protected ImageIcon imagen;
     protected ArrayList<DtTema> temas;  
     protected String rutaImagen;  
 
     public String getNombre() {
         return nombre;
-    }
-
-    public ImageIcon getImagen() {
-        return imagen;
-    }    
+    } 
 
     public ArrayList<DtTema> getTema() {
         return this.temas;

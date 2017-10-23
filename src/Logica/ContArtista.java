@@ -55,7 +55,7 @@ public class ContArtista implements IcontArtista {
         while (it.hasNext()) {
             Map.Entry m = (Map.Entry) it.next();
             Genero g = (Genero) m.getValue();
-            DtGenero dt = new DtGenero(g.getNombre(), g.getidpadre(), g.getid(), g.getPadre());
+            DtGenero dt = new DtGenero(g.getNombre(), g.getidpadre(), g.getid());
             datageneros.put(dt.getNombre(), dt);
         }
         return datageneros;
@@ -302,7 +302,7 @@ public class ContArtista implements IcontArtista {
                 InputStream is;
                 String rutaP = null;
                 try {
-                    is = new FileInputStream("rutaProyecto.properties");
+                    is = new FileInputStream("Configuraciones/rutaProyecto.properties");
                     p.load(is);
                     rutaP = p.getProperty("ruta");
                 } catch (FileNotFoundException ex) {
@@ -345,7 +345,7 @@ public class ContArtista implements IcontArtista {
             InputStream is;
             String rutaP = null;
             try {
-                is = new FileInputStream("rutaProyecto.properties");
+                is = new FileInputStream("Configuraciones/rutaProyecto.properties");
                 p.load(is);
                 rutaP = p.getProperty("ruta");
             } catch (FileNotFoundException ex) {
@@ -859,5 +859,12 @@ public class ContArtista implements IcontArtista {
         }
         return albumes;
     }
-
+    
+    public void nuevaDescargaTema (String artista, String album, String tema){
+        this.artistas.get(artista).nuevaDescargaTema(album, tema);   
+        
+    }
+    public void nuevaReproduccionTema (String artista, String album, String tema){
+        this.artistas.get(artista).nuevaReproduccionTema(album, tema);     
+    }
 }

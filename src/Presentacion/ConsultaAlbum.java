@@ -12,6 +12,7 @@ import Logica.DtArtista;
 import Logica.Fabrica;
 import Logica.IcontArtista;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -452,15 +453,22 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
         modelo.setRowCount(0);
         for (int i=0;i<al.size();i++) {
-            DtAlbum p=(DtAlbum)al.get(i);
+            DtAlbum album=(DtAlbum)al.get(i);
             Object[] dat={
-                p.getNombreArtista(),
-                p.getNombre(),
-                p.getAnio(),
+                album.getNombreArtista(),
+                album.getNombre(),
+                album.getAnio(),
             };
             modelo.addRow(dat);
+            
+            ImageIcon imagen = null;
+            if(album.getRutaImagen() != null){
+                File archivo = new File(album.getRutaImagen());
+                String Rutaimagen = archivo.getPath();
+                imagen = new ImageIcon(Rutaimagen);
+            }
 
-            imagenes.add(p.getImagen()); // si no tiene imagen, guarda el null para limpiar la imagen al seleccionar el album
+            imagenes.add(imagen); // si no tiene imagen, guarda el null para limpiar la imagen al seleccionar el album
         }
          
         listaGenerosAlbum.setModel(new DefaultListModel<>());
@@ -494,7 +502,10 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
                 tema.getOrden(),
                 tema.getDireccion(),
                 tema.getArchivo(),
+                
             };
+            System.out.println("CantDescarga:"+tema.getCantDescarga());
+            System.out.println("CantRep:"+tema.getCantReproduccion());
             modeloTemas.addRow(dat);
         }
         
@@ -552,15 +563,22 @@ public class ConsultaAlbum extends javax.swing.JInternalFrame {
         DefaultTableModel modelo=(DefaultTableModel) tablap.getModel();
         modelo.setRowCount(0);
         for (int i=0;i<al.size();i++) {
-            DtAlbum p=(DtAlbum)al.get(i);
+            DtAlbum album=(DtAlbum)al.get(i);
             Object[] dat={
-                p.getNombreArtista(),
-                p.getNombre(),
-                p.getAnio(),
+                album.getNombreArtista(),
+                album.getNombre(),
+                album.getAnio(),
             };
             modelo.addRow(dat);
-        
-            imagenes.add(p.getImagen()); // si no tiene imagen, guarda el null para limpiar la imagen al seleccionar el album
+            
+            ImageIcon imagen = null;
+            if(album.getRutaImagen() != null){
+                File archivo = new File(album.getRutaImagen());
+                String Rutaimagen = archivo.getPath();
+                imagen = new ImageIcon(Rutaimagen);
+            }
+            
+            imagenes.add(imagen); // si no tiene imagen, guarda el null para limpiar la imagen al seleccionar el album
         }
 
         listaGenerosAlbum.setModel(new DefaultListModel<>());

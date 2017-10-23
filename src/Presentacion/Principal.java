@@ -6,11 +6,17 @@
 package Presentacion;
 
 import Logica.Fabrica;
-import Logica.IcontArtista;
-import Logica.IcontCliente;
+import WebServices.WSArchivos;
+import WebServices.WSArtistas;
+import WebServices.WSClientes;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -40,6 +46,25 @@ public class Principal extends javax.swing.JFrame {
         this.setExtendedState(this.MAXIMIZED_BOTH);
         Fabrica  f = Fabrica.getInstance();
         setContentPane(escritorio);
+        
+        try {
+            Properties propiedades = new Properties();
+            InputStream is = new FileInputStream("Configuraciones/webservices.properties");
+            propiedades.load(is);
+            
+            //Publicar web services
+            WSClientes wsCli = new WSClientes(propiedades);
+            WSArtistas wsArt = new WSArtistas();
+            WSArchivos wsArch = new WSArchivos(propiedades);
+
+            wsCli.publicar();
+            wsArt.publicar(propiedades);
+            wsArch.publicar();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(WSClientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(WSClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         //f.cargarDatos();
 //        ImageIcon imagen = new ImageIcon(RutaImagen); //genera la imagen que seleccionamos

@@ -9,7 +9,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -61,7 +60,7 @@ public class PorDefecto extends Lista{
     }
     
     public DtListaPD getDatosResumidos(){
-        return new DtListaPD(nombre, null, null, genero.getNombre(), imagen);
+        return new DtListaPD(nombre, null, genero.getNombre(), imagen);
     }
     public Genero getGenero(){
         return this.genero;
@@ -81,18 +80,8 @@ public class PorDefecto extends Lista{
         return imagen;
     }
     
-    DtListaPD getDatos(String Pertenece) {
-        //La imagen es opcinonal
-        ImageIcon image = null;
-        
-        if(imagen != null){
-            File archivo = new File(imagen);
-            String Rutaimagen = archivo.getPath();
-
-            image = new ImageIcon(Rutaimagen); //genera la imagen que seleccionamos
-        }
-        
-        return new DtListaPD(nombre, image, this.getDtTemas(), Pertenece, imagen);
+    DtListaPD getDatos(String Pertenece) {        
+        return new DtListaPD(nombre, this.getDtTemas(), Pertenece, imagen);
     }
     
     public ArrayList<DtTema> getDtTemas(){

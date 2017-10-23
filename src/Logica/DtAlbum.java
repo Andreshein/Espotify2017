@@ -6,27 +6,28 @@
 package Logica;
 
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 
 /**
  *
  * @author Kevin
  */
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtAlbum {
     private final String nombre;
     private final String nombreArtista;
     private final int anio;
     private final ArrayList<DtTema> temas;
-    private final ImageIcon imagen;
     private final ArrayList<String> generos;
     private final String rutaImagen;
 
-    public DtAlbum(String nombre, String nombreArtista, int anio, ArrayList<DtTema> temas, ImageIcon imagen, ArrayList<String> generos, String rutaImg) {
+    public DtAlbum(String nombre, String nombreArtista, int anio, ArrayList<DtTema> temas, ArrayList<String> generos, String rutaImg) {
         this.nombre = nombre;
         this.nombreArtista = nombreArtista;
         this.anio = anio;
         this.temas = temas;
-        this.imagen = imagen;
         this.generos=generos;
         this.rutaImagen = rutaImg;
     }
@@ -35,7 +36,6 @@ public class DtAlbum {
         this.nombreArtista = nombreArtista;
         this.anio = anio;
         this.temas = null;
-        this.imagen = null;
         this.generos = null;
         this.rutaImagen = null;
     }
@@ -56,10 +56,6 @@ public class DtAlbum {
 
     public ArrayList<DtTema> getTemas() {
         return temas;
-    }
-
-    public ImageIcon getImagen() {
-        return imagen;
     }
 
     public ArrayList<String> getGeneros() {
