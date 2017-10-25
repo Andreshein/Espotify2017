@@ -22,6 +22,15 @@ public class DtGenero {
     private final ArrayList<DtAlbum> albumes;
     private final ArrayList<DtListaPD> listaspordefecto;
     private final ArrayList<DtGenero> hijos;
+    
+    public DtGenero(){
+        this.nombre = null;
+        this.albumes = new ArrayList<>();
+        this.listaspordefecto = new ArrayList<>();
+        this.hijos = new ArrayList<>();
+        this.idpadre = 0;
+        this.id = 0;
+    }
 
     public DtGenero(String nombre, ArrayList<DtAlbum> albumes, ArrayList<DtListaPD> listas, ArrayList<DtGenero> hijos) {
         this.nombre = nombre;
