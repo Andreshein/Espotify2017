@@ -96,11 +96,13 @@ public class WSClientes {
     }
     
     @WebMethod
-    public void confirmar(){
+    public boolean confirmar(){
         try {
             Fabrica.getCliente().confirmar();
+            return true;
         } catch (Exception ex) {
             Logger.getLogger(WSClientes.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
     
