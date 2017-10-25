@@ -67,6 +67,7 @@ public class WSArchivos {
                 FileInputStream streamer = new FileInputStream(f);
                 byteArray = new byte[streamer.available()];
                 streamer.read(byteArray);
+                streamer.close();
         } catch (IOException e) {
                 throw e;
         }
