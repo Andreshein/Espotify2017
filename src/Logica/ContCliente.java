@@ -753,7 +753,7 @@ public class ContCliente implements IcontCliente {
     public void crearListaPWeb(String nickname, String nombre, byte[] imagen){
         this.cliente = this.clientes.get(nickname);
         this.lista = new Particular(0, "x", nombre, true, null);
-        if (imagen != null) {
+        if (imagen != null && !this.cliente.getListas().containsKey(nombre)) {
             try {
                 Properties p = new Properties();
                 InputStream is;
