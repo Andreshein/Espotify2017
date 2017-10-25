@@ -73,16 +73,31 @@ public class WSArtistas {
     }
     
     @WebMethod
-    public void IngresarAlbumWeb(String nicknameArt, String anioAlbum, String nomAlbum, byte[] imagen, ArrayList<DtTema> temasAlbum, ArrayList<DtGenero> generosAlbum){
+    public void IngresarAlbumWeb(String nicknameArt, String anioAlbum, String nomAlbum, byte[] imagen, DataTemas temasAlbum, DataGeneros generosAlbum){
         HashMap<String, DtTema> temasA = new HashMap<>();
         HashMap<String, DtGenero> generosA = new HashMap<>();
         
-        for (DtTema tema : temasAlbum) {
-            temasA.put(tema.getNombre(), tema);
+        System.out.println("DtTemas:");
+        for (DtTema t : temasAlbum.getTemas()) {
+            System.out.println("\n");
+            System.out.println("Nombre: "+t.getNombre());
+            System.out.println("Álbum: "+t.getNomalbum());
+            System.out.println("Artista: "+t.getNomartista());
+            temasA.put(t.getNombre(), t);
         }
         
-        for (DtGenero genero : generosAlbum) {
-            generosA.put(genero.getNombre(), genero);
+        System.out.println("\n");
+        System.out.println("DtAlbumes:");
+        for (DtGenero g : generosAlbum.getGeneros()) {
+            System.out.println("\n");
+            System.out.println("Nombre: "+g.getNombre());
+            generosA.put(g.getNombre(), g);
+        }
+        
+        //Daba error al enviar null por parametro desde el servidor web, se implemento tal que byte[0] = null
+        if(imagen!= null && imagen.length == 0){
+            System.out.println("imagen.length == 0");
+            imagen = null;
         }
         
         Fabrica.getArtista().IngresarAlbumWeb(nicknameArt,anioAlbum,nomAlbum,imagen,temasA,generosA);
@@ -183,5 +198,12 @@ public class WSArtistas {
         ArrayList<DtUsuario> clientes =  new ArrayList<>();
         clientes.addAll(Fabrica.getArtista().listarSeguidores(nickname));
         return new DataUsuarios(clientes);
+    }
+    
+    @WebMethod
+    public DataUsuarios RankingDesendente(){
+    ArrayList<DtUsuario> usuarios =  new ArrayList<>();
+    usuarios.addAll(Fabrica.getArtista().RankingDesendente());
+    return new DataUsuarios(usuarios);    
     }
 }

@@ -17,6 +17,8 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -866,5 +868,18 @@ public class ContArtista implements IcontArtista {
     }
     public void nuevaReproduccionTema (String artista, String album, String tema){
         this.artistas.get(artista).nuevaReproduccionTema(album, tema);     
+    }
+    
+    public ArrayList<DtUsuario> RankingDesendente(){
+        ArrayList<DtUsuario> usuarios = this.Cli.BuscarUsuarios("");
+        
+        Collections.sort(usuarios, new Comparator<DtUsuario>(){
+            public int compare(DtUsuario usr1, DtUsuario usr2){
+                Integer seg1 = Fabrica.getCliente().getSeguidores(usr1.getNickname()).size();
+                Integer seg2 = Fabrica.getCliente().getSeguidores(usr2.getNickname()).size();                
+                return seg2.compareTo(seg1);                
+            }
+        });
+        return usuarios;
     }
 }

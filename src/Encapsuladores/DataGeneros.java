@@ -15,6 +15,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class DataGeneros {    
 
     private final ArrayList<DtGenero> generos;
+    
+    public DataGeneros() {
+        generos = new ArrayList<>();
+    }
 
     public DataGeneros(ArrayList<DtGenero> generos) {
         this.generos = generos;
