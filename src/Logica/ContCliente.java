@@ -242,6 +242,9 @@ public class ContCliente implements IcontCliente {
     public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
         ArrayList<DtUsuario> retornar = this.art.BuscarUsuarios(palabra);
         retornar.addAll(this.BuscarClientes(palabra));
+        
+        
+        
         return retornar;
     }
 
