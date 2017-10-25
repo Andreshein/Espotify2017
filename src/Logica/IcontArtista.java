@@ -80,4 +80,5 @@ public interface IcontArtista {
     public abstract ArrayList<DtAlbum> resultadosA(String palabra);
     public abstract void nuevaReproduccionTema (String artista, String album, String tema);
     public abstract void nuevaDescargaTema (String artista, String album, String tema);
+    public abstract ArrayList<DtUsuario> RankingDesendente();
 }

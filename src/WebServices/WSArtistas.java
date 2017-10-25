@@ -199,4 +199,11 @@ public class WSArtistas {
         clientes.addAll(Fabrica.getArtista().listarSeguidores(nickname));
         return new DataUsuarios(clientes);
     }
+    
+    @WebMethod
+    public DataUsuarios RankingDesendente(){
+    ArrayList<DtUsuario> usuarios =  new ArrayList<>();
+    usuarios.addAll(Fabrica.getArtista().RankingDesendente());
+    return new DataUsuarios(usuarios);    
+    }
 }
