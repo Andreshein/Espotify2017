@@ -7,6 +7,7 @@ package Encapsuladores;
 
 import Logica.DtTema;
 import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
@@ -14,17 +15,22 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DataTemas {    
 
-    private ArrayList<DtTema> temas;
+    //private ArrayList<DtTema> temas;
+    private List<DtTema> temas;
 
     public DataTemas() {
         temas = new ArrayList<>();
     }
     
-    public DataTemas(ArrayList<DtTema> temas) {
+    public DataTemas(List<DtTema> temas) {
         this.temas = temas;
     }
 
-    public ArrayList<DtTema> getTemas() {
+    public void setTemas(List<DtTema> temas) {
+        this.temas = temas;
+    }
+
+    public List<DtTema> getTemas() {
         return temas;
     }
     
