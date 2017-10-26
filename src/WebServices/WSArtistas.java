@@ -25,6 +25,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
+import javax.xml.soap.SOAPBody;
 import javax.xml.ws.Endpoint;
 
 /**
@@ -76,27 +77,28 @@ public class WSArtistas {
     public void IngresarAlbumWeb(String nicknameArt, String anioAlbum, String nomAlbum, byte[] imagen, DataTemas temasAlbum, DataGeneros generosAlbum){
         HashMap<String, DtTema> temasA = new HashMap<>();
         HashMap<String, DtGenero> generosA = new HashMap<>();
+        System.out.println("llega1");
         
-        System.out.println("DtTemas:");
+//        System.out.println("DtTemas:");
         for (DtTema t : temasAlbum.getTemas()) {
-            System.out.println("\n");
-            System.out.println("Nombre: "+t.getNombre());
-            System.out.println("Álbum: "+t.getNomalbum());
-            System.out.println("Artista: "+t.getNomartista());
+//            System.out.println("\n");
+//            System.out.println("Nombre: "+t.getNombre());
+//            System.out.println("Álbum: "+t.getNomalbum());
+//            System.out.println("Artista: "+t.getNomartista());
             temasA.put(t.getNombre(), t);
         }
         
-        System.out.println("\n");
+//        System.out.println("\n");
         System.out.println("DtAlbumes:");
         for (DtGenero g : generosAlbum.getGeneros()) {
-            System.out.println("\n");
-            System.out.println("Nombre: "+g.getNombre());
+//            System.out.println("\n");
+//            System.out.println("Nombre: "+g.getNombre());
             generosA.put(g.getNombre(), g);
         }
         
         //Daba error al enviar null por parametro desde el servidor web, se implemento tal que byte[0] = null
         if(imagen!= null && imagen.length == 0){
-            System.out.println("imagen.length == 0");
+            //System.out.println("imagen.length == 0");
             imagen = null;
         }
         
@@ -133,6 +135,7 @@ public class WSArtistas {
     
     @WebMethod
     public boolean estaAlbum(String nicknameArt,String nom){
+        System.out.println("llegacontrol");
         return Fabrica.getArtista().estaAlbum(nicknameArt,nom);
     }
     

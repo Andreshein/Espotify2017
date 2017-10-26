@@ -338,7 +338,8 @@ public class ContArtista implements IcontArtista {
     }
 
     @Override
-    public boolean IngresarAlbumWeb(String nicknameArt, String anio, String nombre, byte[] imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
+    public void IngresarAlbumWeb(String nicknameArt, String anio, String nombre, byte[] imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
+        System.out.println("llega2");
         int anio2 = Integer.parseInt(anio);
         HashMap<String, Tema> temasfinal = new HashMap();
         Set set3 = temas.entrySet();
@@ -382,8 +383,10 @@ public class ContArtista implements IcontArtista {
 //                    rutaDestino = null; 
 //                }
             }
-
+            
             Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion(), nombre, nicknameArt);
+            t.setCantDescargas(0);
+            t.setCantReproduccion(0);
             temasfinal.put(t.getNombre(), t);
         }
         ArrayList<Genero> l = new ArrayList();
@@ -434,7 +437,7 @@ public class ContArtista implements IcontArtista {
             Tema t = (Tema) x.getValue();
             this.dbUsuario.InsertarTema(idalbum, t);
         }
-        return true;
+        System.out.println("llega3");
     }
 
     @Override
