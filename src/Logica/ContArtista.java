@@ -17,6 +17,8 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -337,6 +339,7 @@ public class ContArtista implements IcontArtista {
 
     @Override
     public void IngresarAlbumWeb(String nicknameArt, String anio, String nombre, byte[] imagen, HashMap<String, DtTema> temas, HashMap<String, DtGenero> generos) {
+        System.out.println("llega2");
         int anio2 = Integer.parseInt(anio);
         HashMap<String, Tema> temasfinal = new HashMap();
         Set set3 = temas.entrySet();
@@ -380,8 +383,10 @@ public class ContArtista implements IcontArtista {
 //                    rutaDestino = null; 
 //                }
             }
-
+            
             Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion(), nombre, nicknameArt);
+            t.setCantDescargas(0);
+            t.setCantReproduccion(0);
             temasfinal.put(t.getNombre(), t);
         }
         ArrayList<Genero> l = new ArrayList();
@@ -432,6 +437,7 @@ public class ContArtista implements IcontArtista {
             Tema t = (Tema) x.getValue();
             this.dbUsuario.InsertarTema(idalbum, t);
         }
+        System.out.println("llega3");
     }
 
     @Override
@@ -865,5 +871,18 @@ public class ContArtista implements IcontArtista {
     }
     public void nuevaReproduccionTema (String artista, String album, String tema){
         this.artistas.get(artista).nuevaReproduccionTema(album, tema);     
+    }
+    
+    public ArrayList<DtUsuario> RankingDesendente(){
+        ArrayList<DtUsuario> usuarios = this.Cli.BuscarUsuarios("");
+        
+        Collections.sort(usuarios, new Comparator<DtUsuario>(){
+            public int compare(DtUsuario usr1, DtUsuario usr2){
+                Integer seg1 = Fabrica.getCliente().getSeguidores(usr1.getNickname()).size();
+                Integer seg2 = Fabrica.getCliente().getSeguidores(usr2.getNickname()).size();                
+                return seg2.compareTo(seg1);                
+            }
+        });
+        return usuarios;
     }
 }

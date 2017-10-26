@@ -96,11 +96,13 @@ public class WSClientes {
     }
     
     @WebMethod
-    public void confirmar(){
+    public boolean confirmar(){
         try {
             Fabrica.getCliente().confirmar();
+            return true;
         } catch (Exception ex) {
             Logger.getLogger(WSClientes.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
     
@@ -127,6 +129,11 @@ public class WSClientes {
     
     @WebMethod
     public void crearListaP(String nickname, String nombre, byte[] imagen){
+        //Daba error al enviar null por parametro desde el servidor web, se implemento tal que byte[0] = null
+        if(imagen!= null && imagen.length == 0){
+            System.out.println("imagen.length == 0");
+            imagen = null;
+        }
         Fabrica.getCliente().crearListaPWeb(nickname, nombre, imagen);
     }
     
@@ -196,13 +203,12 @@ public class WSClientes {
     
     @WebMethod
     public boolean IngresarCliente(DtCliente cli, byte[] imagen){
-        System.out.println("WebServices.WSClientes.IngresarCliente()");
-        System.out.println("\t-"+cli.getNickname());
-        System.out.println("\t-"+cli.getContrasenia());
-        System.out.println("\t-"+cli.getNombre());
-        System.out.println("\t-"+cli.getApellido());
-        System.out.println("\t-"+cli.getFechaNac());
-        System.out.println("\t-"+cli.getCorreo());
+        //Daba error al enviar null por parametro desde el servidor web, se implemento tal que byte[0] = null
+        if(imagen!= null && imagen.length == 0){
+            System.out.println("imagen.length == 0");
+            imagen = null;
+        }
+        
         return Fabrica.getCliente().IngresarCliente(cli,imagen);
 //        return false;
     }
