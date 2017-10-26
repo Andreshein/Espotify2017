@@ -2228,4 +2228,16 @@ public class DBUsuario {
             Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+        public void sumaReproduccion (int id) {
+        try {
+//            PreparedStatement sentencia = conexion.prepareStatement("UPDATE listaparticular " + "SET privada = ?" + "WHERE Usuario = '" + nickname + "'");
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE tema " + "SET CantReproduccion = CantReproduccion+1 WHERE Id = ?");
+            sentencia.setInt(1, id); // el 1 indica el numero de "?" en la sentencia
+            
+            sentencia.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
+

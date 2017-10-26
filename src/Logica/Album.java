@@ -175,12 +175,16 @@ public class Album {
       
       DBUsuario dbUsuario = new DBUsuario();
       dbUsuario.sumaDescarga(tem.getId());
+      
     }
     
     public void nuevaReproduccionTema (String tema){
       Tema tem = this.temas.get(tema);
       int cantidad = tem.getCantReproduccion();
       tem.setCantReproduccion(cantidad + 1);
+       
+      DBUsuario dbUsuario = new DBUsuario();
+      dbUsuario.sumaReproduccion(tem.getId());
     }
 }
 

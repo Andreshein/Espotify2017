@@ -178,9 +178,9 @@ public class Artista extends Usuario {
         return albumesAux;
     }
     public void nuevaDescargaTema (String album, String tema){
-       this.albumes.get(album).nuevaDescargaTema(tema);
+        this.albumes.get(album).nuevaDescargaTema(tema);
     }
     public void nuevaReproduccionTema (String album, String tema){
-       this.albumes.get(album).nuevaReproduccionTema(tema);
+      this.albumes.get(album).nuevaReproduccionTema(tema);
     }
 }
