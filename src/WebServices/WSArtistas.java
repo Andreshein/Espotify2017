@@ -220,5 +220,10 @@ public class WSArtistas {
     public void nuevaReproduccionTema (String artista, String album, String tema){
         Fabrica.getArtista().nuevaReproduccionTema(artista, album, tema);   
     }
+    
+    @WebMethod
+    public void desactivarArtista(String artista){
+        Fabrica.getArtista().desactivarArtista(artista);
+    }
 }
 

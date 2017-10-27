@@ -33,6 +33,7 @@ public class ContArtista implements IcontArtista {
     private static ContArtista instancia;
 
     private Map<String, Artista> artistas;
+    private Map<String, Artista> desactivados;
     private Map<String, Genero> generos;
     private DBUsuario dbUsuario;
     private IcontCliente Cli;
@@ -165,13 +166,13 @@ public class ContArtista implements IcontArtista {
 //        return albumesAux;
     }
 
-     public ArrayList<DtListaPD> getListasGenero(String genero) {
-       Genero generoL = this.generos.get(genero);
-        
+    public ArrayList<DtListaPD> getListasGenero(String genero) {
+        Genero generoL = this.generos.get(genero);
+
         return generoL.getDtListas();
 
     }
-    
+
     public boolean albumRepetido(String nomAlbum, ArrayList<DtAlbum> albumes) {
         int ocurrencias = 0;
         for (DtAlbum album : albumes) {
@@ -299,7 +300,7 @@ public class ContArtista implements IcontArtista {
             String rutaDestino = null;
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             Date fechaN = formato.parse(art.getFechaNac());
-            if (imagen!=null){
+            if (imagen != null) {
                 Properties p = new Properties();
                 InputStream is;
                 String rutaP = null;
@@ -312,7 +313,7 @@ public class ContArtista implements IcontArtista {
                 } catch (IOException ex) {
                     Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                    rutaDestino = rutaP + "Imagenes/Artistas/" + art.getNickname() + "/" + art.getNickname() + ".jpg";
+                rutaDestino = rutaP + "Imagenes/Artistas/" + art.getNickname() + "/" + art.getNickname() + ".jpg";
                 //rutaDestino = "D:/"+nombre+".jpg";
                 try {
                     File f = new File(rutaDestino);
@@ -320,9 +321,9 @@ public class ContArtista implements IcontArtista {
                     org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
                 } catch (Exception e) {
                     e.getMessage();
-                }  
+                }
             }
-            
+
             Artista a = new Artista(art.getNickname(), art.getContrasenia(), art.getNombre(), art.getApellido(), art.getCorreo(), fechaN, art.getBiografia(), art.getPagWeb(), rutaDestino);
             boolean tru = this.dbUsuario.agregarArtistaWeb(a);
             if (tru) {
@@ -345,17 +346,17 @@ public class ContArtista implements IcontArtista {
         Set set3 = temas.entrySet();
         Iterator it0 = set3.iterator();
         Properties p = new Properties();
-            InputStream is;
-            String rutaP = null;
-            try {
-                is = new FileInputStream("Configuraciones/rutaProyecto.properties");
-                p.load(is);
-                rutaP = p.getProperty("ruta");
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        InputStream is;
+        String rutaP = null;
+        try {
+            is = new FileInputStream("Configuraciones/rutaProyecto.properties");
+            p.load(is);
+            rutaP = p.getProperty("ruta");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
         while (it0.hasNext()) {
             Map.Entry x = (Map.Entry) it0.next();
             DtTema dtte = (DtTema) x.getValue();
@@ -383,7 +384,7 @@ public class ContArtista implements IcontArtista {
 //                    rutaDestino = null; 
 //                }
             }
-            
+
             Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion(), nombre, nicknameArt);
             t.setCantDescargas(0);
             t.setCantReproduccion(0);
@@ -405,7 +406,6 @@ public class ContArtista implements IcontArtista {
         if (imagen != null) {
 
             //Se crea la ruta del archivo del tema dentro del servidor -> "Imagenes/nickArtista/nomAlbum/tema.mp3"
-            
             rutaDestino = rutaP + "Imagenes/Artistas/" + nicknameArt + "/Albumes/" + nombre + ".jpg";
             //rutaDestino = "D:/"+nombre+".jpg";
             try {
@@ -522,8 +522,7 @@ public class ContArtista implements IcontArtista {
             this.dbUsuario.InsertarTema(idalbum, t);
         }
     }
-    
-        
+
     public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
         ArrayList<DtUsuario> retornar = new ArrayList<>();
         Iterator iterador = this.artistas.values().iterator();
@@ -540,19 +539,19 @@ public class ContArtista implements IcontArtista {
         }
         return retornar;
     }
-    
+
     @Override
-    public boolean AgregarTemaListaWeb(String nomtema, String nomalbum, String nomartista, String listaelegida, String cliente){
-            Album al = this.artistas.get(nomartista).getAlbumes().get(nomalbum);
-            Tema t = al.getTema(nomtema);
-            Cliente c = this.Cli.BuscarUsuariosC(cliente);
-            Particular p = c.getListas().get(listaelegida);
-            if (p.getTemas().contains(t)) {
-                return false;
-            }
-            p.AddTema(t);
-            this.dbUsuario.agregarTemaListaP(p.getId(), t.getNombre(), al.getNombre(), al.getArtista());
-            return true;
+    public boolean AgregarTemaListaWeb(String nomtema, String nomalbum, String nomartista, String listaelegida, String cliente) {
+        Album al = this.artistas.get(nomartista).getAlbumes().get(nomalbum);
+        Tema t = al.getTema(nomtema);
+        Cliente c = this.Cli.BuscarUsuariosC(cliente);
+        Particular p = c.getListas().get(listaelegida);
+        if (p.getTemas().contains(t)) {
+            return false;
+        }
+        p.AddTema(t);
+        this.dbUsuario.agregarTemaListaP(p.getId(), t.getNombre(), al.getNombre(), al.getArtista());
+        return true;
     }
 
     public void AgregarTemaListaG(String nickname, String Album, String Tema, String Genero, String Lista) throws Exception {
@@ -721,6 +720,15 @@ public class ContArtista implements IcontArtista {
                 return false; //correo ya existe, repetido
             }
         }
+        for (Artista art : this.desactivados.values()) {
+            if (art.getNickname().equals(nickname)) {
+                return false; // nickname ya existe, repetido
+            }
+
+            if (art.getCorreo().equals(correo)) {
+                return false; //correo ya existe, repetido
+            }
+        }
 
         //Si no retornó false dentro del for, entonces los datos estan bien
         return true;
@@ -824,33 +832,36 @@ public class ContArtista implements IcontArtista {
             return null;
         }
     }
-    
+
     @Override
-    public ArrayList<DtTema> reproducirAlbum(String artista, String album){
+    public ArrayList<DtTema> reproducirAlbum(String artista, String album) {
         return this.artistas.get(artista).reproducirAlbum(album);
     }
+
     @Override
-    public byte[] getImagenAlbum(String artista, String album){
+    public byte[] getImagenAlbum(String artista, String album) {
         String aux = this.artistas.get(artista).getAlbumes().get(album).getImagen();
         byte[] imagen = null;
-        try{
-        if (aux!=null){
-            File im = new File(aux);
-            imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
+        try {
+            if (aux != null) {
+                File im = new File(aux);
+                imagen = org.apache.commons.io.FileUtils.readFileToByteArray(im);
             }
+        } catch (IOException e) {
+            e.getMessage();
         }
-        catch (IOException e){e.getMessage();}
         return imagen;
     }
+
     @Override
-    public ArrayList<DtTema> reproducirListaPD(String genero, String lista){
+    public ArrayList<DtTema> reproducirListaPD(String genero, String lista) {
         return this.generos.get(genero).reproducirListaPD(lista);
     }
 
     @Override
     public ArrayList<DtTema> resultadosT(String palabra) {
         ArrayList<DtTema> temas = new ArrayList<>();
-        for(Artista art: this.artistas.values()){
+        for (Artista art : this.artistas.values()) {
             temas.addAll(art.coincideciaT(palabra));
         }
         return temas;
@@ -859,30 +870,83 @@ public class ContArtista implements IcontArtista {
     @Override
     public ArrayList<DtAlbum> resultadosA(String palabra) {
         ArrayList<DtAlbum> albumes = new ArrayList<>();
-        for(Artista art: this.artistas.values()){
+        for (Artista art : this.artistas.values()) {
             albumes.addAll(art.coincideciaA(palabra));
         }
         return albumes;
     }
-    
-    public void nuevaDescargaTema (String artista, String album, String tema){
-        this.artistas.get(artista).nuevaDescargaTema(album, tema);   
-        
+
+    public void nuevaDescargaTema(String artista, String album, String tema) {
+        this.artistas.get(artista).nuevaDescargaTema(album, tema);
+
     }
-    public void nuevaReproduccionTema (String artista, String album, String tema){
-        this.artistas.get(artista).nuevaReproduccionTema(album, tema);     
+
+    public void nuevaReproduccionTema(String artista, String album, String tema) {
+        this.artistas.get(artista).nuevaReproduccionTema(album, tema);
     }
-    
-    public ArrayList<DtUsuario> RankingDesendente(){
+
+    public ArrayList<DtUsuario> RankingDesendente() {
         ArrayList<DtUsuario> usuarios = this.Cli.BuscarUsuarios("");
-        
-        Collections.sort(usuarios, new Comparator<DtUsuario>(){
-            public int compare(DtUsuario usr1, DtUsuario usr2){
+
+        Collections.sort(usuarios, new Comparator<DtUsuario>() {
+            public int compare(DtUsuario usr1, DtUsuario usr2) {
                 Integer seg1 = Fabrica.getCliente().getSeguidores(usr1.getNickname()).size();
-                Integer seg2 = Fabrica.getCliente().getSeguidores(usr2.getNickname()).size();                
-                return seg2.compareTo(seg1);                
+                Integer seg2 = Fabrica.getCliente().getSeguidores(usr2.getNickname()).size();
+                return seg2.compareTo(seg1);
             }
         });
         return usuarios;
     }
+
+    @Override
+    public void setArtistaD(HashMap<String, Artista> artistas) {
+        desactivados = artistas;
+    }
+
+    public void desactivarArtista(String Nickname) {
+        Artista a = this.artistas.get(Nickname);
+        this.artistas.remove(a.getNickname());
+        this.desactivados.put(Nickname, a);
+        a.setFecha(this.dbUsuario.desactivarArtista(Nickname));
+        this.Cli.borrarSeguido(a);
+        for (Album al : a.getAlbumes().values()) {
+            this.borrarRelaciónAlbum(al);
+        }
+    }
+
+    private void borrarRelaciónAlbum(Album a) {
+        this.Cli.borrarRelaciónAlbum(a);
+        for (Genero g : this.generos.values()) {
+            g.getAlbumes().remove(a);
+            for (Tema t : a.getTemas().values()) {
+                for (PorDefecto p : g.getListas().values()) {
+                    p.getTemas().remove(t);
+                }
+            }
+        }
+    }
+
+    public ArrayList<DtArtista> ListarDesactivados() {
+        ArrayList<DtArtista> a = new ArrayList<>();
+        for (Artista ar : this.desactivados.values()) {
+            a.add(ar.getDatosDesactivado());
+        }
+        return a;
+    }
+
+    public List<DtArtista> BuscarArtistasD(String palabra) {
+        List<DtArtista> retornar = new ArrayList<>();
+        for (Artista aux : this.desactivados.values()) {
+            palabra = palabra.toUpperCase();
+            String nick = aux.getNickname().toUpperCase();
+            String nombre = aux.getNombre().toUpperCase();
+            String apellido = aux.getApellido().toUpperCase();
+            String nomAp = aux.getNombre().toUpperCase() + aux.getApellido().toUpperCase();
+            if (nick.contains(palabra) == true || nombre.contains(palabra) == true || apellido.contains(palabra) == true || nomAp.contains(palabra) == true) {
+                retornar.add(aux.getDatosDesactivado());
+            }
+        }
+        return retornar;
+    }
+
 }

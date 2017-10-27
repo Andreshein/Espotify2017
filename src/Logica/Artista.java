@@ -19,6 +19,7 @@ public class Artista extends Usuario {
     private String biografia;
     private String paginaWeb;
     private HashMap<String, Album> albumes;
+    private Date fecha;
 
     SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
     
@@ -33,6 +34,7 @@ public class Artista extends Usuario {
         this.paginaWeb = paginaWeb;
         this.albumes= new HashMap<>();
         this.Imagen= Imag;
+        this.fecha = null;
     }
 
     public String getContrasenia() {
@@ -121,7 +123,7 @@ public class Artista extends Usuario {
     
     @Override
     public DtArtista getDatos(){
-        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, formato.format(fechaNac), biografia, paginaWeb, 0, null, this.getDtAlbumes(), Imagen);
+        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, formato.format(fechaNac), biografia, paginaWeb, 0, null, this.getDtAlbumes(), Imagen, null);
     }
     public String getImagen(){
         return Imagen;
@@ -146,7 +148,7 @@ public class Artista extends Usuario {
     }
     
     public DtArtista getDatosResumidos(){
-        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, formato.format(fechaNac), null, null, 0, null, null, Imagen);
+        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, formato.format(fechaNac), null, null, 0, null, null, Imagen, null);
     }
     public void AddAlbum(Album a){
         this.albumes.put(a.getNombre(), a);
@@ -182,5 +184,17 @@ public class Artista extends Usuario {
     }
     public void nuevaReproduccionTema (String album, String tema){
       this.albumes.get(album).nuevaReproduccionTema(tema);
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+    
+    public DtArtista getDatosDesactivado(){
+        return new DtArtista(nickname, contrasenia, nombre, apellido, correo, formato.format(fechaNac), biografia, paginaWeb, 0, null, this.getDtAlbumes(), Imagen, formato.format(fecha));
     }
 }

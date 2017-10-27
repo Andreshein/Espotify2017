@@ -167,11 +167,11 @@ public class ContCliente implements IcontCliente {
                 return false;
             }
         }
-        try{
-        String rutaDestino = null;
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        Date fechaN = formato.parse(cli.getFechaNac());
-        if (imagen!=null){
+        try {
+            String rutaDestino = null;
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            Date fechaN = formato.parse(cli.getFechaNac());
+            if (imagen != null) {
                 Properties p = new Properties();
                 InputStream is;
                 String rutaP = null;
@@ -184,7 +184,7 @@ public class ContCliente implements IcontCliente {
                 } catch (IOException ex) {
                     Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                    rutaDestino = rutaP + "Imagenes/Clientes/" + cli.getNickname() + "/" + cli.getNickname() + ".jpg";
+                rutaDestino = rutaP + "Imagenes/Clientes/" + cli.getNickname() + "/" + cli.getNickname() + ".jpg";
                 //rutaDestino = "D:/"+nombre+".jpg";
                 try {
                     File f = new File(rutaDestino);
@@ -192,17 +192,17 @@ public class ContCliente implements IcontCliente {
                     org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
                 } catch (Exception e) {
                     e.getMessage();
-                }  
+                }
             }
 
-        Cliente c = new Cliente(cli.getNickname(), cli.getContrasenia(), cli.getNombre(), cli.getApellido(), cli.getCorreo(), fechaN, rutaDestino );
+            Cliente c = new Cliente(cli.getNickname(), cli.getContrasenia(), cli.getNombre(), cli.getApellido(), cli.getCorreo(), fechaN, rutaDestino);
 
-        boolean tru = this.dbUsuario.agregarClienteWeb(c);
-        if (tru) {
+            boolean tru = this.dbUsuario.agregarClienteWeb(c);
+            if (tru) {
 
-            this.clientes.put(cli.getNickname(), c);
-        }
-        return tru;
+                this.clientes.put(cli.getNickname(), c);
+            }
+            return tru;
 
         } catch (ParseException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -242,9 +242,7 @@ public class ContCliente implements IcontCliente {
     public ArrayList<DtUsuario> BuscarUsuarios(String palabra) {
         ArrayList<DtUsuario> retornar = this.art.BuscarUsuarios(palabra);
         retornar.addAll(this.BuscarClientes(palabra));
-        
-        
-        
+
         return retornar;
     }
 
@@ -692,42 +690,45 @@ public class ContCliente implements IcontCliente {
     public void CambiarEstadoSuscripcion(DtSuscripcion suscripcion) {
         this.clientes.get(suscripcion.getCliente()).cambiarEstadoS(suscripcion);
     }
-    
+
     @Override
-    public ArrayList<DtTema> reproducirListaP(String cliente, String lista){
+    public ArrayList<DtTema> reproducirListaP(String cliente, String lista) {
         return this.clientes.get(cliente).reproducirListaP(lista);
     }
-    
-    public ArrayList<DtTema> resultadosT(String palabra){
+
+    public ArrayList<DtTema> resultadosT(String palabra) {
         return this.art.resultadosT(palabra);
     }
-    
-    public ArrayList<DtAlbum> resultadosA(String palabra){
+
+    public ArrayList<DtAlbum> resultadosA(String palabra) {
         return this.art.resultadosA(palabra);
     }
-    
-    public ArrayList<DtLista> resultadosL(String palabra){
+
+    public ArrayList<DtLista> resultadosL(String palabra) {
         ArrayList<DtLista> listas = new ArrayList<>();
         String cadena = palabra.toUpperCase();
-        for(DtListaPD l : this.art.ListarListaPD()){
-        if(l.getNombre().toUpperCase().contains(cadena) || l.getGenero().toUpperCase().contains(cadena))
-            listas.add(l);
+        for (DtListaPD l : this.art.ListarListaPD()) {
+            if (l.getNombre().toUpperCase().contains(cadena) || l.getGenero().toUpperCase().contains(cadena)) {
+                listas.add(l);
+            }
         }
-        for(DtListaP l : this.ListarListaP()){
-        if(l.getNombre().toUpperCase().contains(cadena) || l.getUsuario().toUpperCase().contains(cadena))
-            listas.add(l);
+        for (DtListaP l : this.ListarListaP()) {
+            if (l.getNombre().toUpperCase().contains(cadena) || l.getUsuario().toUpperCase().contains(cadena)) {
+                listas.add(l);
+            }
         }
         return listas;
     }
 
-    
     public boolean agregarListaFavorito(String nickname, String cliente, String lista) {
-        Cliente cli = (Cliente)this.clientes.get(nickname), cli2=(Cliente)this.clientes.get(cliente);
-        if(!cli2.getListas().containsKey(lista))
+        Cliente cli = (Cliente) this.clientes.get(nickname), cli2 = (Cliente) this.clientes.get(cliente);
+        if (!cli2.getListas().containsKey(lista)) {
             return false;
-        for(DtListaP l : cli.getFavDtListasP()){
-            if(l.getNombre().equals(lista) && l.getUsuario().equals(cliente))
+        }
+        for (DtListaP l : cli.getFavDtListasP()) {
+            if (l.getNombre().equals(lista) && l.getUsuario().equals(cliente)) {
                 return false;
+            }
         }
         Particular p = cli2.getListas().get(lista);
         cli.setFavLista(p);
@@ -737,20 +738,22 @@ public class ContCliente implements IcontCliente {
 
     @Override
     public boolean agregarListaFavorito(String nickname, String lista) {
-        Cliente cli = (Cliente)this.clientes.get(nickname);
-        if(!this.art.ExisteListaPD(lista))
+        Cliente cli = (Cliente) this.clientes.get(nickname);
+        if (!this.art.ExisteListaPD(lista)) {
             return false;
-        for(DtListaPD l : cli.getFavDtListasPD()){
-            if(l.getNombre().equals(lista))
+        }
+        for (DtListaPD l : cli.getFavDtListasPD()) {
+            if (l.getNombre().equals(lista)) {
                 return false;
+            }
         }
         PorDefecto pd = this.art.getListaPD(lista);
         cli.setFavLista(pd);
         dbUsuario.InsertarFavorito(3, cli.getNickname(), pd.getId());
         return true;
     }
-    
-    public void crearListaPWeb(String nickname, String nombre, byte[] imagen){
+
+    public void crearListaPWeb(String nickname, String nombre, byte[] imagen) {
         this.cliente = this.clientes.get(nickname);
         this.lista = new Particular(0, "x", nombre, true, null);
         if (imagen != null && !this.cliente.getListas().containsKey(nombre)) {
@@ -768,11 +771,11 @@ public class ContCliente implements IcontCliente {
                     Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 String rutaDestino = rutaP + "Imagenes/Clientes/" + nickname + "/Listas/" + nombre + ".jpg";
-                
+
                 File f = new File(rutaDestino);
                 f.getParentFile().mkdirs();
                 org.apache.commons.io.FileUtils.writeByteArrayToFile(f, imagen);
-                
+
                 this.lista.setImagen(rutaDestino);
             } catch (IOException ex) {
                 Logger.getLogger(ContCliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -780,15 +783,33 @@ public class ContCliente implements IcontCliente {
         } else {
             this.lista.setImagen(null);
         }
-        
+
     }
 
     @Override
     public DtListaP listarLista(String nickname, String Nombre) {
         return this.clientes.get(nickname).getListas().get(Nombre).getDatos(nickname);
     }
-    
+
     public DtListaPD listarLista(String Nombre) {
         return this.art.getListaPD(Nombre).getDatos();
+    }
+
+    public void borrarRelaciónAlbum(Album a) {
+        for (Cliente c : this.clientes.values()) {
+            c.getFavAlbumes().remove(a);
+            for (Tema t : a.getTemas().values()) {
+                c.getFavTemas().remove(t);
+                for (Particular p: c.getListas().values()) {
+                    p.getTemas().remove(t);
+                }
+            }
+        }
+    }
+    
+    public void borrarSeguido(Artista a) {
+        for (Cliente c : this.clientes.values()) {
+            c.getSiguiendo().remove(a.getNickname());
+        }
     }
 }

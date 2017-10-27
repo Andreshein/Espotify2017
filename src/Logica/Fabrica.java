@@ -57,6 +57,7 @@ public class Fabrica {
         Map<String, Cliente> clientes = db.cargarClientes();
         Map<String, Genero> generos = db.cargarGenero();
         Map<String, Artista> artistas = db.cargarArtistas();
+        Map<String, Artista> desactivados = db.cargarArtistasD();
 
         for (Genero g : generos.values()) {
             g.setPadre(generos.get(db.getNombreGenero(g.getidpadre())));
@@ -140,6 +141,7 @@ public class Fabrica {
         
         Artista.setArtista((HashMap)artistas);
         Artista.setGenero((HashMap)generos);
+        Artista.setArtistaD((HashMap)desactivados);
         Cliente.setClientes((HashMap)clientes);
         
     }

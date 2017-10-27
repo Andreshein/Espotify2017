@@ -34,10 +34,11 @@ public interface IcontArtista {
     public abstract void SetContCliente(IcontCliente cli);
     public abstract List<DtArtista> BuscarArtistas(String nombre);
     public abstract void setArtista(HashMap<String,Artista> artistas);
+    public abstract void setArtistaD(HashMap<String,Artista> artistas);
     public abstract void setGenero(HashMap<String,Genero> generos);
     //public abstract void setListasPD(HashMap<String, PorDefecto> lpd);
     public abstract Map<String, DtGenero> GetDataGeneros();
-
+    public abstract void desactivarArtista(String Nickname);
 
     //public abstract Map<String, Genero> GetGeneros();
 
@@ -81,4 +82,6 @@ public interface IcontArtista {
     public abstract void nuevaReproduccionTema (String artista, String album, String tema);
     public abstract void nuevaDescargaTema (String artista, String album, String tema);
     public abstract ArrayList<DtUsuario> RankingDesendente();
+    public abstract ArrayList<DtArtista> ListarDesactivados();
+    public abstract List<DtArtista> BuscarArtistasD(String palabra);
 }

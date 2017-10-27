@@ -8,38 +8,39 @@ package Logica;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 
 /**
  *
  * @author ninoh
  */
 public class Genero {
+
     private int id;
     private String nombre;
     private int idPapa;
     private Genero Padre;
-    private HashMap<String, Album> Albumes;
+    private List<Album> Albumes;
     private HashMap<String, PorDefecto> Listas;
 
-
-    public Genero(int id, String nombre,int Papa) {
+    public Genero(int id, String nombre, int Papa) {
         this.id = id;
         this.nombre = nombre;
         this.idPapa = Papa;
         this.Padre = null;
-        this.Albumes = new HashMap();
+        this.Albumes = new ArrayList<Album>();
         this.Listas = new HashMap();
     }
-    
-    public int getid(){
+
+    public int getid() {
         return id;
     }
-    
-    public int getidpadre(){
+
+    public int getidpadre() {
         return idPapa;
     }
-    public Genero getPadre(){
+
+    public Genero getPadre() {
         return Padre;
     }
 
@@ -63,11 +64,11 @@ public class Genero {
         this.nombre = nombre;
     }
 
-    public HashMap<String, Album> getAlbumes() {
+    public List<Album> getAlbumes() {
         return Albumes;
     }
 
-    public void setAlbumes(HashMap<String, Album> albumes) {
+    public void setAlbumes(ArrayList<Album> albumes) {
         this.Albumes = albumes;
     }
 
@@ -78,47 +79,46 @@ public class Genero {
     public void setListas(HashMap<String, PorDefecto> Listas) {
         this.Listas = Listas;
     }
-    public void AddLista(PorDefecto pd){
+
+    public void AddLista(PorDefecto pd) {
         this.Listas.put(pd.getNombre(), pd);
     }
-    public void AddAlbum(Album a){
-        this.Albumes.put(a.getNombre(), a);
+
+    public void AddAlbum(Album a) {
+        this.Albumes.add(a);
     }
-    
-    public DtGenero getDatos(ArrayList<DtGenero> hijos){
-        return new DtGenero(this.nombre,this.getDtAlbumes(), this.getDtListas(), hijos);
+
+    public DtGenero getDatos(ArrayList<DtGenero> hijos) {
+        return new DtGenero(this.nombre, this.getDtAlbumes(), this.getDtListas(), hijos);
     }
-    
-    public ArrayList<DtAlbum> getDtAlbumes(){
+
+    public ArrayList<DtAlbum> getDtAlbumes() {
         ArrayList<DtAlbum> a = new ArrayList<>();
-        Iterator it = this.getAlbumes().entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry mentry = (Map.Entry)it.next();
-            Album al=(Album) mentry.getValue();
+        for (Album al : this.Albumes) {
             a.add(al.getDatos());
         }
         return a;
     }
-    
-    public ArrayList<DtListaPD> getDtListas(){
+
+    public ArrayList<DtListaPD> getDtListas() {
         ArrayList<DtListaPD> a = new ArrayList<>();
         Iterator it = this.getListas().values().iterator();
-        while(it.hasNext()){
-            PorDefecto lpd = (PorDefecto)it.next();
+        while (it.hasNext()) {
+            PorDefecto lpd = (PorDefecto) it.next();
             a.add(lpd.getDatos());
         }
         return a;
     }
-    
+
     public ArrayList<DtAlbum> getAlbumesGenero() {
-    ArrayList<DtAlbum> albumes = new ArrayList();
-    for (Album a : this.Albumes.values()) {
-        albumes.add(a.getDatos());
+        ArrayList<DtAlbum> albumes = new ArrayList();
+        for (Album a : this.Albumes) {
+            albumes.add(a.getDatos());
+        }
+        return albumes;
     }
-    return albumes;
-    }
-        
-    public ArrayList<DtTema> reproducirListaPD(String lista){
+
+    public ArrayList<DtTema> reproducirListaPD(String lista) {
         return this.Listas.get(lista).getTemasReproducir();
-    }    
+    }
 }

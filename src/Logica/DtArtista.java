@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class DtArtista extends DtUsuario{
     private final String biografia;
     private final String pagWeb;
+    private final String fechaD;
     private final int cantSeguidores;
     private final ArrayList<String> nickSeguidores;
     private final ArrayList<DtAlbum> albumes;
@@ -36,9 +37,10 @@ public class DtArtista extends DtUsuario{
         this.nickSeguidores = null;
         this.albumes = null;
         this.rutaImagen = null;
+        this.fechaD = null;
     }
     
-    public DtArtista(String nickname, String contrasenia, String nombre, String apellido, String correo, String fechaNac, String biografia, String pagWeb, int cantSeguidores, ArrayList<String> nickSeguidores, ArrayList<DtAlbum> albumes, String rutaImg) {
+    public DtArtista(String nickname, String contrasenia, String nombre, String apellido, String correo, String fechaNac, String biografia, String pagWeb, int cantSeguidores, ArrayList<String> nickSeguidores, ArrayList<DtAlbum> albumes, String rutaImg, String fechaD) {
         this.nickname = nickname;
         this.contrasenia = contrasenia;
         this.nombre = nombre;
@@ -51,6 +53,7 @@ public class DtArtista extends DtUsuario{
         this.nickSeguidores = nickSeguidores;
         this.albumes = albumes;
         this.rutaImagen = rutaImg;
+        this.fechaD = fechaD;
     }    
     
     public DtArtista(String nick, String nombre, String ape, String correo){
@@ -64,6 +67,11 @@ public class DtArtista extends DtUsuario{
         this.nickSeguidores = null;
         this.albumes = null;
         this.rutaImagen = null;
+        this.fechaD = null;
+    }
+
+    public String getFechaD() {
+        return fechaD;
     }
         
     public String getBiografia() {
