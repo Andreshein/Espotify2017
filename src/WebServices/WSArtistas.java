@@ -209,4 +209,12 @@ public class WSArtistas {
     usuarios.addAll(Fabrica.getArtista().RankingDesendente());
     return new DataUsuarios(usuarios);    
     }
+    public void nuevaDescargaTema (String artista, String album, String tema){
+       Fabrica.getArtista().nuevaDescargaTema(artista, album, tema);
+        
+    }
+    public void nuevaReproduccionTema (String artista, String album, String tema){
+        Fabrica.getArtista().nuevaReproduccionTema(artista, album, tema);   
+    }
 }
+
