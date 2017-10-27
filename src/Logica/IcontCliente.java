@@ -69,5 +69,8 @@ public interface IcontCliente{
     
     //Funciones web
     public abstract void crearListaPWeb(String nickname, String nombre, byte[] imagen);
+    public abstract DtListaP listarLista(String nickname, String Nombre);
+    public abstract DtListaPD listarLista(String Nombre);
+    
 }
 //hellou papaguena

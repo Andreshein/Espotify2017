@@ -12,6 +12,8 @@ import Encapsuladores.DataUsuarios;
 import Logica.DtAlbum;
 import Logica.DtCliente;
 import Logica.DtLista;
+import Logica.DtListaP;
+import Logica.DtListaPD;
 import Logica.DtTema;
 import Logica.DtTipoSuscripcion;
 import Logica.DtUsuario;
@@ -212,5 +214,16 @@ public class WSClientes {
         return Fabrica.getCliente().IngresarCliente(cli,imagen);
 //        return false;
     }
+    
+    @WebMethod
+    public DtListaP ListaP(String nick, String nombre){
+        return Fabrica.getCliente().listarLista(nick, nombre);
+    }
+    
+    @WebMethod
+    public DtListaPD ListaPD( String nombre){
+        return Fabrica.getCliente().listarLista(nombre);
+    }
+    
 }
 

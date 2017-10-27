@@ -71,17 +71,13 @@ public class PorDefecto extends Lista{
     public void AddTema(Tema t){
         this.getTemas().add(t);
     }
-    
-    String getNombtre() {
-        return this.nombre;
-    }
 
     public String getImagen(){
         return imagen;
     }
     
-    DtListaPD getDatos(String Pertenece) {        
-        return new DtListaPD(nombre, this.getDtTemas(), Pertenece, imagen);
+    DtListaPD getDatos() {        
+        return new DtListaPD(nombre, this.getDtTemas(), this.getGenero().getNombre(), imagen);
     }
     
     public ArrayList<DtTema> getDtTemas(){
@@ -115,5 +111,9 @@ public class PorDefecto extends Lista{
         }
         
         return listaTemas;
+    }
+
+    DtListaPD getDatos(String Pertenece) {        
+        return new DtListaPD(nombre, this.getDtTemas(), Pertenece, imagen);
     }
 }

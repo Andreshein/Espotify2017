@@ -105,7 +105,7 @@ public class Genero {
         Iterator it = this.getListas().values().iterator();
         while(it.hasNext()){
             PorDefecto lpd = (PorDefecto)it.next();
-            a.add(lpd.getDatos(this.nombre));
+            a.add(lpd.getDatos());
         }
         return a;
     }

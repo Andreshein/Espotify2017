@@ -782,4 +782,13 @@ public class ContCliente implements IcontCliente {
         }
         
     }
+
+    @Override
+    public DtListaP listarLista(String nickname, String Nombre) {
+        return this.clientes.get(nickname).getListas().get(Nombre).getDatos(nickname);
+    }
+    
+    public DtListaPD listarLista(String Nombre) {
+        return this.art.getListaPD(Nombre).getDatos();
+    }
 }
