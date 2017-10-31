@@ -903,6 +903,7 @@ public class ContArtista implements IcontArtista {
         desactivados = artistas;
     }
 
+    @Override
     public void desactivarArtista(String Nickname) {
         Artista a = this.artistas.get(Nickname);
         this.artistas.remove(a.getNickname());
@@ -947,6 +948,12 @@ public class ContArtista implements IcontArtista {
             }
         }
         return retornar;
+    }
+    
+    public void recomendacionDeTemas(){
+        for (Artista art : this.artistas.values()) {
+//            art.getTop10temasRecom();
+        }
     }
 
 }
