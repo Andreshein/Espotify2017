@@ -5,6 +5,7 @@
  */
 package WebServices;
 
+import Encapsuladores.DataBytes;
 import Encapsuladores.DataTemas;
 import Logica.DtTema;
 import Logica.Fabrica;
@@ -59,7 +60,7 @@ public class WSArchivos {
     }
     
     @WebMethod
-    public byte[] cargarArchivo(@WebParam(name = "rutaArchivo") String rutaArchivo) throws IOException {
+    public DataBytes cargarArchivo(@WebParam(name = "rutaArchivo") String rutaArchivo) throws IOException {
         byte[] byteArray = null;
         
         try {
@@ -72,14 +73,16 @@ public class WSArchivos {
                 throw e;
         }
         
-        return byteArray;
+        return new DataBytes(byteArray);
     }
     
     @WebMethod
     public DataTemas reproducirAlbum(String artista, String album){
         //Retornar las listas dentro de otra clase auxiliar, es necesario para que funcionen los webservices
         ArrayList<DtTema> temas =  Fabrica.getArtista().reproducirAlbum(artista, album);
-        return new DataTemas(temas);
+        DataTemas dat = new DataTemas();
+        dat.setTemas(temas);
+        return dat;
     }
     
     @WebMethod
@@ -97,7 +100,7 @@ public class WSArchivos {
     }
     
     @WebMethod
-    public byte[] getImagenAlbum(String artista, String album){
-        return Fabrica.getArtista().getImagenAlbum(artista, album);
+    public DataBytes getImagenAlbum(String artista, String album){
+        return new DataBytes(Fabrica.getArtista().getImagenAlbum(artista, album));
     }
 }

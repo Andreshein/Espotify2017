@@ -15,14 +15,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DataTemas {    
 
-    private ArrayList<DtTema> temas;
+    private List<DtTema> temas;
 
     public DataTemas() {
         temas = new ArrayList<>();
     }
     
     public DataTemas(ArrayList<DtTema> temas) {
-        this.temas = temas;
+        this.temas = new ArrayList<>();
+        this.temas.addAll(temas);
     }
 
     public void setTemas(ArrayList<DtTema> temas) {
