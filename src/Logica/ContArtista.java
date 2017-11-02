@@ -301,19 +301,19 @@ public class ContArtista implements IcontArtista {
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             Date fechaN = formato.parse(art.getFechaNac());
             if (imagen != null) {
-                Properties p = new Properties();
-                InputStream is;
-                String rutaP = null;
-                try {
-                    is = new FileInputStream("Configuraciones/rutaProyecto.properties");
-                    p.load(is);
-                    rutaP = p.getProperty("ruta");
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                rutaDestino = rutaP + "Imagenes/Artistas/" + art.getNickname() + "/" + art.getNickname() + ".jpg";
+//                Properties p = new Properties();
+//                InputStream is;
+//                String rutaP = null;
+//                try {
+//                    is = new FileInputStream("Configuraciones/rutaProyecto.properties");
+//                    p.load(is);
+//                    rutaP = p.getProperty("ruta");
+//                } catch (FileNotFoundException ex) {
+//                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                rutaDestino = /*rutaP +*/ "Imagenes/Artistas/" + art.getNickname() + "/" + art.getNickname() + ".jpg";
                 //rutaDestino = "D:/"+nombre+".jpg";
                 try {
                     File f = new File(rutaDestino);

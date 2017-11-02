@@ -172,19 +172,19 @@ public class ContCliente implements IcontCliente {
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             Date fechaN = formato.parse(cli.getFechaNac());
             if (imagen != null) {
-                Properties p = new Properties();
-                InputStream is;
-                String rutaP = null;
-                try {
-                    is = new FileInputStream("Configuraciones/rutaProyecto.properties");
-                    p.load(is);
-                    rutaP = p.getProperty("ruta");
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                rutaDestino = rutaP + "Imagenes/Clientes/" + cli.getNickname() + "/" + cli.getNickname() + ".jpg";
+//                Properties p = new Properties();
+//                InputStream is;
+//                String rutaP = null;
+//                try {
+//                    is = new FileInputStream("Configuraciones/rutaProyecto.properties");
+//                    p.load(is);
+//                    rutaP = p.getProperty("ruta");
+//                } catch (FileNotFoundException ex) {
+//                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                rutaDestino = /*rutaP +*/ "Imagenes/Clientes/" + cli.getNickname() + "/" + cli.getNickname() + ".jpg";
                 //rutaDestino = "D:/"+nombre+".jpg";
                 try {
                     File f = new File(rutaDestino);
@@ -583,6 +583,7 @@ public class ContCliente implements IcontCliente {
         Tema t = this.art.getTema(artista, album, tema);
         boolean agregadoOk = false;
         if (c.getFavTemas().contains(t)) {
+            c.getFavTemas().remove(t);
             agregadoOk = false;
         } else {
             c.getFavTemas().add(t);

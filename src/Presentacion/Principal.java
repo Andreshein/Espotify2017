@@ -558,7 +558,7 @@ class Panel extends JDesktopPane{
         Toolkit miPantalla = Toolkit.getDefaultToolkit();
         Dimension tamanio = getSize();
         
-        ImageIcon imagen = new ImageIcon("Imagenes\\espotifyFondo.png");
+        ImageIcon imagen = new ImageIcon(ClassLoader.getSystemResource( "Imagenes/espotifyFondo.png" ));
         
         g.drawImage(imagen.getImage(), 0, 0, tamanio.width, tamanio.height, null);
         
