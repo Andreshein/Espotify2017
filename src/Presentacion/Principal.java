@@ -9,7 +9,6 @@ import Logica.Fabrica;
 import WebServices.WSArchivos;
 import WebServices.WSArtistas;
 import WebServices.WSClientes;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
@@ -65,7 +64,8 @@ public class Principal extends javax.swing.JFrame {
             Logger.getLogger(WSClientes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(WSClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }}
+        }
+    }
     
 
     /**

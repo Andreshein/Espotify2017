@@ -452,6 +452,17 @@ public class DBUsuario {
             PreparedStatement st17 = conexion.prepareStatement("Delete FROM tiposuscripcion");
             st17.executeUpdate();
             st17.close();
+            
+            //Borrar los archivos existentes antes de cargar los de prueba
+            File carpetaImg = new File("Imagenes");
+            File carpetaTemas = new File("Temas");
+            try {
+                org.apache.commons.io.FileUtils.deleteDirectory(carpetaImg);
+                org.apache.commons.io.FileUtils.deleteDirectory(carpetaTemas);
+            } catch (IOException ex) {
+                Logger.getLogger(Fabrica.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
