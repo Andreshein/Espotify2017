@@ -301,18 +301,20 @@ public class ContArtista implements IcontArtista {
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             Date fechaN = formato.parse(art.getFechaNac());
             if (imagen != null) {
-                Properties p = new Properties();
-                InputStream is;
-                String rutaP = null;
-                try {
-                    is = new FileInputStream("Configuraciones/rutaProyecto.properties");
-                    p.load(is);
-                    rutaP = p.getProperty("ruta");
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//                Properties p = new Properties();
+//                InputStream is;
+//                String rutaP = null;
+//                try {
+//                    is = new FileInputStream("Configuraciones/rutaProyecto.properties");
+//                    p.load(is);
+//                    rutaP = p.getProperty("ruta");
+//                } catch (FileNotFoundException ex) {
+//                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+                String rutaP = this.getClass().getClassLoader().getResource("").getPath();
+                rutaP = rutaP.replace("/build/web/WEB-INF/classes/","/");
                 rutaDestino = rutaP + "Imagenes/Artistas/" + art.getNickname() + "/" + art.getNickname() + ".jpg";
                 //rutaDestino = "D:/"+nombre+".jpg";
                 try {
@@ -347,16 +349,18 @@ public class ContArtista implements IcontArtista {
         Iterator it0 = set3.iterator();
         Properties p = new Properties();
         InputStream is;
-        String rutaP = null;
-        try {
-            is = new FileInputStream("Configuraciones/rutaProyecto.properties");
-            p.load(is);
-            rutaP = p.getProperty("ruta");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        String rutaP = null;
+//        try {
+//            is = new FileInputStream("Configuraciones/rutaProyecto.properties");
+//            p.load(is);
+//            rutaP = p.getProperty("ruta");
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        String rutaP = this.getClass().getClassLoader().getResource("").getPath();
+        rutaP = rutaP.replace("/build/web/WEB-INF/classes/","/");
         while (it0.hasNext()) {
             Map.Entry x = (Map.Entry) it0.next();
             DtTema dtte = (DtTema) x.getValue();
@@ -453,6 +457,7 @@ public class ContArtista implements IcontArtista {
             String rutaDestino = null; //ruta de destino del archivo
 
             //Si el tema tiene un archivo
+            byte[] bytesarch = null;
             if (dtte.getArchivo() != null) {
                 //ruta del archivo seleccionado para el tema
                 String rutaOrigen = dtte.getArchivo();
@@ -464,6 +469,7 @@ public class ContArtista implements IcontArtista {
                 if (Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false) {
                     rutaDestino = null;
                 }
+                
             }
 
             Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion(), nombre, nicknameArt);
@@ -482,6 +488,7 @@ public class ContArtista implements IcontArtista {
         String rutaDestino = null; //ruta de destino del archivo
 
         //Si el album tiene una imagen
+        byte[] bytesarch = null;
         if (imagen != null) {
             //ruta del archivo seleccionado para el tema
             String rutaOrigen = imagen;
