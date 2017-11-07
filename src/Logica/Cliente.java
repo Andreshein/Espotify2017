@@ -163,7 +163,7 @@ public class Cliente extends Usuario {
         ArrayList<DtAlbum> retorno = new ArrayList();
         for (int i=0;i<favAlbumes.size();i++){
             Album a = favAlbumes.get(i);
-            DtAlbum dt = new DtAlbum(a.getNombre(),a.getArtista(),a.getAño());
+            DtAlbum dt = new DtAlbum(a.getNombre(),a.getArtista(),a.getAnio());
             retorno.add(dt);
         }
         return retorno;

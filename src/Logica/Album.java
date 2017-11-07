@@ -82,7 +82,7 @@ public class Album {
         return nombre;
     }
 
-    public int getAño() {
+    public int getAnio() {
         return anio;
     }
     
@@ -94,7 +94,7 @@ public class Album {
         this.nombre = nombre;
     }
 
-    public void setAño(int anio) {
+    public void setAnio(int anio) {
         this.anio = anio;
     }
     
