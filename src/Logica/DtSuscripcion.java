@@ -23,6 +23,14 @@ public class DtSuscripcion {
     private final String Estado;
     private final String Tipo;
     private final int Monto;
+    
+    public DtSuscripcion(){
+        this.cliente = null;
+        this.fecha = null;
+        this.Estado = null;
+        this.Tipo = null;
+        this.Monto = 0;
+    }
 
     public DtSuscripcion(int id, String cliente, String fecha, String Estado, String Tipo, int Monto) {
         
