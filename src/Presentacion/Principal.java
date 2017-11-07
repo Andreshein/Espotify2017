@@ -65,11 +65,6 @@ public class Principal extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(WSClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        //f.cargarDatos();
-//        ImageIcon imagen = new ImageIcon(RutaImagen); //genera la imagen que seleccionamos
-//        Icon icono= new ImageIcon(imagen.getImage().getScaledInstance(Img.getWidth(),Img.getHeight(),Image.SCALE_DEFAULT));
-//        this.Img.setIcon(icono); // coloca la imagen en el label
     }
     
 
@@ -109,6 +104,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         verperfArt = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         ConsultaAlbum = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
@@ -255,6 +251,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu2.add(verperfArt);
+
+        jMenuItem7.setText("Consultar artistas desactivados");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem7);
 
         jMenuBar1.add(jMenu2);
 
@@ -462,6 +466,13 @@ public class Principal extends javax.swing.JFrame {
         aes.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        Adesactivados des = new Adesactivados();
+        escritorio.add(des);
+        des.centrar();
+        des.show();
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -528,6 +539,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem pubListMenuItem;
     private javax.swing.JMenuItem seguir;
     private javax.swing.JMenuItem verListaRep;
@@ -546,7 +558,7 @@ class Panel extends JDesktopPane{
         Toolkit miPantalla = Toolkit.getDefaultToolkit();
         Dimension tamanio = getSize();
         
-        ImageIcon imagen = new ImageIcon("Imagenes\\espotifyFondo.png");
+        ImageIcon imagen = new ImageIcon(ClassLoader.getSystemResource( "Imagenes/espotifyFondo.png" ));
         
         g.drawImage(imagen.getImage(), 0, 0, tamanio.width, tamanio.height, null);
         

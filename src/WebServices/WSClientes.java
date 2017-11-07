@@ -12,14 +12,12 @@ import Encapsuladores.DataUsuarios;
 import Logica.DtAlbum;
 import Logica.DtCliente;
 import Logica.DtLista;
+import Logica.DtListaP;
+import Logica.DtListaPD;
 import Logica.DtTema;
 import Logica.DtTipoSuscripcion;
 import Logica.DtUsuario;
 import Logica.Fabrica;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -212,5 +210,16 @@ public class WSClientes {
         return Fabrica.getCliente().IngresarCliente(cli,imagen);
 //        return false;
     }
+    
+    @WebMethod
+    public DtListaP ListaP(String nick, String nombre){
+        return Fabrica.getCliente().listarLista(nick, nombre);
+    }
+    
+    @WebMethod
+    public DtListaPD ListaPD( String nombre){
+        return Fabrica.getCliente().listarLista(nombre);
+    }
+    
 }
 

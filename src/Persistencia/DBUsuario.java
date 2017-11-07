@@ -25,25 +25,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DBUsuario {
 
     private final Connection conexion = new ConexionDB().getConexion();
-    
+
     public boolean agregarArtista(Artista a) {
         try {
             java.sql.Date fechaN = new java.sql.Date(a.getFechaNac().getTime());
-            
+
             String passEncriptada = "";
-                try {
-                    passEncriptada = sha1(a.getContrasenia());
-                    a.setContrasenia(passEncriptada);
-                } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                passEncriptada = sha1(a.getContrasenia());
+                a.setContrasenia(passEncriptada);
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
                     + "(Nickname, Contrasenia, Nombre, Apellido, FechaNac,Correo, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?,?)");
             statement.setString(1, a.getNickname());
@@ -64,6 +63,7 @@ public class DBUsuario {
             return false;
         }
     }
+
     public boolean agregarArtistaWeb(Artista a) {
         try {
             java.sql.Date fechaN = new java.sql.Date(a.getFechaNac().getTime());
@@ -92,12 +92,12 @@ public class DBUsuario {
         try {
             java.sql.Date fechaN = new java.sql.Date(c.getFechaNac().getTime());
             String passEncriptada = "";
-                try {
-                    passEncriptada = sha1(c.getContrasenia());
-                    c.setContrasenia(passEncriptada);
-                } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                passEncriptada = sha1(c.getContrasenia());
+                c.setContrasenia(passEncriptada);
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                     + "(Nickname, Contrasenia,Nombre, Apellido, FechaNac, Correo, Imagen) values(?,?,?,?,?,?,?)");
             statement.setString(1, c.getNickname());
@@ -116,7 +116,7 @@ public class DBUsuario {
             return false;
         }
     }
-    
+
     public boolean agregarClienteWeb(Cliente c) {
         try {
             java.sql.Date fechaN = new java.sql.Date(c.getFechaNac().getTime());
@@ -228,17 +228,54 @@ public class DBUsuario {
     public Map<String, Artista> cargarArtistas() {
         try {
             Map<String, Artista> lista = new HashMap<String, Artista>();
-            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista");
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista WHERE FechaD IS NULL");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 String nickname = rs.getString("Nickname");
-                Artista a = new Artista(nickname, rs.getString("Contrasenia"),rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), rs.getString("Biografia"), rs.getString("Pagweb"), rs.getString("Imagen"));
+                Artista a = new Artista(nickname, rs.getString("Contrasenia"), rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), rs.getString("Biografia"), rs.getString("Pagweb"), rs.getString("Imagen"));
                 lista.put(nickname, a);
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM album WHERE Artista='" + nickname + "'");
                 ResultSet rs2 = st2.executeQuery();
                 while (rs2.next()) {
                     //Album al = new Album(nickname, rs2.getString("Nombre"), rs2.getInt("anio"));
-                    Album al = new Album(rs2.getInt("Id"),nickname, rs2.getString("Nombre"), rs2.getInt("anio"), rs2.getString("Imagen"));
+                    Album al = new Album(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), rs2.getInt("anio"), rs2.getString("Imagen"));
+                    a.AddAlbum(al);
+                    PreparedStatement st3 = conexion.prepareStatement("SELECT * FROM tema WHERE IdAlbum='" + String.valueOf(rs2.getInt(1)) + "'");
+                    ResultSet rs3 = st3.executeQuery();
+                    while (rs3.next()) {
+                        Tema t = new Tema(rs3.getInt("Id"), rs3.getString("Duracion"), rs3.getString("Nombre"), rs3.getInt("Orden"), rs3.getString("Archivo"), rs3.getString("Direccion"), nickname, rs2.getString("Nombre"), rs3.getInt("CantDescarga"), rs3.getInt("CantReproduccion"));
+                        al.AddTema(t);
+                    }
+                    rs3.close();
+                    st3.close();
+                }
+                rs2.close();
+                st2.close();
+            }
+            rs.close();
+            st.close();
+            return lista;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public Map<String, Artista> cargarArtistasD() {
+        try {
+            Map<String, Artista> lista = new HashMap<String, Artista>();
+            PreparedStatement st = conexion.prepareStatement("SELECT * FROM artista where FechaD is not null");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                String nickname = rs.getString("Nickname");
+                Artista a = new Artista(nickname, rs.getString("Contrasenia"), rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), rs.getDate("FechaNac"), rs.getString("Biografia"), rs.getString("Pagweb"), rs.getString("Imagen"));
+                a.setFecha(rs.getDate("FechaD"));
+                lista.put(nickname, a);
+                PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM album WHERE Artista='" + nickname + "'");
+                ResultSet rs2 = st2.executeQuery();
+                while (rs2.next()) {
+                    //Album al = new Album(nickname, rs2.getString("Nombre"), rs2.getInt("anio"));
+                    Album al = new Album(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), rs2.getInt("anio"), rs2.getString("Imagen"));
                     a.AddAlbum(al);
                     PreparedStatement st3 = conexion.prepareStatement("SELECT * FROM tema WHERE IdAlbum='" + String.valueOf(rs2.getInt(1)) + "'");
                     ResultSet rs3 = st3.executeQuery();
@@ -269,7 +306,7 @@ public class DBUsuario {
             while (rs.next()) {
                 String nickname = rs.getString("Nickname");
                 java.util.Date fechaN = new java.util.Date(rs.getDate("FechaNac").getTime()); // convertir el Date de sql al Date utilizado en java
-                Cliente c = new Cliente(nickname, rs.getString("Contrasenia"),rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), fechaN, rs.getString("Imagen"));
+                Cliente c = new Cliente(nickname, rs.getString("Contrasenia"), rs.getString("Nombre"), rs.getString("Apellido"), rs.getString("Correo"), fechaN, rs.getString("Imagen"));
                 lista.put(nickname, c);
                 PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM listaparticular WHERE Usuario='" + nickname + "'");
                 ResultSet rs2 = st2.executeQuery();
@@ -280,7 +317,7 @@ public class DBUsuario {
                     } else {
                         privada = false;
                     }
-                    Particular p = new Particular(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), privada,rs2.getString("Imagen"));
+                    Particular p = new Particular(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), privada, rs2.getString("Imagen"));
                     c.AddLista(p);
                 }
                 rs2.close();
@@ -295,24 +332,23 @@ public class DBUsuario {
         }
     }
 
-    public ArrayList<Suscripcion> cargarSuscripciones(){
-        try{
+    public ArrayList<Suscripcion> cargarSuscripciones() {
+        try {
             ArrayList<Suscripcion> lista = new ArrayList();
             PreparedStatement st = conexion.prepareStatement("SELECT * FROM suscripciones ");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 java.util.Date Fecha = new java.util.Date(rs.getDate("Fecha").getTime());
-                Suscripcion s = new Suscripcion(rs.getInt("Id"), Fecha,rs.getString("Estado"),rs.getInt("IdTipo"),rs.getString("Cliente"));
+                Suscripcion s = new Suscripcion(rs.getInt("Id"), Fecha, rs.getString("Estado"), rs.getInt("IdTipo"), rs.getString("Cliente"));
                 lista.add(s);
             }
             return lista;
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
         }
     }
-    
+
     public Map<String, Genero> cargarGenero() {
         try {
             Map<String, Genero> lista = new HashMap<String, Genero>();
@@ -347,20 +383,19 @@ public class DBUsuario {
     }
 
     public void CargarDatosdePrueba() {
-        Properties p = new Properties();
-        InputStream is;
-        String rutaP = null;
-        try {
-            is = new FileInputStream("Configuraciones/rutaProyecto.properties");
-            p.load(is);        
-            rutaP = p.getProperty("ruta");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
+//        Properties p = new Properties();
+//        InputStream is;
+//        String rutaP = null;
+//        try {
+//            is = new FileInputStream("Configuraciones/rutaProyecto.properties");
+//            p.load(is);
+//            rutaP = p.getProperty("ruta");
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
         try {
             PreparedStatement st = conexion.prepareStatement("Delete FROM album");
             st.executeUpdate();
@@ -416,6 +451,17 @@ public class DBUsuario {
             PreparedStatement st17 = conexion.prepareStatement("Delete FROM tiposuscripcion");
             st17.executeUpdate();
             st17.close();
+            
+            //Borrar los archivos existentes antes de cargar los de prueba
+            File carpetaImg = new File("Imagenes");
+            File carpetaTemas = new File("Temas");
+            try {
+                org.apache.commons.io.FileUtils.deleteDirectory(carpetaImg);
+                org.apache.commons.io.FileUtils.deleteDirectory(carpetaTemas);
+            } catch (IOException ex) {
+                Logger.getLogger(Fabrica.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -428,7 +474,7 @@ public class DBUsuario {
         String[] BiografiaArtistas = {"Village People es una innovadora formación musical de estilo disco de finales de los años 70. Fue famosa tanto por sus peculiares disfraces, como por sus canciones pegadizas, con letras sugerentes y llenas de dobles sentidos.", null, "Cynthia Ann Stephanie Lauper, conocida simplemente como Cyndi Lauper, es una cantautora, actriz y empresaria estadounidense. Después de participar en el grupo musical, Blue Angel, en 1983 firmó con Portrait Records (filial de Epic Records) y lanzó su exitoso álbum debut She's So Unusual a finales de ese mismo año. Siguió lanzando una serie de álbumes en los que encontró una inmensa popularidad, superando los límites de contenido de las letras de sus canciones.", null, "La Triple Nelson es un grupo de rock uruguayo formado en enero de 1998 e integrado inicialmente por Christian Cary (guitarra y voz), Fernando \"Paco\" Pintos (bajo y coros) y Rubén Otonello (actualmente su nuevo baterista es Rafael Ugo).", null, "Sir Thomas John, conocido por su nombre artístico de Tom Jones, es un cantante británico. Ha vendido más de 100 millones de discos en todo el mundo.", "Piotr Ilich Chaikovski fue un compositor ruso del período del Romanticismo", null, null, "José Gómez Romero, conocido artísticamente como Dyango es un cantante español de música romántica.", "Su carrera comienza en 1976 cuando forma la banda Los Playeros junto a su hermano Víctor. Al poco tiempo se mudan a San Luis donde comienzan a hacerse conocidos en la escena musical. Su éxito a nivel nacional llega a comienzos de los años 1990 cuando desembarca en Buenos Aires y graba el éxito \"Violeta\", originalmente compuesta e interpretada en 1985 por el músico brasileño Luiz Caldas bajo el título «Fricote»."};
         String[] Pagina = {"www.officialvillagepeople.com", "www.depechemode.com", "cyndilauper.com", "brucespringsteen.net", null, null, "www.tomjones.com", null, null, "www.pimpinela.net", null, null};
         String[] PasswordArtistas = {"vpeople", "dmode", "clauper", "bruceTheBoss", "tripleNelson", "la_ley", "tiger", "chaiko", "nicoleneu", "lospimpi", "dyango", "alcides"};
-        
+
         try {
             for (int i = 0; i < 12; i++) {
                 //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
@@ -437,8 +483,8 @@ public class DBUsuario {
                 String rutaImagen = null;
 
                 if (ImagenArtistas[i] != null) {
-                    if(rutaP != null) {
-                        
+//                    if (rutaP != null) {
+
                         //Divide el string por el punto, tambien elimina el punto
                         String[] aux = ImagenArtistas[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
 
@@ -447,19 +493,19 @@ public class DBUsuario {
                         String extension = aux[1];
 
                         //Ruta del archvio de origen(en la capeta DatosDePrueba)
-                        String rutaOrigen = rutaP+ImagenArtistas[i];
+                        String rutaOrigen = /*rutaP +*/ ImagenArtistas[i];
 
                         //Ruta donde se va a copiar el archivo de imagen
-                        String rutaDestino = rutaP+"Imagenes/Artistas/" + NickArtistas0[i] + "/" + NickArtistas0[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+                        String rutaDestino = /*rutaP +*/ "Imagenes/Artistas/" + NickArtistas0[i] + "/" + NickArtistas0[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
                         if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
                             rutaImagen = null; // no se pudo copiar la imagen, queda en null
                         } else {
                             rutaImagen = rutaDestino;
                         }
-                    }
+//                    }
                 }
-                
+
                 String passEncriptada = "";
                 try {
                     passEncriptada = sha1(PasswordArtistas[i]);
@@ -468,7 +514,6 @@ public class DBUsuario {
                 }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO artista "
-
                         + "(Nickname, Contrasenia, Nombre, Apellido, Correo, FechaNac, Biografia, Pagweb, Imagen) values(?,?,?,?,?,?,?,?,?)");
                 statement.setString(1, NickArtistas0[i]);
                 statement.setString(2, passEncriptada);
@@ -492,14 +537,14 @@ public class DBUsuario {
         String[] NacimientoClientes = {"1972-03-08", "1984-11-27", "1955-02-14", "1956-03-07", "1914-04-02", "1927-02-23", "1937-05-08", "1971-12-31"};
         String[] ImagenClientes = {"DatosDePrueba/Imagenes/VitoCorleone.jpg", "DatosDePrueba/Imagenes/ScarlettO’Hara.jpg", "DatosDePrueba/Imagenes/PepeArgento.png", "DatosDePrueba/Imagenes/Heisenberg.jpg", "DatosDePrueba/Imagenes/BenKenobi.png", "DatosDePrueba/Imagenes/MirthaLegrand.jpg", "DatosDePrueba/Imagenes/CachoBochinche.jpg", "DatosDePrueba/Imagenes/Eleven.jpg"};
         String[] PasswordClientes = {"elpadrino", "scarletto", "ppargento", "heisenberg", "benkenobi", "lachiqui", "cbochinche", "eleven11"};
-                
+
         try {
             for (int i = 0; i < 8; i++) {
                 //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
 
                 String rutaDestino = null;
-                
-                if(rutaP != null) {                
+
+//                if (rutaP != null) {
                     //Divide el string por el punto, tambien elimina el punto
                     String[] aux = ImagenClientes[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
 
@@ -507,16 +552,16 @@ public class DBUsuario {
                     //Ej. "C:\Imagenes\imagen.jpg" -> aux[0] = "C:\Imagenes\imagen" y aux[1] = "jpg"
                     String extension = aux[1];
 
-                    String rutaOrigen = rutaP+ImagenClientes[i];
+                    String rutaOrigen = /*rutaP +*/ ImagenClientes[i];
 
                     //Ruta donde se va a copiar el archivo de imagen
-                    rutaDestino = rutaP+"Imagenes/Clientes/" + NickClientes[i] + "/" + NickClientes[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
+                    rutaDestino = /*rutaP +*/ "Imagenes/Clientes/" + NickClientes[i] + "/" + NickClientes[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split tambien se borra
 
                     if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
                         rutaDestino = null; // no se pudo copiar la imagen, queda en null
                     }
-                }
-                
+//                }
+
                 String passEncriptada = "";
                 try {
                     passEncriptada = sha1(PasswordClientes[i]);
@@ -526,7 +571,7 @@ public class DBUsuario {
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO cliente "
                         + "(Nickname, Contrasenia, Nombre, Apellido, Correo, FechaNac, Imagen) values(?,?,?,?,?,?,?)");
-                statement.setString(1, NickClientes[i]);                
+                statement.setString(1, NickClientes[i]);
                 statement.setString(2, passEncriptada);
                 statement.setString(3, NombreClientes[i]);
                 statement.setString(4, ApellidoClientes[i]);
@@ -876,7 +921,7 @@ public class DBUsuario {
                 String rutaImagen = null;
 
                 if (ImagenAlbum[i] != null) {
-                    if(rutaP != null) {
+//                    if (rutaP != null) {
                         //Divide el string por el punto, tambien elimina el punto
                         String[] aux = ImagenAlbum[i].split("\\."); // al punto(.) se le agregan las dos barras (\\) porque es un caracter especial
 
@@ -885,17 +930,17 @@ public class DBUsuario {
                         String extension = aux[1];
 
                         //Ruta del archvio de origen(en la capeta DatosDePrueba)
-                        String rutaOrigen = rutaP+ImagenAlbum[i];
+                        String rutaOrigen = /*rutaP +*/ ImagenAlbum[i];
 
                         //Ruta donde se va a copiar el archivo de imagen
-                        String rutaDestino = rutaP+"Imagenes/Artistas/" + NickArtistas0[j] + "/Albumes/" + NombreAlbum[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split se borra
+                        String rutaDestino = /*rutaP +*/ "Imagenes/Artistas/" + NickArtistas0[j] + "/Albumes/" + NombreAlbum[i] + "." + extension; // se le agrega el punto(.) porque la hacer el split se borra
 
                         if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == false) {
                             rutaImagen = null; // no se pudo copiar la imagen, queda en null
                         } else {
                             rutaImagen = rutaDestino;
                         }
-                    }
+//                    }
 
                 }
 
@@ -1107,15 +1152,15 @@ public class DBUsuario {
 
                 //Si el tema tiene archivo
                 if (Archivotema[i] != null) {
-                    if(rutaP != null){
-                        String rutaOrigen = rutaP+"DatosDePrueba/" + Archivotema[i];
-                        String rutaDestino = rutaP+Archivotema[i];
+//                    if (rutaP != null) {
+                        String rutaOrigen = /*rutaP +*/ "DatosDePrueba/" + Archivotema[i];
+                        String rutaDestino = /*rutaP +*/ Archivotema[i];
 
                         //Si se pudo copiar la imagen correctamente
                         if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                             rutaArchivo = rutaDestino;
                         }
-                    }
+//                    }
                 }
 
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO tema "
@@ -1141,15 +1186,15 @@ public class DBUsuario {
 
             String rutaArchivo = null;
 
-            String rutaOrigen = rutaP+"DatosDePrueba/Imagenes/laNocheNostalgia.jpg";
-            String rutaDestino = rutaP+"Imagenes/ListasPorDef/laNocheNostalgia.jpg";
+            String rutaOrigen = /*rutaP +*/ "DatosDePrueba/Imagenes/laNocheNostalgia.jpg";
+            String rutaDestino = /*rutaP +*/ "Imagenes/ListasPorDef/laNocheNostalgia.jpg";
 
-            if(rutaP != null) {
+//            if (rutaP != null) {
                 //Si se pudo copiar la imagen correctamente
                 if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                     rutaArchivo = rutaDestino;
                 }
-            }
+//            }
 
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO listapordefecto "
                     + "(Id, Genero, Nombre, Imagen) values(?,?,?,?)");
@@ -1172,15 +1217,15 @@ public class DBUsuario {
 
             /////
             rutaArchivo = null;
-            rutaOrigen = rutaP+"DatosDePrueba/Imagenes/musicaClasica.jpg";
-            rutaDestino = rutaP+"Imagenes/ListasPorDef/musicaClasica.jpg";
+            rutaOrigen = /*rutaP +*/ "DatosDePrueba/Imagenes/musicaClasica.jpg";
+            rutaDestino = /*rutaP +*/ "Imagenes/ListasPorDef/musicaClasica.jpg";
 
-            if(rutaP != null) {
+//            if (rutaP != null) {
                 //Si se pudo copiar la imagen correctamente
                 if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                     rutaArchivo = rutaDestino;
                 }
-            }
+//            }
 
             PreparedStatement statement2 = conexion.prepareStatement("INSERT INTO listapordefecto "
                     + "(Id, Genero, Nombre, Imagen) values(?,?,?,?)");
@@ -1193,15 +1238,15 @@ public class DBUsuario {
 
             ///// Listas Particulares /////
             rutaArchivo = null;
-            rutaOrigen = rutaP+"DatosDePrueba/Imagenes/musicInspiradora.jpg";
-            rutaDestino = rutaP+"Imagenes/Clientes/el_padrino/Listas/Música Inspiradora.jpg";
+            rutaOrigen = /*rutaP +*/ "DatosDePrueba/Imagenes/musicInspiradora.jpg";
+            rutaDestino = /*rutaP +*/ "Imagenes/Clientes/el_padrino/Listas/Música Inspiradora.jpg";
 
-            if(rutaP != null) {
+//            if (rutaP != null) {
                 //Si se pudo copiar la imagen correctamente
                 if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                     rutaArchivo = rutaDestino;
                 }
-            }
+//            }
 
             PreparedStatement statement3 = conexion.prepareStatement("INSERT INTO listaparticular "
                     + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
@@ -1226,15 +1271,15 @@ public class DBUsuario {
 
             /////
             rutaArchivo = null;
-            rutaOrigen = rutaP+"DatosDePrueba/Imagenes/ParaCocinar.jpg";
-            rutaDestino = rutaP+"Imagenes/Clientes/Heisenberg/Listas/Para Cocinar.jpg";
+            rutaOrigen = /*rutaP +*/ "DatosDePrueba/Imagenes/ParaCocinar.jpg";
+            rutaDestino = /*rutaP +*/ "Imagenes/Clientes/Heisenberg/Listas/Para Cocinar.jpg";
 
-            if(rutaP != null) {
+//            if (rutaP != null) {
                 //Si se pudo copiar la imagen correctamente
                 if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                     rutaArchivo = rutaDestino;
                 }
-            }
+//            }
 
             PreparedStatement statement5 = conexion.prepareStatement("INSERT INTO listaparticular "
                     + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
@@ -1259,15 +1304,15 @@ public class DBUsuario {
 
             /////
             rutaArchivo = null;
-            rutaOrigen = rutaP+"DatosDePrueba/Imagenes/Fiesteras.jpg";
-            rutaDestino = rutaP+"Imagenes/Clientes/cbochinche/Listas/Fiesteras.jpg";
+            rutaOrigen = /*rutaP +*/ "DatosDePrueba/Imagenes/Fiesteras.jpg";
+            rutaDestino = /*rutaP +*/ "Imagenes/Clientes/cbochinche/Listas/Fiesteras.jpg";
 
-            if(rutaP != null) {
+//            if (rutaP != null) {
                 //Si se pudo copiar la imagen correctamente
                 if (copiarArchivoAlServidor(rutaOrigen, rutaDestino) == true) {
                     rutaArchivo = rutaDestino;
                 }
-            }
+//            }
 
             PreparedStatement statement7 = conexion.prepareStatement("INSERT INTO listaparticular "
                     + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
@@ -1418,191 +1463,177 @@ public class DBUsuario {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        String[] cuotas = {"","Semanal","Mensual","Anual"};
-        int[] montos = {0,2,7,65};
-        try{
-            for (int i=1;i<4;i++){
+        String[] cuotas = {"", "Semanal", "Mensual", "Anual"};
+        int[] montos = {0, 2, 7, 65};
+        try {
+            for (int i = 1; i < 4; i++) {
                 PreparedStatement statement = conexion.prepareStatement("INSERT INTO tiposuscripcion "
-                            + "(Id, Cuota, Monto) values(?,?,?)");
+                        + "(Id, Cuota, Monto) values(?,?,?)");
                 statement.setInt(1, i);
                 statement.setString(2, cuotas[i]);
                 statement.setInt(3, montos[i]);
                 statement.executeUpdate();
                 statement.close();
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
+
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "el_padrino");
+            statement.setInt(2, 1);
+            statement.setString(3, "Vencida");
+            statement.setString(4, "2016-09-02");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "el_padrino");
-                statement.setInt(2, 1);
-                statement.setString(3, "Vencida");
-                statement.setString(4, "2016-09-02");
-                statement.executeUpdate();
-                statement.close();
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "el_padrino");
+            statement.setInt(2, 3);
+            statement.setString(3, "Vigente");
+            statement.setString(4, "2017-09-03");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "scarlettO");
+            statement.setInt(2, 2);
+            statement.setString(3, "Pendiente");
+            statement.setString(4, "2016-10-01");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "el_padrino");
-                statement.setInt(2, 3);
-                statement.setString(3, "Vigente");
-                statement.setString(4, "2017-09-03");
-                statement.executeUpdate();
-                statement.close();
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "ppArgento");
+            statement.setInt(2, 3);
+            statement.setString(3, "Vencida");
+            statement.setString(4, "2016-03-01");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "ppArgento");
+            statement.setInt(2, 2);
+            statement.setString(3, "Cancelada");
+            statement.setString(4, "2016-05-03");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "scarlettO");
-                statement.setInt(2, 2);
-                statement.setString(3, "Pendiente");
-                statement.setString(4, "2016-10-01");
-                statement.executeUpdate();
-                statement.close();
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "ppArgento");
+            statement.setInt(2, 1);
+            statement.setString(3, "Vigente");
+            statement.setString(4, "2016-10-16");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "Heisenberg");
+            statement.setInt(2, 3);
+            statement.setString(3, "Vencida");
+            statement.setString(4, "2015-06-10");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "ppArgento");
-                statement.setInt(2, 3);
-                statement.setString(3, "Vencida");
-                statement.setString(4, "2016-03-01");
-                statement.executeUpdate();
-                statement.close();
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "benKenobi");
+            statement.setInt(2, 2);
+            statement.setString(3, "Pendiente");
+            statement.setString(4, "2015-10-15");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "lachiqui");
+            statement.setInt(2, 3);
+            statement.setString(3, "Cancelada");
+            statement.setString(4, "2016-09-02");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "ppArgento");
-                statement.setInt(2, 2);
-                statement.setString(3, "Cancelada");
-                statement.setString(4, "2016-05-03");
-                statement.executeUpdate();
-                statement.close();
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "lachiqui");
+            statement.setInt(2, 2);
+            statement.setString(3, "Vigente");
+            statement.setString(4, "2016-09-25");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "cbochinche");
+            statement.setInt(2, 1);
+            statement.setString(3, "Vencida");
+            statement.setString(4, "2016-05-01");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "ppArgento");
-                statement.setInt(2, 1);
-                statement.setString(3, "Vigente");
-                statement.setString(4, "2016-10-16");
-                statement.executeUpdate();
-                statement.close();
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "cbochinche");
+            statement.setInt(2, 3);
+            statement.setString(3, "Cancelada");
+            statement.setString(4, "2016-10-02");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
-        }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "Heisenberg");
-                statement.setInt(2, 3);
-                statement.setString(3, "Vencida");
-                statement.setString(4, "2015-06-10");
-                statement.executeUpdate();
-                statement.close();
-        }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
-        }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "benKenobi");
-                statement.setInt(2, 2);
-                statement.setString(3, "Pendiente");
-                statement.setString(4, "2015-10-15");
-                statement.executeUpdate();
-                statement.close();
-        }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
-        }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "lachiqui");
-                statement.setInt(2, 3);
-                statement.setString(3, "Cancelada");
-                statement.setString(4, "2016-09-02");
-                statement.executeUpdate();
-                statement.close();
-        }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
-        }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "lachiqui");
-                statement.setInt(2, 2);
-                statement.setString(3, "Vigente");
-                statement.setString(4, "2016-09-25");
-                statement.executeUpdate();
-                statement.close();
-        }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
-        }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "cbochinche");
-                statement.setInt(2, 1);
-                statement.setString(3, "Vencida");
-                statement.setString(4, "2016-05-01");
-                statement.executeUpdate();
-                statement.close();
-        }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
-        }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "cbochinche");
-                statement.setInt(2, 3);
-                statement.setString(3, "Cancelada");
-                statement.setString(4, "2016-10-02");
-                statement.executeUpdate();
-                statement.close();
-        }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
-        }
-        try{
-                PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
-                            + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
-                statement.setString(1, "Eleven11");
-                statement.setInt(2, 3);
-                statement.setString(3, "Pendiente");
-                statement.setString(4, "2016-10-15");
-                statement.executeUpdate();
-                statement.close();
-        }
-        catch(SQLException ex) {
-            ex.printStackTrace(); 
+        try {
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
+                    + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
+            statement.setString(1, "Eleven11");
+            statement.setInt(2, 3);
+            statement.setString(3, "Pendiente");
+            statement.setString(4, "2016-10-15");
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -1618,7 +1649,7 @@ public class DBUsuario {
             }
         } else {
             try {
-                st = conexion.prepareStatement("INSERT INTO seguidorcli (Seguido, Seguidor) VALUES ('"+ u.getNickname() +  "','" + cli + "');");
+                st = conexion.prepareStatement("INSERT INTO seguidorcli (Seguido, Seguidor) VALUES ('" + u.getNickname() + "','" + cli + "');");
                 st.executeUpdate();
                 st.close();
             } catch (SQLException ex) {
@@ -1895,8 +1926,8 @@ public class DBUsuario {
             while (rs.next()) {
                 id = rs.getInt("id");
             }
-            if(p.getImagen()!=null){
-                st = conexion.prepareStatement("UPDATE listaparticular SET Imagen='"+p.getImagen()+"' WHERE Id="+id);
+            if (p.getImagen() != null) {
+                st = conexion.prepareStatement("UPDATE listaparticular SET Imagen='" + p.getImagen() + "' WHERE Id=" + id);
                 st.executeUpdate();
             }
             return id;
@@ -1919,8 +1950,8 @@ public class DBUsuario {
                 id = rs.getInt("id");
             }
             rs.close();
-            if(pd.getImagen()!=null){
-                st = conexion.prepareStatement("UPDATE listapordefecto SET Imagen='"+pd.getImagen()+"' WHERE Id="+id);
+            if (pd.getImagen() != null) {
+                st = conexion.prepareStatement("UPDATE listapordefecto SET Imagen='" + pd.getImagen() + "' WHERE Id=" + id);
                 st.executeUpdate();
             }
             st.close();
@@ -1930,100 +1961,93 @@ public class DBUsuario {
             return 0;
         }
     }
-    public void EliminarFavorito(int tipo, int id, String cliente){
-        if (tipo==0){
-            try{
-            PreparedStatement statement = conexion.prepareStatement("DELETE FROM favtema WHERE Cliente='" + cliente + "' AND IdTema='" + id + "'");
-            statement.executeUpdate();
-            statement.close();
-            }
-            catch (SQLException ex) {
-            ex.printStackTrace();
-            }
-        }
-        if (tipo==1){
-            try{
-            PreparedStatement statement = conexion.prepareStatement("DELETE FROM favalbum WHERE Cliente='" + cliente + "' AND IdAlbum='" + id + "'");
-            statement.executeUpdate();
-            statement.close();
-            }
-            catch (SQLException ex) {
-            ex.printStackTrace();
+
+    public void EliminarFavorito(int tipo, int id, String cliente) {
+        if (tipo == 0) {
+            try {
+                PreparedStatement statement = conexion.prepareStatement("DELETE FROM favtema WHERE Cliente='" + cliente + "' AND IdTema='" + id + "'");
+                statement.executeUpdate();
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
-        if (tipo==2){
-            try{
-            PreparedStatement statement = conexion.prepareStatement("DELETE FROM favlistap WHERE Cliente='" + cliente + "' AND IdLista='" + id + "'");
-            statement.executeUpdate();
-            statement.close();
-            }
-            catch (SQLException ex) {
-            ex.printStackTrace();
+        if (tipo == 1) {
+            try {
+                PreparedStatement statement = conexion.prepareStatement("DELETE FROM favalbum WHERE Cliente='" + cliente + "' AND IdAlbum='" + id + "'");
+                statement.executeUpdate();
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
-        if (tipo==3){
-            try{
-            PreparedStatement statement = conexion.prepareStatement("DELETE FROM favlistapd WHERE Cliente='" + cliente + "' AND IdLista='" + id + "'");
-            statement.executeUpdate();
-            statement.close();
+        if (tipo == 2) {
+            try {
+                PreparedStatement statement = conexion.prepareStatement("DELETE FROM favlistap WHERE Cliente='" + cliente + "' AND IdLista='" + id + "'");
+                statement.executeUpdate();
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
-            catch (SQLException ex) {
-            ex.printStackTrace();
+        }
+        if (tipo == 3) {
+            try {
+                PreparedStatement statement = conexion.prepareStatement("DELETE FROM favlistapd WHERE Cliente='" + cliente + "' AND IdLista='" + id + "'");
+                statement.executeUpdate();
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
     }
-    
-    public void InsertarFavorito(int tipo, String nick, int id){
-        if (tipo==0){
-            try{
-            PreparedStatement statement = conexion.prepareStatement("INSERT INTO favtema "
-                    + "(Cliente, IdTema) values(?,?)");
-            statement.setString(1, nick);
-            statement.setInt(2, id);
-            statement.executeUpdate();
-            statement.close();
-            }
-            catch (SQLException ex) {
-            ex.printStackTrace();
-            }
-        }
-        if (tipo==1){
-            try{
-            PreparedStatement statement = conexion.prepareStatement("INSERT INTO favalbum "
-                    + "(Cliente, IdAlbum) values(?,?)");
-            statement.setString(1, nick);
-            statement.setInt(2, id);
-            statement.executeUpdate();
-            statement.close();
-            }
-            catch (SQLException ex) {
-            ex.printStackTrace();
+
+    public void InsertarFavorito(int tipo, String nick, int id) {
+        if (tipo == 0) {
+            try {
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO favtema "
+                        + "(Cliente, IdTema) values(?,?)");
+                statement.setString(1, nick);
+                statement.setInt(2, id);
+                statement.executeUpdate();
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
-        if (tipo==2){
-            try{
-            PreparedStatement statement = conexion.prepareStatement("INSERT INTO favlistap "
-                    + "(Cliente, IdLista) values(?,?)");
-            statement.setString(1, nick);
-            statement.setInt(2, id);
-            statement.executeUpdate();
-            statement.close();
-            }
-            catch (SQLException ex) {
-            ex.printStackTrace();
+        if (tipo == 1) {
+            try {
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO favalbum "
+                        + "(Cliente, IdAlbum) values(?,?)");
+                statement.setString(1, nick);
+                statement.setInt(2, id);
+                statement.executeUpdate();
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
-        if (tipo==3){
-            try{
-            PreparedStatement statement = conexion.prepareStatement("INSERT INTO favlistapd "
-                    + "(Cliente, IdLista) values(?,?)");
-            statement.setString(1, nick);
-            statement.setInt(2, id);
-            statement.executeUpdate();
-            statement.close();
+        if (tipo == 2) {
+            try {
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO favlistap "
+                        + "(Cliente, IdLista) values(?,?)");
+                statement.setString(1, nick);
+                statement.setInt(2, id);
+                statement.executeUpdate();
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
-            catch (SQLException ex) {
-            ex.printStackTrace();
+        }
+        if (tipo == 3) {
+            try {
+                PreparedStatement statement = conexion.prepareStatement("INSERT INTO favlistapd "
+                        + "(Cliente, IdLista) values(?,?)");
+                statement.setString(1, nick);
+                statement.setInt(2, id);
+                statement.executeUpdate();
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
     }
@@ -2101,12 +2125,11 @@ public class DBUsuario {
         }
     }
 
-
     private int getIdTema(String nombre, String album, String nickname) {
         try {
             int id = 0;
             PreparedStatement st;
-            st = conexion.prepareStatement("SELECT Id from tema where Nombre='"+ nombre +"' and IdAlbum="+ this.getIdAlbum(album, nickname));
+            st = conexion.prepareStatement("SELECT Id from tema where Nombre='" + nombre + "' and IdAlbum=" + this.getIdAlbum(album, nickname));
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 id = rs.getInt("Id");
@@ -2117,12 +2140,12 @@ public class DBUsuario {
             return 0;
         }
     }
-    
+
     private int getIdAlbum(String nombre, String nickname) {
         try {
             int id = 0;
             PreparedStatement st;
-            st = conexion.prepareStatement("SELECT Id from album where Nombre='"+ nombre +"' and Artista = '"+nickname+"'");
+            st = conexion.prepareStatement("SELECT Id from album where Nombre='" + nombre + "' and Artista = '" + nickname + "'");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 id = rs.getInt("Id");
@@ -2133,7 +2156,7 @@ public class DBUsuario {
             return 0;
         }
     }
-    
+
     public void insertarGenero(Genero g) {
         try {
             PreparedStatement st;
@@ -2149,7 +2172,7 @@ public class DBUsuario {
             ex.printStackTrace();
         }
     }
-    
+
     public Map<Integer, TipoSuscripcion> cargarTiposDeSuscripcion() {
         try {
             Map<Integer, TipoSuscripcion> lista = new HashMap<>();
@@ -2167,11 +2190,11 @@ public class DBUsuario {
             return null;
         }
     }
-    
-    public Suscripcion insertarSuscripcion(Date fecha, String estado, int idTipoS, String nick){
+
+    public Suscripcion insertarSuscripcion(Date fecha, String estado, int idTipoS, String nick) {
         try {
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
-            
+
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO suscripciones "
                     + "(Cliente, IdTipo, Estado, Fecha) values(?,?,?,?)");
             statement.setString(1, nick);
@@ -2185,7 +2208,7 @@ public class DBUsuario {
             ResultSet rs = sentencia.executeQuery();
             rs.next(); // avanza el puntero
             int idS = rs.getInt(1);
-            
+
             Suscripcion sus = new Suscripcion(idS, fecha, estado, idTipoS, nick);
             return sus;
         } catch (SQLException ex) {
@@ -2193,7 +2216,7 @@ public class DBUsuario {
             return null;
         }
     }
-    
+
     public void actualizarEstadoSuscripcion(int id, String fecha, String estado) {
         try {
 //            PreparedStatement sentencia = conexion.prepareStatement("UPDATE listaparticular " + "SET privada = ?" + "WHERE Usuario = '" + nickname + "'");
@@ -2206,7 +2229,7 @@ public class DBUsuario {
             Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     //Encriptar contraseñas
     String sha1(String pass) throws NoSuchAlgorithmException {
         MessageDigest mDigest = MessageDigest.getInstance("SHA1");
@@ -2215,31 +2238,79 @@ public class DBUsuario {
         for (int i = 0; i < result.length; i++) {
             sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
         }
-         
+
         return sb.toString();
     }
-    
-    public void sumaDescarga (int id) {
+
+    public void sumaDescarga(int id) {
         try {
 //            PreparedStatement sentencia = conexion.prepareStatement("UPDATE listaparticular " + "SET privada = ?" + "WHERE Usuario = '" + nickname + "'");
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE tema " + "SET CantDescarga = CantDescarga+1 WHERE Id = ?");
             sentencia.setInt(1, id); // el 1 indica el numero de "?" en la sentencia
-            
+
             sentencia.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-        public void sumaReproduccion (int id) {
+
+    public void sumaReproduccion(int id) {
         try {
 //            PreparedStatement sentencia = conexion.prepareStatement("UPDATE listaparticular " + "SET privada = ?" + "WHERE Usuario = '" + nickname + "'");
             PreparedStatement sentencia = conexion.prepareStatement("UPDATE tema " + "SET CantReproduccion = CantReproduccion+1 WHERE Id = ?");
             sentencia.setInt(1, id); // el 1 indica el numero de "?" en la sentencia
-            
+
             sentencia.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-}
 
+    public Date desactivarArtista(String Nickname) {
+        try {
+            Date fecha = new Date();
+            PreparedStatement sentencia = conexion.prepareStatement("UPDATE artista SET FechaD = ?  WHERE Nickname = ?");
+            sentencia.setString(2, Nickname);
+            sentencia.setDate(1, new java.sql.Date(fecha.getTime()));
+            sentencia.executeUpdate();
+            borrarRelacionesArtistaD(Nickname);
+            return fecha;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    private void borrarRelacionesArtistaD(String Nickname) throws SQLException {
+        PreparedStatement aux = conexion.prepareStatement("Delete FROM seguidoart WHERE Seguido='" + Nickname + "'");
+        aux.executeUpdate();
+        aux.close();
+        PreparedStatement st = conexion.prepareStatement("SELECT * FROM album WHERE Artista='" + Nickname + "'");
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            aux = conexion.prepareStatement("Delete FROM favalbum WHERE IdAlbum='" + String.valueOf(rs.getInt(1)) + "'");
+            aux.executeUpdate();
+            aux.close();
+            aux = conexion.prepareStatement("Delete FROM generosalbum WHERE idAlbum='" + String.valueOf(rs.getInt(1)) + "'");
+            aux.executeUpdate();
+            aux.close();
+            PreparedStatement st2 = conexion.prepareStatement("SELECT * FROM tema WHERE IdAlbum='" + String.valueOf(rs.getInt(1)) + "'");
+            ResultSet rs2 = st2.executeQuery();
+            while (rs2.next()) {
+                aux = conexion.prepareStatement("Delete FROM favtema WHERE IdTema='" + String.valueOf(rs2.getInt(1)) + "'");
+                aux.executeUpdate();
+                aux.close();
+                aux = conexion.prepareStatement("Delete FROM temalistap WHERE IdTema='" + String.valueOf(rs2.getInt(1)) + "'");
+                aux.executeUpdate();
+                aux.close();
+                aux = conexion.prepareStatement("Delete FROM temalistapd WHERE IdTema='" + String.valueOf(rs2.getInt(1)) + "'");
+                aux.executeUpdate();
+                aux.close();
+            }
+            rs2.close();
+            st2.close();
+        }
+        rs.close();
+        st.close();
+    }
+}

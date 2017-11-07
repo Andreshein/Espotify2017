@@ -22,6 +22,7 @@ public class Tema {
     private String nombreartista;
     private int cantDescarga;
     private int cantReproduccion;
+    private float puntaje;
 
     public Tema(int id, String duracion, String nombre, int orden, String archivo, String direccion, String art, String alb, int cantDescarga, int cantReproduccion) {
         this.id = id;
