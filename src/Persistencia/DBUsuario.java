@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -161,7 +160,7 @@ public class DBUsuario {
             PreparedStatement st = conexion.prepareStatement("INSERT INTO album (Artista,Nombre,Anio,Imagen) values(?,?,?,?)");
             st.setString(1, a.getArtista());
             st.setString(2, a.getNombre());
-            st.setInt(3, a.getAño());
+            st.setInt(3, a.getAnio());
             st.setString(4, a.getImagen());
             st.executeUpdate();
             st.close();

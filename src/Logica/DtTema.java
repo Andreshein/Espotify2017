@@ -67,6 +67,21 @@ public class DtTema {
     }
 
     public DtTema(String artista, String album, String nombre, String duracion, int orden, String direccion, String archivo, int cantDescarga,int cantReproduccion) {
+        
+        //Es para que las duraciones de menos de 10 minutos empiecen por 0. Ej: 2:30 -> 02:30
+        //Es necesario para que se puedan ordenar bien en la pagina desde javascript
+        String[] durDividida = duracion.split(":");
+        int minutos = Integer.valueOf(durDividida[0]);
+        int segundos = Integer.valueOf(durDividida[1]);
+        if(minutos < 10){
+            durDividida[0] = "0"+minutos;
+        }
+        if(segundos < 10){
+            durDividida[1] = "0"+segundos;
+        }
+        duracion = durDividida[0]+":"+durDividida[1];
+        //
+        
         this.nombre = nombre;
         this.duracion = duracion;
         this.orden = orden;

@@ -75,6 +75,8 @@ public class Adesactivados extends javax.swing.JInternalFrame {
         btnVer = new javax.swing.JButton();
         lblFechaNac = new javax.swing.JLabel();
         btnBio = new javax.swing.JButton();
+        lblFechaD = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("Consultar artistas desactivados");
@@ -180,6 +182,9 @@ public class Adesactivados extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel13.setText("Fecha de nacimiento:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -215,7 +220,11 @@ public class Adesactivados extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnBio))))
+                                .addComponent(btnBio))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblFechaD, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel6)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -273,7 +282,11 @@ public class Adesactivados extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
-                            .addComponent(btnBio))))
+                            .addComponent(btnBio))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel13)
+                            .addComponent(lblFechaD, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(8, 8, 8)
                 .addComponent(jLabel6)
                 .addGap(16, 16, 16)
@@ -360,6 +373,7 @@ public class Adesactivados extends javax.swing.JInternalFrame {
         this.lblApellido.setText(dtart.getApellido());
         this.lblCorreo.setText(dtart.getCorreo());
         this.lblFechaNac.setText(dtart.getFechaNac());
+        this.lblFechaD.setText(dtart.getFechaD());
         this.mensaje = msj;
         this.lblPagWeb.setText(dtart.getPagWeb());
 
@@ -420,6 +434,7 @@ public class Adesactivados extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
@@ -430,6 +445,7 @@ public class Adesactivados extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblCorreo;
+    private javax.swing.JLabel lblFechaD;
     private javax.swing.JLabel lblFechaNac;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblPagWeb;

@@ -7,6 +7,8 @@ package Logica;
 
 import Persistencia.DBUsuario;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 /**
@@ -82,7 +84,7 @@ public class Album {
         return nombre;
     }
 
-    public int getAño() {
+    public int getAnio() {
         return anio;
     }
     
@@ -94,7 +96,7 @@ public class Album {
         this.nombre = nombre;
     }
 
-    public void setAño(int anio) {
+    public void setAnio(int anio) {
         this.anio = anio;
     }
     
@@ -121,6 +123,17 @@ public class Album {
             Tema aux = (Tema)iterador.next();
             retorno.add(aux.getDatos());
         }
+        
+        //Ordenar temas segun su orden en el album
+        Collections.sort(retorno, new Comparator<DtTema>() {
+            @Override
+            public int compare(DtTema tema1, DtTema tema2) {
+                Integer orden1 = tema1.getOrden();
+                Integer orden2 = tema2.getOrden();
+                return orden2.compareTo(orden1);
+            }
+        });
+        
         return retorno;
     }
     public void AddGenero(Genero e){
@@ -155,6 +168,16 @@ public class Album {
                 listaTemas.add(tema.getDatos());
             }
         }
+        
+        //Ordenar temas segun su orden en el album
+        Collections.sort(listaTemas, new Comparator<DtTema>() {
+            @Override
+            public int compare(DtTema tema1, DtTema tema2) {
+                Integer orden1 = tema1.getOrden();
+                Integer orden2 = tema2.getOrden();
+                return orden1.compareTo(orden2);
+            }
+        });
         
         return listaTemas;
     }
