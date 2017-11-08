@@ -221,5 +221,13 @@ public class WSClientes {
         return Fabrica.getCliente().listarLista(nombre);
     }
     
+    @WebMethod
+    public DataUsuarios ListarClientes(){
+        //Retornar las listas dentro de otra clase auxiliar, es necesario para que funcionen los webservices
+        ArrayList<DtUsuario> clientes =  new ArrayList<>();
+        clientes.addAll(Fabrica.getCliente().ListarClientes());
+        return new DataUsuarios(clientes);
+    }
+    
 }
 

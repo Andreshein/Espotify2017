@@ -65,6 +65,7 @@ public interface IcontCliente{
     public abstract ArrayList<DtTema> reproducirListaP(String cliente, String lista);
     public abstract void borrarRelaciónAlbum(Album a);
     public abstract void borrarSeguido(Artista a);
+    public abstract ArrayList<DtCliente> ListarClientes();
     
     
     //Funciones web

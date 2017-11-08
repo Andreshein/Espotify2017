@@ -784,4 +784,16 @@ public class ContCliente implements IcontCliente {
             c.getSiguiendo().remove(a.getNickname());
         }
     }
+    
+    
+    public ArrayList<DtCliente> ListarClientes() {
+        ArrayList<DtCliente> c = new ArrayList<>();
+        Iterator iterador = this.clientes.values().iterator();
+        while (iterador.hasNext()) {
+            Cliente aux = (Cliente) iterador.next();
+            c.add(aux.getDatos());
+        }
+        return c;
+
+    }
 }
