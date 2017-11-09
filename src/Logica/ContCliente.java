@@ -11,11 +11,7 @@ import java.util.HashMap;
 import Persistencia.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
@@ -23,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -326,21 +321,9 @@ public class ContCliente implements IcontCliente {
         this.cliente = this.clientes.get(Nickname);
         this.lista = new Particular(0, "x", nombre, true, Img);
         if (Img != null) {
-            Properties p = new Properties();
-            InputStream is;
-            String rutaP = null;
-            try {
-                is = new FileInputStream("Configuraciones/rutaProyecto.properties");
-                p.load(is);
-                rutaP = p.getProperty("ruta");
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
             String[] aux = Img.split("\\.");
             String extension = aux[1];
-            String rutaDestino = rutaP + "Imagenes/Clientes/" + Nickname + "/Listas/" + nombre + "." + extension;
+            String rutaDestino = "Imagenes/Clientes/" + Nickname + "/Listas/" + nombre + "." + extension;
             this.copiarArchivo(Img, rutaDestino);
             this.lista.setImagen(rutaDestino);
         } else {
@@ -759,19 +742,7 @@ public class ContCliente implements IcontCliente {
         this.lista = new Particular(0, "x", nombre, true, null);
         if (imagen != null && !this.cliente.getListas().containsKey(nombre)) {
             try {
-                Properties p = new Properties();
-                InputStream is;
-                String rutaP = null;
-                try {
-                    is = new FileInputStream("Configuraciones/rutaProyecto.properties");
-                    p.load(is);
-                    rutaP = p.getProperty("ruta");
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                String rutaDestino = rutaP + "Imagenes/Clientes/" + nickname + "/Listas/" + nombre + ".jpg";
+                String rutaDestino = "Imagenes/Clientes/" + nickname + "/Listas/" + nombre + ".jpg";
 
                 File f = new File(rutaDestino);
                 f.getParentFile().mkdirs();
@@ -812,5 +783,17 @@ public class ContCliente implements IcontCliente {
         for (Cliente c : this.clientes.values()) {
             c.getSiguiendo().remove(a.getNickname());
         }
+    }
+    
+    
+    public ArrayList<DtCliente> ListarClientes() {
+        ArrayList<DtCliente> c = new ArrayList<>();
+        Iterator iterador = this.clientes.values().iterator();
+        while (iterador.hasNext()) {
+            Cliente aux = (Cliente) iterador.next();
+            c.add(aux.getDatos());
+        }
+        return c;
+
     }
 }

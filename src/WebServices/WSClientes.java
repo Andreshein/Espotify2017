@@ -18,10 +18,6 @@ import Logica.DtTema;
 import Logica.DtTipoSuscripcion;
 import Logica.DtUsuario;
 import Logica.Fabrica;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -223,6 +219,14 @@ public class WSClientes {
     @WebMethod
     public DtListaPD ListaPD( String nombre){
         return Fabrica.getCliente().listarLista(nombre);
+    }
+    
+    @WebMethod
+    public DataUsuarios ListarClientes(){
+        //Retornar las listas dentro de otra clase auxiliar, es necesario para que funcionen los webservices
+        ArrayList<DtUsuario> clientes =  new ArrayList<>();
+        clientes.addAll(Fabrica.getCliente().ListarClientes());
+        return new DataUsuarios(clientes);
     }
     
 }

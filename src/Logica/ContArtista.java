@@ -22,7 +22,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -345,20 +344,6 @@ public class ContArtista implements IcontArtista {
         HashMap<String, Tema> temasfinal = new HashMap();
         Set set3 = temas.entrySet();
         Iterator it0 = set3.iterator();
-        Properties p = new Properties();
-        InputStream is;
-//        String rutaP = null;
-//        try {
-//            is = new FileInputStream("Configuraciones/rutaProyecto.properties");
-//            p.load(is);
-//            rutaP = p.getProperty("ruta");
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        String rutaP = this.getClass().getClassLoader().getResource("").getPath();
-        rutaP = rutaP.replace("/build/web/WEB-INF/classes/","/");
         while (it0.hasNext()) {
             Map.Entry x = (Map.Entry) it0.next();
             DtTema dtte = (DtTema) x.getValue();
@@ -371,7 +356,7 @@ public class ContArtista implements IcontArtista {
                 byte[] bytesOrigen = dtte.getArchivobyte();
 
                 //Se crea la ruta del archivo del tema dentro del servidor -> "Temas/nickArtista/nomAlbum/tema.mp3"
-                rutaDestino = rutaP + "Temas/" + nicknameArt + "/" + nombre + "/" + dtte.getNombre() + ".mp3";
+                rutaDestino = "Temas/" + nicknameArt + "/" + nombre + "/" + dtte.getNombre() + ".mp3";
                 //rutaDestino = "D:/"+dtte.getNombre()+".mp3";
                 //Fabrica.getCliente().copiarArchivo(dtte.getArchivo(), rutaDestino);
                 try {
@@ -408,7 +393,7 @@ public class ContArtista implements IcontArtista {
         if (imagen != null) {
 
             //Se crea la ruta del archivo del tema dentro del servidor -> "Imagenes/nickArtista/nomAlbum/tema.mp3"
-            rutaDestino = rutaP + "Imagenes/Artistas/" + nicknameArt + "/Albumes/" + nombre + ".jpg";
+            rutaDestino = "Imagenes/Artistas/" + nicknameArt + "/Albumes/" + nombre + ".jpg";
             //rutaDestino = "D:/"+nombre+".jpg";
             try {
                 File f = new File(rutaDestino);
@@ -881,15 +866,18 @@ public class ContArtista implements IcontArtista {
         return albumes;
     }
 
+    @Override
     public void nuevaDescargaTema(String artista, String album, String tema) {
         this.artistas.get(artista).nuevaDescargaTema(album, tema);
 
     }
 
+    @Override
     public void nuevaReproduccionTema(String artista, String album, String tema) {
         this.artistas.get(artista).nuevaReproduccionTema(album, tema);
     }
 
+    @Override
     public ArrayList<DtUsuario> RankingDesendente() {
         ArrayList<DtUsuario> usuarios = this.Cli.BuscarUsuarios("");
 
@@ -961,4 +949,5 @@ public class ContArtista implements IcontArtista {
         }
     }
 
+    
 }

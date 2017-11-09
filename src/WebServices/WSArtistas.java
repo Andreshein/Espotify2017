@@ -15,6 +15,7 @@ import Logica.Fabrica;
 import Logica.DtArtista;
 import Logica.DtGenero;
 import Logica.DtLista;
+import Logica.DtListaPD;
 import Logica.DtTema;
 import Logica.DtUsuario;
 import java.util.ArrayList;
@@ -225,5 +226,11 @@ public class WSArtistas {
     public void desactivarArtista(String artista){
         Fabrica.getArtista().desactivarArtista(artista);
     }
+    
+    @WebMethod
+    public ArrayList<DtGenero> listarGeneros(String nombreG){
+        return Fabrica.getArtista().listarGeneros(nombreG);
+    }
+
 }
 
