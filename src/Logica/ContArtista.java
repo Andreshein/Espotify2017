@@ -313,9 +313,7 @@ public class ContArtista implements IcontArtista {
 //                } catch (IOException ex) {
 //                    Logger.getLogger(DBUsuario.class.getName()).log(Level.SEVERE, null, ex);
 //                }
-                String rutaP = this.getClass().getClassLoader().getResource("").getPath();
-                rutaP = rutaP.replace("/build/web/WEB-INF/classes/","/");
-                rutaDestino = rutaP + "Imagenes/Artistas/" + art.getNickname() + "/" + art.getNickname() + ".jpg";
+                rutaDestino = /*rutaP +*/ "Imagenes/Artistas/" + art.getNickname() + "/" + art.getNickname() + ".jpg";
                 //rutaDestino = "D:/"+nombre+".jpg";
                 try {
                     File f = new File(rutaDestino);
@@ -910,6 +908,7 @@ public class ContArtista implements IcontArtista {
         desactivados = artistas;
     }
 
+    @Override
     public void desactivarArtista(String Nickname) {
         Artista a = this.artistas.get(Nickname);
         this.artistas.remove(a.getNickname());
@@ -954,6 +953,12 @@ public class ContArtista implements IcontArtista {
             }
         }
         return retornar;
+    }
+    
+    public void recomendacionDeTemas(){
+        for (Artista art : this.artistas.values()) {
+//            art.getTop10temasRecom();
+        }
     }
 
 }

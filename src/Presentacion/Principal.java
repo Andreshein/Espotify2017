@@ -9,7 +9,6 @@ import Logica.Fabrica;
 import WebServices.WSArchivos;
 import WebServices.WSArtistas;
 import WebServices.WSClientes;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
@@ -65,7 +64,8 @@ public class Principal extends javax.swing.JFrame {
             Logger.getLogger(WSClientes.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(WSClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }}
+        }
+    }
     
 
     /**
@@ -316,6 +316,11 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu4);
 
         Datos.setText("Datos");
+        Datos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DatosActionPerformed(evt);
+            }
+        });
 
         CargaDatos.setText("Cargar Datos de Prueba");
         CargaDatos.addActionListener(new java.awt.event.ActionListener() {
@@ -473,6 +478,10 @@ public class Principal extends javax.swing.JFrame {
         des.show();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void DatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DatosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DatosActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -558,7 +567,7 @@ class Panel extends JDesktopPane{
         Toolkit miPantalla = Toolkit.getDefaultToolkit();
         Dimension tamanio = getSize();
         
-        ImageIcon imagen = new ImageIcon("Imagenes\\espotifyFondo.png");
+        ImageIcon imagen = new ImageIcon(ClassLoader.getSystemResource( "Imagenes/espotifyFondo.png" ));
         
         g.drawImage(imagen.getImage(), 0, 0, tamanio.width, tamanio.height, null);
         

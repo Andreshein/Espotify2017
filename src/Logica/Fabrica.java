@@ -139,6 +139,7 @@ public class Fabrica {
             c.actualizarVigenciaSuscripciones();
         }
         
+        
         Artista.setArtista((HashMap)artistas);
         Artista.setGenero((HashMap)generos);
         Artista.setArtistaD((HashMap)desactivados);
