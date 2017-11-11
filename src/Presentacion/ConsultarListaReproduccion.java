@@ -497,7 +497,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
                     pub = "Si";
                 if (!lp.isPrivada())
                     pub = "No";           
-                String[] datos={lp.getUsuario(),lp.getNombre(),pub};
+                String[] datos={lp.getUsuario(),lp.getNombre(),pub,lp.getFechacreacion()};
                 modelo.addRow(datos);
                 
                 ImageIcon imagen = null;
@@ -521,7 +521,7 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
             }
             
             for(DtListaPD lpd: lista){
-                Object[] datos={lpd.getNombre(),lpd.getGenero()};
+                Object[] datos={lpd.getNombre(),lpd.getGenero(),lpd.getFechacreacion()};
                 modelo.addRow(datos);
                 
                 ImageIcon imagen = null;

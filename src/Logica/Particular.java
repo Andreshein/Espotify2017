@@ -58,7 +58,7 @@ public class Particular extends Lista{
     }
     
     public DtListaP getDatosResumidos(){
-        return new DtListaP(nombre, null, nombreusuario, esPrivado, imagen);
+        return new DtListaP(nombre, null, nombreusuario, esPrivado, imagen, Fechacreacion);
     }
     
     public void AddTema(Tema t){
@@ -70,7 +70,7 @@ public class Particular extends Lista{
     }
     
     public DtListaP getDatos(String Pertenece){
-        return new DtListaP(nombre, this.getDtTemas(), Pertenece, this.esPrivado, imagen);
+        return new DtListaP(nombre, this.getDtTemas(), Pertenece, this.esPrivado, imagen, Fechacreacion);
     }
     
     public ArrayList<DtTema> getDtTemas(){
@@ -101,7 +101,7 @@ public class Particular extends Lista{
     
     
     public DtListaP getDtListaP(){
-        return new DtListaP(nombre,this.getDtTemas(),nombreusuario);
+        return new DtListaP(nombre,this.getDtTemas(),nombreusuario,Fechacreacion);
     }
     
     public ArrayList<DtTema> getTemasReproducir(){
@@ -128,4 +128,5 @@ public class Particular extends Lista{
     public void setFechacreacion(String Fechacreacion) {
         this.Fechacreacion = Fechacreacion;
     }
+
 }

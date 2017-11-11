@@ -63,7 +63,7 @@ public class PorDefecto extends Lista{
     }
     
     public DtListaPD getDatosResumidos(){
-        return new DtListaPD(nombre, null, genero.getNombre(), imagen);
+        return new DtListaPD(nombre, null, genero.getNombre(), imagen, Fechacreacion);
     }
     public Genero getGenero(){
         return this.genero;
@@ -80,7 +80,7 @@ public class PorDefecto extends Lista{
     }
     
     DtListaPD getDatos() {        
-        return new DtListaPD(nombre, this.getDtTemas(), this.getGenero().getNombre(), imagen);
+        return new DtListaPD(nombre, this.getDtTemas(), this.getGenero().getNombre(), imagen, Fechacreacion);
     }
     
     public ArrayList<DtTema> getDtTemas(){
@@ -117,7 +117,7 @@ public class PorDefecto extends Lista{
     }
 
     DtListaPD getDatos(String Pertenece) {        
-        return new DtListaPD(nombre, this.getDtTemas(), Pertenece, imagen);
+        return new DtListaPD(nombre, this.getDtTemas(), Pertenece, imagen, Fechacreacion);
     }
 
     /**
@@ -133,4 +133,6 @@ public class PorDefecto extends Lista{
     public void setFechacreacion(String Fechacreacion) {
         this.Fechacreacion = Fechacreacion;
     }
+
+
 }
