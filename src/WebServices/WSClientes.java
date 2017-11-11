@@ -126,13 +126,13 @@ public class WSClientes {
     }
     
     @WebMethod
-    public void crearListaP(String nickname, String nombre, byte[] imagen){
+    public void crearListaP(String nickname, String nombre, byte[] imagen, String Fechacreacion){
         //Daba error al enviar null por parametro desde el servidor web, se implemento tal que byte[0] = null
         if(imagen!= null && imagen.length == 0){
             System.out.println("imagen.length == 0");
             imagen = null;
         }
-        Fabrica.getCliente().crearListaPWeb(nickname, nombre, imagen);
+        Fabrica.getCliente().crearListaPWeb(nickname, nombre, imagen, Fechacreacion);
     }
     
     @WebMethod

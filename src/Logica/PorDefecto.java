@@ -7,6 +7,7 @@ package Logica;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -18,21 +19,23 @@ public class PorDefecto extends Lista{
     private int id;
     private Genero genero;
     private HashMap<String, PorDefecto> Listas;
-    
+    private String Fechacreacion;
 
-    public PorDefecto(int id, Genero genero, String nombre, String imagen) {
+    public PorDefecto(int id, Genero genero, String nombre, String imagen,String Fechacreacion) {
         this.id = id;
         this.genero = genero;
         this.nombre = nombre;
         this.temas = new ArrayList();
         this.imagen = imagen;
+        this.Fechacreacion=Fechacreacion;
     }
-    public PorDefecto(int id, String nombre, String img) {
+    public PorDefecto(int id, String nombre, String img,String Fechacreacion) {
         this.id = id;
         this.genero = null;
         this.nombre = nombre;
         this.imagen = img;
         this.temas = new ArrayList();
+        this.Fechacreacion=Fechacreacion;
     }
             
             
@@ -115,5 +118,19 @@ public class PorDefecto extends Lista{
 
     DtListaPD getDatos(String Pertenece) {        
         return new DtListaPD(nombre, this.getDtTemas(), Pertenece, imagen);
+    }
+
+    /**
+     * @return the Fechacreacion
+     */
+    public String getFechacreacion() {
+        return Fechacreacion;
+    }
+
+    /**
+     * @param Fechacreacion the Fechacreacion to set
+     */
+    public void setFechacreacion(String Fechacreacion) {
+        this.Fechacreacion = Fechacreacion;
     }
 }

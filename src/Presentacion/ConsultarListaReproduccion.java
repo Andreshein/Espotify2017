@@ -146,11 +146,11 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Usuario", "Nombre de la lista", "Es privado?"
+                "Usuario", "Nombre de la lista", "Es privado?", "Fecha de Creacion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -188,11 +188,11 @@ public class ConsultarListaReproduccion extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nombre de la lista", "Género"
+                "Nombre de la lista", "Género", "Fecha de Creacion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

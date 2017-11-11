@@ -3,6 +3,7 @@ package Logica;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import javax.swing.ImageIcon;
 
@@ -11,14 +12,16 @@ public class Particular extends Lista{
     private int id;
     private String nombreusuario;
     private boolean esPrivado;
+    private String Fechacreacion;
     
-    public Particular(int id, String nombreusuario, String nombre, boolean esPrivado,String imagen) {
+    public Particular(int id, String nombreusuario, String nombre, boolean esPrivado,String imagen,String Fechacreacion) {
         this.id = id;
         this.nombreusuario = nombreusuario;
         this.nombre = nombre;
         this.esPrivado = esPrivado;
         this.temas = new ArrayList();
         this.imagen=imagen;
+        this.Fechacreacion=Fechacreacion;
     }
     
 
@@ -110,5 +113,19 @@ public class Particular extends Lista{
         }
         
         return listaTemas;
+    }
+
+    /**
+     * @return the Fechacreacion
+     */
+    public String getFechacreacion() {
+        return Fechacreacion;
+    }
+
+    /**
+     * @param Fechacreacion the Fechacreacion to set
+     */
+    public void setFechacreacion(String Fechacreacion) {
+        this.Fechacreacion = Fechacreacion;
     }
 }
