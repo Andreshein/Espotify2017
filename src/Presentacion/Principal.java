@@ -316,6 +316,11 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu4);
 
         Datos.setText("Datos");
+        Datos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DatosActionPerformed(evt);
+            }
+        });
 
         CargaDatos.setText("Cargar Datos de Prueba");
         CargaDatos.addActionListener(new java.awt.event.ActionListener() {
@@ -472,6 +477,10 @@ public class Principal extends javax.swing.JFrame {
         des.centrar();
         des.show();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void DatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DatosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DatosActionPerformed
 
     
     /**

@@ -440,6 +440,7 @@ public class ContArtista implements IcontArtista {
             String rutaDestino = null; //ruta de destino del archivo
 
             //Si el tema tiene un archivo
+            byte[] bytesarch = null;
             if (dtte.getArchivo() != null) {
                 //ruta del archivo seleccionado para el tema
                 String rutaOrigen = dtte.getArchivo();
@@ -451,6 +452,7 @@ public class ContArtista implements IcontArtista {
                 if (Fabrica.getCliente().copiarArchivo(rutaOrigen, rutaDestino) == false) {
                     rutaDestino = null;
                 }
+                
             }
 
             Tema t = new Tema(dtte.getDuracion(), dtte.getNombre(), dtte.getOrden(), rutaDestino, dtte.getDireccion(), nombre, nicknameArt);
@@ -469,6 +471,7 @@ public class ContArtista implements IcontArtista {
         String rutaDestino = null; //ruta de destino del archivo
 
         //Si el album tiene una imagen
+        byte[] bytesarch = null;
         if (imagen != null) {
             //ruta del archivo seleccionado para el tema
             String rutaOrigen = imagen;
