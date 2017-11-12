@@ -1927,7 +1927,7 @@ public class DBUsuario {
         try {
             int id = 0;
             PreparedStatement st;
-            st = conexion.prepareStatement("INSERT INTO listaparticular (Usuario,Nombre,Privada) VALUES ('" + p.getUsuario() + "','" + p.getNombre() + "', 1)");
+            st = conexion.prepareStatement("INSERT INTO listaparticular (Usuario,Nombre,Privada,Fechacreacion) VALUES ('" + p.getUsuario() + "','" + p.getNombre() + "','" + "'1'" + "','" + p.getFechacreacion()+"')");
             st.executeUpdate();
             st.close();
             st = conexion.prepareStatement("SELECT max(id) as id from listaparticular");
@@ -1950,7 +1950,7 @@ public class DBUsuario {
         try {
             int id = 0;
             PreparedStatement st;
-            st = conexion.prepareStatement("INSERT INTO listapordefecto (Genero,Nombre) VALUES ('" + String.valueOf(pd.getGenero().getid()) + "','" + pd.getNombre() + "')");
+            st = conexion.prepareStatement("INSERT INTO listapordefecto (Genero,Nombre,Fechacreacion) VALUES ('" + String.valueOf(pd.getGenero().getid()) + "','" + pd.getNombre() + "','" + pd.getFechacreacion()+ "')");
             st.executeUpdate();
             st.close();
             st = conexion.prepareStatement("SELECT max(id) as id from listapordefecto");
