@@ -317,7 +317,7 @@ public class DBUsuario {
                     } else {
                         privada = false;
                     }
-                    Particular p = new Particular(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), privada, rs2.getString("Imagen"));
+                    Particular p = new Particular(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), privada, rs2.getString("Imagen"),rs2.getString("Fechacreacion"));
                     c.AddLista(p);
                 }
                 rs2.close();
@@ -361,7 +361,7 @@ public class DBUsuario {
                 PreparedStatement st2 = conexion.prepareStatement("SELECT l.* FROM listapordefecto l, genero g where g.Id=l.Genero and g.Nombre='" + nombre + "'");
                 ResultSet rs2 = st2.executeQuery();
                 while (rs2.next()) {
-                    PorDefecto pd = new PorDefecto(rs2.getInt("l.Id"), g, rs2.getString("l.Nombre"), rs2.getString("l.Imagen"));
+                    PorDefecto pd = new PorDefecto(rs2.getInt("l.Id"), g, rs2.getString("l.Nombre"), rs2.getString("l.Imagen"),rs2.getString("l.Fechacreacion"));
                     g.AddLista(pd);
                 }
                 rs2.close();
@@ -1184,7 +1184,7 @@ public class DBUsuario {
         }
         try {
             ///// Listas Por Defecto /////
-
+            
             String rutaArchivo = null;
 
             String rutaOrigen = /*rutaP +*/ "DatosDePrueba/Imagenes/laNocheNostalgia.jpg";
@@ -1198,21 +1198,23 @@ public class DBUsuario {
 //            }
 
             PreparedStatement statement = conexion.prepareStatement("INSERT INTO listapordefecto "
-                    + "(Id, Genero, Nombre, Imagen) values(?,?,?,?)");
+                    + "(Id, Genero, Nombre, Imagen, Fechacreacion) values(?,?,?,?,?)");
             statement.setInt(1, 1);
             statement.setInt(2, pcl);
             statement.setString(3, "Noche De La Nostalgia");
             statement.setString(4, rutaArchivo);
+            statement.setString(5, "2015-08-23" );
             statement.executeUpdate();
             statement.close();
 
             /////
             PreparedStatement statement1 = conexion.prepareStatement("INSERT INTO listapordefecto "
-                    + "(Id, Genero, Nombre, Imagen) values(?,?,?,?)");
+                    + "(Id, Genero, Nombre, Imagen, Fechacreacion) values(?,?,?,?,?)");
             statement1.setInt(1, 2);
             statement1.setInt(2, rkl);
             statement1.setString(3, "Rock En Español");
             statement1.setString(4, null);
+            statement1.setString(5, "2016-06-15" );
             statement1.executeUpdate();
             statement1.close();
 
@@ -1229,11 +1231,12 @@ public class DBUsuario {
 //            }
 
             PreparedStatement statement2 = conexion.prepareStatement("INSERT INTO listapordefecto "
-                    + "(Id, Genero, Nombre, Imagen) values(?,?,?,?)");
+                    + "(Id, Genero, Nombre, Imagen, Fechacreacion) values(?,?,?,?,?)");
             statement2.setInt(1, 3);
             statement2.setInt(2, cla);
             statement2.setString(3, "Música Clásica");
             statement2.setString(4, rutaArchivo);
+            statement2.setString(5, "2016-01-27" );
             statement2.executeUpdate();
             statement2.close();
 
@@ -1250,23 +1253,25 @@ public class DBUsuario {
 //            }
 
             PreparedStatement statement3 = conexion.prepareStatement("INSERT INTO listaparticular "
-                    + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+                    + "(Id, Usuario, Nombre, Privada, Imagen, Fechacreacion) values(?,?,?,?,?,?)");
             statement3.setInt(1, 1);
             statement3.setString(2, "el_padrino");
             statement3.setString(3, "Música Inspiradora");
             statement3.setBoolean(4, false);
             statement3.setString(5, rutaArchivo);
+            statement3.setString(6, "2015-12-23" );
             statement3.executeUpdate();
             statement3.close();
 
             /////
             PreparedStatement statement4 = conexion.prepareStatement("INSERT INTO listaparticular "
-                    + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+                    + "(Id, Usuario, Nombre, Privada, Imagen, Fechacreacion) values(?,?,?,?,?,?)");
             statement4.setInt(1, 2);
             statement4.setString(2, "scarlettO");
             statement4.setString(3, "De Todo Un Poco");
             statement4.setBoolean(4, false);
             statement4.setString(5, null);
+            statement4.setString(6, "2016-06-02" );
             statement4.executeUpdate();
             statement4.close();
 
@@ -1283,23 +1288,25 @@ public class DBUsuario {
 //            }
 
             PreparedStatement statement5 = conexion.prepareStatement("INSERT INTO listaparticular "
-                    + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+                    + "(Id, Usuario, Nombre, Privada, Imagen, Fechacreacion) values(?,?,?,?,?,?)");
             statement5.setInt(1, 3);
             statement5.setString(2, "Heisenberg");
             statement5.setString(3, "Para Cocinar");
             statement5.setBoolean(4, true);
             statement5.setString(5, rutaArchivo);
+            statement5.setString(6, "2015-04-03" );
             statement5.executeUpdate();
             statement5.close();
 
             /////
             PreparedStatement statement6 = conexion.prepareStatement("INSERT INTO listaparticular "
-                    + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+                    + "(Id, Usuario, Nombre, Privada, Imagen, Fechacreacion) values(?,?,?,?,?,?)");
             statement6.setInt(1, 4);
             statement6.setString(2, "lachiqui");
             statement6.setString(3, "Para Las Chicas");
             statement6.setBoolean(4, false);
             statement6.setString(5, null);
+            statement6.setString(6, "2016-01-15" );
             statement6.executeUpdate();
             statement6.close();
 
@@ -1316,23 +1323,25 @@ public class DBUsuario {
 //            }
 
             PreparedStatement statement7 = conexion.prepareStatement("INSERT INTO listaparticular "
-                    + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+                    + "(Id, Usuario, Nombre, Privada, Imagen, Fechacreacion) values(?,?,?,?,?,?)");
             statement7.setInt(1, 5);
             statement7.setString(2, "cbochinche");
             statement7.setString(3, "Fiesteras");
             statement7.setBoolean(4, false);
             statement7.setString(5, rutaArchivo);
+            statement7.setString(6, "2016-08-07" );
             statement7.executeUpdate();
             statement7.close();
 
             /////
             PreparedStatement statement8 = conexion.prepareStatement("INSERT INTO listaparticular "
-                    + "(Id, Usuario, Nombre, Privada, Imagen) values(?,?,?,?,?)");
+                    + "(Id, Usuario, Nombre, Privada, Imagen, Fechacreacion) values(?,?,?,?,?,?)");
             statement8.setInt(1, 6);
             statement8.setString(2, "cbochinche");
             statement8.setString(3, "Mis Favoritas");
             statement8.setBoolean(4, true);
             statement8.setString(5, null);
+            statement8.setString(6, "2015-10-20" );
             statement8.executeUpdate();
             statement8.close();
 
@@ -1919,7 +1928,7 @@ public class DBUsuario {
         try {
             int id = 0;
             PreparedStatement st;
-            st = conexion.prepareStatement("INSERT INTO listaparticular (Usuario,Nombre,Privada) VALUES ('" + p.getUsuario() + "','" + p.getNombre() + "', 1)");
+            st = conexion.prepareStatement("INSERT INTO listaparticular (Usuario,Nombre,Privada,Fechacreacion) VALUES ('" + p.getUsuario() + "','" + p.getNombre() + "','" + "'1'" + "','" + p.getFechacreacion()+"')");
             st.executeUpdate();
             st.close();
             st = conexion.prepareStatement("SELECT max(id) as id from listaparticular");
@@ -1942,7 +1951,7 @@ public class DBUsuario {
         try {
             int id = 0;
             PreparedStatement st;
-            st = conexion.prepareStatement("INSERT INTO listapordefecto (Genero,Nombre) VALUES ('" + String.valueOf(pd.getGenero().getid()) + "','" + pd.getNombre() + "')");
+            st = conexion.prepareStatement("INSERT INTO listapordefecto (Genero,Nombre,Fechacreacion) VALUES ('" + String.valueOf(pd.getGenero().getid()) + "','" + pd.getNombre() + "','" + pd.getFechacreacion()+ "')");
             st.executeUpdate();
             st.close();
             st = conexion.prepareStatement("SELECT max(id) as id from listapordefecto");

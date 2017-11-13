@@ -9,7 +9,11 @@ import Logica.*;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -270,7 +274,7 @@ public class CreaLista extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(CargarImg)
                     .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -406,7 +410,12 @@ public class CreaLista extends javax.swing.JInternalFrame {
                 if(nombre.equals("")) 
                     throw new Exception("Debe nombrar la lista de reproducción");
                 nombre = this.ConvertirString(nombre);
-                this.icc.crearListaPD(genero, nombre, ruta);
+                Calendar fecha = Calendar.getInstance();
+                int año = fecha.get(Calendar.YEAR);
+                int mes = fecha.get(Calendar.MONTH);
+                int dia = fecha.get(Calendar.DAY_OF_MONTH);
+                String fechac = año + "-" + (mes+1) + "-" + dia;
+                this.icc.crearListaPD(genero, nombre, ruta, fechac);
                 this.icc.confirmar();
                 javax.swing.JOptionPane.showMessageDialog(null,"Operación realizada");
                 this.dispose();
@@ -420,7 +429,12 @@ public class CreaLista extends javax.swing.JInternalFrame {
                 if(nombre.equals("")) 
                     throw new Exception("Debe nombrar la lista de reproducción");
                 nombre = this.ConvertirString(nombre);
-                this.icc.crearListaP(nickname, nombre, ruta);
+                Calendar fecha = Calendar.getInstance();
+                int año = fecha.get(Calendar.YEAR);
+                int mes = fecha.get(Calendar.MONTH);
+                int dia = fecha.get(Calendar.DAY_OF_MONTH);
+                String fechac = año + "-" + (mes+1) + "-" + dia;
+                this.icc.crearListaP(nickname, nombre, ruta, fechac);
                 this.icc.confirmar();
                 javax.swing.JOptionPane.showMessageDialog(null,"Operación realizada");
                 this.dispose();
