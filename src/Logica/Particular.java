@@ -2,6 +2,7 @@
 package Logica;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -13,7 +14,7 @@ public class Particular extends Lista{
     private String nombreusuario;
     private boolean esPrivado;
 
-    public Particular(int id, String nombreusuario, String nombre, boolean esPrivado,String imagen,String Fechacreacion) {
+    public Particular(int id, String nombreusuario, String nombre, boolean esPrivado,String imagen, Date Fechacreacion) {
         this.id = id;
         this.nombreusuario = nombreusuario;
         this.nombre = nombre;
@@ -57,7 +58,8 @@ public class Particular extends Lista{
     }
     
     public DtListaP getDatosResumidos(){
-        return new DtListaP(nombre, null, nombreusuario, esPrivado, imagen, Fechacreacion);
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        return new DtListaP(nombre, null, nombreusuario, esPrivado, imagen, formato.format(Fechacreacion));
     }
     
     public void AddTema(Tema t){
@@ -69,7 +71,8 @@ public class Particular extends Lista{
     }
     
     public DtListaP getDatos(String Pertenece){
-        return new DtListaP(nombre, this.getDtTemas(), Pertenece, this.esPrivado, imagen, Fechacreacion);
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        return new DtListaP(nombre, this.getDtTemas(), Pertenece, this.esPrivado, imagen, formato.format(Fechacreacion));
     }
     
     public ArrayList<DtTema> getDtTemas(){
@@ -100,7 +103,8 @@ public class Particular extends Lista{
     
     
     public DtListaP getDtListaP(){
-        return new DtListaP(nombre,this.getDtTemas(),nombreusuario,Fechacreacion);
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        return new DtListaP(nombre,this.getDtTemas(),nombreusuario,formato.format(Fechacreacion));
     }
     
     public ArrayList<DtTema> getTemasReproducir(){
@@ -114,14 +118,14 @@ public class Particular extends Lista{
         return listaTemas;
     }
 
-    @Override
-    public String getFechacreacion() {
+    public Date getFechacreacion() {
         return Fechacreacion;
     }
 
-    @Override
-    public void setFechacreacion(String Fechacreacion) {
+    public void setFechacreacion(Date Fechacreacion) {
         this.Fechacreacion = Fechacreacion;
     }
+
+    
 
 }

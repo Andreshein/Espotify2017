@@ -5,6 +5,7 @@
  */
 package Logica;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -14,7 +15,7 @@ abstract class Lista {
     protected String nombre;
     protected String imagen;
     protected ArrayList<Tema> temas;
-    protected String Fechacreacion;
+    protected Date Fechacreacion;
 
 
     abstract String getNombre();
@@ -23,8 +24,8 @@ abstract class Lista {
     abstract void setTemas(ArrayList<Tema> temas);
     abstract ArrayList<Tema> getTemas();
     abstract DtLista getDatos(String Pertenece);
-    abstract String getFechacreacion();
-    abstract void setFechacreacion(String Fechacreacion);
+    abstract Date getFechacreacion();
+    abstract void setFechacreacion(Date Fechacreacion);
     
     public String getImagen() {
         return imagen;
@@ -33,4 +34,6 @@ abstract class Lista {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
+    
+    
 }

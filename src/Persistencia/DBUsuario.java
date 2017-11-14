@@ -317,7 +317,7 @@ public class DBUsuario {
                     } else {
                         privada = false;
                     }
-                    Particular p = new Particular(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), privada, rs2.getString("Imagen"),rs2.getString("Fechacreacion"));
+                    Particular p = new Particular(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), privada, rs2.getString("Imagen"),new java.util.Date(rs.getDate("FechaCreacion").getTime()));
                     c.AddLista(p);
                 }
                 rs2.close();
@@ -361,7 +361,7 @@ public class DBUsuario {
                 PreparedStatement st2 = conexion.prepareStatement("SELECT l.* FROM listapordefecto l, genero g where g.Id=l.Genero and g.Nombre='" + nombre + "'");
                 ResultSet rs2 = st2.executeQuery();
                 while (rs2.next()) {
-                    PorDefecto pd = new PorDefecto(rs2.getInt("l.Id"), g, rs2.getString("l.Nombre"), rs2.getString("l.Imagen"),rs2.getString("l.Fechacreacion"));
+                    PorDefecto pd = new PorDefecto(rs2.getInt("l.Id"), g, rs2.getString("l.Nombre"), rs2.getString("l.Imagen"),new java.util.Date(rs.getDate("FechaCreacion").getTime()));
                     g.AddLista(pd);
                 }
                 rs2.close();
@@ -1927,7 +1927,8 @@ public class DBUsuario {
         try {
             int id = 0;
             PreparedStatement st;
-            st = conexion.prepareStatement("INSERT INTO listaparticular (Usuario,Nombre,Privada,Fechacreacion) VALUES ('" + p.getUsuario() + "','" + p.getNombre() + "','" + "'1'" + "','" + p.getFechacreacion()+"')");
+            st = conexion.prepareStatement("INSERT INTO listaparticular (Usuario,Nombre,Privada,Fechacreacion) VALUES ('" + p.getUsuario() + "','" + p.getNombre() + "','" + "'1'" + "', ?)");
+            st.setDate(1, new java.sql.Date(p.getFechacreacion().getTime()));
             st.executeUpdate();
             st.close();
             st = conexion.prepareStatement("SELECT max(id) as id from listaparticular");
@@ -1950,7 +1951,8 @@ public class DBUsuario {
         try {
             int id = 0;
             PreparedStatement st;
-            st = conexion.prepareStatement("INSERT INTO listapordefecto (Genero,Nombre,Fechacreacion) VALUES ('" + String.valueOf(pd.getGenero().getid()) + "','" + pd.getNombre() + "','" + pd.getFechacreacion()+ "')");
+            st = conexion.prepareStatement("INSERT INTO listapordefecto (Genero,Nombre,Fechacreacion) VALUES ('" + String.valueOf(pd.getGenero().getid()) + "','" + pd.getNombre() + "',?)");
+            st.setDate(1, new java.sql.Date(pd.getFechacreacion().getTime()));
             st.executeUpdate();
             st.close();
             st = conexion.prepareStatement("SELECT max(id) as id from listapordefecto");

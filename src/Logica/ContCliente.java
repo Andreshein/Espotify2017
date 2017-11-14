@@ -317,9 +317,9 @@ public class ContCliente implements IcontCliente {
         return this.art.listarGArbol();
     }
 
-    public void crearListaP(String Nickname, String nombre, String Img,String FechaC) {
+    public void crearListaP(String Nickname, String nombre, String Img) {
         this.cliente = this.clientes.get(Nickname);
-        this.lista = new Particular(0, "x", nombre, true, Img, FechaC);
+        this.lista = new Particular(0, "x", nombre, true, Img, new Date());
         if (Img != null) {
             String[] aux = Img.split("\\.");
             String extension = aux[1];
@@ -331,10 +331,10 @@ public class ContCliente implements IcontCliente {
         }
     }
 
-    public void crearListaPD(String Genero, String nombre, String Img,String FechaC) {
+    public void crearListaPD(String Genero, String nombre, String Img) {
         Genero g = null;
         this.genero = this.art.getGenero(Genero);
-        this.lista = new PorDefecto(0, g, nombre, null,FechaC);
+        this.lista = new PorDefecto(0, g, nombre, null, new Date());
         if (Img != null) {
             String[] aux = Img.split("\\.");
             String extension = aux[1];
@@ -737,9 +737,9 @@ public class ContCliente implements IcontCliente {
         return true;
     }
 
-    public void crearListaPWeb(String nickname, String nombre, byte[] imagen,String FechaC) {
+    public void crearListaPWeb(String nickname, String nombre, byte[] imagen) {
         this.cliente = this.clientes.get(nickname);
-        this.lista = new Particular(0, "x", nombre, true, null,FechaC);
+        this.lista = new Particular(0, "x", nombre, true, null, new Date());
         if (imagen != null && !this.cliente.getListas().containsKey(nombre)) {
             try {
                 String rutaDestino = "Imagenes/Clientes/" + nickname + "/Listas/" + nombre + ".jpg";

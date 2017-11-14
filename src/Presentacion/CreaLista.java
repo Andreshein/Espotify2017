@@ -410,12 +410,7 @@ public class CreaLista extends javax.swing.JInternalFrame {
                 if(nombre.equals("")) 
                     throw new Exception("Debe nombrar la lista de reproducción");
                 nombre = this.ConvertirString(nombre);
-                Calendar fecha = Calendar.getInstance();
-                int año = fecha.get(Calendar.YEAR);
-                int mes = fecha.get(Calendar.MONTH);
-                int dia = fecha.get(Calendar.DAY_OF_MONTH);
-                String fechac = año + "-" + (mes+1) + "-" + dia;
-                this.icc.crearListaPD(genero, nombre, ruta, fechac);
+                this.icc.crearListaPD(genero, nombre, ruta);
                 this.icc.confirmar();
                 javax.swing.JOptionPane.showMessageDialog(null,"Operación realizada");
                 this.dispose();
@@ -429,12 +424,7 @@ public class CreaLista extends javax.swing.JInternalFrame {
                 if(nombre.equals("")) 
                     throw new Exception("Debe nombrar la lista de reproducción");
                 nombre = this.ConvertirString(nombre);
-                Calendar fecha = Calendar.getInstance();
-                int año = fecha.get(Calendar.YEAR);
-                int mes = fecha.get(Calendar.MONTH);
-                int dia = fecha.get(Calendar.DAY_OF_MONTH);
-                String fechac = año + "-" + (mes+1) + "-" + dia;
-                this.icc.crearListaP(nickname, nombre, ruta, fechac);
+                this.icc.crearListaP(nickname, nombre, ruta);
                 this.icc.confirmar();
                 javax.swing.JOptionPane.showMessageDialog(null,"Operación realizada");
                 this.dispose();

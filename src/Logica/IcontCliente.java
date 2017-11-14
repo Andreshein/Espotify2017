@@ -35,8 +35,8 @@ public interface IcontCliente{
     public abstract void setClientes(HashMap<String,Cliente> clientes);
     public abstract void setCA(IcontArtista art);
     public abstract DtGenero listarGArbol();
-    public abstract void crearListaP(String nickname, String nombre, String imagen,String FechaC);
-    public abstract void crearListaPD(String genero, String nombre, String imagen,String FechaC);
+    public abstract void crearListaP(String nickname, String nombre, String imagen);
+    public abstract void crearListaPD(String genero, String nombre, String imagen);
     public abstract void publicarLista(String nickname, String nomLista);
     public abstract ArrayList<DtTema> listarTemasListaP(String nickname,String listaP);
     public abstract ArrayList<DtListaP> listarTodasListasP();
@@ -69,7 +69,7 @@ public interface IcontCliente{
     
     
     //Funciones web
-    public abstract void crearListaPWeb(String nickname, String nombre, byte[] imagen,String FechaC);
+    public abstract void crearListaPWeb(String nickname, String nombre, byte[] imagen);
     public abstract DtListaP listarLista(String nickname, String Nombre);
     public abstract DtListaPD listarLista(String Nombre);
     public abstract ArrayList<DtTema> resultadosT(String palabra);
