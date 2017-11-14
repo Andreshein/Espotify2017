@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DtListaPD extends DtLista {
     private String Genero;
-    private String Fechacreacion;
 
     public DtListaPD(String Nombre, ArrayList<DtTema> temas, String Genero, String rutaImg, String Fechacreacion) {
         this.Genero = Genero;
@@ -37,16 +36,12 @@ public class DtListaPD extends DtLista {
         return nombre;
     }
 
-    /**
-     * @return the Fechacreacion
-     */
+    @Override
     public String getFechacreacion() {
         return Fechacreacion;
     }
 
-    /**
-     * @param Fechacreacion the Fechacreacion to set
-     */
+    @Override
     public void setFechacreacion(String Fechacreacion) {
         this.Fechacreacion = Fechacreacion;
     }

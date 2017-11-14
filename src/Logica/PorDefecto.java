@@ -19,7 +19,6 @@ public class PorDefecto extends Lista{
     private int id;
     private Genero genero;
     private HashMap<String, PorDefecto> Listas;
-    private String Fechacreacion;
 
     public PorDefecto(int id, Genero genero, String nombre, String imagen,String Fechacreacion) {
         this.id = id;
@@ -120,16 +119,12 @@ public class PorDefecto extends Lista{
         return new DtListaPD(nombre, this.getDtTemas(), Pertenece, imagen, Fechacreacion);
     }
 
-    /**
-     * @return the Fechacreacion
-     */
+    @Override
     public String getFechacreacion() {
         return Fechacreacion;
     }
 
-    /**
-     * @param Fechacreacion the Fechacreacion to set
-     */
+    @Override
     public void setFechacreacion(String Fechacreacion) {
         this.Fechacreacion = Fechacreacion;
     }

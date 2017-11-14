@@ -21,6 +21,8 @@ public abstract class DtLista {
     protected String nombre;
     protected ArrayList<DtTema> temas;  
     protected String rutaImagen;  
+    protected String Fechacreacion;
+    
 
     public String getNombre() {
         return nombre;
@@ -32,6 +34,20 @@ public abstract class DtLista {
 
     public String getRutaImagen() {
         return rutaImagen;
+    }
+
+    /**
+     * @return the Fechacreacion
+     */
+    public String getFechacreacion() {
+        return Fechacreacion;
+    }
+
+    /**
+     * @param Fechacreacion the Fechacreacion to set
+     */
+    public void setFechacreacion(String Fechacreacion) {
+        this.Fechacreacion = Fechacreacion;
     }
     
 }

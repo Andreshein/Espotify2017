@@ -12,8 +12,7 @@ public class Particular extends Lista{
     private int id;
     private String nombreusuario;
     private boolean esPrivado;
-    private String Fechacreacion;
-    
+
     public Particular(int id, String nombreusuario, String nombre, boolean esPrivado,String imagen,String Fechacreacion) {
         this.id = id;
         this.nombreusuario = nombreusuario;
@@ -115,16 +114,12 @@ public class Particular extends Lista{
         return listaTemas;
     }
 
-    /**
-     * @return the Fechacreacion
-     */
+    @Override
     public String getFechacreacion() {
         return Fechacreacion;
     }
 
-    /**
-     * @param Fechacreacion the Fechacreacion to set
-     */
+    @Override
     public void setFechacreacion(String Fechacreacion) {
         this.Fechacreacion = Fechacreacion;
     }

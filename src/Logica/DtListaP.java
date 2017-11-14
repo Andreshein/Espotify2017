@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class DtListaP extends DtLista{
     private String Usuario;
     private boolean Privada;
-    private String Fechacreacion;
 
     public DtListaP(String Nombre, ArrayList<DtTema> temas, String Usuario,  Boolean Privada, String rutaImg, String Fechacreacion) {
         this.Usuario = Usuario;
@@ -47,16 +46,11 @@ public class DtListaP extends DtLista{
         this.Fechacreacion=Fechacreacion;
     }
 
-    /**
-     * @return the Fechacreacion
-     */
+    @Override
     public String getFechacreacion() {
-        return Fechacreacion;
+        return this.Fechacreacion;
     }
-
-    /**
-     * @param Fechacreacion the Fechacreacion to set
-     */
+    @Override
     public void setFechacreacion(String Fechacreacion) {
         this.Fechacreacion = Fechacreacion;
     }
