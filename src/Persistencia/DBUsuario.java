@@ -1928,7 +1928,7 @@ public class DBUsuario {
         try {
             int id = 0;
             PreparedStatement st;
-            st = conexion.prepareStatement("INSERT INTO listaparticular (Usuario,Nombre,Privada,Fechacreacion) VALUES ('" + p.getUsuario() + "','" + p.getNombre() + "','" + "'1'" + "','" + p.getFechacreacion()+"')");
+            st = conexion.prepareStatement("INSERT INTO listaparticular (Usuario,Nombre,Privada,Fechacreacion) VALUES ('" + p.getUsuario() + "','" + p.getNombre() + "'," + "1" + ",'" + p.getFechacreacion()+"')");
             st.executeUpdate();
             st.close();
             st = conexion.prepareStatement("SELECT max(id) as id from listaparticular");
