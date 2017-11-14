@@ -317,7 +317,7 @@ public class DBUsuario {
                     } else {
                         privada = false;
                     }
-                    Particular p = new Particular(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), privada, rs2.getString("Imagen"),new java.util.Date(rs.getDate("FechaCreacion").getTime()));
+                    Particular p = new Particular(rs2.getInt("Id"), nickname, rs2.getString("Nombre"), privada, rs2.getString("Imagen"),new java.util.Date(rs.getDate("Fechacreacion").getTime()));
                     c.AddLista(p);
                 }
                 rs2.close();
@@ -361,7 +361,7 @@ public class DBUsuario {
                 PreparedStatement st2 = conexion.prepareStatement("SELECT l.* FROM listapordefecto l, genero g where g.Id=l.Genero and g.Nombre='" + nombre + "'");
                 ResultSet rs2 = st2.executeQuery();
                 while (rs2.next()) {
-                    PorDefecto pd = new PorDefecto(rs2.getInt("l.Id"), g, rs2.getString("l.Nombre"), rs2.getString("l.Imagen"),new java.util.Date(rs.getDate("FechaCreacion").getTime()));
+                    PorDefecto pd = new PorDefecto(rs2.getInt("l.Id"), g, rs2.getString("l.Nombre"), rs2.getString("l.Imagen"),new java.util.Date(rs.getDate("Fechacreacion").getTime()));
                     g.AddLista(pd);
                 }
                 rs2.close();
