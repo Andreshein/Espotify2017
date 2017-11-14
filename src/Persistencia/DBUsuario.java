@@ -476,6 +476,7 @@ public class DBUsuario {
         String[] PasswordArtistas = {"vpeople", "dmode", "clauper", "bruceTheBoss", "tripleNelson", "la_ley", "tiger", "chaiko", "nicoleneu", "lospimpi", "dyango", "alcides"};
 
         try {
+            
             for (int i = 0; i < 12; i++) {
                 //Hay que copiar la imagen a la carpeta de imagenes servidor, donde estan la de los otros usuarios creados
 
